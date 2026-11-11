@@ -1,0 +1,3617 @@
+{
+  "schema": 1,
+  "harness_sha256": "010af3f9253aa84437bcf6fec06f397ed4117f2a9f355f9de3b428572972feba",
+  "created_at": "2026-11-11T21:48:03.161Z",
+  "transport": "Apple iPhone Mirroring wireless, CUA App API",
+  "device": "Physical iPhone 16 Pro Max, iOS 26.5",
+  "scope": "Ten real Spotlight calculation/conversion tasks. This tests bulk text input and visible-result verification through Mirroring. It does not test Calculator app taps, JEV, cross-app completion, or the native XCTest transport.",
+  "audio": "Mac output mute verified on before session; no audio recording",
+  "timing": "Warm focused-field input through a fresh screenshot/OCR result check. Reset/selection and result hold are outside task timing; setup_ms and frame request/completion timestamps retained. No fixed UI-settle sleep.",
+  "runs": [
+    {
+      "id": "01-add",
+      "query": "7+8",
+      "expected": 15,
+      "started_at": "2026-11-11T21:48:03.162Z",
+      "frames": [
+        {
+          "file": "0003.png",
+          "phase": "verify",
+          "requested_ms": 40.60408399999142,
+          "completed_ms": 428.7999170012772,
+          "bytes": 57374,
+          "ocr_ms": 259.12062500044703
+        },
+        {
+          "file": "0004.png",
+          "phase": "verify",
+          "requested_ms": 688.777209000662,
+          "completed_ms": 752.362209001556,
+          "bytes": 104118,
+          "ocr_ms": 276.45833399891853
+        },
+        {
+          "file": "0005.png",
+          "phase": "result-hold",
+          "requested_ms": 1029.5787090007216,
+          "completed_ms": 1090.961917001754,
+          "bytes": 104118,
+          "ocr_ms": 270.3517920002341
+        },
+        {
+          "file": "0006.png",
+          "phase": "result-hold",
+          "requested_ms": 1361.9805420003831,
+          "completed_ms": 1420.7516670003533,
+          "bytes": 104118,
+          "ocr_ms": 275.93987499922514
+        },
+        {
+          "file": "0007.png",
+          "phase": "result-hold",
+          "requested_ms": 1697.37883400172,
+          "completed_ms": 1763.6752500012517,
+          "bytes": 104118,
+          "ocr_ms": 285.46554099954665
+        },
+        {
+          "file": "0008.png",
+          "phase": "result-hold",
+          "requested_ms": 2049.827500000596,
+          "completed_ms": 2114.373709000647,
+          "bytes": 104118,
+          "ocr_ms": 286.0614160001278
+        },
+        {
+          "file": "0009.png",
+          "phase": "result-hold",
+          "requested_ms": 2401.1491670012474,
+          "completed_ms": 2461.026250001043,
+          "bytes": 104118,
+          "ocr_ms": 260.3486659992486
+        },
+        {
+          "file": "0010.png",
+          "phase": "result-hold",
+          "requested_ms": 2722.0320420004427,
+          "completed_ms": 2786.116250000894,
+          "bytes": 104118,
+          "ocr_ms": 277.0902920011431
+        },
+        {
+          "file": "0011.png",
+          "phase": "result-hold",
+          "requested_ms": 3063.8500840011984,
+          "completed_ms": 3120.6893750000745,
+          "bytes": 104118,
+          "ocr_ms": 310.87616600096226
+        },
+        {
+          "file": "0012.png",
+          "phase": "result-hold",
+          "requested_ms": 3432.234542001039,
+          "completed_ms": 3496.6310419999063,
+          "bytes": 104118,
+          "ocr_ms": 285.4265420008451
+        },
+        {
+          "file": "0013.png",
+          "phase": "result-hold",
+          "requested_ms": 3782.7797500006855,
+          "completed_ms": 3856.231750000268,
+          "bytes": 104118,
+          "ocr_ms": 284.0261249989271
+        }
+      ],
+      "events": [
+        {
+          "kind": "text",
+          "text": "7+8",
+          "at_ms": 0,
+          "finished_ms": 40.577457999810576
+        }
+      ],
+      "capture_index": 14,
+      "setup_ms": 2804.3517500013113,
+      "timing_epoch_iso": "2026-11-11T21:48:05.966Z",
+      "setup_frames": [
+        {
+          "file": "0000.png",
+          "phase": "before-reset",
+          "requested_ms": 0.0014169998466968536,
+          "completed_ms": 97.0244169998914,
+          "bytes": 172471,
+          "ocr_ms": 356.1585830003023
+        },
+        {
+          "file": "0001.png",
+          "phase": "home-reset",
+          "requested_ms": 1257.6209169998765,
+          "completed_ms": 1328.3968750014901,
+          "bytes": 144024,
+          "ocr_ms": 305.32570800185204
+        },
+        {
+          "file": "0002.png",
+          "phase": "search-ready",
+          "requested_ms": 2451.6133340001106,
+          "completed_ms": 2519.8934170007706,
+          "bytes": 61400,
+          "ocr_ms": 283.80329099856317
+        }
+      ],
+      "input_ms": 40.577457999810576,
+      "ok": true,
+      "first_matching_frame": 1,
+      "elapsed_ms": 1029.563209000975,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "7+8 =",
+            "confidence": 1
+          },
+          {
+            "text": "15",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "02-subtract",
+      "query": "48-19",
+      "expected": 29,
+      "started_at": "2026-11-11T21:48:10.108Z",
+      "frames": [
+        {
+          "file": "0003.png",
+          "phase": "verify",
+          "requested_ms": 61.123124999925494,
+          "completed_ms": 446.91554199904203,
+          "bytes": 93759,
+          "ocr_ms": 308.8312919996679
+        },
+        {
+          "file": "0004.png",
+          "phase": "result-hold",
+          "requested_ms": 756.6951669994742,
+          "completed_ms": 823.3387080002576,
+          "bytes": 93687,
+          "ocr_ms": 269.9596250001341
+        },
+        {
+          "file": "0005.png",
+          "phase": "result-hold",
+          "requested_ms": 1094.3363749999553,
+          "completed_ms": 1153.3177499994636,
+          "bytes": 93687,
+          "ocr_ms": 281.74154200032353
+        },
+        {
+          "file": "0006.png",
+          "phase": "result-hold",
+          "requested_ms": 1437.3635419998318,
+          "completed_ms": 1500.1997499987483,
+          "bytes": 93687,
+          "ocr_ms": 288.31366600096226
+        },
+        {
+          "file": "0007.png",
+          "phase": "result-hold",
+          "requested_ms": 1789.2091249991208,
+          "completed_ms": 1852.4771250002086,
+          "bytes": 93687,
+          "ocr_ms": 291.5604170002043
+        },
+        {
+          "file": "0008.png",
+          "phase": "result-hold",
+          "requested_ms": 2144.6804999988526,
+          "completed_ms": 2220.913999998942,
+          "bytes": 93687,
+          "ocr_ms": 276.2868750002235
+        },
+        {
+          "file": "0009.png",
+          "phase": "result-hold",
+          "requested_ms": 2497.8997919987887,
+          "completed_ms": 2559.544125000015,
+          "bytes": 93687,
+          "ocr_ms": 286.1613750010729
+        },
+        {
+          "file": "0010.png",
+          "phase": "result-hold",
+          "requested_ms": 2846.4473329987377,
+          "completed_ms": 2909.0250000003725,
+          "bytes": 93687,
+          "ocr_ms": 267.51304199919105
+        },
+        {
+          "file": "0011.png",
+          "phase": "result-hold",
+          "requested_ms": 3177.242666998878,
+          "completed_ms": 3238.1812500003725,
+          "bytes": 93687,
+          "ocr_ms": 278.32112500071526
+        },
+        {
+          "file": "0012.png",
+          "phase": "result-hold",
+          "requested_ms": 3517.206957999617,
+          "completed_ms": 3573.1268750000745,
+          "bytes": 93687,
+          "ocr_ms": 268.7915420010686
+        }
+      ],
+      "events": [
+        {
+          "kind": "text",
+          "text": "48-19",
+          "at_ms": 0,
+          "finished_ms": 61.10374999977648
+        }
+      ],
+      "capture_index": 13,
+      "setup_ms": 2687.381749998778,
+      "timing_epoch_iso": "2026-11-11T21:48:12.796Z",
+      "setup_frames": [
+        {
+          "file": "0000.png",
+          "phase": "before-reset",
+          "requested_ms": 0.0009579993784427643,
+          "completed_ms": 71.4994580000639,
+          "bytes": 104118,
+          "ocr_ms": 273.81504200026393
+        },
+        {
+          "file": "0001.png",
+          "phase": "home-reset",
+          "requested_ms": 1130.993499999866,
+          "completed_ms": 1197.419374998659,
+          "bytes": 144087,
+          "ocr_ms": 312.70566700026393
+        },
+        {
+          "file": "0002.png",
+          "phase": "search-ready",
+          "requested_ms": 2334.9900829996914,
+          "completed_ms": 2398.048165999353,
+          "bytes": 57510,
+          "ocr_ms": 288.6367090009153
+        }
+      ],
+      "input_ms": 61.10374999977648,
+      "ok": true,
+      "first_matching_frame": 0,
+      "elapsed_ms": 756.6796669997275,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "48-19 =",
+            "confidence": 1
+          },
+          {
+            "text": "29",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "03-multiply",
+      "query": "6*7",
+      "expected": 42,
+      "started_at": "2026-11-11T21:48:16.640Z",
+      "frames": [
+        {
+          "file": "0003.png",
+          "phase": "verify",
+          "requested_ms": 39.98458299972117,
+          "completed_ms": 428.7887909989804,
+          "bytes": 117510,
+          "ocr_ms": 260.2076669987291
+        },
+        {
+          "file": "0004.png",
+          "phase": "result-hold",
+          "requested_ms": 689.6952080000192,
+          "completed_ms": 746.7864159997553,
+          "bytes": 148392,
+          "ocr_ms": 298.6875830013305
+        },
+        {
+          "file": "0005.png",
+          "phase": "result-hold",
+          "requested_ms": 1046.0759159997106,
+          "completed_ms": 1103.5138329993933,
+          "bytes": 148739,
+          "ocr_ms": 303.04625000059605
+        },
+        {
+          "file": "0006.png",
+          "phase": "result-hold",
+          "requested_ms": 1407.2101659998298,
+          "completed_ms": 1469.241499999538,
+          "bytes": 148728,
+          "ocr_ms": 292.7947920002043
+        },
+        {
+          "file": "0007.png",
+          "phase": "result-hold",
+          "requested_ms": 1762.696249999106,
+          "completed_ms": 1823.9767079986632,
+          "bytes": 148728,
+          "ocr_ms": 278.2998339999467
+        },
+        {
+          "file": "0008.png",
+          "phase": "result-hold",
+          "requested_ms": 2102.920957999304,
+          "completed_ms": 2160.7438329998404,
+          "bytes": 148728,
+          "ocr_ms": 285.4317910000682
+        },
+        {
+          "file": "0009.png",
+          "phase": "result-hold",
+          "requested_ms": 2447.0239159986377,
+          "completed_ms": 2508.646832998842,
+          "bytes": 148728,
+          "ocr_ms": 286.0424580015242
+        },
+        {
+          "file": "0010.png",
+          "phase": "result-hold",
+          "requested_ms": 2795.2952499985695,
+          "completed_ms": 2857.5394159983844,
+          "bytes": 148671,
+          "ocr_ms": 266.96358400024474
+        },
+        {
+          "file": "0011.png",
+          "phase": "result-hold",
+          "requested_ms": 3125.128665998578,
+          "completed_ms": 3182.8562909998,
+          "bytes": 148671,
+          "ocr_ms": 295.3945829998702
+        },
+        {
+          "file": "0012.png",
+          "phase": "result-hold",
+          "requested_ms": 3478.860749999061,
+          "completed_ms": 3543.1200829986483,
+          "bytes": 148671,
+          "ocr_ms": 286.9913339987397
+        }
+      ],
+      "events": [
+        {
+          "kind": "text",
+          "text": "6*7",
+          "at_ms": 0,
+          "finished_ms": 39.96720900014043
+        }
+      ],
+      "capture_index": 13,
+      "setup_ms": 2666.33283300139,
+      "timing_epoch_iso": "2026-11-11T21:48:19.306Z",
+      "setup_frames": [
+        {
+          "file": "0000.png",
+          "phase": "before-reset",
+          "requested_ms": 0.0007919985800981522,
+          "completed_ms": 59.48624999821186,
+          "bytes": 93687,
+          "ocr_ms": 262.9467920009047
+        },
+        {
+          "file": "0001.png",
+          "phase": "home-reset",
+          "requested_ms": 1133.2807499989867,
+          "completed_ms": 1195.75,
+          "bytes": 144019,
+          "ocr_ms": 348.0264170002192
+        },
+        {
+          "file": "0002.png",
+          "phase": "search-ready",
+          "requested_ms": 2344.07737499848,
+          "completed_ms": 2402.512332998216,
+          "bytes": 58020,
+          "ocr_ms": 263.12633400037885
+        }
+      ],
+      "input_ms": 39.96720900014043,
+      "ok": true,
+      "first_matching_frame": 0,
+      "elapsed_ms": 689.6866659987718,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "6*7 =",
+            "confidence": 1
+          },
+          {
+            "text": "42",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "04-divide",
+      "query": "81/9",
+      "expected": 9,
+      "started_at": "2026-11-11T21:48:23.138Z",
+      "frames": [
+        {
+          "file": "0003.png",
+          "phase": "verify",
+          "requested_ms": 49.67529200017452,
+          "completed_ms": 446.44854200072587,
+          "bytes": 120873,
+          "ocr_ms": 300.95641599968076
+        },
+        {
+          "file": "0004.png",
+          "phase": "result-hold",
+          "requested_ms": 748.233709000051,
+          "completed_ms": 815.9722499996424,
+          "bytes": 146398,
+          "ocr_ms": 305.03174999915063
+        },
+        {
+          "file": "0005.png",
+          "phase": "result-hold",
+          "requested_ms": 1121.6986670009792,
+          "completed_ms": 1190.994041999802,
+          "bytes": 146508,
+          "ocr_ms": 294.05858300067484
+        },
+        {
+          "file": "0006.png",
+          "phase": "result-hold",
+          "requested_ms": 1485.8279999997467,
+          "completed_ms": 1560.937834000215,
+          "bytes": 146512,
+          "ocr_ms": 295.00845799967647
+        },
+        {
+          "file": "0007.png",
+          "phase": "result-hold",
+          "requested_ms": 1856.6312499996275,
+          "completed_ms": 1917.9348750002682,
+          "bytes": 146523,
+          "ocr_ms": 287.6345419995487
+        },
+        {
+          "file": "0008.png",
+          "phase": "result-hold",
+          "requested_ms": 2206.277499999851,
+          "completed_ms": 2270.1812089998275,
+          "bytes": 146523,
+          "ocr_ms": 284.62912500090897
+        },
+        {
+          "file": "0009.png",
+          "phase": "result-hold",
+          "requested_ms": 2555.465709000826,
+          "completed_ms": 2621.073667000979,
+          "bytes": 146523,
+          "ocr_ms": 280.40387500077486
+        },
+        {
+          "file": "0010.png",
+          "phase": "result-hold",
+          "requested_ms": 2902.2188750002533,
+          "completed_ms": 2968.396541999653,
+          "bytes": 146523,
+          "ocr_ms": 303.81962499953806
+        },
+        {
+          "file": "0011.png",
+          "phase": "result-hold",
+          "requested_ms": 3272.840624999255,
+          "completed_ms": 3329.0287500005215,
+          "bytes": 146523,
+          "ocr_ms": 313.7892090007663
+        },
+        {
+          "file": "0012.png",
+          "phase": "result-hold",
+          "requested_ms": 3643.485834000632,
+          "completed_ms": 3703.375,
+          "bytes": 146523,
+          "ocr_ms": 284.4274580013007
+        }
+      ],
+      "events": [
+        {
+          "kind": "text",
+          "text": "81/9",
+          "at_ms": 0,
+          "finished_ms": 49.662415999919176
+        }
+      ],
+      "capture_index": 13,
+      "setup_ms": 2661.6790420003235,
+      "timing_epoch_iso": "2026-11-11T21:48:25.800Z",
+      "setup_frames": [
+        {
+          "file": "0000.png",
+          "phase": "before-reset",
+          "requested_ms": 0.0006670001894235611,
+          "completed_ms": 63.51441700011492,
+          "bytes": 148671,
+          "ocr_ms": 279.42404199950397
+        },
+        {
+          "file": "0001.png",
+          "phase": "home-reset",
+          "requested_ms": 1145.9626249987632,
+          "completed_ms": 1216.3765839990228,
+          "bytes": 144105,
+          "ocr_ms": 301.22725000046194
+        },
+        {
+          "file": "0002.png",
+          "phase": "search-ready",
+          "requested_ms": 2326.0752089992166,
+          "completed_ms": 2396.534958999604,
+          "bytes": 57634,
+          "ocr_ms": 264.4672919996083
+        }
+      ],
+      "input_ms": 49.662415999919176,
+      "ok": true,
+      "first_matching_frame": 0,
+      "elapsed_ms": 748.2252089995891,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "81/9 =",
+            "confidence": 1
+          },
+          {
+            "text": "9",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "05-decimal",
+      "query": "1.5+2.25",
+      "expected": 3.75,
+      "started_at": "2026-11-11T21:48:34.609Z",
+      "frames": [
+        {
+          "file": "0003.png",
+          "phase": "verify",
+          "requested_ms": 96.74170899949968,
+          "completed_ms": 492.9927089996636,
+          "bytes": 85647,
+          "ocr_ms": 320.88566599972546
+        },
+        {
+          "file": "0004.png",
+          "phase": "result-hold",
+          "requested_ms": 815.0789169985801,
+          "completed_ms": 876.0106249991804,
+          "bytes": 85118,
+          "ocr_ms": 288.8054579999298
+        },
+        {
+          "file": "0005.png",
+          "phase": "result-hold",
+          "requested_ms": 1165.3872919995338,
+          "completed_ms": 1223.498416999355,
+          "bytes": 85118,
+          "ocr_ms": 275.14224999956787
+        },
+        {
+          "file": "0006.png",
+          "phase": "result-hold",
+          "requested_ms": 1499.4319169986993,
+          "completed_ms": 1557.497499998659,
+          "bytes": 85118,
+          "ocr_ms": 276.4827909991145
+        },
+        {
+          "file": "0007.png",
+          "phase": "result-hold",
+          "requested_ms": 1836.1450420003384,
+          "completed_ms": 1895.654833998531,
+          "bytes": 85118,
+          "ocr_ms": 267.8394579999149
+        },
+        {
+          "file": "0008.png",
+          "phase": "result-hold",
+          "requested_ms": 2164.2779169995338,
+          "completed_ms": 2234.569041999057,
+          "bytes": 85140,
+          "ocr_ms": 285.5532079990953
+        },
+        {
+          "file": "0009.png",
+          "phase": "result-hold",
+          "requested_ms": 2520.8928340002894,
+          "completed_ms": 2598.7254169993103,
+          "bytes": 85140,
+          "ocr_ms": 295.3844590000808
+        },
+        {
+          "file": "0010.png",
+          "phase": "result-hold",
+          "requested_ms": 2894.8486249987036,
+          "completed_ms": 2959.315249999985,
+          "bytes": 85140,
+          "ocr_ms": 271.1647089999169
+        },
+        {
+          "file": "0011.png",
+          "phase": "result-hold",
+          "requested_ms": 3231.091624999419,
+          "completed_ms": 3291.438083998859,
+          "bytes": 85140,
+          "ocr_ms": 288.898749999702
+        },
+        {
+          "file": "0012.png",
+          "phase": "result-hold",
+          "requested_ms": 3580.9824999999255,
+          "completed_ms": 3643.0702090002596,
+          "bytes": 85140,
+          "ocr_ms": 276.3470829986036
+        }
+      ],
+      "events": [
+        {
+          "kind": "text",
+          "text": "1.5+2.25",
+          "at_ms": 0,
+          "finished_ms": 96.7297499999404
+        }
+      ],
+      "capture_index": 13,
+      "setup_ms": 2619.087999999523,
+      "timing_epoch_iso": "2026-11-11T21:48:37.229Z",
+      "setup_frames": [
+        {
+          "file": "0000.png",
+          "phase": "before-reset",
+          "requested_ms": 0.001499999314546585,
+          "completed_ms": 60.33404199965298,
+          "bytes": 146523,
+          "ocr_ms": 279.1188329998404
+        },
+        {
+          "file": "0001.png",
+          "phase": "home-reset",
+          "requested_ms": 1150.891625000164,
+          "completed_ms": 1211.2340420000255,
+          "bytes": 144305,
+          "ocr_ms": 290.07091699913144
+        },
+        {
+          "file": "0002.png",
+          "phase": "search-ready",
+          "requested_ms": 2304.7281669992954,
+          "completed_ms": 2359.7669580001384,
+          "bytes": 57293,
+          "ocr_ms": 258.6888339985162
+        }
+      ],
+      "input_ms": 96.7297499999404,
+      "ok": true,
+      "first_matching_frame": 0,
+      "elapsed_ms": 815.0701249986887,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "1.5+2.25 =",
+            "confidence": 1
+          },
+          {
+            "text": "3.75",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "06-percent",
+      "query": "50*10%",
+      "expected": 5,
+      "started_at": "2026-11-11T21:48:41.150Z",
+      "frames": [
+        {
+          "file": "0003.png",
+          "phase": "verify",
+          "requested_ms": 85.73566699959338,
+          "completed_ms": 476.94229199923575,
+          "bytes": 58293,
+          "ocr_ms": 271.0229580011219
+        },
+        {
+          "file": "0004.png",
+          "phase": "verify",
+          "requested_ms": 749.3684589993209,
+          "completed_ms": 805.1612919997424,
+          "bytes": 88352,
+          "ocr_ms": 287.5520840007812
+        },
+        {
+          "file": "0005.png",
+          "phase": "result-hold",
+          "requested_ms": 1093.4144169986248,
+          "completed_ms": 1155.187458999455,
+          "bytes": 88352,
+          "ocr_ms": 281.26591699942946
+        },
+        {
+          "file": "0006.png",
+          "phase": "result-hold",
+          "requested_ms": 1437.1710419990122,
+          "completed_ms": 1495.3832089994103,
+          "bytes": 88352,
+          "ocr_ms": 277.93579100072384
+        },
+        {
+          "file": "0007.png",
+          "phase": "result-hold",
+          "requested_ms": 1773.9081669989973,
+          "completed_ms": 1838.0482089985162,
+          "bytes": 88362,
+          "ocr_ms": 287.5135409999639
+        },
+        {
+          "file": "0008.png",
+          "phase": "result-hold",
+          "requested_ms": 2126.239999998361,
+          "completed_ms": 2183.2433339990675,
+          "bytes": 88362,
+          "ocr_ms": 290.854082999751
+        },
+        {
+          "file": "0009.png",
+          "phase": "result-hold",
+          "requested_ms": 2474.6802089996636,
+          "completed_ms": 2535.4970839992166,
+          "bytes": 88362,
+          "ocr_ms": 269.38920900039375
+        },
+        {
+          "file": "0010.png",
+          "phase": "result-hold",
+          "requested_ms": 2805.531416999176,
+          "completed_ms": 2866.9371670000255,
+          "bytes": 88362,
+          "ocr_ms": 295.5544590000063
+        },
+        {
+          "file": "0011.png",
+          "phase": "result-hold",
+          "requested_ms": 3163.145624998957,
+          "completed_ms": 3222.359791999683,
+          "bytes": 88362,
+          "ocr_ms": 294.4195839986205
+        },
+        {
+          "file": "0012.png",
+          "phase": "result-hold",
+          "requested_ms": 3517.4217919986695,
+          "completed_ms": 3575.5115419998765,
+          "bytes": 88362,
+          "ocr_ms": 272.4892499987036
+        },
+        {
+          "file": "0013.png",
+          "phase": "result-hold",
+          "requested_ms": 3848.6082919985056,
+          "completed_ms": 3910.7057089991868,
+          "bytes": 88362,
+          "ocr_ms": 290.2832500003278
+        }
+      ],
+      "events": [
+        {
+          "kind": "text",
+          "text": "50*10%",
+          "at_ms": 0,
+          "finished_ms": 85.722749998793
+        }
+      ],
+      "capture_index": 14,
+      "setup_ms": 2654.3748749997467,
+      "timing_epoch_iso": "2026-11-11T21:48:43.805Z",
+      "setup_frames": [
+        {
+          "file": "0000.png",
+          "phase": "before-reset",
+          "requested_ms": 0.0009579993784427643,
+          "completed_ms": 60.21512500010431,
+          "bytes": 85140,
+          "ocr_ms": 286.33270799927413
+        },
+        {
+          "file": "0001.png",
+          "phase": "home-reset",
+          "requested_ms": 1158.8419999983162,
+          "completed_ms": 1225.9764159992337,
+          "bytes": 144127,
+          "ocr_ms": 310.5452089998871
+        },
+        {
+          "file": "0002.png",
+          "phase": "search-ready",
+          "requested_ms": 2336.379374999553,
+          "completed_ms": 2395.483833000064,
+          "bytes": 58039,
+          "ocr_ms": 258.2010000012815
+        }
+      ],
+      "input_ms": 85.722749998793,
+      "ok": true,
+      "first_matching_frame": 1,
+      "elapsed_ms": 1093.4064169991761,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "50*10% =",
+            "confidence": 1
+          },
+          {
+            "text": "5",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "07-parentheses",
+      "query": "(12+8)*3",
+      "expected": 60,
+      "started_at": "2026-11-11T21:48:48.007Z",
+      "frames": [
+        {
+          "file": "0003.png",
+          "phase": "verify",
+          "requested_ms": 122.49533300101757,
+          "completed_ms": 502.9472500011325,
+          "bytes": 58100,
+          "ocr_ms": 263.5885830000043
+        },
+        {
+          "file": "0004.png",
+          "phase": "verify",
+          "requested_ms": 767.2237080000341,
+          "completed_ms": 827.4147080015391,
+          "bytes": 89591,
+          "ocr_ms": 271.24979200027883
+        },
+        {
+          "file": "0005.png",
+          "phase": "result-hold",
+          "requested_ms": 1099.3595830015838,
+          "completed_ms": 1161.6823330000043,
+          "bytes": 89591,
+          "ocr_ms": 280.1052919998765
+        },
+        {
+          "file": "0006.png",
+          "phase": "result-hold",
+          "requested_ms": 1442.399083001539,
+          "completed_ms": 1503.4003750011325,
+          "bytes": 89591,
+          "ocr_ms": 277.7251660004258
+        },
+        {
+          "file": "0007.png",
+          "phase": "result-hold",
+          "requested_ms": 1781.7361670006067,
+          "completed_ms": 1845.1191250011325,
+          "bytes": 89591,
+          "ocr_ms": 277.36779199913144
+        },
+        {
+          "file": "0008.png",
+          "phase": "result-hold",
+          "requested_ms": 2123.1140000000596,
+          "completed_ms": 2185.3322080001235,
+          "bytes": 89591,
+          "ocr_ms": 286.933749999851
+        },
+        {
+          "file": "0009.png",
+          "phase": "result-hold",
+          "requested_ms": 2472.9028329998255,
+          "completed_ms": 2538.2861250005662,
+          "bytes": 89591,
+          "ocr_ms": 291.0427919998765
+        },
+        {
+          "file": "0010.png",
+          "phase": "result-hold",
+          "requested_ms": 2830.0539580006152,
+          "completed_ms": 2899.34808300063,
+          "bytes": 89591,
+          "ocr_ms": 295.68862500041723
+        },
+        {
+          "file": "0011.png",
+          "phase": "result-hold",
+          "requested_ms": 3195.736958000809,
+          "completed_ms": 3266.192083001137,
+          "bytes": 89591,
+          "ocr_ms": 274.6630419995636
+        },
+        {
+          "file": "0012.png",
+          "phase": "result-hold",
+          "requested_ms": 3541.8456250000745,
+          "completed_ms": 3604.172416999936,
+          "bytes": 89591,
+          "ocr_ms": 278.2407079990953
+        },
+        {
+          "file": "0013.png",
+          "phase": "result-hold",
+          "requested_ms": 3883.1830000001937,
+          "completed_ms": 3947.2021670006216,
+          "bytes": 89591,
+          "ocr_ms": 276.0400419998914
+        }
+      ],
+      "events": [
+        {
+          "kind": "text",
+          "text": "(12+8)*3",
+          "at_ms": 0,
+          "finished_ms": 122.48370799981058
+        }
+      ],
+      "capture_index": 14,
+      "setup_ms": 2692.116165999323,
+      "timing_epoch_iso": "2026-11-11T21:48:50.700Z",
+      "setup_frames": [
+        {
+          "file": "0000.png",
+          "phase": "before-reset",
+          "requested_ms": 0.0007499996572732925,
+          "completed_ms": 71.3899159990251,
+          "bytes": 88362,
+          "ocr_ms": 296.9925829991698
+        },
+        {
+          "file": "0001.png",
+          "phase": "home-reset",
+          "requested_ms": 1182.0790829993784,
+          "completed_ms": 1256.6233750004321,
+          "bytes": 144209,
+          "ocr_ms": 318.6805830001831
+        },
+        {
+          "file": "0002.png",
+          "phase": "search-ready",
+          "requested_ms": 2370.947374999523,
+          "completed_ms": 2429.993790999055,
+          "bytes": 58111,
+          "ocr_ms": 261.49154200032353
+        }
+      ],
+      "input_ms": 122.48370799981058,
+      "ok": true,
+      "first_matching_frame": 1,
+      "elapsed_ms": 1099.3515830002725,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "(12+8)*3 =",
+            "confidence": 1
+          },
+          {
+            "text": "60",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "08-power",
+      "query": "2^8",
+      "expected": 256,
+      "started_at": "2026-11-11T21:48:54.924Z",
+      "frames": [
+        {
+          "file": "0003.png",
+          "phase": "verify",
+          "requested_ms": 56.92316699959338,
+          "completed_ms": 439.7752499990165,
+          "bytes": 88601,
+          "ocr_ms": 268.9770830012858
+        },
+        {
+          "file": "0004.png",
+          "phase": "result-hold",
+          "requested_ms": 709.5197919998318,
+          "completed_ms": 772.9574589990079,
+          "bytes": 88034,
+          "ocr_ms": 269.5142080001533
+        },
+        {
+          "file": "0005.png",
+          "phase": "result-hold",
+          "requested_ms": 1043.2325419988483,
+          "completed_ms": 1106.3592499997467,
+          "bytes": 88034,
+          "ocr_ms": 270.7857079990208
+        },
+        {
+          "file": "0006.png",
+          "phase": "result-hold",
+          "requested_ms": 1377.8344999998808,
+          "completed_ms": 1441.0029589999467,
+          "bytes": 88034,
+          "ocr_ms": 286.98212499916553
+        },
+        {
+          "file": "0007.png",
+          "phase": "result-hold",
+          "requested_ms": 1728.8766669984907,
+          "completed_ms": 1790.9979170002043,
+          "bytes": 88034,
+          "ocr_ms": 299.719415999949
+        },
+        {
+          "file": "0008.png",
+          "phase": "result-hold",
+          "requested_ms": 2091.376000000164,
+          "completed_ms": 2165.955499999225,
+          "bytes": 88034,
+          "ocr_ms": 272.9545419998467
+        },
+        {
+          "file": "0009.png",
+          "phase": "result-hold",
+          "requested_ms": 2439.6326249986887,
+          "completed_ms": 2506.4589999988675,
+          "bytes": 88034,
+          "ocr_ms": 268.698708999902
+        },
+        {
+          "file": "0010.png",
+          "phase": "result-hold",
+          "requested_ms": 2775.8932919986546,
+          "completed_ms": 2838.733167000115,
+          "bytes": 88034,
+          "ocr_ms": 279.5779999997467
+        },
+        {
+          "file": "0011.png",
+          "phase": "result-hold",
+          "requested_ms": 3118.990291999653,
+          "completed_ms": 3189.7164999991655,
+          "bytes": 88034,
+          "ocr_ms": 309.34404199942946
+        },
+        {
+          "file": "0012.png",
+          "phase": "result-hold",
+          "requested_ms": 3499.7391669992357,
+          "completed_ms": 3560.7772499993443,
+          "bytes": 88034,
+          "ocr_ms": 272.3608750011772
+        }
+      ],
+      "events": [
+        {
+          "kind": "text",
+          "text": "2^8",
+          "at_ms": 0,
+          "finished_ms": 56.91075000166893
+        }
+      ],
+      "capture_index": 13,
+      "setup_ms": 2673.995625000447,
+      "timing_epoch_iso": "2026-11-11T21:48:57.599Z",
+      "setup_frames": [
+        {
+          "file": "0000.png",
+          "phase": "before-reset",
+          "requested_ms": 0.0012079998850822449,
+          "completed_ms": 65.07304199971259,
+          "bytes": 89591,
+          "ocr_ms": 303.0148339997977
+        },
+        {
+          "file": "0001.png",
+          "phase": "home-reset",
+          "requested_ms": 1152.9518330004066,
+          "completed_ms": 1214.8244169987738,
+          "bytes": 143926,
+          "ocr_ms": 306.6079999990761
+        },
+        {
+          "file": "0002.png",
+          "phase": "search-ready",
+          "requested_ms": 2329.315291998908,
+          "completed_ms": 2399.3404169995338,
+          "bytes": 58356,
+          "ocr_ms": 273.97433299943805
+        }
+      ],
+      "input_ms": 56.91075000166893,
+      "ok": true,
+      "first_matching_frame": 0,
+      "elapsed_ms": 709.5099589992315,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "2^8 =",
+            "confidence": 1
+          },
+          {
+            "text": "256",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "09-length",
+      "query": "8 km in miles",
+      "expected": 4.97097,
+      "tolerance": 0.002,
+      "started_at": "2026-11-11T21:49:08.666Z",
+      "frames": [
+        {
+          "file": "0003.png",
+          "phase": "verify",
+          "requested_ms": 153.18520799838006,
+          "completed_ms": 543.1217909995466,
+          "bytes": 58941,
+          "ocr_ms": 256.3326249998063
+        },
+        {
+          "file": "0004.png",
+          "phase": "verify",
+          "requested_ms": 800.1557909995317,
+          "completed_ms": 862.219040999189,
+          "bytes": 165886,
+          "ocr_ms": 313.1411669999361
+        },
+        {
+          "file": "0005.png",
+          "phase": "result-hold",
+          "requested_ms": 1176.31020799838,
+          "completed_ms": 1233.501457998529,
+          "bytes": 165886,
+          "ocr_ms": 323.6215829998255
+        },
+        {
+          "file": "0006.png",
+          "phase": "result-hold",
+          "requested_ms": 1557.8133749999106,
+          "completed_ms": 1616.9378749988973,
+          "bytes": 165886,
+          "ocr_ms": 323.3287920001894
+        },
+        {
+          "file": "0007.png",
+          "phase": "result-hold",
+          "requested_ms": 1941.7557499986142,
+          "completed_ms": 1997.869707999751,
+          "bytes": 165886,
+          "ocr_ms": 325.39687499962747
+        },
+        {
+          "file": "0008.png",
+          "phase": "result-hold",
+          "requested_ms": 2323.8969160001725,
+          "completed_ms": 2386.365124998614,
+          "bytes": 165886,
+          "ocr_ms": 326.92091700062156
+        },
+        {
+          "file": "0009.png",
+          "phase": "result-hold",
+          "requested_ms": 2713.9833329990506,
+          "completed_ms": 2771.1777909994125,
+          "bytes": 165886,
+          "ocr_ms": 332.9205419998616
+        },
+        {
+          "file": "0010.png",
+          "phase": "result-hold",
+          "requested_ms": 3104.7453749999404,
+          "completed_ms": 3172.470416000113,
+          "bytes": 165886,
+          "ocr_ms": 330.7944159992039
+        },
+        {
+          "file": "0011.png",
+          "phase": "result-hold",
+          "requested_ms": 3503.9604579992592,
+          "completed_ms": 3563.6322909984738,
+          "bytes": 165886,
+          "ocr_ms": 317.82679099962115
+        },
+        {
+          "file": "0012.png",
+          "phase": "result-hold",
+          "requested_ms": 3882.1605829987675,
+          "completed_ms": 3947.341915998608,
+          "bytes": 165886,
+          "ocr_ms": 322.84604099951684
+        }
+      ],
+      "events": [
+        {
+          "kind": "text",
+          "text": "8 km in miles",
+          "at_ms": 0,
+          "finished_ms": 153.15370799973607
+        }
+      ],
+      "capture_index": 13,
+      "setup_ms": 2714.676791999489,
+      "timing_epoch_iso": "2026-11-11T21:49:11.381Z",
+      "setup_frames": [
+        {
+          "file": "0000.png",
+          "phase": "before-reset",
+          "requested_ms": 0.001875000074505806,
+          "completed_ms": 59.954874999821186,
+          "bytes": 88039,
+          "ocr_ms": 291.1821250002831
+        },
+        {
+          "file": "0001.png",
+          "phase": "home-reset",
+          "requested_ms": 1166.182832999155,
+          "completed_ms": 1238.969957999885,
+          "bytes": 144145,
+          "ocr_ms": 324.85104200057685
+        },
+        {
+          "file": "0002.png",
+          "phase": "search-ready",
+          "requested_ms": 2384.8488749992102,
+          "completed_ms": 2454.3272500000894,
+          "bytes": 57757,
+          "ocr_ms": 259.3363749999553
+        }
+      ],
+      "input_ms": 153.15370799973607,
+      "ok": true,
+      "first_matching_frame": 1,
+      "elapsed_ms": 1176.2964159995317,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Conversion",
+            "confidence": 1
+          },
+          {
+            "text": "8 km in miles =",
+            "confidence": 1
+          },
+          {
+            "text": "4.97 miles",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "10-temperature",
+      "query": "20 celsius in fahrenheit",
+      "expected": 68,
+      "started_at": "2026-11-11T21:49:15.653Z",
+      "frames": [
+        {
+          "file": "0003.png",
+          "phase": "verify",
+          "requested_ms": 282.0224169995636,
+          "completed_ms": 675.9231669995934,
+          "bytes": 169450,
+          "ocr_ms": 351.1640419997275
+        },
+        {
+          "file": "0004.png",
+          "phase": "result-hold",
+          "requested_ms": 1027.86208399944,
+          "completed_ms": 1094.039374999702,
+          "bytes": 182973,
+          "ocr_ms": 324.9177080001682
+        },
+        {
+          "file": "0005.png",
+          "phase": "result-hold",
+          "requested_ms": 1420.477458998561,
+          "completed_ms": 1485.776499999687,
+          "bytes": 183032,
+          "ocr_ms": 337.6676669996232
+        },
+        {
+          "file": "0006.png",
+          "phase": "result-hold",
+          "requested_ms": 1824.201917000115,
+          "completed_ms": 1890.774749999866,
+          "bytes": 183032,
+          "ocr_ms": 319.80404200032353
+        },
+        {
+          "file": "0007.png",
+          "phase": "result-hold",
+          "requested_ms": 2211.3850419986993,
+          "completed_ms": 2276.1929169986397,
+          "bytes": 183032,
+          "ocr_ms": 330.42754199914634
+        },
+        {
+          "file": "0008.png",
+          "phase": "result-hold",
+          "requested_ms": 2607.390874998644,
+          "completed_ms": 2670.9870419986546,
+          "bytes": 183032,
+          "ocr_ms": 338.733709000051
+        },
+        {
+          "file": "0009.png",
+          "phase": "result-hold",
+          "requested_ms": 3010.4842089992017,
+          "completed_ms": 3077.7485419996083,
+          "bytes": 183032,
+          "ocr_ms": 325.788750000298
+        },
+        {
+          "file": "0010.png",
+          "phase": "result-hold",
+          "requested_ms": 3404.3038749992847,
+          "completed_ms": 3462.542042000219,
+          "bytes": 183032,
+          "ocr_ms": 307.8197499997914
+        },
+        {
+          "file": "0011.png",
+          "phase": "result-hold",
+          "requested_ms": 3771.256916999817,
+          "completed_ms": 3830.038999998942,
+          "bytes": 183032,
+          "ocr_ms": 321.93029199913144
+        }
+      ],
+      "events": [
+        {
+          "kind": "text",
+          "text": "20 celsius in fahrenheit",
+          "at_ms": 0,
+          "finished_ms": 282.00791599974036
+        }
+      ],
+      "capture_index": 12,
+      "setup_ms": 2751.1453329995275,
+      "timing_epoch_iso": "2026-11-11T21:49:18.405Z",
+      "setup_frames": [
+        {
+          "file": "0000.png",
+          "phase": "before-reset",
+          "requested_ms": 0.0014580003917217255,
+          "completed_ms": 69.6434580013156,
+          "bytes": 165919,
+          "ocr_ms": 330.2675000000745
+        },
+        {
+          "file": "0001.png",
+          "phase": "home-reset",
+          "requested_ms": 1217.64533300139,
+          "completed_ms": 1283.321000000462,
+          "bytes": 143850,
+          "ocr_ms": 307.3827910013497
+        },
+        {
+          "file": "0002.png",
+          "phase": "search-ready",
+          "requested_ms": 2394.6260420009494,
+          "completed_ms": 2465.6332080010325,
+          "bytes": 59543,
+          "ocr_ms": 284.7580000013113
+        }
+      ],
+      "input_ms": 282.00791599974036,
+      "ok": true,
+      "first_matching_frame": 0,
+      "elapsed_ms": 1027.8499999996275,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Conversion",
+            "confidence": 1
+          },
+          {
+            "text": "20 celsius in fahrenheit =",
+            "confidence": 1
+          },
+          {
+            "text": "68 Fahrenheit",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    }
+  ],
+  "finished_at": "2026-11-11T21:49:22.559Z",
+  "source_commit_before_work": "3a9875bf658a8c7adc39d48f58db05fc5c5db5ef",
+  "recording_method": "Native CUA screenshot captures with request/completion timestamps; variable cadence around 2\u20133 fps, resampled to 25 fps for playback. Frames are actual phone images, not regenerated UI. Per-frame original hashes stay in the local private archive. Three-second result holds excluded from timings. Public videos preserve only result-card and query-bar regions; full recordings include reset and are local/private.",
+  "confirmation_harness_identical_to_repo": true,
+  "ocr_binary_sha256": "6a93034f9c70eb291e02a3f60a93c832edf81d57110a1e1a2e7d844441e9ac1f",
+  "round1": [
+    {
+      "folder": "trials-v6",
+      "id": "01-add",
+      "query": "7+8",
+      "expected": 15,
+      "started_at": "2026-11-11T21:44:51.811Z",
+      "frames": [
+        {
+          "file": "0003.png",
+          "phase": "verify",
+          "requested_ms": 38.981583999469876,
+          "completed_ms": 423.0839999988675,
+          "bytes": 57427,
+          "ocr_ms": 292.5166250001639
+        },
+        {
+          "file": "0004.png",
+          "phase": "verify",
+          "requested_ms": 716.6629590000957,
+          "completed_ms": 776.1281249988824,
+          "bytes": 103890,
+          "ocr_ms": 310.02500000037253
+        },
+        {
+          "file": "0005.png",
+          "phase": "result-hold",
+          "requested_ms": 1087.2191669996828,
+          "completed_ms": 1147.8620419986546,
+          "bytes": 103928,
+          "ocr_ms": 303.1365829985589
+        },
+        {
+          "file": "0006.png",
+          "phase": "result-hold",
+          "requested_ms": 1451.980249999091,
+          "completed_ms": 1515.4141249991953,
+          "bytes": 103928,
+          "ocr_ms": 310.54112499952316
+        },
+        {
+          "file": "0007.png",
+          "phase": "result-hold",
+          "requested_ms": 1827.0285839997232,
+          "completed_ms": 1884.8595419991761,
+          "bytes": 103897,
+          "ocr_ms": 315.55024999938905
+        },
+        {
+          "file": "0008.png",
+          "phase": "result-hold",
+          "requested_ms": 2201.470124999061,
+          "completed_ms": 2274.267249999568,
+          "bytes": 103897,
+          "ocr_ms": 306.5661660004407
+        },
+        {
+          "file": "0009.png",
+          "phase": "result-hold",
+          "requested_ms": 2582.0054169986397,
+          "completed_ms": 2655.4832499995828,
+          "bytes": 103897,
+          "ocr_ms": 319.4410829991102
+        },
+        {
+          "file": "0010.png",
+          "phase": "result-hold",
+          "requested_ms": 2975.621291998774,
+          "completed_ms": 3037.6092499997467,
+          "bytes": 103897,
+          "ocr_ms": 295.61904200166464
+        },
+        {
+          "file": "0011.png",
+          "phase": "result-hold",
+          "requested_ms": 3334.2077500000596,
+          "completed_ms": 3399.1700419988483,
+          "bytes": 103897,
+          "ocr_ms": 315.65820799954236
+        },
+        {
+          "file": "0012.png",
+          "phase": "result-hold",
+          "requested_ms": 3715.579916998744,
+          "completed_ms": 3790.8843339998275,
+          "bytes": 103956,
+          "ocr_ms": 295.7127499990165
+        }
+      ],
+      "events": [
+        {
+          "kind": "text",
+          "text": "7+8",
+          "at_ms": 0,
+          "finished_ms": 38.96250000037253
+        }
+      ],
+      "capture_index": 13,
+      "setup_ms": 2718.879084000364,
+      "timing_epoch_iso": "2026-11-11T21:44:54.531Z",
+      "setup_frames": [
+        {
+          "file": "0000.png",
+          "phase": "before-reset",
+          "requested_ms": 0.06675000116229057,
+          "completed_ms": 83.31820899993181,
+          "bytes": 102834,
+          "ocr_ms": 296.4469590000808
+        },
+        {
+          "file": "0001.png",
+          "phase": "home-reset",
+          "requested_ms": 1201.905042000115,
+          "completed_ms": 1269.4484170004725,
+          "bytes": 143820,
+          "ocr_ms": 305.07750000059605
+        },
+        {
+          "file": "0002.png",
+          "phase": "search-ready",
+          "requested_ms": 2383.893167000264,
+          "completed_ms": 2438.5113340001553,
+          "bytes": 57178,
+          "ocr_ms": 279.6793330013752
+        }
+      ],
+      "input_ms": 38.96250000037253,
+      "ok": true,
+      "first_matching_frame": 1,
+      "elapsed_ms": 1087.15741699934,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "7+8 =",
+            "confidence": 1
+          },
+          {
+            "text": "15",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v6",
+      "id": "02-subtract",
+      "query": "48-19",
+      "expected": 29,
+      "started_at": "2026-11-11T21:44:58.619Z",
+      "frames": [
+        {
+          "file": "0003.png",
+          "phase": "verify",
+          "requested_ms": 69.94870899990201,
+          "completed_ms": 443.7582499999553,
+          "bytes": 93626,
+          "ocr_ms": 287.4617079999298
+        },
+        {
+          "file": "0004.png",
+          "phase": "result-hold",
+          "requested_ms": 732.0162920001894,
+          "completed_ms": 795.9020419996232,
+          "bytes": 93497,
+          "ocr_ms": 272.4363329987973
+        },
+        {
+          "file": "0005.png",
+          "phase": "result-hold",
+          "requested_ms": 1068.9717089999467,
+          "completed_ms": 1128.473417000845,
+          "bytes": 93497,
+          "ocr_ms": 274.5188330002129
+        },
+        {
+          "file": "0006.png",
+          "phase": "result-hold",
+          "requested_ms": 1403.863459000364,
+          "completed_ms": 1465.0039590001106,
+          "bytes": 93497,
+          "ocr_ms": 289.78891699947417
+        },
+        {
+          "file": "0007.png",
+          "phase": "result-hold",
+          "requested_ms": 1755.8802090007812,
+          "completed_ms": 1818.081042001024,
+          "bytes": 93497,
+          "ocr_ms": 289.3600420001894
+        },
+        {
+          "file": "0008.png",
+          "phase": "result-hold",
+          "requested_ms": 2108.400459000841,
+          "completed_ms": 2169.6159170009196,
+          "bytes": 93497,
+          "ocr_ms": 296.7836250010878
+        },
+        {
+          "file": "0009.png",
+          "phase": "result-hold",
+          "requested_ms": 2467.3390420004725,
+          "completed_ms": 2526.161708999425,
+          "bytes": 93497,
+          "ocr_ms": 306.6531250011176
+        },
+        {
+          "file": "0010.png",
+          "phase": "result-hold",
+          "requested_ms": 2833.4672919996083,
+          "completed_ms": 2895.9442919995636,
+          "bytes": 93497,
+          "ocr_ms": 357.9459589999169
+        },
+        {
+          "file": "0011.png",
+          "phase": "result-hold",
+          "requested_ms": 3254.637792000547,
+          "completed_ms": 3310.3979589994997,
+          "bytes": 93497,
+          "ocr_ms": 303.2104589994997
+        },
+        {
+          "file": "0012.png",
+          "phase": "result-hold",
+          "requested_ms": 3614.283208999783,
+          "completed_ms": 3678.0072499997914,
+          "bytes": 93497,
+          "ocr_ms": 307.1635419987142
+        }
+      ],
+      "events": [
+        {
+          "kind": "text",
+          "text": "48-19",
+          "at_ms": 0,
+          "finished_ms": 69.92670799978077
+        }
+      ],
+      "capture_index": 13,
+      "setup_ms": 2707.284375000745,
+      "timing_epoch_iso": "2026-11-11T21:45:01.326Z",
+      "setup_frames": [
+        {
+          "file": "0000.png",
+          "phase": "before-reset",
+          "requested_ms": 0.001875000074505806,
+          "completed_ms": 68.51583399996161,
+          "bytes": 103910,
+          "ocr_ms": 291.4064170010388
+        },
+        {
+          "file": "0001.png",
+          "phase": "home-reset",
+          "requested_ms": 1159.149749999866,
+          "completed_ms": 1228.636250000447,
+          "bytes": 144007,
+          "ocr_ms": 320.66062499955297
+        },
+        {
+          "file": "0002.png",
+          "phase": "search-ready",
+          "requested_ms": 2350.2871670015156,
+          "completed_ms": 2418.0518340002745,
+          "bytes": 57380,
+          "ocr_ms": 288.47191599942744
+        }
+      ],
+      "input_ms": 69.92670799978077,
+      "ok": true,
+      "first_matching_frame": 0,
+      "elapsed_ms": 731.9807089995593,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "48-19 =",
+            "confidence": 1
+          },
+          {
+            "text": "29",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v6",
+      "id": "03-multiply",
+      "query": "6*7",
+      "expected": 42,
+      "started_at": "2026-11-11T21:45:05.313Z",
+      "frames": [
+        {
+          "file": "0003.png",
+          "phase": "verify",
+          "requested_ms": 38.03412500023842,
+          "completed_ms": 442.1779169999063,
+          "bytes": 98771,
+          "ocr_ms": 294.45083400048316
+        },
+        {
+          "file": "0004.png",
+          "phase": "result-hold",
+          "requested_ms": 737.5577499996871,
+          "completed_ms": 798.505916999653,
+          "bytes": 148354,
+          "ocr_ms": 286.10712499916553
+        },
+        {
+          "file": "0005.png",
+          "phase": "result-hold",
+          "requested_ms": 1085.3160420004278,
+          "completed_ms": 1147.5191670004278,
+          "bytes": 148714,
+          "ocr_ms": 288.33137499913573
+        },
+        {
+          "file": "0006.png",
+          "phase": "result-hold",
+          "requested_ms": 1436.4555420000106,
+          "completed_ms": 1499.5014169998467,
+          "bytes": 148714,
+          "ocr_ms": 310.64083299972117
+        },
+        {
+          "file": "0007.png",
+          "phase": "result-hold",
+          "requested_ms": 1811.4709999989718,
+          "completed_ms": 1871.6162499990314,
+          "bytes": 148714,
+          "ocr_ms": 297.0161250010133
+        },
+        {
+          "file": "0008.png",
+          "phase": "result-hold",
+          "requested_ms": 2169.217374999076,
+          "completed_ms": 2232.2092920001596,
+          "bytes": 148714,
+          "ocr_ms": 290.2265419997275
+        },
+        {
+          "file": "0009.png",
+          "phase": "result-hold",
+          "requested_ms": 2523.123499998823,
+          "completed_ms": 2582.283624999225,
+          "bytes": 148714,
+          "ocr_ms": 316.5015829987824
+        },
+        {
+          "file": "0010.png",
+          "phase": "result-hold",
+          "requested_ms": 2899.66445799917,
+          "completed_ms": 2965.788832999766,
+          "bytes": 148714,
+          "ocr_ms": 290.8194580003619
+        },
+        {
+          "file": "0011.png",
+          "phase": "result-hold",
+          "requested_ms": 3257.815042000264,
+          "completed_ms": 3318.910000000149,
+          "bytes": 148714,
+          "ocr_ms": 313.92808399908245
+        },
+        {
+          "file": "0012.png",
+          "phase": "result-hold",
+          "requested_ms": 3633.685875000432,
+          "completed_ms": 3697.574833000079,
+          "bytes": 148714,
+          "ocr_ms": 294.80683399923146
+        }
+      ],
+      "events": [
+        {
+          "kind": "text",
+          "text": "6*7",
+          "at_ms": 0,
+          "finished_ms": 38.01220900006592
+        }
+      ],
+      "capture_index": 13,
+      "setup_ms": 2717.4482500012964,
+      "timing_epoch_iso": "2026-11-11T21:45:08.031Z",
+      "setup_frames": [
+        {
+          "file": "0000.png",
+          "phase": "before-reset",
+          "requested_ms": 0.0012500006705522537,
+          "completed_ms": 61.520667001605034,
+          "bytes": 93497,
+          "ocr_ms": 320.87187499925494
+        },
+        {
+          "file": "0001.png",
+          "phase": "home-reset",
+          "requested_ms": 1174.6252500005066,
+          "completed_ms": 1244.6387499999255,
+          "bytes": 144423,
+          "ocr_ms": 322.7933750003576
+        },
+        {
+          "file": "0002.png",
+          "phase": "search-ready",
+          "requested_ms": 2361.437667001039,
+          "completed_ms": 2426.9662089999765,
+          "bytes": 57869,
+          "ocr_ms": 289.77766699902713
+        }
+      ],
+      "input_ms": 38.01220900006592,
+      "ok": true,
+      "first_matching_frame": 0,
+      "elapsed_ms": 737.5348329991102,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "6*7 =",
+            "confidence": 1
+          },
+          {
+            "text": "42",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v6",
+      "id": "04-divide",
+      "query": "81/9",
+      "expected": 9,
+      "started_at": "2026-11-11T21:45:12.025Z",
+      "frames": [
+        {
+          "file": "0003.png",
+          "phase": "verify",
+          "requested_ms": 52.29329200088978,
+          "completed_ms": 430.02279200032353,
+          "bytes": 57837,
+          "ocr_ms": 281.39420800097287
+        },
+        {
+          "file": "0004.png",
+          "phase": "verify",
+          "requested_ms": 712.1445000004023,
+          "completed_ms": 771.4842920005322,
+          "bytes": 92495,
+          "ocr_ms": 280.7970000002533
+        },
+        {
+          "file": "0005.png",
+          "phase": "result-hold",
+          "requested_ms": 1053.0286250002682,
+          "completed_ms": 1117.4922080002725,
+          "bytes": 139743,
+          "ocr_ms": 293.8600420001894
+        },
+        {
+          "file": "0006.png",
+          "phase": "result-hold",
+          "requested_ms": 1412.0526669993997,
+          "completed_ms": 1472.025916999206,
+          "bytes": 140143,
+          "ocr_ms": 310.5927499998361
+        },
+        {
+          "file": "0007.png",
+          "phase": "result-hold",
+          "requested_ms": 1783.2198329996318,
+          "completed_ms": 1841.3847499992698,
+          "bytes": 145194,
+          "ocr_ms": 314.3104590009898
+        },
+        {
+          "file": "0008.png",
+          "phase": "result-hold",
+          "requested_ms": 2156.56645799987,
+          "completed_ms": 2215.190249999985,
+          "bytes": 145836,
+          "ocr_ms": 319.74370799958706
+        },
+        {
+          "file": "0009.png",
+          "phase": "result-hold",
+          "requested_ms": 2535.844166999683,
+          "completed_ms": 2595.8801249992102,
+          "bytes": 146470,
+          "ocr_ms": 312.7320839986205
+        },
+        {
+          "file": "0010.png",
+          "phase": "result-hold",
+          "requested_ms": 2909.372625000775,
+          "completed_ms": 2971.8304580003023,
+          "bytes": 146477,
+          "ocr_ms": 305.8632909990847
+        },
+        {
+          "file": "0011.png",
+          "phase": "result-hold",
+          "requested_ms": 3279.8084169998765,
+          "completed_ms": 3345.339624999091,
+          "bytes": 146477,
+          "ocr_ms": 306.37391700036824
+        },
+        {
+          "file": "0012.png",
+          "phase": "result-hold",
+          "requested_ms": 3652.381916999817,
+          "completed_ms": 3714.589541999623,
+          "bytes": 146477,
+          "ocr_ms": 342.1514999996871
+        }
+      ],
+      "events": [
+        {
+          "kind": "text",
+          "text": "81/9",
+          "at_ms": 0,
+          "finished_ms": 52.27120800130069
+        }
+      ],
+      "capture_index": 13,
+      "setup_ms": 2680.3782090004534,
+      "timing_epoch_iso": "2026-11-11T21:45:14.705Z",
+      "setup_frames": [
+        {
+          "file": "0000.png",
+          "phase": "before-reset",
+          "requested_ms": 0.0012079998850822449,
+          "completed_ms": 62.0794580001384,
+          "bytes": 148714,
+          "ocr_ms": 293.3080000001937
+        },
+        {
+          "file": "0001.png",
+          "phase": "home-reset",
+          "requested_ms": 1154.6900410000235,
+          "completed_ms": 1218.1112500000745,
+          "bytes": 144102,
+          "ocr_ms": 328.8254580013454
+        },
+        {
+          "file": "0002.png",
+          "phase": "search-ready",
+          "requested_ms": 2354.1063749995083,
+          "completed_ms": 2419.2602909989655,
+          "bytes": 57391,
+          "ocr_ms": 260.4648750014603
+        }
+      ],
+      "input_ms": 52.27120800130069,
+      "ok": true,
+      "first_matching_frame": 1,
+      "elapsed_ms": 1053.0101670008153,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "81/9 =",
+            "confidence": 1
+          },
+          {
+            "text": "9",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v7",
+      "id": "05-decimal",
+      "query": "1.5+2.25",
+      "expected": 3.75,
+      "started_at": "2026-11-11T21:46:08.654Z",
+      "frames": [
+        {
+          "file": "0003.png",
+          "phase": "verify",
+          "requested_ms": 95.69791700132191,
+          "completed_ms": 497.1160420011729,
+          "bytes": 85690,
+          "ocr_ms": 329.10137500055134
+        },
+        {
+          "file": "0004.png",
+          "phase": "result-hold",
+          "requested_ms": 827.1699580010027,
+          "completed_ms": 886.3097500000149,
+          "bytes": 85192,
+          "ocr_ms": 292.61858400143683
+        },
+        {
+          "file": "0005.png",
+          "phase": "result-hold",
+          "requested_ms": 1179.6187500003725,
+          "completed_ms": 1242.1505000013858,
+          "bytes": 85192,
+          "ocr_ms": 303.2406669985503
+        },
+        {
+          "file": "0006.png",
+          "phase": "result-hold",
+          "requested_ms": 1546.0981670003384,
+          "completed_ms": 1604.8332080002874,
+          "bytes": 85192,
+          "ocr_ms": 317.358709000051
+        },
+        {
+          "file": "0007.png",
+          "phase": "result-hold",
+          "requested_ms": 1922.8715829998255,
+          "completed_ms": 1989.1549169998616,
+          "bytes": 85192,
+          "ocr_ms": 305.17920799925923
+        },
+        {
+          "file": "0008.png",
+          "phase": "result-hold",
+          "requested_ms": 2295.2242080010474,
+          "completed_ms": 2360.4798750001937,
+          "bytes": 85192,
+          "ocr_ms": 318.0254170000553
+        },
+        {
+          "file": "0009.png",
+          "phase": "result-hold",
+          "requested_ms": 2679.181541999802,
+          "completed_ms": 2740.046833001077,
+          "bytes": 85192,
+          "ocr_ms": 316.0687910001725
+        },
+        {
+          "file": "0010.png",
+          "phase": "result-hold",
+          "requested_ms": 3059.962249999866,
+          "completed_ms": 3121.320624999702,
+          "bytes": 85192,
+          "ocr_ms": 307.87250000052154
+        },
+        {
+          "file": "0011.png",
+          "phase": "result-hold",
+          "requested_ms": 3430.0980000011623,
+          "completed_ms": 3492.971125001088,
+          "bytes": 85192,
+          "ocr_ms": 317.8771249987185
+        },
+        {
+          "file": "0012.png",
+          "phase": "result-hold",
+          "requested_ms": 3811.557125000283,
+          "completed_ms": 3867.6037499997765,
+          "bytes": 85192,
+          "ocr_ms": 299.7507910002023
+        }
+      ],
+      "events": [
+        {
+          "kind": "text",
+          "text": "1.5+2.25",
+          "at_ms": 0,
+          "finished_ms": 95.67445899918675
+        }
+      ],
+      "capture_index": 13,
+      "setup_ms": 2828.0409590005875,
+      "timing_epoch_iso": "2026-11-11T21:46:11.482Z",
+      "setup_frames": [
+        {
+          "file": "0000.png",
+          "phase": "before-reset",
+          "requested_ms": 0.0757909994572401,
+          "completed_ms": 84.81766599975526,
+          "bytes": 145377,
+          "ocr_ms": 299.46020800061524
+        },
+        {
+          "file": "0001.png",
+          "phase": "home-reset",
+          "requested_ms": 1227.589375000447,
+          "completed_ms": 1303.3785410001874,
+          "bytes": 144209,
+          "ocr_ms": 374.1045829989016
+        },
+        {
+          "file": "0002.png",
+          "phase": "search-ready",
+          "requested_ms": 2486.78366599977,
+          "completed_ms": 2549.074833000079,
+          "bytes": 57732,
+          "ocr_ms": 278.25062499940395
+        }
+      ],
+      "input_ms": 95.67445899918675,
+      "ok": true,
+      "first_matching_frame": 0,
+      "elapsed_ms": 827.1397920008749,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "1.5+2.25 =",
+            "confidence": 1
+          },
+          {
+            "text": "3.75",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v7",
+      "id": "06-percent",
+      "query": "50*10%",
+      "expected": 5,
+      "started_at": "2026-11-11T21:46:15.651Z",
+      "frames": [
+        {
+          "file": "0003.png",
+          "phase": "verify",
+          "requested_ms": 91.61812500096858,
+          "completed_ms": 485.1605420000851,
+          "bytes": 58238,
+          "ocr_ms": 314.3724999986589
+        },
+        {
+          "file": "0004.png",
+          "phase": "verify",
+          "requested_ms": 800.3597919996828,
+          "completed_ms": 862.1381669994444,
+          "bytes": 88270,
+          "ocr_ms": 308.0888329986483
+        },
+        {
+          "file": "0005.png",
+          "phase": "result-hold",
+          "requested_ms": 1171.169125000015,
+          "completed_ms": 1235.1936670001596,
+          "bytes": 88270,
+          "ocr_ms": 286.1091660000384
+        },
+        {
+          "file": "0006.png",
+          "phase": "result-hold",
+          "requested_ms": 1522.0298750009388,
+          "completed_ms": 1580.5332920011133,
+          "bytes": 88270,
+          "ocr_ms": 286.19449999928474
+        },
+        {
+          "file": "0007.png",
+          "phase": "result-hold",
+          "requested_ms": 1867.3827500008047,
+          "completed_ms": 1928.1757079996169,
+          "bytes": 88270,
+          "ocr_ms": 312.96704199910164
+        },
+        {
+          "file": "0008.png",
+          "phase": "result-hold",
+          "requested_ms": 2241.7934579998255,
+          "completed_ms": 2297.4834580011666,
+          "bytes": 88270,
+          "ocr_ms": 291.8132499996573
+        },
+        {
+          "file": "0009.png",
+          "phase": "result-hold",
+          "requested_ms": 2590.2045419998467,
+          "completed_ms": 2650.803167000413,
+          "bytes": 88270,
+          "ocr_ms": 311.6557910013944
+        },
+        {
+          "file": "0010.png",
+          "phase": "result-hold",
+          "requested_ms": 2963.106208000332,
+          "completed_ms": 3022.16754199937,
+          "bytes": 88270,
+          "ocr_ms": 323.5333329997957
+        },
+        {
+          "file": "0011.png",
+          "phase": "result-hold",
+          "requested_ms": 3346.580708000809,
+          "completed_ms": 3407.9152080006897,
+          "bytes": 88270,
+          "ocr_ms": 301.7853749990463
+        },
+        {
+          "file": "0012.png",
+          "phase": "result-hold",
+          "requested_ms": 3710.3123749997467,
+          "completed_ms": 3766.9556249994785,
+          "bytes": 88270,
+          "ocr_ms": 303.77666700072587
+        },
+        {
+          "file": "0013.png",
+          "phase": "result-hold",
+          "requested_ms": 4071.4271249994636,
+          "completed_ms": 4135.4100420009345,
+          "bytes": 88270,
+          "ocr_ms": 294.234375
+        }
+      ],
+      "events": [
+        {
+          "kind": "text",
+          "text": "50*10%",
+          "at_ms": 0,
+          "finished_ms": 91.59079100005329
+        }
+      ],
+      "capture_index": 14,
+      "setup_ms": 2734.1162080001086,
+      "timing_epoch_iso": "2026-11-11T21:46:18.386Z",
+      "setup_frames": [
+        {
+          "file": "0000.png",
+          "phase": "before-reset",
+          "requested_ms": 0.0019170008599758148,
+          "completed_ms": 62.95420799963176,
+          "bytes": 85192,
+          "ocr_ms": 305.52533400058746
+        },
+        {
+          "file": "0001.png",
+          "phase": "home-reset",
+          "requested_ms": 1179.7424580007792,
+          "completed_ms": 1244.4345830008388,
+          "bytes": 144368,
+          "ocr_ms": 321.23320899903774
+        },
+        {
+          "file": "0002.png",
+          "phase": "search-ready",
+          "requested_ms": 2383.896958000958,
+          "completed_ms": 2445.8774170000106,
+          "bytes": 58280,
+          "ocr_ms": 287.5750829987228
+        }
+      ],
+      "input_ms": 91.59079100005329,
+      "ok": true,
+      "first_matching_frame": 1,
+      "elapsed_ms": 1171.1317079998553,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "50*10% =",
+            "confidence": 1
+          },
+          {
+            "text": "5",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v7",
+      "id": "07-parentheses",
+      "query": "(12+8)*3",
+      "expected": 60,
+      "started_at": "2026-11-11T21:46:22.817Z",
+      "frames": [
+        {
+          "file": "0003.png",
+          "phase": "verify",
+          "requested_ms": 127.68412500061095,
+          "completed_ms": 531.3386659994721,
+          "bytes": 58256,
+          "ocr_ms": 290.55804100073874
+        },
+        {
+          "file": "0004.png",
+          "phase": "verify",
+          "requested_ms": 822.5517909992486,
+          "completed_ms": 881.0260830000043,
+          "bytes": 89788,
+          "ocr_ms": 305.8470000009984
+        },
+        {
+          "file": "0005.png",
+          "phase": "result-hold",
+          "requested_ms": 1187.559750000015,
+          "completed_ms": 1251.53125,
+          "bytes": 89788,
+          "ocr_ms": 295.1301250010729
+        },
+        {
+          "file": "0006.png",
+          "phase": "result-hold",
+          "requested_ms": 1547.301874998957,
+          "completed_ms": 1604.4307080004364,
+          "bytes": 89788,
+          "ocr_ms": 306.7032500002533
+        },
+        {
+          "file": "0007.png",
+          "phase": "result-hold",
+          "requested_ms": 1911.813707999885,
+          "completed_ms": 1974.0379579998553,
+          "bytes": 89788,
+          "ocr_ms": 291.52908399887383
+        },
+        {
+          "file": "0008.png",
+          "phase": "result-hold",
+          "requested_ms": 2266.242499999702,
+          "completed_ms": 2329.6437499988824,
+          "bytes": 89788,
+          "ocr_ms": 269.4858330003917
+        },
+        {
+          "file": "0009.png",
+          "phase": "result-hold",
+          "requested_ms": 2599.7880830001086,
+          "completed_ms": 2664.120083000511,
+          "bytes": 89788,
+          "ocr_ms": 284.6251249983907
+        },
+        {
+          "file": "0010.png",
+          "phase": "result-hold",
+          "requested_ms": 2949.3561659995466,
+          "completed_ms": 3018.6924159992486,
+          "bytes": 89788,
+          "ocr_ms": 295.35054099932313
+        },
+        {
+          "file": "0011.png",
+          "phase": "result-hold",
+          "requested_ms": 3315.2298329994082,
+          "completed_ms": 3375.0924580004066,
+          "bytes": 89750,
+          "ocr_ms": 321.1352500002831
+        },
+        {
+          "file": "0012.png",
+          "phase": "result-hold",
+          "requested_ms": 3697.071000000462,
+          "completed_ms": 3753.3929580003023,
+          "bytes": 89750,
+          "ocr_ms": 303.38358300179243
+        },
+        {
+          "file": "0013.png",
+          "phase": "result-hold",
+          "requested_ms": 4057.5214579999447,
+          "completed_ms": 4122.224082998931,
+          "bytes": 89750,
+          "ocr_ms": 289.35524999909103
+        }
+      ],
+      "events": [
+        {
+          "kind": "text",
+          "text": "(12+8)*3",
+          "at_ms": 0,
+          "finished_ms": 127.6574999988079
+        }
+      ],
+      "capture_index": 14,
+      "setup_ms": 2804.422333000228,
+      "timing_epoch_iso": "2026-11-11T21:46:25.621Z",
+      "setup_frames": [
+        {
+          "file": "0000.png",
+          "phase": "before-reset",
+          "requested_ms": 0.0014580003917217255,
+          "completed_ms": 56.75545800104737,
+          "bytes": 88270,
+          "ocr_ms": 307.4210839997977
+        },
+        {
+          "file": "0001.png",
+          "phase": "home-reset",
+          "requested_ms": 1186.6323750000447,
+          "completed_ms": 1260.0437500011176,
+          "bytes": 144325,
+          "ocr_ms": 380.00433300063014
+        },
+        {
+          "file": "0002.png",
+          "phase": "search-ready",
+          "requested_ms": 2451.299250001088,
+          "completed_ms": 2520.0168330017477,
+          "bytes": 58236,
+          "ocr_ms": 283.69879199936986
+        }
+      ],
+      "input_ms": 127.6574999988079,
+      "ok": true,
+      "first_matching_frame": 1,
+      "elapsed_ms": 1187.5365829989314,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "(12+8)*3 =",
+            "confidence": 1
+          },
+          {
+            "text": "60",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v7",
+      "id": "08-power",
+      "query": "2^8",
+      "expected": 256,
+      "started_at": "2026-11-11T21:46:30.034Z",
+      "frames": [
+        {
+          "file": "0003.png",
+          "phase": "verify",
+          "requested_ms": 50.79458300024271,
+          "completed_ms": 445.82279100082815,
+          "bytes": 57687,
+          "ocr_ms": 285.1735000014305
+        },
+        {
+          "file": "0004.png",
+          "phase": "verify",
+          "requested_ms": 731.7088329996914,
+          "completed_ms": 789.1227080002427,
+          "bytes": 87997,
+          "ocr_ms": 283.75233400054276
+        },
+        {
+          "file": "0005.png",
+          "phase": "result-hold",
+          "requested_ms": 1073.5811660010368,
+          "completed_ms": 1132.0180830005556,
+          "bytes": 87918,
+          "ocr_ms": 296.74183299951255
+        },
+        {
+          "file": "0006.png",
+          "phase": "result-hold",
+          "requested_ms": 1429.4180410001427,
+          "completed_ms": 1496.6882499996573,
+          "bytes": 87918,
+          "ocr_ms": 326.5139999985695
+        },
+        {
+          "file": "0007.png",
+          "phase": "result-hold",
+          "requested_ms": 1823.910375000909,
+          "completed_ms": 1888.778500000015,
+          "bytes": 87918,
+          "ocr_ms": 292.81366600096226
+        },
+        {
+          "file": "0008.png",
+          "phase": "result-hold",
+          "requested_ms": 2182.255750000477,
+          "completed_ms": 2239.3386250007898,
+          "bytes": 87914,
+          "ocr_ms": 294.20491700060666
+        },
+        {
+          "file": "0009.png",
+          "phase": "result-hold",
+          "requested_ms": 2534.254416000098,
+          "completed_ms": 2594.1759580001235,
+          "bytes": 87914,
+          "ocr_ms": 318.0920000001788
+        },
+        {
+          "file": "0010.png",
+          "phase": "result-hold",
+          "requested_ms": 2912.8814580012113,
+          "completed_ms": 2977.1845410000533,
+          "bytes": 87914,
+          "ocr_ms": 306.9534170012921
+        },
+        {
+          "file": "0011.png",
+          "phase": "result-hold",
+          "requested_ms": 3286.3233330007643,
+          "completed_ms": 3344.8529580011964,
+          "bytes": 87914,
+          "ocr_ms": 342.8306660000235
+        },
+        {
+          "file": "0012.png",
+          "phase": "result-hold",
+          "requested_ms": 3688.3030830007046,
+          "completed_ms": 3749.536500001326,
+          "bytes": 87914,
+          "ocr_ms": 310.32137499935925
+        },
+        {
+          "file": "0013.png",
+          "phase": "result-hold",
+          "requested_ms": 4060.5065830014646,
+          "completed_ms": 4124.371416000649,
+          "bytes": 87914,
+          "ocr_ms": 294.8094170000404
+        }
+      ],
+      "events": [
+        {
+          "kind": "text",
+          "text": "2^8",
+          "at_ms": 0,
+          "finished_ms": 50.7744169998914
+        }
+      ],
+      "capture_index": 14,
+      "setup_ms": 2699.2616249993443,
+      "timing_epoch_iso": "2026-11-11T21:46:32.734Z",
+      "setup_frames": [
+        {
+          "file": "0000.png",
+          "phase": "before-reset",
+          "requested_ms": 0.0010000001639127731,
+          "completed_ms": 58.535542000085115,
+          "bytes": 89750,
+          "ocr_ms": 288.7353330012411
+        },
+        {
+          "file": "0001.png",
+          "phase": "home-reset",
+          "requested_ms": 1155.9273329991847,
+          "completed_ms": 1222.3014579992741,
+          "bytes": 144016,
+          "ocr_ms": 327.41095900163054
+        },
+        {
+          "file": "0002.png",
+          "phase": "search-ready",
+          "requested_ms": 2344.8269999995828,
+          "completed_ms": 2406.445082999766,
+          "bytes": 58219,
+          "ocr_ms": 292.16341700032353
+        }
+      ],
+      "input_ms": 50.7744169998914,
+      "ok": true,
+      "first_matching_frame": 1,
+      "elapsed_ms": 1073.5617910008878,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "2^8 =",
+            "confidence": 1
+          },
+          {
+            "text": "256",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v7",
+      "id": "09-length",
+      "query": "8 km in miles",
+      "expected": 4.97097,
+      "tolerance": 0.002,
+      "started_at": "2026-11-11T21:46:42.946Z",
+      "frames": [
+        {
+          "file": "0003.png",
+          "phase": "verify",
+          "requested_ms": 156.45800000056624,
+          "completed_ms": 536.1851669996977,
+          "bytes": 58910,
+          "ocr_ms": 262.81466699950397
+        },
+        {
+          "file": "0004.png",
+          "phase": "verify",
+          "requested_ms": 799.6646250002086,
+          "completed_ms": 857.7860000003129,
+          "bytes": 165826,
+          "ocr_ms": 332.9429999999702
+        },
+        {
+          "file": "0005.png",
+          "phase": "result-hold",
+          "requested_ms": 1191.514417000115,
+          "completed_ms": 1252.8042079992592,
+          "bytes": 165826,
+          "ocr_ms": 318.87420799955726
+        },
+        {
+          "file": "0006.png",
+          "phase": "result-hold",
+          "requested_ms": 1572.4282079990953,
+          "completed_ms": 1636.5133330002427,
+          "bytes": 165826,
+          "ocr_ms": 333.90137499943376
+        },
+        {
+          "file": "0007.png",
+          "phase": "result-hold",
+          "requested_ms": 1971.21912500076,
+          "completed_ms": 2036.8469999991357,
+          "bytes": 165826,
+          "ocr_ms": 332.1141670010984
+        },
+        {
+          "file": "0008.png",
+          "phase": "result-hold",
+          "requested_ms": 2370.5516669992357,
+          "completed_ms": 2434.6113329995424,
+          "bytes": 165826,
+          "ocr_ms": 344.5028750002384
+        },
+        {
+          "file": "0009.png",
+          "phase": "result-hold",
+          "requested_ms": 2779.986207999289,
+          "completed_ms": 2844.5244580004364,
+          "bytes": 165826,
+          "ocr_ms": 326.47808299958706
+        },
+        {
+          "file": "0010.png",
+          "phase": "result-hold",
+          "requested_ms": 3171.713167000562,
+          "completed_ms": 3236.667958000675,
+          "bytes": 165826,
+          "ocr_ms": 331.9155000001192
+        },
+        {
+          "file": "0011.png",
+          "phase": "result-hold",
+          "requested_ms": 3569.2683329991996,
+          "completed_ms": 3635.4985419996083,
+          "bytes": 165826,
+          "ocr_ms": 327.50433300063014
+        },
+        {
+          "file": "0012.png",
+          "phase": "result-hold",
+          "requested_ms": 3963.916541999206,
+          "completed_ms": 4045.1340829990804,
+          "bytes": 165826,
+          "ocr_ms": 322.72450000047684
+        }
+      ],
+      "events": [
+        {
+          "kind": "text",
+          "text": "8 km in miles",
+          "at_ms": 0,
+          "finished_ms": 156.4139170013368
+        }
+      ],
+      "capture_index": 13,
+      "setup_ms": 2754.4524999987334,
+      "timing_epoch_iso": "2026-11-11T21:46:45.701Z",
+      "setup_frames": [
+        {
+          "file": "0000.png",
+          "phase": "before-reset",
+          "requested_ms": 0.0019170008599758148,
+          "completed_ms": 65.61474999971688,
+          "bytes": 87914,
+          "ocr_ms": 300.1765420008451
+        },
+        {
+          "file": "0001.png",
+          "phase": "home-reset",
+          "requested_ms": 1195.356249999255,
+          "completed_ms": 1262.7157499995083,
+          "bytes": 143889,
+          "ocr_ms": 335.2155419997871
+        },
+        {
+          "file": "0002.png",
+          "phase": "search-ready",
+          "requested_ms": 2383.3232499994338,
+          "completed_ms": 2445.4320420008153,
+          "bytes": 57622,
+          "ocr_ms": 308.3240830004215
+        }
+      ],
+      "input_ms": 156.4139170013368,
+      "ok": true,
+      "first_matching_frame": 1,
+      "elapsed_ms": 1191.4943749997765,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Conversion",
+            "confidence": 1
+          },
+          {
+            "text": "8 km in miles =",
+            "confidence": 1
+          },
+          {
+            "text": "4.97 miles",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v7",
+      "id": "10-temperature",
+      "query": "20 celsius in fahrenheit",
+      "expected": 68,
+      "started_at": "2026-11-11T21:46:50.071Z",
+      "frames": [
+        {
+          "file": "0003.png",
+          "phase": "verify",
+          "requested_ms": 283.8992499988526,
+          "completed_ms": 672.4484170004725,
+          "bytes": 60700,
+          "ocr_ms": 262.46904199942946
+        },
+        {
+          "file": "0004.png",
+          "phase": "verify",
+          "requested_ms": 935.5852079987526,
+          "completed_ms": 996.5301249995828,
+          "bytes": 165126,
+          "ocr_ms": 328.6545000001788
+        },
+        {
+          "file": "0005.png",
+          "phase": "result-hold",
+          "requested_ms": 1325.9189999997616,
+          "completed_ms": 1394.759124999866,
+          "bytes": 172156,
+          "ocr_ms": 317.724666999653
+        },
+        {
+          "file": "0006.png",
+          "phase": "result-hold",
+          "requested_ms": 1713.2758329994977,
+          "completed_ms": 1778.0335419997573,
+          "bytes": 172315,
+          "ocr_ms": 307.9220000002533
+        },
+        {
+          "file": "0007.png",
+          "phase": "result-hold",
+          "requested_ms": 2086.673624999821,
+          "completed_ms": 2145.403124999255,
+          "bytes": 172307,
+          "ocr_ms": 324.9494589995593
+        },
+        {
+          "file": "0008.png",
+          "phase": "result-hold",
+          "requested_ms": 2471.052167000249,
+          "completed_ms": 2531.9932080004364,
+          "bytes": 172307,
+          "ocr_ms": 315.93445800058544
+        },
+        {
+          "file": "0009.png",
+          "phase": "result-hold",
+          "requested_ms": 2848.62104200013,
+          "completed_ms": 2918.610582999885,
+          "bytes": 172307,
+          "ocr_ms": 333.4664160013199
+        },
+        {
+          "file": "0010.png",
+          "phase": "result-hold",
+          "requested_ms": 3252.9490419998765,
+          "completed_ms": 3317.3342080004513,
+          "bytes": 172307,
+          "ocr_ms": 326.1514170002192
+        },
+        {
+          "file": "0011.png",
+          "phase": "result-hold",
+          "requested_ms": 3644.2190419994295,
+          "completed_ms": 3709.015457998961,
+          "bytes": 172307,
+          "ocr_ms": 331.2332919985056
+        },
+        {
+          "file": "0012.png",
+          "phase": "result-hold",
+          "requested_ms": 4040.981999998912,
+          "completed_ms": 4104.601624999195,
+          "bytes": 172307,
+          "ocr_ms": 362.18041699938476
+        }
+      ],
+      "events": [
+        {
+          "kind": "text",
+          "text": "20 celsius in fahrenheit",
+          "at_ms": 0,
+          "finished_ms": 283.86241699941456
+        }
+      ],
+      "capture_index": 13,
+      "setup_ms": 2749.6594589985907,
+      "timing_epoch_iso": "2026-11-11T21:46:52.821Z",
+      "setup_frames": [
+        {
+          "file": "0000.png",
+          "phase": "before-reset",
+          "requested_ms": 0.0017910003662109375,
+          "completed_ms": 69.7078330013901,
+          "bytes": 165826,
+          "ocr_ms": 332.7011660002172
+        },
+        {
+          "file": "0001.png",
+          "phase": "home-reset",
+          "requested_ms": 1200.6332080010325,
+          "completed_ms": 1267.6851250007749,
+          "bytes": 143990,
+          "ocr_ms": 322.69712500087917
+        },
+        {
+          "file": "0002.png",
+          "phase": "search-ready",
+          "requested_ms": 2398.0369579996914,
+          "completed_ms": 2464.270875001326,
+          "bytes": 59455,
+          "ocr_ms": 284.7540419995785
+        }
+      ],
+      "input_ms": 283.86241699941456,
+      "ok": true,
+      "first_matching_frame": 1,
+      "elapsed_ms": 1325.9010419994593,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Conversion",
+            "confidence": 1
+          },
+          {
+            "text": "20 celsius in fahrenheit =",
+            "confidence": 1
+          },
+          {
+            "text": "68 Fahrenheit",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    }
+  ],
+  "exporter_sha256": "ab77462f9968952cee4f28692b2621c5d124ea95a31b6d3b39381fc81de78ca8",
+  "privacy_mask": {
+    "result_card": [
+      0.035,
+      0.115,
+      0.965,
+      0.245
+    ],
+    "query_bar": [
+      0.035,
+      0.902,
+      0.965,
+      0.97
+    ],
+    "meaning": "Only these normalized source rectangles remain; captions are separate from native pixels."
+  },
+  "summary": {
+    "confirmation_tasks": 10,
+    "confirmation_successes": 10,
+    "round1_tasks": 10,
+    "round1_successes": 10,
+    "confirmation_median_warm_ms": 921.4600624991581,
+    "confirmation_median_reset_plus_warm_ms": 3595.921354498714,
+    "confirmation_median_reset_ms": 2680.6886874996126,
+    "warm_range_ms": [
+      689.6866659987718,
+      1176.2964159995317
+    ]
+  },
+  "earlier_attempts": [
+    {
+      "folder": "trials",
+      "id": "01-add",
+      "ok": false,
+      "elapsed_ms": 10229.091792000458,
+      "setup_ms": 2219.3574999999255,
+      "error": "Expected query and result not both observed before deadline",
+      "verification": {
+        "query_observed": true,
+        "result_observed": false,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "7+807+8 =",
+            "confidence": 1
+          },
+          {
+            "text": "822",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v2",
+      "id": "01-add",
+      "ok": false,
+      "elapsed_ms": null,
+      "setup_ms": null,
+      "error": "Owned Search field not observed; no input sent",
+      "verification": null
+    },
+    {
+      "folder": "trials-v3",
+      "id": "01-add",
+      "ok": true,
+      "elapsed_ms": 1090.140666000545,
+      "setup_ms": 837.0470000002533,
+      "error": null,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "7+8 =",
+            "confidence": 1
+          },
+          {
+            "text": "15",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v3",
+      "id": "02-subtract",
+      "ok": false,
+      "elapsed_ms": null,
+      "setup_ms": null,
+      "error": "Owned Search field not observed; no input sent",
+      "verification": null
+    },
+    {
+      "folder": "trials-v4",
+      "id": "01-add",
+      "ok": true,
+      "elapsed_ms": 1053.2036250010133,
+      "setup_ms": 1870.6488749999553,
+      "error": null,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "7+8 =",
+            "confidence": 1
+          },
+          {
+            "text": "15",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v4",
+      "id": "02-subtract",
+      "ok": true,
+      "elapsed_ms": 1060.6820419989526,
+      "setup_ms": 2993.2050000000745,
+      "error": null,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "48-19 =",
+            "confidence": 1
+          },
+          {
+            "text": "29",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v4",
+      "id": "03-multiply",
+      "ok": false,
+      "elapsed_ms": null,
+      "setup_ms": null,
+      "error": "Owned Search field not observed; no input sent",
+      "verification": null
+    },
+    {
+      "folder": "trials-v5",
+      "id": "01-add",
+      "ok": true,
+      "elapsed_ms": 1040.4854589998722,
+      "setup_ms": 2723.140000000596,
+      "error": null,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "7+8 =",
+            "confidence": 1
+          },
+          {
+            "text": "15",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v5",
+      "id": "02-subtract",
+      "ok": false,
+      "elapsed_ms": null,
+      "setup_ms": null,
+      "error": "Owned Search field not observed; no input sent",
+      "verification": null
+    },
+    {
+      "folder": "trials-v6",
+      "id": "01-add",
+      "ok": true,
+      "elapsed_ms": 1087.15741699934,
+      "setup_ms": 2718.879084000364,
+      "error": null,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "7+8 =",
+            "confidence": 1
+          },
+          {
+            "text": "15",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v6",
+      "id": "02-subtract",
+      "ok": true,
+      "elapsed_ms": 731.9807089995593,
+      "setup_ms": 2707.284375000745,
+      "error": null,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "48-19 =",
+            "confidence": 1
+          },
+          {
+            "text": "29",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v6",
+      "id": "03-multiply",
+      "ok": true,
+      "elapsed_ms": 737.5348329991102,
+      "setup_ms": 2717.4482500012964,
+      "error": null,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "6*7 =",
+            "confidence": 1
+          },
+          {
+            "text": "42",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v6",
+      "id": "04-divide",
+      "ok": true,
+      "elapsed_ms": 1053.0101670008153,
+      "setup_ms": 2680.3782090004534,
+      "error": null,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "81/9 =",
+            "confidence": 1
+          },
+          {
+            "text": "9",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v6",
+      "id": "05-decimal",
+      "ok": false,
+      "elapsed_ms": null,
+      "setup_ms": null,
+      "error": "Search field not observed; no input sent",
+      "verification": null
+    },
+    {
+      "folder": "trials-v7",
+      "id": "05-decimal",
+      "ok": true,
+      "elapsed_ms": 827.1397920008749,
+      "setup_ms": 2828.0409590005875,
+      "error": null,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "1.5+2.25 =",
+            "confidence": 1
+          },
+          {
+            "text": "3.75",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v7",
+      "id": "06-percent",
+      "ok": true,
+      "elapsed_ms": 1171.1317079998553,
+      "setup_ms": 2734.1162080001086,
+      "error": null,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "50*10% =",
+            "confidence": 1
+          },
+          {
+            "text": "5",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v7",
+      "id": "07-parentheses",
+      "ok": true,
+      "elapsed_ms": 1187.5365829989314,
+      "setup_ms": 2804.422333000228,
+      "error": null,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "(12+8)*3 =",
+            "confidence": 1
+          },
+          {
+            "text": "60",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v7",
+      "id": "08-power",
+      "ok": true,
+      "elapsed_ms": 1073.5617910008878,
+      "setup_ms": 2699.2616249993443,
+      "error": null,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Calculation",
+            "confidence": 1
+          },
+          {
+            "text": "2^8 =",
+            "confidence": 1
+          },
+          {
+            "text": "256",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v7",
+      "id": "09-length",
+      "ok": true,
+      "elapsed_ms": 1191.4943749997765,
+      "setup_ms": 2754.4524999987334,
+      "error": null,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Conversion",
+            "confidence": 1
+          },
+          {
+            "text": "8 km in miles =",
+            "confidence": 1
+          },
+          {
+            "text": "4.97 miles",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    },
+    {
+      "folder": "trials-v7",
+      "id": "10-temperature",
+      "ok": true,
+      "elapsed_ms": 1325.9010419994593,
+      "setup_ms": 2749.6594589985907,
+      "error": null,
+      "verification": {
+        "query_observed": true,
+        "result_observed": true,
+        "matched_card_rows": [
+          {
+            "text": "Conversion",
+            "confidence": 1
+          },
+          {
+            "text": "20 celsius in fahrenheit =",
+            "confidence": 1
+          },
+          {
+            "text": "68 Fahrenheit",
+            "confidence": 1
+          },
+          {
+            "text": "Suggestions",
+            "confidence": 1
+          }
+        ]
+      }
+    }
+  ]
+}

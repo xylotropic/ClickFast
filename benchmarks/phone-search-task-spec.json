@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "id": "phone-search-v1",
+  "ui": "iPhone Spotlight Search",
+  "tasks": [
+    {
+      "id": "01-add",
+      "query": "7+8",
+      "expected": 15
+    },
+    {
+      "id": "02-subtract",
+      "query": "48-19",
+      "expected": 29
+    },
+    {
+      "id": "03-multiply",
+      "query": "6*7",
+      "expected": 42
+    },
+    {
+      "id": "04-divide",
+      "query": "81/9",
+      "expected": 9
+    },
+    {
+      "id": "05-decimal",
+      "query": "1.5+2.25",
+      "expected": 3.75
+    },
+    {
+      "id": "06-percent",
+      "query": "50*10%",
+      "expected": 5
+    },
+    {
+      "id": "07-parentheses",
+      "query": "(12+8)*3",
+      "expected": 60
+    },
+    {
+      "id": "08-power",
+      "query": "2^8",
+      "expected": 256
+    },
+    {
+      "id": "09-length",
+      "query": "8 km in miles",
+      "expected": 4.97097,
+      "tolerance": 0.002
+    },
+    {
+      "id": "10-temperature",
+      "query": "20 celsius in fahrenheit",
+      "expected": 68
+    }
+  ],
+  "timing": {
+    "warm": "From complete-text dispatch into a prepared owned Search field until a fresh observation proves both exact query and expected result.",
+    "setup": "Navigation/reset measured separately.",
+    "hold": "Three-second result hold excluded from task latency."
+  },
+  "comparison": "Record actual link, backend, verification method and source revision. Same task does not make differing backend timings a transport-only comparison."
+}

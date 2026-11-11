@@ -71,3 +71,7 @@ No result here establishes all-app correctness, a whole-posting-task speedup, JE
 - Ten physical task pairs with video were prepared. Two setup sessions failed before any timed task completed. The user confirmed the cable is unavailable; paired wireless discovery remains unreachable. No new phone videos or completed task measurements are claimed.
 - Recorder/encoder fixture check: two videos and one paired comparison produced and decoded; this is pipeline validation with an old public image, not a fresh device recording.
 - Repository brand: flick; original monochrome SVG mark and wordmark in docs/brand. Stable sprint APIs and native runner identifiers retained.
+
+## Real wireless phone confirmation
+
+[Ten real tasks and recordings](runs/2026-11-11-wireless-phone/comparison.md): physical iPhone over Apple Mirroring, 10/10 confirmation, 0.921 s median warm input/verification, 3.596 s median reset plus task. Ten full private videos and ten public paired comparisons were decoded successfully. Original errors remain in the logs. The first completed round is compared with one pinned final controller. This validates Spotlight text entry, calculations/conversions and result verification; it does not establish arbitrary-app tap control, JEV performance or native XCTest Wi-Fi connectivity. [Scope, failures and wired comparison plan](../docs/wireless.md).

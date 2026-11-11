@@ -66,11 +66,15 @@ Native snapshots expire after30seconds. A click re-reads the same registered ele
 
 An example temporary JSON request can also be run with `node src/cli.mjs execute /path/to/request.json`. CLI invocations cannot reuse another process's in-memory refs; use semantic selectors. MCP keeps its current observation in memory.
 
+## Real wireless phone results
+
+Ten physical iPhone Spotlight calculations/conversions passed, followed by a **10/10 confirmation**. Median warm input plus fresh screenshot/OCR verification was **0.921 s**; median navigation reset plus warm task was **3.596 s**. [Watch ten recorded comparisons](benchmarks/runs/2026-11-11-wireless-phone/comparison.html), [results table](benchmarks/runs/2026-11-11-wireless-phone/comparison.md), [wireless implementation and limits](docs/wireless.md). This is a Mirroring navigation/text fallback; arbitrary-app taps and native XCTest over Wi-Fi remain unverified or blocked. These measurements use different tasks and boundaries from the older Calculator results above.
+
 ## Recorded comparison suite
 
 `node scripts/benchmark-suite.mjs` runs ten reversible tasks in alternating batch/JEV order, with a native 3 fps screen recording and timestamped input/decision logs for each run. It checks media volume before every run and verifies results with a separate fresh accessibility read. JEV credentials are required. Raw captures stay in ignored `benchmarks/private/`. See [suite method](docs/benchmark-suite.md).
 
-[New live chooser trials](benchmarks/runs/2026-11-11T21-17-39-491Z-decisions/comparison.md): 10/10 expected choices, 9/10 above the existing decision gate, 102 ms median. These synthetic-state tests do not prove phone task speed. Physical recording attempts stopped during setup after disconnection; wireless remains unreachable.
+[New live chooser trials](benchmarks/runs/2026-11-11T21-17-39-491Z-decisions/comparison.md): 10/10 expected choices, 9/10 above the existing decision gate, 102 ms median. These synthetic-state tests do not prove phone task speed. The native recording attempt stopped during setup after disconnection. The later Mirroring phone recordings above provide separate real-device evidence.
 
 Brand assets: [mark and wordmark](docs/brand/). Existing `sprint_*` tools and signing IDs remain compatible.
 

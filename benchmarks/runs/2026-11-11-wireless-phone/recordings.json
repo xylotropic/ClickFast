@@ -1,0 +1,262 @@
+[
+  {
+    "trial": "01-add",
+    "round": "round-1",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/01-add-round-1.mp4",
+    "sha256": "45c494b9531302714b1e5040385db7acde171d7c91b4744a87c7285e3ecdce5a",
+    "duration_seconds": 3.8,
+    "source_frames": 10,
+    "full_private": false
+  },
+  {
+    "trial": "01-add",
+    "round": "confirmation",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/01-add-confirmation.mp4",
+    "sha256": "689d1c51096dff157cc5fea9124bd7ffaa8ac8e69ac7cba74bd68f3d0c86c6ef",
+    "duration_seconds": 3.84,
+    "source_frames": 11,
+    "full_private": false
+  },
+  {
+    "trial": "01-add",
+    "round": "comparison",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/01-add-comparison.mp4",
+    "sha256": "5fd6866b37d1649e8df832a818e8a3890cb848811263f14059117c4a6c3eac84",
+    "duration_seconds": 3.84,
+    "full_private": false
+  },
+  {
+    "trial": "02-subtract",
+    "round": "round-1",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/02-subtract-round-1.mp4",
+    "sha256": "75c67a9b6cc91e5e4d0eae0b385537da159b7b5a30a2831dd5f83ae0a2468b3f",
+    "duration_seconds": 3.68,
+    "source_frames": 10,
+    "full_private": false
+  },
+  {
+    "trial": "02-subtract",
+    "round": "confirmation",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/02-subtract-confirmation.mp4",
+    "sha256": "1c45eb17d2da3e8a7eaa6c70a13251849f574ae44146c87632a4fb074bbc54f7",
+    "duration_seconds": 3.6,
+    "source_frames": 10,
+    "full_private": false
+  },
+  {
+    "trial": "02-subtract",
+    "round": "comparison",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/02-subtract-comparison.mp4",
+    "sha256": "fad3842242b3d89d88b9469d21a314c5b2349f5f269d8e360092ba5be7c69e9a",
+    "duration_seconds": 3.68,
+    "full_private": false
+  },
+  {
+    "trial": "03-multiply",
+    "round": "round-1",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/03-multiply-round-1.mp4",
+    "sha256": "39dc711ba4e02fbe2d3c0d69bed83060fd988c396293ca882fef1e6c3232ca88",
+    "duration_seconds": 3.72,
+    "source_frames": 10,
+    "full_private": false
+  },
+  {
+    "trial": "03-multiply",
+    "round": "confirmation",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/03-multiply-confirmation.mp4",
+    "sha256": "3a6cb9f3deb322423a7589bf51784fe099fa68fe815af162a799ea1466865609",
+    "duration_seconds": 3.56,
+    "source_frames": 10,
+    "full_private": false
+  },
+  {
+    "trial": "03-multiply",
+    "round": "comparison",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/03-multiply-comparison.mp4",
+    "sha256": "92603f07ec84dab5fddf5c9f58af8615866ca45274cec7a1938c406d1e80f280",
+    "duration_seconds": 3.72,
+    "full_private": false
+  },
+  {
+    "trial": "04-divide",
+    "round": "round-1",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/04-divide-round-1.mp4",
+    "sha256": "f7c4e0c2a7b69bbc6c7bb0c773a78a7968f6483b662774f0deffab3727a7d9d8",
+    "duration_seconds": 3.72,
+    "source_frames": 10,
+    "full_private": false
+  },
+  {
+    "trial": "04-divide",
+    "round": "confirmation",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/04-divide-confirmation.mp4",
+    "sha256": "604831469c575a2425578a490d2cc8fb254bf9b99689dec40f32a3228a56effd",
+    "duration_seconds": 3.72,
+    "source_frames": 10,
+    "full_private": false
+  },
+  {
+    "trial": "04-divide",
+    "round": "comparison",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/04-divide-comparison.mp4",
+    "sha256": "572f27d4d59bdf213eeefc8517e57a784436b2579ab8db9e9843d128dad11618",
+    "duration_seconds": 3.72,
+    "full_private": false
+  },
+  {
+    "trial": "05-decimal",
+    "round": "round-1",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/05-decimal-round-1.mp4",
+    "sha256": "66690b780bb0be8708050aad1592e2c93bc26e6c74df87a3bcd9729dc0abd80a",
+    "duration_seconds": 3.88,
+    "source_frames": 10,
+    "full_private": false
+  },
+  {
+    "trial": "05-decimal",
+    "round": "confirmation",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/05-decimal-confirmation.mp4",
+    "sha256": "ec168f92b847848c41e1bdcab79a21f2eb21a68cab63a795093cba11cf4a1e45",
+    "duration_seconds": 3.64,
+    "source_frames": 10,
+    "full_private": false
+  },
+  {
+    "trial": "05-decimal",
+    "round": "comparison",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/05-decimal-comparison.mp4",
+    "sha256": "c9264aa1691740f0625ac2bd97166f144d023ebf2a76d8a3235065f6d8e1cd33",
+    "duration_seconds": 3.88,
+    "full_private": false
+  },
+  {
+    "trial": "06-percent",
+    "round": "round-1",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/06-percent-round-1.mp4",
+    "sha256": "81fdd6c5524ebfe1681be921c25cb28a168e3019103a6774fda16b7d3d97ea66",
+    "duration_seconds": 4.16,
+    "source_frames": 11,
+    "full_private": false
+  },
+  {
+    "trial": "06-percent",
+    "round": "confirmation",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/06-percent-confirmation.mp4",
+    "sha256": "0549909d8a4555bf86f08235d94ed2cc00c7801cf23db37810ad0f03f49b3772",
+    "duration_seconds": 3.92,
+    "source_frames": 11,
+    "full_private": false
+  },
+  {
+    "trial": "06-percent",
+    "round": "comparison",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/06-percent-comparison.mp4",
+    "sha256": "73b55f4f00d4d0b905ef7892efcf56cae6a672dd4853f2c9dc4605a8006f3d9f",
+    "duration_seconds": 4.16,
+    "full_private": false
+  },
+  {
+    "trial": "07-parentheses",
+    "round": "round-1",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/07-parentheses-round-1.mp4",
+    "sha256": "9dcd2ca2086fe4c61d16e3a36d925b1fa17591dcc94430a94c439c752d8d938c",
+    "duration_seconds": 4.12,
+    "source_frames": 11,
+    "full_private": false
+  },
+  {
+    "trial": "07-parentheses",
+    "round": "confirmation",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/07-parentheses-confirmation.mp4",
+    "sha256": "1872a9ad47176c38a0109cee7a5118aff31249191ef462d06e87c6b653c3721d",
+    "duration_seconds": 3.96,
+    "source_frames": 11,
+    "full_private": false
+  },
+  {
+    "trial": "07-parentheses",
+    "round": "comparison",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/07-parentheses-comparison.mp4",
+    "sha256": "0add1aa5622c768fd00e24dfe088da3e630af257fe9b25da9db25b190d4523d7",
+    "duration_seconds": 4.12,
+    "full_private": false
+  },
+  {
+    "trial": "08-power",
+    "round": "round-1",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/08-power-round-1.mp4",
+    "sha256": "d74c59922e1c30f3c83629109f7e74798437e3fd6aa2800af8103e6cdfa0a352",
+    "duration_seconds": 4.12,
+    "source_frames": 11,
+    "full_private": false
+  },
+  {
+    "trial": "08-power",
+    "round": "confirmation",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/08-power-confirmation.mp4",
+    "sha256": "0f8c935891363ba06439381ec430fe9a29529f29719358413bb64a709aa69a0e",
+    "duration_seconds": 3.56,
+    "source_frames": 10,
+    "full_private": false
+  },
+  {
+    "trial": "08-power",
+    "round": "comparison",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/08-power-comparison.mp4",
+    "sha256": "ade8294f05abab7e5b7b6cb3835291453430ea520fe728f8765e9cdd3850f400",
+    "duration_seconds": 4.12,
+    "full_private": false
+  },
+  {
+    "trial": "09-length",
+    "round": "round-1",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/09-length-round-1.mp4",
+    "sha256": "347b96ada4ca7cfbed70789bb3a25596541142c839184616d2b44e360da9ea41",
+    "duration_seconds": 4.04,
+    "source_frames": 10,
+    "full_private": false
+  },
+  {
+    "trial": "09-length",
+    "round": "confirmation",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/09-length-confirmation.mp4",
+    "sha256": "45df9665d78a12d7820790f76ac4741b2effcd3cea5e577ea5273f2f80b884eb",
+    "duration_seconds": 3.96,
+    "source_frames": 10,
+    "full_private": false
+  },
+  {
+    "trial": "09-length",
+    "round": "comparison",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/09-length-comparison.mp4",
+    "sha256": "843f4c877a285d2972db509c9db182f84825a5a2f1f8320aef5c1df25e8bd4b4",
+    "duration_seconds": 4.04,
+    "full_private": false
+  },
+  {
+    "trial": "10-temperature",
+    "round": "round-1",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/10-temperature-round-1.mp4",
+    "sha256": "627fa755d153b21f2b3742457d9b338f73394f0f789e26e6058fa21e3dbec019",
+    "duration_seconds": 4.12,
+    "source_frames": 10,
+    "full_private": false
+  },
+  {
+    "trial": "10-temperature",
+    "round": "confirmation",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/10-temperature-confirmation.mp4",
+    "sha256": "a3fc6104a1571c0267b877cc07be7c8729b6ff3a7197d139aed2182e61dae7f8",
+    "duration_seconds": 3.84,
+    "source_frames": 9,
+    "full_private": false
+  },
+  {
+    "trial": "10-temperature",
+    "round": "comparison",
+    "path": "benchmarks/runs/2026-11-11-wireless-phone/recordings/10-temperature-comparison.mp4",
+    "sha256": "02e5c9f1e692c1fd1792f2a82a20e645414bf850b1117ae17f2de9ecace79604",
+    "duration_seconds": 4.12,
+    "full_private": false
+  }
+]

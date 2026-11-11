@@ -25,3 +25,7 @@ The encoder was checked with an explicitly labeled, ignored fixture using an old
 [Ten live chooser decisions](../benchmarks/runs/2026-11-11T21-17-39-491Z-decisions/comparison.md) completed on synthetic states. Physical recordings remain incomplete: the phone disconnected during setup, and the user confirmed the USB cable is unavailable. Xcode also reported the existing wireless pairing unreachable. Both failed setup sessions remain in `benchmarks/runs/`; neither contains a completed timed phone task. The earlier authorization failure does not establish its cause.
 
 Apple supports launching apps over a network after pairing: [Run an app on a wireless device](https://help.apple.com/xcode/mac/current/en.lproj/dev3e2f4ee6d.html). This session could not verify a wireless connection.
+
+## Later real-phone wireless evidence
+
+The native suite above remains incomplete. A separate Apple Mirroring text-input suite subsequently completed ten actual Spotlight tasks and a 10/10 pinned confirmation, with original frames and paired video comparisons. [Results](../benchmarks/runs/2026-11-11-wireless-phone/comparison.md), [working route and remaining limitations](wireless.md). These are real phone results with different tasks and timing boundaries from the native Calculator suite.
