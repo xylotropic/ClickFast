@@ -1,0 +1,24 @@
+name: Test
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  controller:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test
+  runner:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash vendor/iphone-use/runner/unit-check.sh
+      - run: >-
+          xcodebuild build-for-testing
+          -project vendor/iphone-use/runner/IPhoneUseRunner/IPhoneUseRunner.xcodeproj
+          -scheme IPhoneUseRunner -destination generic/platform=iOS
+          -derivedDataPath .state/unsigned
+          CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO

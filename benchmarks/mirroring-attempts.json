@@ -1,0 +1,46 @@
+{
+  "date": "2026-11-11",
+  "scope": "Real CUA control of Apple's iPhone Mirroring; attempted Home-to-Calculator task",
+  "completed_tasks": 0,
+  "attempts": [
+    {
+      "stage": "Spotlight and search text",
+      "elapsed_ms": 10921,
+      "success": false,
+      "action_observation_ms": [
+        726,
+        494
+      ],
+      "failure": "Coordinate click returned noWindowsAvailable; app opening was not verified"
+    },
+    {
+      "stage": "Second coordinate-click attempt",
+      "elapsed_ms": 21617,
+      "success": false,
+      "action_observation_ms": [
+        541,
+        512
+      ],
+      "failure": "Coordinate click returned noWindowsAvailable; search remained visible"
+    },
+    {
+      "stage": "Keyboard-only activation",
+      "elapsed_at_first_check_ms": 6575,
+      "success": false,
+      "action_observation_ms": [
+        484,
+        372
+      ],
+      "failure": "Return did not visibly open the top hit; subsequent focus restoration and newline entry also did not open it"
+    }
+  ],
+  "recovery_attempted": [
+    "Reacquired app by bundle identifier",
+    "Raised the window through its advertised accessibility action",
+    "Used keyboard activation instead of coordinate clicks"
+  ],
+  "interpretation": "Mirroring can show the phone and accept search shortcuts/text, but the available click/activation route did not complete this task. This is a baseline input-path failure, not a successful latency measurement.",
+  "speedup_ratio": null,
+  "comparison_valid": false,
+  "comparison_limit": "The XCTest runner was still resident during these attempts. A clean baseline must stop it before starting mirroring. The observed failures are diagnostic findings, not evidence of an isolated mirroring performance limit."
+}

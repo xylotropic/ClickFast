@@ -18,6 +18,10 @@ final class RunnerTests: XCTestCase {
   static let defaultMaxNodes = 5000
   static let defaultExtensionCalls = 8
 
+  var sprintSnapshot = ""
+  var sprintPID: Int32 = 0
+  var sprintIDs = Set<String>()
+
   var server: RunnerHTTPServer?
   /// This launch's request authentication (both ports).
   var auth: RunnerAuth?
@@ -237,7 +241,7 @@ final class RunnerTests: XCTestCase {
     let synthesis = IPURBridge.eventSynthesisAvailable()
     var value: [String: Any] = [
       "ready": axClient,
-      "capabilities": ["axClient": axClient, "eventSynthesis": synthesis],
+      "capabilities": ["axClient": axClient, "eventSynthesis": synthesis, "sprintProtocol": 1],
       "message": axClient
         ? "iphone-use native runner is ready to accept commands"
         : "iphone-use native runner is up but cannot read the screen (accessibility client unavailable)",
@@ -315,6 +319,8 @@ final class RunnerTests: XCTestCase {
   }
 
   func route(_ request: HTTPRequest) throws -> HTTPResponse {
+    if request.path == "/sprint/observe", request.method == "GET" { return try sprintObserve() }
+    if request.path == "/sprint/act", request.method == "POST" { return try sprintAct(request) }
     if let response = try routeWDA(request) { return response }
     switch (request.method, request.path) {
     case ("GET", "/source"): return try source(request)
@@ -993,5 +999,79 @@ final class KeepAwake {
     if let lastError { value["lastError"] = lastError }
     if let disabled { value["disabled"] = disabled }
     return value
+  }
+}
+
+
+// iPhone Sprint additions, Copyright (c) 2026 Floyd Korzan II, MIT.
+// Capture and register element handles in one AX traversal. No global idle wait or video stream.
+extension RunnerTests {
+  func sprintObserve() throws -> HTTPResponse {
+    guard lockedOnMain() == false else { throw RunnerError.failed("Device is locked or lock state is unknown; unlock it on the phone") }
+    let target = foreground()
+    let root = try foregroundTree(target)
+    let screen = windowSizePoints()
+    sprintSnapshot = UUID().uuidString
+    sprintPID = target.pid
+    sprintIDs.removeAll()
+    var rows: [[String: Any]] = []
+    let actionable: Set<String> = ["Button", "Cell", "Link", "Key", "Switch", "TextField", "SecureTextField", "SearchField", "TextView", "Tab", "Icon", "MenuItem", "SegmentedControl"]
+    for node in [root] + root.descendants() {
+      let kind = node.type.replacingOccurrences(of: "XCUIElementType", with: "")
+      guard node.isVisible(screen: screen), rows.count < 600 else { continue }
+      let label = node.label ?? node.identifier ?? node.placeholder ?? ""
+      guard !label.isEmpty || actionable.contains(kind) else { continue }
+      var row: [String: Any] = ["kind": kind, "label": label,
+        "rect": ["x": node.rect.origin.x, "y": node.rect.origin.y,
+                 "width": node.rect.width, "height": node.rect.height],
+        "enabled": node.isEnabled, "focused": node.isFocused]
+      if let identifier = node.identifier { row["identifier"] = identifier }
+      if let value = node.value, kind != "SecureTextField" { row["value"] = value }
+      if actionable.contains(kind), node.isEnabled, node.axElement != nil, sprintIDs.count < 250 {
+        let id = elements.register(node)
+        sprintIDs.insert(id)
+        row["ref"] = id
+      }
+      rows.append(row)
+    }
+    return .value(["snapshot": sprintSnapshot, "app": target.bundleID ?? "",
+      "width": screen.width, "height": screen.height, "elements": rows,
+      "truncated": rows.count >= 600 || sprintIDs.count >= 250])
+  }
+
+  func sprintAct(_ request: HTTPRequest) throws -> HTTPResponse {
+    guard lockedOnMain() == false else { throw RunnerError.failed("Device is locked or lock state is unknown; no input dispatched") }
+    let body = try request.jsonObject()
+    let path = try requiredString(body, "path")
+    let allowed: Set<String> = ["/tap", "/type", "/swipe", "/longpress", "/home",
+      "/launch", "/wda/keys", "/wda/keyboard/dismiss", "/alert"]
+    let elementClick = path.hasPrefix("/element/") && path.hasSuffix("/click")
+    guard allowed.contains(path) || elementClick else {
+      throw RunnerError.invalidArgument("unsupported Sprint action path")
+    }
+    if path != "/home" && path != "/launch" {
+      guard !sprintSnapshot.isEmpty, body["snapshot"] as? String == sprintSnapshot,
+        foreground().pid == sprintPID else {
+        throw RunnerError.failed("Screen snapshot is stale; no input dispatched")
+      }
+    }
+    if elementClick {
+      let id = String(path.dropFirst("/element/".count).dropLast("/click".count))
+      guard !sprintSnapshot.isEmpty, body["snapshot"] as? String == sprintSnapshot,
+        sprintIDs.contains(id), foreground().pid == sprintPID else {
+        throw RunnerError.staleElement(id)
+      }
+    }
+    // Consume old targets before dispatch. A timeout must never authorize replay.
+    sprintSnapshot = ""
+    sprintIDs.removeAll()
+    let payload = body["body"] as? [String: Any] ?? [:]
+    let forwarded = HTTPRequest(method: "POST", path: path, query: [:], headers: [:],
+      body: try JSONSerialization.data(withJSONObject: payload))
+    if KeepAwake.isInput(path) { keepAwake.noteCommand() }
+    let action = try route(forwarded)
+    guard action.status < 400 else { return action }
+    if body["observe"] as? Bool == true { return try sprintObserve() }
+    return action
   }
 }

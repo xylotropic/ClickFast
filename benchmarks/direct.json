@@ -1,0 +1,10 @@
+{
+  "time": "2026-11-11T19:41:22.044Z",
+  "device": "physical iPhone",
+  "trials": [],
+  "scope": "Direct controller only; excludes model inference. No mirroring speedup inferred.",
+  "error": "Unlock the iPhone before benchmarking. No app actions were dispatched.",
+  "incomplete": true,
+  "comparison_valid": false,
+  "context": "Preflight stopped because the physical phone was locked. Zero app trials and no app input. Earlier mixed-mirroring observations are not represented as valid samples here."
+}

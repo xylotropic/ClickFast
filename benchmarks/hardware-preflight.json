@@ -1,0 +1,8 @@
+{
+  "time": "2026-11-11T19:39:49.482Z",
+  "native_ready": true,
+  "locked": false,
+  "drivable": true,
+  "sprint_protocol": 1,
+  "drivability_interpretation": "This early check did not exclude mirroring. Its drivable value must not be treated as proof of a usable physical screen."
+}

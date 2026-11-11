@@ -1,0 +1,23 @@
+{
+  "time": "2026-11-11T19:47:41.230Z",
+  "scope": "Physical-device preflight; no completed-app speed claim.",
+  "tests": [
+    {
+      "name": "native_protocol",
+      "expected": "ready with Sprint protocol 1",
+      "success": false,
+      "error_class": "ECONNRESET",
+      "ms": 4.230333000000002
+    },
+    {
+      "name": "authentication",
+      "expected": "unsigned request is refused",
+      "success": false,
+      "error_class": "ECONNRESET",
+      "ms": 1.5217079999999896
+    }
+  ],
+  "success": false,
+  "error_class": "ECONNRESET",
+  "context": "Attempted during runner launch. Xcode was waiting for physical unlock; connection resets indicate service unavailability, not a targeting failure. No app input was dispatched."
+}

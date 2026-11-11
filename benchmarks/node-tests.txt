@@ -1,0 +1,23 @@
+✔ HMAC matches the pinned native runner canonical format (0.781625ms)
+✔ runner transport signs real HTTP requests and does not replay ambiguous mutations (9.943917ms)
+✔ unique selector refuses duplicate controls rather than choosing the first (0.152875ms)
+✔ one observation supplies registered handle, avoiding a second full tree lookup (0.297834ms)
+✔ stale ref is rejected before any input dispatch (0.138416ms)
+✔ batch stops after an unknown input outcome and does not execute the next step (0.068167ms)
+✔ required-state wait accepts the first correct observation without double settling (0.094375ms)
+✔ cancelled execution never dispatches input (0.159083ms)
+✔ unknown operations are rejected before executing earlier valid steps (0.073625ms)
+✔ real MCP framing advertises only three small tools and rejects unknown methods (12.246375ms)
+✔ real HTTP waits accept fractional remaining deadlines (3.715666ms)
+✔ a newly appearing target uses its new snapshot handle, without another locator query (0.178ms)
+✔ action observations normalize new handles before the next dependent action (0.111166ms)
+✔ coordinate input carries its screen snapshot to the device for app revalidation (0.068167ms)
+✔ queued MCP cancellation is honored before the second task can dispatch (40.993917ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 144.326292

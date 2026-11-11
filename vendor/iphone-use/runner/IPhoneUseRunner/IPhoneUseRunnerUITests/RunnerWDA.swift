@@ -911,7 +911,7 @@ extension RunnerTests {
   /// (lock screen) window present in SpringBoard's tree.
   /// nil when neither SpringBoardServices nor SpringBoard's tree can be read — never guess
   /// "unlocked" (that let wda/unlock report success on a phone it never saw).
-  private func lockedOnMain() -> Bool? {
+  func lockedOnMain() -> Bool? {
     var known = ObjCBool(false)
     let locked = IPURBridge.isScreenLocked(&known)
     if known.boolValue { return locked }

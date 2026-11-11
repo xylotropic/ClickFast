@@ -1,0 +1,10 @@
+.state/
+.env*
+node_modules/
+build/
+DerivedData/
+*.xcresult/
+*.xcuserstate
+xcuserdata/
+.DS_Store
+benchmarks/private/
