@@ -1,0 +1,935 @@
+// Mac-side unit check of the runner's device-independent logic: HTTP parsing and error envelopes,
+// WDA locator strategies (accessibility id, class name, predicate string, class chain) and W3C
+// pointer-action parsing. Run with runner/unit-check.sh.
+
+import CoreGraphics
+import Foundation
+import ImageIO
+
+var failures = 0
+var checks = 0
+
+func check(_ condition: @autoclosure () throws -> Bool, _ message: String, line: Int = #line) {
+  checks += 1
+  do {
+    if try !condition() {
+      failures += 1
+      print("FAIL (line \(line)): \(message)")
+    }
+  } catch {
+    failures += 1
+    print("FAIL (line \(line)): \(message): threw \(error)")
+  }
+}
+
+func expectThrows(_ code: String, _ message: String, line: Int = #line, _ body: () throws -> Void) {
+  checks += 1
+  do {
+    try body()
+    failures += 1
+    print("FAIL (line \(line)): \(message): did not throw")
+  } catch let error as RunnerError {
+    if error.code != code {
+      failures += 1
+      print("FAIL (line \(line)): \(message): threw \(error.code), expected \(code)")
+    }
+  } catch {
+    failures += 1
+    print("FAIL (line \(line)): \(message): threw \(error)")
+  }
+}
+
+// MARK: HTTP
+
+do {
+  let raw = Data("GET /source?format=json&excluded_attributes=visible,accessible HTTP/1.1\r\nHost: x\r\n\r\n".utf8)
+  if case .complete(let request) = HTTPRequest.parse(raw) {
+    check(request.method == "GET" && request.path == "/source", "request line")
+    check(request.query["excluded_attributes"] == "visible,accessible", "query")
+  } else {
+    check(false, "GET parses")
+  }
+  let post = Data("POST /session/S/actions HTTP/1.1\r\nContent-Length: 2\r\n\r\n{}".utf8)
+  if case .complete(let request) = HTTPRequest.parse(post) {
+    check((try? request.jsonObject())?.isEmpty == true, "empty JSON body")
+  } else {
+    check(false, "POST parses")
+  }
+  if case .incomplete = HTTPRequest.parse(Data("POST /x HTTP/1.1\r\nContent-Length: 10\r\n\r\n{}".utf8)) {
+  } else {
+    check(false, "short body waits for more bytes")
+  }
+  let response = HTTPResponse.from(RunnerError.noSuchAlert())
+  let body = try JSONSerialization.jsonObject(with: response.body) as? [String: Any]
+  let value = body?["value"] as? [String: Any]
+  check(response.status == 404 && value?["error"] as? String == "no such alert", "no such alert envelope")
+  check(String(decoding: response.serialized().prefix(24), as: UTF8.self).hasPrefix("HTTP/1.1 404 Not Found"),
+        "404 status line (WdaClient matches '404 Not Found')")
+  let session = HTTPResponse.value(["sessionId": "S"], sessionId: "S")
+  let sessionBody = try JSONSerialization.jsonObject(with: session.body) as? [String: Any]
+  check(sessionBody?["sessionId"] as? String == "S", "top-level sessionId")
+}
+
+// MARK: A field value iOS cut inside an emoji still serializes (#254)
+
+do {
+  // iOS cuts a long accessibility value at a fixed UTF-16 length; here the cut lands between the
+  // two halves of 😀, as the serializer's NSString holds it.
+  let units = Array((String(repeating: "验收长文本😀", count: 50) + "验收长文本😀").utf16)
+  let kept = Array(units.prefix(units.count - 1))  // ... + "验收长文本" + the high surrogate only
+  let cutValue = NSString(characters: kept, length: kept.count)
+  let field = NSMutableDictionary(dictionary: ["type": "XCUIElementTypeSearchField", "value": cutValue, "label": "搜索"])
+  let root = NSMutableDictionary(dictionary: ["type": "XCUIElementTypeApplication", "children": NSMutableArray(array: [field])])
+  check((try? JSONSerialization.data(withJSONObject: ["value": root])) == nil,
+        "precondition: a lone surrogate makes JSONSerialization refuse the tree")
+  let response = HTTPResponse.value(root)
+  check(response.status == 200, "the tree is still answered: status \(response.status)")
+  let decoded = (try? JSONSerialization.jsonObject(with: response.body)) as? [String: Any]
+  let children = (decoded?["value"] as? [String: Any])?["children"] as? [[String: Any]]
+  let value = children?.first?["value"] as? String ?? ""
+  check(value.hasPrefix(String(repeating: "验收长文本😀", count: 50) + "验收长文本") && value.hasSuffix("\u{FFFD}"),
+        "the value keeps its text; only the half emoji becomes U+FFFD")
+  check(children?.first?["label"] as? String == "搜索", "other strings are untouched")
+}
+
+// MARK: Tree + locators
+
+func node(_ type: String, label: String? = nil, id: String? = nil, value: String? = nil,
+          placeholder: String? = nil, rect: [Double] = [0, 0, 10, 10], focused: Bool = false,
+          children: [[String: Any]] = []) -> [String: Any] {
+  var dictionary: [String: Any] = [
+    "type": "XCUIElementType" + type,
+    "label": label as Any? ?? NSNull(), "name": (id ?? label) as Any? ?? NSNull(),
+    "value": value as Any? ?? NSNull(),
+    "rawIdentifier": id as Any? ?? NSNull(), "placeholderValue": placeholder as Any? ?? NSNull(),
+    "rect": ["x": rect[0], "y": rect[1], "width": rect[2], "height": rect[3]],
+    "isEnabled": "1", "isFocused": focused ? "1" : "0",
+  ]
+  if !children.isEmpty { dictionary["children"] = children }
+  return dictionary
+}
+
+let screen = CGSize(width: 390, height: 844)
+let tree = UINode(raw: node("Application", label: "Settings", rect: [0, 0, 390, 844], children: [
+  node("Window", rect: [0, 0, 390, 844], children: [
+    node("Button", label: "Done", rect: [300, 40, 60, 30]),
+    node("Button", label: "OK", id: "ok-button", rect: [20, 40, 60, 30]),
+    node("TextField", label: "SpotlightSearchField", placeholder: "Search", rect: [10, 100, 300, 40], focused: true),
+    node("Picker", rect: [0, 600, 390, 200], children: [
+      node("PickerWheel", value: "June", rect: [0, 600, 130, 200]),
+      node("PickerWheel", value: "6", rect: [130, 600, 130, 200]),
+      node("PickerWheel", value: "2026", rect: [260, 600, 130, 200]),
+    ]),
+    node("Cell", rect: [0, 900, 390, 44], children: [node("StaticText", label: "Offscreen", rect: [0, 900, 100, 44])]),
+    // iOS 26 SpringBoard's search pill: the container and both children carry the label.
+    node("Other", label: "搜索", id: "spotlight-pill", rect: [164, 688, 61, 30], children: [
+      node("Image", label: "搜索", id: "magnifyingglass", rect: [176, 697, 11, 11]),
+      node("StaticText", label: "搜索", rect: [190, 695, 24, 14]),
+    ]),
+  ]),
+]), parent: nil, pid: 1)
+
+func labels(_ nodes: [UINode]) -> [String] { nodes.map { $0.label ?? $0.value ?? "?" } }
+
+do {
+  check(labels(try Locator.find(using: "accessibility id", value: "ok-button", root: tree, screen: screen)) == ["OK"],
+        "accessibility id matches identifier")
+  check(labels(try Locator.find(using: "accessibility id", value: "Done", root: tree, screen: screen)) == ["Done"],
+        "accessibility id matches label")
+  check(try Locator.find(using: "accessibility id", value: "OK", root: tree, screen: screen).isEmpty,
+        "accessibility id ignores the label of an element that has an identifier (WDA name)")
+  let pillText = try Locator.find(using: "accessibility id", value: "搜索", root: tree, screen: screen)
+  check(pillText.count == 1 && pillText.first?.type == "XCUIElementTypeStaticText",
+        "accessibility id 搜索 names only the pill's text, as on WDA")
+  check(try Locator.find(using: "accessibility id", value: "spotlight-pill", root: tree, screen: screen).count == 1,
+        "accessibility id finds the pill by its identifier")
+  check(try Locator.find(using: "class name", value: "XCUIElementTypePickerWheel", root: tree, screen: screen).count == 3,
+        "class name")
+  let dismiss = "type == 'XCUIElementTypeButton' AND (name IN {'Hide keyboard', 'Done'} OR label IN {'Hide keyboard', 'Done'})"
+  check(labels(try Locator.find(using: "predicate string", value: dismiss, root: tree, screen: screen)) == ["Done"],
+        "keyboard-dismiss predicate")
+  let spotlight = "type == 'XCUIElementTypeTextField' AND (label == 'SpotlightSearchField' OR placeholderValue IN {'搜索', 'Search', '検索'})"
+  check(try Locator.find(using: "predicate string", value: spotlight, root: tree, screen: screen).count == 1,
+        "spotlight predicate")
+  check(try Locator.find(using: "predicate string", value: "focused == 1", root: tree, screen: screen).count == 1,
+        "focused == 1")
+  check(labels(try Locator.find(using: "predicate string", value: "type == 'XCUIElementTypeStaticText' AND visible == 0",
+                                root: tree, screen: screen)) == ["Offscreen"], "geometric visible")
+  check(try Locator.find(using: "predicate string", value: "(label == 'OK' OR name == 'OK') AND enabled == 1",
+                         root: tree, screen: screen).count == 1, "daemon locator predicate")
+  expectThrows("invalid selector", "bad predicate") {
+    _ = try Locator.find(using: "predicate string", value: "label ==", root: tree, screen: screen)
+  }
+  expectThrows("invalid selector", "xpath unsupported") {
+    _ = try Locator.find(using: "xpath", value: "//*", root: tree, screen: screen)
+  }
+
+  check(labels(try Locator.find(using: "class chain", value: "**/XCUIElementTypePickerWheel", root: tree, screen: screen))
+        == ["June", "6", "2026"], "class chain descendants")
+  check(labels(try Locator.find(using: "class chain", value: "**/XCUIElementTypeButton[`label == \"OK\"`]",
+                                root: tree, screen: screen)) == ["OK"], "class chain predicate")
+  check(labels(try Locator.find(using: "class chain", value: "XCUIElementTypeWindow/XCUIElementTypeButton[2]",
+                                root: tree, screen: screen)) == ["OK"], "class chain child index")
+  check(labels(try Locator.find(using: "class chain", value: "**/XCUIElementTypePickerWheel[-1]",
+                                root: tree, screen: screen)) == ["2026"], "class chain negative index")
+  check(try Locator.find(using: "class chain", value: "**/XCUIElementTypeCell[$label == 'Offscreen'$]",
+                         root: tree, screen: screen).count == 1, "class chain descendant predicate")
+  check(try Locator.find(using: "class chain", value: "Button", root: tree, screen: screen).isEmpty,
+        "short type name, direct children only")
+  expectThrows("invalid selector", "class chain ending in **") {
+    _ = try Locator.find(using: "class chain", value: "XCUIElementTypeWindow/**", root: tree, screen: screen)
+  }
+}
+
+// MARK: W3C actions
+
+do {
+  func pointer(_ actions: [[String: Any]]) throws -> [[[String: Any]]] {
+    try W3CActions.pointerPaths(actions) { id in
+      guard id == "E1" else { throw RunnerError.staleElement(id) }
+      return CGPoint(x: 100, y: 200)
+    }
+  }
+  func t(_ step: [String: Any]) -> Double { step["t"] as? Double ?? -1 }
+
+  let tap = try pointer([
+    ["type": "pointerMove", "duration": 0, "x": 50, "y": 60],
+    ["type": "pointerDown", "button": 0],
+    ["type": "pointerUp", "button": 0],
+  ])
+  check(tap.count == 1 && tap[0].count == 2, "tap is one down/up path")
+  check(tap.first?.first?["x"] as? Double == 50 && tap.first?.last?["type"] as? String == "up", "tap position")
+  check(abs(t(tap[0][1]) - W3CActions.tapHold) < 1e-9, "tap held tapHold")
+
+  func held(_ pauseMs: Double) throws -> Double {
+    let path = try pointer([
+      ["type": "pointerMove", "duration": 0, "x": 1, "y": 1],
+      ["type": "pointerDown", "button": 0],
+      ["type": "pause", "duration": pauseMs],
+      ["type": "pointerUp", "button": 0],
+    ])
+    return t(path[0][1]) - t(path[0][0])
+  }
+  check(abs(try held(20) - 0.02) < 1e-9, "an explicit 20 ms pause holds 20 ms")
+  check(abs(try held(3) - W3CActions.minimumHold) < 1e-9, "an explicit pause holds at least minimumHold")
+
+  let hold = try pointer([
+    ["type": "pointerMove", "duration": 0, "x": 1, "y": 1],
+    ["type": "pointerDown", "button": 0],
+    ["type": "pause", "duration": 800],
+    ["type": "pointerUp", "button": 0],
+  ])
+  check(abs(t(hold[0][1]) - 0.8) < 1e-9, "long press lifts after the pause")
+
+  let swipe = try pointer([
+    ["type": "pointerMove", "duration": 0, "x": 10, "y": 500],
+    ["type": "pointerDown", "button": 0],
+    ["type": "pause", "duration": 80],
+    ["type": "pointerMove", "duration": 250, "x": 10, "y": 100],
+    ["type": "pointerUp", "button": 0],
+  ])
+  let moves = swipe[0].filter { $0["type"] as? String == "move" }
+  check(moves.count == 16, "250 ms move sampled every ~16 ms (got \(moves.count))")
+  check(moves.last?["y"] as? Double == 100 && abs(t(moves.last!) - 0.33) < 1e-9, "move ends at target and time")
+  check(abs(t(moves.first!) - (0.08 + 0.25 / 16)) < 1e-9, "move starts after the pause")
+
+  let relative = try pointer([
+    ["type": "pointerMove", "duration": 0, "x": 5, "y": 5, "origin": ["element-6066-11e4-a52e-4f735466cecf": "E1"]],
+    ["type": "pointerDown"], ["type": "pointerUp"],
+  ])
+  check(relative[0][0]["x"] as? Double == 105 && relative[0][0]["y"] as? Double == 205, "element origin")
+
+  let unfinished = try pointer([["type": "pointerDown"], ["type": "pause", "duration": 10]])
+  check(unfinished.count == 1 && unfinished[0].last?["type"] as? String == "up", "dangling down is lifted")
+  expectThrows("invalid argument", "unknown pointer action") {
+    _ = try pointer([["type": "wiggle"]])
+  }
+}
+
+// MARK: - H.264 stream
+
+do {
+  let parsed = RunnerH264Stream.settings(from: "GET /h264?fps=20&scale=40&kbps=900 HTTP/1.1\r\nHost: x\r\n\r\n")
+  check(parsed == RunnerH264Stream.Settings(fps: 20, scalePercent: 40, kbps: 900), "h264 query parsed")
+  let clamped = RunnerH264Stream.settings(from: "GET /h264?fps=999&scale=1&kbps=5 HTTP/1.1\r\n\r\n")
+  check(clamped == RunnerH264Stream.Settings(fps: 60, scalePercent: 10, kbps: 200), "h264 query clamped")
+  check(RunnerH264Stream.settings(from: "GET /h264 HTTP/1.1\r\n\r\n") == RunnerH264Stream.Settings(), "h264 defaults")
+  let quality = RunnerH264Stream.settings(from: "GET /h264?mode=quality HTTP/1.1\r\n\r\n")
+  check(quality == RunnerH264Stream.Settings.preset(.quality), "h264 quality preset")
+  check(quality.scalePercent == 100 && quality.highProfile && quality.fps == 60, "quality = full size, High, 60 fps")
+  let overridden = RunnerH264Stream.settings(from: "GET /h264?scale=60&mode=quality&gop=5&skip=0 HTTP/1.1\r\n\r\n")
+  check(overridden.mode == .quality && overridden.scalePercent == 60 && overridden.keyframeSeconds == 5
+        && !overridden.skipUnchanged && overridden.kbps == 10_000, "explicit values override the mode")
+  let performance = RunnerH264Stream.settings(from: "GET /h264?mode=nonsense HTTP/1.1\r\n\r\n")
+  check(performance == RunnerH264Stream.Settings() && performance.skipUnchanged
+        && performance.keyframeSeconds == 10, "unknown mode = performance, skip on, 10 s keyframes")
+
+  // A flat white band is blank; one with a dark stripe through it is not.
+  let w = 120, h = 240
+  var white = [UInt8](repeating: 255, count: w * h * 4)
+  check(white.withUnsafeBufferPointer {
+    RunnerH264Stream.bandIsFlat(width: w, height: h, rowBytes: w * 4, pixels: $0.baseAddress!)
+  }, "flat band is blank")
+  for y in 60..<180 { for x in 0..<60 { for c in 0..<3 { white[(y * w + x) * 4 + c] = 0 } } }
+  check(!white.withUnsafeBufferPointer {
+    RunnerH264Stream.bandIsFlat(width: w, height: h, rowBytes: w * 4, pixels: $0.baseAddress!)
+  }, "band with content is not blank")
+
+  // A real VideoToolbox encode: the first frame is a keyframe in Annex-B with SPS and PPS.
+  var outputs: [(Data, Bool)] = []
+  let done = DispatchSemaphore(value: 0)
+  if let encoder = RunnerH264Stream.Encoder(
+    width: 64, height: 128, settings: RunnerH264Stream.Settings(fps: 30, scalePercent: 50, kbps: 500),
+    output: { data, key, _ in outputs.append((data, key)); done.signal() }),
+    let context = CGContext(data: nil, width: 64, height: 128, bitsPerComponent: 8, bytesPerRow: 0,
+                            space: CGColorSpaceCreateDeviceRGB(),
+                            bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue),
+    let image: CGImage = {
+      context.setFillColor(red: 0.2, green: 0.4, blue: 0.8, alpha: 1)
+      context.fill(CGRect(x: 0, y: 0, width: 64, height: 128))
+      return context.makeImage()
+    }(),
+    let buffer = encoder.pixelBuffer(drawing: image) {
+    encoder.encode(buffer, pts: 0, forceKeyframe: true)
+    encoder.invalidate()
+    _ = done.wait(timeout: .now() + 5)
+    let first = outputs.first
+    check(first?.1 == true, "first encoded frame is a keyframe")
+    let bytes = [UInt8](first?.0 ?? Data())
+    check(bytes.starts(with: [0, 0, 0, 1]) && bytes.count > 5 && bytes[4] & 0x1F == 7,
+          "keyframe starts with an Annex-B SPS")
+    let nalTypes: Set<UInt8> = Set(stride(from: 0, to: max(0, bytes.count - 4), by: 1).compactMap { i -> UInt8? in
+      guard bytes[i] == 0, bytes[i + 1] == 0, bytes[i + 2] == 0, bytes[i + 3] == 1,
+            i + 4 < bytes.count else { return nil }
+      return bytes[i + 4] & 0x1F
+    })
+    check(nalTypes.isSuperset(of: [7, 8, 5]), "keyframe carries SPS, PPS and an IDR slice")
+    let health = encoder.health()
+    check(health.submitted == 1 && health.outputs == 1 && health.errors == 0, "encoder counts frames in and out")
+  } else {
+    check(false, "VideoToolbox H.264 encoder starts")
+  }
+
+  // The fallback ladder for an encoder that cannot do what was asked (the iPhone X at full size).
+  let full = RunnerH264Stream.Settings.preset(.quality)
+  let asked = EncodeLimit.apply(full, level: 0, width: 1125, height: 2436)
+  check(asked.width == 1124 && asked.height == 2436 && asked.settings == full, "level 0 is as asked, even size")
+  let capped = EncodeLimit.apply(full, level: 1, width: 1125, height: 2436)
+  check(capped.height == 1920 && capped.width == 886 && capped.settings.highProfile && capped.settings.fps == 60,
+        "level 1 caps the long side at 1920")
+  let main = EncodeLimit.apply(full, level: 2, width: 1125, height: 2436)
+  check(main.height == 1920 && !main.settings.highProfile && main.settings.fps == 30, "level 2 is Main at 30 fps")
+  let floor = EncodeLimit.apply(full, level: 3, width: 1125, height: 2436)
+  check(floor.height == 1280 && floor.width % 2 == 0 && floor.width < 600, "level 3 caps at 1280")
+  let small = EncodeLimit.apply(RunnerH264Stream.Settings(), level: 3, width: 562, height: 1218)
+  check(small.width == 562 && small.height == 1218, "a frame under the cap keeps its size")
+  check(!EncodeLimit.failed(submitted: 1, outputs: 0, errors: 0, age: 0.1), "a new encoder gets its grace")
+  check(EncodeLimit.failed(submitted: 3, outputs: 0, errors: 0, age: 1.5), "frames in, none out: failed")
+  check(EncodeLimit.failed(submitted: 1, outputs: 0, errors: 1, age: 0.1), "an encode error: failed")
+  check(!EncodeLimit.failed(submitted: 50, outputs: 1, errors: 3, age: 9), "an encoder that produced is fine")
+}
+
+// ScrollDrag (scrollTo without momentum)
+do {
+  let paths = try W3CActions.pointerPaths(
+    ScrollDrag.actions(from: CGPoint(x: 200, y: 620), to: CGPoint(x: 200, y: 330))) { _ in .zero }
+  check(paths.count == 1, "one touch path")
+  let steps = paths[0]
+  check(steps.first?["type"] as? String == "down" && steps.last?["type"] as? String == "up", "down … up")
+  // Speed over the last 100 ms before the lift: below the ~250 pt/s where a list starts to glide.
+  let upT = steps.last?["t"] as? Double ?? 0
+  let recent = steps.filter { ($0["t"] as? Double ?? 0) >= upT - 0.1 }
+  let ys = recent.compactMap { $0["y"] as? Double }
+  let speed = abs((ys.last ?? 0) - (ys.first ?? 0)) / 0.1
+  check(speed < 200, "tail speed \(Int(speed)) pt/s stays under the fling threshold")
+  check(abs((steps.last?["y"] as? Double ?? 0) - 330) < 0.01, "ends where asked")
+}
+
+// ScreenSettle (on-device settle)
+do {
+  let gray = [UInt8](repeating: 120, count: 100)
+  var moved = gray
+  for index in 0..<5 { moved[index] = 200 }
+  check(ScreenSettle.changedPixels(gray, gray) == 0, "identical frames change nothing")
+  check(ScreenSettle.changedPixels(gray, moved) == 5, "five pixels moved")
+  check(ScreenSettle.changedPixels(gray, [UInt8](repeating: 125, count: 100)) == 0, "noise under the threshold is ignored")
+  check(ScreenSettle.changedPixels(gray, [UInt8](repeating: 0, count: 50)) == Int.max, "size change counts as a change")
+
+  var screen = [UInt8](repeating: 250, count: 10 * 20)
+  for index in 0..<10 { screen[index] = 0 }  // status bar row: outside the content band
+  check(ScreenSettle.isBlank(screen, width: 10, height: 20), "flat content band is blank")
+  screen[10 * 10 + 4] = 30
+  check(!ScreenSettle.isBlank(screen, width: 10, height: 20), "one dark pixel in the content band is not blank")
+
+  var tracker = ScreenSettle.Tracker(quietMs: 150, tolerance: 2)
+  check(!tracker.add(gray, atMs: 0), "one frame never settles")
+  check(!tracker.add(moved, atMs: 50), "a moving frame resets the quiet window")
+  check(!tracker.add(moved, atMs: 100), "quiet for 50 ms is not enough")
+  check(tracker.add(moved, atMs: 210), "quiet for 160 ms settles")
+  var caret = ScreenSettle.Tracker(quietMs: 100, tolerance: 6)
+  var blink = gray
+  blink[42] = 0
+  check(!caret.add(gray, atMs: 0), "first frame")
+  check(!caret.add(blink, atMs: 60), "a blinking caret within tolerance")
+  check(caret.add(gray, atMs: 120), "a caret blink alone does not keep the screen unsettled")
+}
+
+// MARK: - View services
+
+do {
+  let svs = "com.apple.SafariViewService"
+  check(ViewService.overlay(foregroundBundle: "com.github.stormbreaker.prod", isPresenting: { $0 == svs }) == svs,
+        "a presenting SafariViewService sheet becomes the target")
+  check(ViewService.overlay(foregroundBundle: "com.github.stormbreaker.prod", isPresenting: { _ in false }) == nil,
+        "no sheet: the foreground app stays")
+  check(ViewService.overlay(foregroundBundle: svs, isPresenting: { _ in true }) == nil,
+        "already the foreground: nothing to swap")
+}
+
+// MARK: - Tap bounds (no tap outside the screen)
+
+do {
+  let screen = CGSize(width: 440, height: 956)
+  check(TapBounds.onScreen(CGPoint(x: 38, y: 87), screen), "a header button's centre is on screen")
+  check(!TapBounds.onScreen(CGPoint(x: 220, y: 1500), screen), "a link below the visible page is off screen")
+  check(!TapBounds.onScreen(CGPoint(x: -10, y: 300), screen), "a negative x is off screen")
+  check(TapBounds.onScreen(CGPoint(x: 440, y: 956), screen), "the bottom-right corner itself is on screen")
+  check(!TapBounds.onScreen(CGPoint(x: 10, y: 10), .zero), "no screen size: nothing is on it")
+}
+
+// MARK: - Screen orientation (the interface, not the device)
+
+do {
+  // iPhone 13: the runner's UIScreen bounds are 390x844. The device lying on its side reported
+  // landscape while the home screen stayed portrait; the interface orientation is what counts.
+  let natural = CGSize(width: 390, height: 844)
+  let portrait = CGSize(width: 390, height: 844)
+  let landscape = CGSize(width: 844, height: 390)
+  // Device landscape, interface portrait (1): portrait, and a tap at y = 600 is on screen.
+  let held = ScreenOrientation.size(natural: natural, interfaceOrientation: 1)
+  check(held == portrait, "interface portrait on a phone lying sideways stays 390x844")
+  check(TapBounds.onScreen(CGPoint(x: 195, y: 600), held), "y = 600 is on a portrait screen")
+  check(TapBounds.firstOffScreen([[["x": 195, "y": 600], ["x": 195, "y": 800]]], held) == nil,
+        "an action path down to y = 800 is on a portrait screen")
+  // Device face up / face down / unknown never reach here as landscape: an unknown or out of
+  // range interface orientation (0, 5, 6) keeps portrait.
+  for raw in [0, 5, 6, 7, -1] {
+    check(ScreenOrientation.size(natural: natural, interfaceOrientation: raw) == portrait,
+          "orientation \(raw) does not flip the screen")
+  }
+  check(ScreenOrientation.size(natural: natural, interfaceOrientation: 2) == portrait, "upside down stays portrait")
+  // A real landscape interface (3 landscapeRight, 4 landscapeLeft) turns the screen.
+  for raw in [3, 4] {
+    let size = ScreenOrientation.size(natural: natural, interfaceOrientation: raw)
+    check(size == landscape, "interface landscape \(raw) is 844x390")
+    check(!TapBounds.onScreen(CGPoint(x: 195, y: 600), size), "y = 600 is off a landscape screen")
+  }
+  // Bounds already landscape (the runner app itself rotated) normalise the same way.
+  check(ScreenOrientation.size(natural: landscape, interfaceOrientation: 1) == portrait,
+        "landscape bounds with a portrait interface read portrait")
+  check(ScreenOrientation.size(natural: landscape, interfaceOrientation: 3) == landscape,
+        "landscape bounds with a landscape interface stay landscape")
+}
+
+// MARK: - Runner compatibility viewport (issue #257)
+
+do {
+  let viewport = CGSize(width: 320, height: 480)
+  let frame = CGRect(x: 0, y: 0, width: 393, height: 852)
+  let natural = IPURScreenSizeFromFrame(frame, viewport)
+  check(natural == frame.size, "system screen frame replaces the runner's 320x480 viewport")
+  let portrait = ScreenOrientation.size(natural: natural, interfaceOrientation: 1)
+  let path: [[[String: Any]]] = [[["x": 196, "y": 489], ["x": 196, "y": 363]]]
+  check(TapBounds.firstOffScreen(path, portrait) == nil,
+        "the original dy:80 scroll fits the 393x852 system screen")
+  check(!TapBounds.onScreen(CGPoint(x: 196, y: 900), portrait),
+        "a point beyond the actual screen is still refused")
+  let landscape = ScreenOrientation.size(natural: natural, interfaceOrientation: 3)
+  check(landscape == CGSize(width: 852, height: 393), "landscape uses the same system dimensions")
+  check(IPURPortraitPoint(CGPoint(x: 300, y: 190), 3, natural) == CGPoint(x: 203, y: 300),
+        "landscape touch conversion uses 393 points, not the runner's 320")
+  check(IPURPortraitPoint(CGPoint(x: 300, y: 190), 4, natural) == CGPoint(x: 190, y: 552),
+        "landscape-left touch conversion uses the 852-point system height")
+  check(IPURPortraitPoint(CGPoint(x: 196, y: 489), 2, natural) == CGPoint(x: 197, y: 363),
+        "upside-down touch conversion uses both system dimensions")
+  for invalid in [CGRect.zero, CGRect.null, CGRect.infinite,
+                  CGRect(x: 0, y: 0, width: Double.nan, height: 852),
+                  CGRect(x: 1, y: 0, width: 393, height: 852)] {
+    check(IPURScreenSizeFromFrame(invalid, viewport) == viewport,
+          "an unavailable or non-screen system frame keeps the UIKit fallback")
+  }
+}
+
+// MARK: - Touch points turned to the portrait screen
+
+do {
+  // iPhone 13 (390x844), Safari in landscape right (3), measured: a point read as portrait
+  // (200, 300) landed at (300, 190) in the 844x390 landscape page. So landscape (300, 190) must be
+  // sent as portrait (200, 300).
+  let natural = CGSize(width: 390, height: 844)
+  func same(_ a: CGPoint, _ b: CGPoint) -> Bool { abs(a.x - b.x) < 0.001 && abs(a.y - b.y) < 0.001 }
+  check(same(IPURPortraitPoint(CGPoint(x: 300, y: 190), 3, natural), CGPoint(x: 200, y: 300)),
+        "landscape right: the measured hardware point maps back")
+  check(same(IPURPortraitPoint(CGPoint(x: 300, y: 190), 3, CGSize(width: 844, height: 390)), CGPoint(x: 200, y: 300)),
+        "landscape bounds give the same portrait point")
+  check(same(IPURPortraitPoint(CGPoint(x: 120, y: 700), 1, natural), CGPoint(x: 120, y: 700)),
+        "portrait points pass through")
+  for raw: Int64 in [0, 5, -1] {
+    check(same(IPURPortraitPoint(CGPoint(x: 120, y: 700), raw, natural), CGPoint(x: 120, y: 700)),
+          "unknown orientation \(raw) counts as portrait")
+  }
+  // Every corner of a landscape screen lands on a corner of the portrait screen, and the two
+  // landscapes turn opposite ways.
+  let landscape = CGSize(width: 844, height: 390)
+  for raw: Int64 in [3, 4] {
+    for corner in [CGPoint(x: 0, y: 0), CGPoint(x: landscape.width, y: 0),
+                   CGPoint(x: 0, y: landscape.height), CGPoint(x: landscape.width, y: landscape.height)] {
+      let p = IPURPortraitPoint(corner, raw, natural)
+      check((p.x == 0 || p.x == 390) && (p.y == 0 || p.y == 844), "landscape \(raw) corner \(corner) stays a corner")
+    }
+  }
+  check(same(IPURPortraitPoint(CGPoint(x: 0, y: 0), 3, natural), CGPoint(x: 390, y: 0)),
+        "landscape right: the top-left corner is the portrait top-right")
+  check(same(IPURPortraitPoint(CGPoint(x: 0, y: 0), 4, natural), CGPoint(x: 0, y: 844)),
+        "landscape left: the top-left corner is the portrait bottom-left")
+  check(same(IPURPortraitPoint(CGPoint(x: 0, y: 0), 2, natural), CGPoint(x: 390, y: 844)),
+        "upside down: corners swap")
+}
+
+// MARK: - Alert scan (alerts beside a web sheet)
+
+do {
+  // SpringBoard 30, GitHub 512 under the sheet, SafariViewService 700 (the read target).
+  let pids = AlertScan.candidatePIDs(springBoard: 30, target: 700, active: [30, 512, 700])
+  check(pids == [30, 700, 512], "SpringBoard, then the target, then the app under the sheet")
+  check(AlertScan.othersThan(target: 700, in: pids) == [30, 512],
+        "with a sheet in front, the app underneath is searched too, not only SpringBoard")
+  let single = AlertScan.candidatePIDs(springBoard: 30, target: 512, active: [30, 512])
+  check(AlertScan.othersThan(target: 512, in: single) == [30], "one app in front: only SpringBoard beside it")
+  check(AlertScan.candidatePIDs(springBoard: nil, target: 0, active: [0, 512]) == [512], "pid 0 is skipped")
+  check(AlertScan.othersThan(target: 30, in: AlertScan.candidatePIDs(springBoard: 30, target: 30, active: [30])).isEmpty,
+        "SpringBoard in front with nothing else active: nothing else to search")
+}
+
+// MARK: - Truthful answers (stale commands, off-screen actions, alert taps)
+
+do {
+  check(CommandAge.shouldDrop(method: "POST", waitedMs: 12_000, connectionGone: false),
+        "a tap that waited 12 s behind other commands is dropped, not run late")
+  check(!CommandAge.shouldDrop(method: "POST", waitedMs: 800, connectionGone: false),
+        "a tap that waited under a second still runs")
+  check(!CommandAge.shouldDrop(method: "GET", waitedMs: 12_000, connectionGone: false),
+        "a slow read is still answered")
+  check(CommandAge.shouldDrop(method: "GET", waitedMs: 5, connectionGone: true),
+        "nobody to answer: even a read is skipped")
+
+  let screen = CGSize(width: 440, height: 956)
+  let tap: [[[String: Any]]] = [[["type": "down", "x": 200.0, "y": 300.0], ["type": "up", "x": 200.0, "y": 300.0]]]
+  check(TapBounds.firstOffScreen(tap, screen) == nil, "an on-screen tap passes the bounds check")
+  let swipeOff: [[[String: Any]]] = [[["type": "down", "x": 200.0, "y": 300.0], ["type": "move", "x": 200.0, "y": 1200.0]]]
+  check(TapBounds.firstOffScreen(swipeOff, screen) == CGPoint(x: 200, y: 1200), "a move below the screen is reported")
+  check(TapBounds.firstOffScreen([[["type": "pause"]]], screen) == nil, "steps without coordinates are ignored")
+
+  check(AlertMatch.same("Allow?", ["Don't Allow", "Allow"], "Allow?", ["Don't Allow", "Allow"]),
+        "the same text and buttons: the alert is still there")
+  check(!AlertMatch.same("Allow?", ["Don't Allow", "Allow"], "Are you sure?", ["Cancel", "Delete"]),
+        "a follow-up alert is a different alert")
+}
+
+// MARK: - Capture lane
+
+do {
+  func request(_ method: String, _ path: String) -> HTTPRequest {
+    HTTPRequest(method: method, path: path, query: [:], headers: [:], body: Data())
+  }
+  check(CaptureLane.claims(request("GET", "/screenshot")), "a screenshot skips the command queue")
+  check(CaptureLane.claims(request("GET", "/session/ABC/screenshot")), "so does a session-scoped screenshot")
+  check(CaptureLane.claims(request("GET", "/session/ABC/wda/settle")), "and on-device settle")
+  check(!CaptureLane.claims(request("GET", "/source")), "a tree read stays on main")
+  check(!CaptureLane.claims(request("POST", "/screenshot")), "only reads take the capture lane")
+  check(!CaptureLane.claims(request("GET", "/session/ABC/element/E1/screenshot")),
+        "an element screenshot is not the screen capture")
+}
+
+// MARK: - Stream stalls
+
+do {
+  let now = Date()
+  check(!StreamStall.isStuck(sendingSince: nil, now: now), "a client not writing is not stuck")
+  check(!StreamStall.isStuck(sendingSince: now.addingTimeInterval(-1), now: now), "one second into a write is a slow link")
+  check(StreamStall.isStuck(sendingSince: now.addingTimeInterval(-6), now: now), "six seconds into one write: cut off")
+  check(!StreamStall.keyframeAllowed(last: now.addingTimeInterval(-0.3), now: now),
+        "a second stall keyframe within the same second waits")
+  check(StreamStall.keyframeAllowed(last: .distantPast, now: now), "the first stall keyframe goes out")
+}
+
+// MARK: - Shallow alert scan
+
+do {
+  let button: [String: Any] = ["type": "XCUIElementTypeButton", "label": "OK"]
+  let alert: [String: Any] = ["type": "XCUIElementTypeAlert", "children": [["type": "XCUIElementTypeOther", "children": [button]]]]
+  let root: [String: Any] = ["type": "XCUIElementTypeApplication", "children": [["type": "XCUIElementTypeWindow", "children": [alert]]]]
+  let found = AlertScan.firstAlert(in: root, maxDepth: 12)
+  check(found != nil && found?.maybeCut == false, "an alert near the top of a shallow read is complete")
+  check(AlertScan.firstAlert(in: root, maxDepth: 4)?.maybeCut == true,
+        "an alert whose button sits on the last read level may be cut: read the full depth")
+  check(AlertScan.firstAlert(in: ["type": "XCUIElementTypeApplication", "children": [button]], maxDepth: 12) == nil,
+        "no alert in the tree: nothing")
+}
+
+// MARK: - Safari's own dialogs count as alerts (#255)
+
+do {
+  func rect(_ x: Double, _ y: Double, _ w: Double, _ h: Double) -> [String: Any] {
+    ["x": x, "y": y, "width": w, "height": h]
+  }
+  // The shape iOS 26 Safari shows for `alert('x')`: an identifier-only StaticText, the message
+  // in a TextView, and the close button, inside a plain container over the page.
+  let marker: [String: Any] = [
+    "type": "XCUIElementTypeStaticText", "rawIdentifier": "SFDialogViewMessageText",
+    "name": "SFDialogViewMessageText", "label": NSNull(), "value": NSNull(),
+  ]
+  let message: [String: Any] = ["type": "XCUIElementTypeTextView", "value": "x", "label": NSNull()]
+  let close: [String: Any] = ["type": "XCUIElementTypeButton", "label": "关闭", "name": "关闭", "rect": rect(40, 500, 320, 44)]
+  let dialog: [String: Any] = [
+    "type": "XCUIElementTypeOther",
+    "children": [["type": "XCUIElementTypeOther", "children": [marker, message]], close],
+  ]
+  let pageButton: [String: Any] = ["type": "XCUIElementTypeButton", "label": "a"]
+  let page: [String: Any] = ["type": "XCUIElementTypeWebView", "children": [pageButton]]
+  let window: [String: Any] = ["type": "XCUIElementTypeWindow", "children": [page, dialog]]
+  let safari: [String: Any] = ["type": "XCUIElementTypeApplication", "label": "Safari浏览器", "children": [window]]
+
+  let found = AlertScan.firstAlert(in: safari, maxDepth: 64)
+  check(found != nil, "a Safari dialog (SFDialogViewMessageText) is reported as an alert")
+  if let found {
+    let described = AlertScan.describe(found.alert)
+    check(described.text == "x", "the dialog's text is the message, not the identifier: \(described.text)")
+    check(described.buttons.map(\.label) == ["关闭"], "the dialog's buttons only, not the page's: \(described.buttons.map(\.label))")
+    check(described.buttons.first?.rect.midY == 522, "the button keeps its frame for the tap")
+    check(found.maybeCut == false, "a dialog read in full is not cut")
+  }
+
+  // Safari's invalid-address dialog: the message is the marker's own label.
+  let invalid: [String: Any] = [
+    "type": "XCUIElementTypeOther",
+    "children": [
+      ["type": "XCUIElementTypeStaticText", "rawIdentifier": "SFDialogViewMessageText",
+       "label": "Safari浏览器打不开该网页，因为网址无效。"],
+      ["type": "XCUIElementTypeButton", "label": "好"],
+    ],
+  ]
+  let invalidTree: [String: Any] = ["type": "XCUIElementTypeApplication", "children": [["type": "XCUIElementTypeWindow", "children": [invalid]]]]
+  let invalidFound = AlertScan.firstAlert(in: invalidTree, maxDepth: 64).map { AlertScan.describe($0.alert) }
+  check(invalidFound?.text == "Safari浏览器打不开该网页，因为网址无效。" && invalidFound?.buttons.map(\.label) == ["好"],
+        "the invalid-address dialog reads as text + 好")
+
+  // A marker with no button in its own container never widens to the window's buttons.
+  let loose: [String: Any] = [
+    "type": "XCUIElementTypeApplication",
+    "children": [["type": "XCUIElementTypeWindow", "children": [marker, pageButton]]],
+  ]
+  check(AlertScan.firstAlert(in: loose, maxDepth: 64) == nil, "a message outside a dialog container is not an alert")
+
+  // A real alert still wins, and its text keeps reading as before.
+  let okButton: [String: Any] = ["type": "XCUIElementTypeButton", "label": "OK"]
+  let real: [String: Any] = [
+    "type": "XCUIElementTypeAlert", "label": "Title",
+    "children": [["type": "XCUIElementTypeStaticText", "label": "Body"], okButton],
+  ]
+  let both: [String: Any] = ["type": "XCUIElementTypeApplication", "children": [dialog, real]]
+  let picked = AlertScan.firstAlert(in: both, maxDepth: 64)
+  check(picked?.alert["type"] as? String == "XCUIElementTypeAlert", "an XCUIElementTypeAlert is preferred")
+  check(picked.map { AlertScan.describe($0.alert).text } == "Body", "an alert's static text reads as before")
+}
+
+// The tree hardware gave for Safari's invalid-address dialog (iPhone 17 Pro Max, iOS 27): the
+// SFDialogView container on level 11, its marker and button on 12, the message below.
+do {
+  let message = "Safari浏览器打不开该网页，因为网址无效。"
+  let dialog: [String: Any] = [
+    "type": "XCUIElementTypeOther", "rawIdentifier": "SFDialogView", "name": "SFDialogView",
+    "children": [
+      ["type": "XCUIElementTypeStaticText", "rawIdentifier": "SFDialogViewMessageText", "name": "SFDialogViewMessageText",
+       "children": [["type": "XCUIElementTypeTextView", "value": message, "children": [
+         ["type": "XCUIElementTypeTextView", "label": message, "name": message],
+         ["type": "XCUIElementTypeOther", "label": "垂直滚动条, 1页", "value": "0%"],
+       ]]]],
+      ["type": "XCUIElementTypeButton", "label": "好", "name": "好",
+       "rect": ["x": 370, "y": 466.7, "width": 30, "height": 29],
+       "children": [["type": "XCUIElementTypeStaticText", "label": "好"]]],
+    ],
+  ]
+  // Levels 0-10 above it: Application, Window, Others, ScrollView, TabDocument, WebView, Other.
+  var tree: [String: Any] = ["type": "XCUIElementTypeOther", "children": [["type": "XCUIElementTypeOther"], dialog]]
+  for type in ["WebView", "Other", "ScrollView", "Other", "Other", "Other", "Other", "Other", "Window", "Application"] {
+    tree = ["type": "XCUIElementType" + type, "children": [tree]]
+  }
+  let full = AlertScan.firstAlert(in: tree, maxDepth: 64)
+  check(full?.alert["rawIdentifier"] as? String == "SFDialogView" && full?.maybeCut == false,
+        "the full read finds the SFDialogView container, complete")
+  let described = full.map { AlertScan.describe($0.alert) }
+  check(described?.text == message, "the invalid-address dialog's text: \(described?.text ?? "nil")")
+  check(described?.buttons.map(\.label) == ["好"], "its one button: 好")
+
+  // The shallow alert scan reads 12 levels (0-11): the container arrives without its children.
+  func cut(_ node: [String: Any], _ depth: Int, _ maxDepth: Int) -> [String: Any] {
+    var node = node
+    if depth >= maxDepth - 1 {
+      node.removeValue(forKey: "children")
+    } else if let children = node["children"] as? [[String: Any]] {
+      node["children"] = children.map { cut($0, depth + 1, maxDepth) }
+    }
+    return node
+  }
+  let shallow = AlertScan.firstAlert(in: cut(tree, 0, AlertScan.shallowDepth), maxDepth: AlertScan.shallowDepth)
+  check(shallow?.alert["rawIdentifier"] as? String == "SFDialogView" && shallow?.maybeCut == true,
+        "a 12-level read sees the dialog's container and asks for the full read")
+
+  // A dialog nested one level deeper: the quick scan misses it, the alert routes' full-depth
+  // fallback (Safari only) finds it.
+  // (one extra Other between the application and its window: the dialog moves to level 12)
+  let deeper: [String: Any] = [
+    "type": "XCUIElementTypeApplication",
+    "children": [["type": "XCUIElementTypeOther", "children": tree["children"] ?? []]],
+  ]
+  check(AlertScan.firstAlert(in: cut(deeper, 0, AlertScan.shallowDepth), maxDepth: AlertScan.shallowDepth) == nil,
+        "the 12-level quick scan cannot see a dialog on level 12")
+  check(AlertScan.mayHoldWebDialog(bundleID: "com.apple.mobilesafari")
+        && AlertScan.mayHoldWebDialog(bundleID: "com.apple.SafariViewService")
+        && !AlertScan.mayHoldWebDialog(bundleID: "com.apple.Preferences")
+        && !AlertScan.mayHoldWebDialog(bundleID: nil),
+        "the full-depth fallback runs only in Safari and its in-app sheet")
+  let fallback = AlertScan.webDialog(in: deeper)
+  check(fallback?.depth == 12 && fallback.map { AlertScan.describe($0.node) }?.text == message
+        && fallback.map { AlertScan.describe($0.node) }?.buttons.map(\.label) == ["好"],
+        "the full-depth fallback finds the deeper dialog with its text and button")
+}
+
+// MARK: - Element registry bounds
+
+do {
+  let registry = ElementRegistry(capacity: 8)
+  let start = Date()
+  let old = registry.register(tree, now: start)
+  let fresh = registry.register(tree, now: start.addingTimeInterval(55))
+  registry.prune(now: start.addingTimeInterval(65))
+  check(registry.node(old) == nil, "an id older than a minute is dropped when the screen may change")
+  check(registry.node(fresh) != nil, "a recent id survives the prune")
+  for _ in 0..<20 { _ = registry.register(tree, now: start.addingTimeInterval(66)) }
+  check(registry.count <= 8, "the registry never holds more than its capacity")
+}
+
+// MARK: - Request signing (RunnerAuth)
+
+do {
+  let token = "00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff"
+  let nonce = "0123456789abcdef0123456789abcdef"
+  // The known answer shared with crates/core/src/runner_auth.rs and scripts/runner_auth.py.
+  let kat = RunnerAuth.signature(token: token, method: "post", target: "/session/S/actions?x=1", ts: 1_700_000_000,
+                                 nonce: nonce, body: Data(#"{"a":1}"#.utf8))
+  check(RunnerAuth.hex(kat) == "d45cade8fef49833329384ea5669106fce22a98fcc182db1ff3dc0eb946e6e11",
+        "the signature matches the Mac side's known answer")
+
+  func header(_ method: String, _ target: String, _ body: Data, ts: Int64, nonce: String, token: String = token) -> String {
+    let sig = RunnerAuth.signature(token: token, method: method, target: target, ts: ts, nonce: nonce, body: body)
+    return "IPU-HMAC-SHA256 ts=\(ts), nonce=\(nonce), sig=\(RunnerAuth.hex(sig))"
+  }
+  func signed(_ method: String, _ target: String, _ body: Data = Data(), _ authorization: String?) -> HTTPRequest? {
+    var head = "\(method) \(target) HTTP/1.1\r\nHost: phone\r\nContent-Length: \(body.count)\r\n"
+    if let authorization { head += "Authorization: \(authorization)\r\n" }
+    var raw = Data((head + "\r\n").utf8)
+    raw.append(body)
+    if case .complete(let request) = HTTPRequest.parse(raw) { return request }
+    return nil
+  }
+
+  let now = Date(timeIntervalSince1970: 1_700_000_000)
+  let ts: Int64 = 1_700_000_000
+  let auth = RunnerAuth(token: token)
+  check(auth.configured, "a valid token configures signing")
+  let body = Data(#"{"x":1}"#.utf8)
+  let good = signed("POST", "/wda/tap?a=b", body, header("POST", "/wda/tap?a=b", body, ts: ts, nonce: nonce))!
+  check(good.target == "/wda/tap?a=b" && good.path == "/wda/tap", "the raw target is kept for the signature")
+  check(auth.check(good, now: now) == nil, "a signed request passes")
+  check(auth.check(good, now: now) == .replay, "the same request a second time is a replay")
+
+  let n2 = "11111111111111111111111111111111"
+  let tampered = signed("POST", "/wda/tap?a=b", Data(#"{"x":2}"#.utf8), header("POST", "/wda/tap?a=b", body, ts: ts, nonce: n2))!
+  check(auth.check(tampered, now: now) == .badSignature, "a changed body breaks the signature")
+  let retargeted = signed("POST", "/wda/tap?a=c", body, header("POST", "/wda/tap?a=b", body, ts: ts, nonce: n2))!
+  check(auth.check(retargeted, now: now) == .badSignature, "a changed query breaks the signature")
+  let wrongMethod = signed("DELETE", "/wda/tap?a=b", body, header("POST", "/wda/tap?a=b", body, ts: ts, nonce: n2))!
+  check(auth.check(wrongMethod, now: now) == .badSignature, "a changed method breaks the signature")
+  let otherKey = signed("POST", "/wda/tap?a=b", body,
+                        header("POST", "/wda/tap?a=b", body, ts: ts, nonce: n2, token: String(repeating: "f", count: 64)))!
+  check(auth.check(otherKey, now: now) == .badSignature, "another launch's token is refused")
+  check(auth.check(signed("GET", "/status", Data(), nil)!, now: now) == .missing, "no Authorization: refused")
+  check(auth.check(signed("GET", "/status", Data(), "Bearer \(token)")!, now: now) == .malformed,
+        "a bearer token is not accepted: the token never travels")
+  let stale = signed("GET", "/status", Data(), header("GET", "/status", Data(), ts: ts - 901, nonce: n2))!
+  check(auth.check(stale, now: now) == .skew, "a timestamp outside the window is refused")
+  check(auth.precheck(stale.headers, now: now) == .skew, "a stale request is refused from its headers alone")
+  check(auth.precheck(signed("GET", "/status", Data(), nil)!.headers, now: now) == .missing,
+        "an unsigned request is refused before its body is read")
+  let n3 = "22222222222222222222222222222222"
+  let fresh = signed("GET", "/status", Data(), header("GET", "/status", Data(), ts: ts + 30, nonce: n3))!
+  check(auth.check(fresh, now: now) == nil, "a little clock skew is fine")
+
+  let unconfigured = RunnerAuth(token: nil)
+  check(!unconfigured.configured && unconfigured.check(fresh, now: now) == .notConfigured,
+        "with no token every request is refused")
+  check(!RunnerAuth(token: "short").configured, "a malformed token configures nothing")
+  check(!RunnerAuth(token: String(repeating: "A", count: 64)).configured, "upper-case hex is not a setup token")
+
+  check(RunnerAuth.parse("IPU-HMAC-SHA256 sig=\(String(repeating: "ab", count: 32)),nonce=0123456789abcdef,ts=5")?.ts == 5,
+        "fields parse in any order")
+  check(RunnerAuth.parse("IPU-HMAC-SHA256 ts=1, ts=2, nonce=0123456789abcdef, sig=\(String(repeating: "ab", count: 32))") == nil,
+        "a repeated field is malformed")
+  check(RunnerAuth.parse("IPU-HMAC-SHA256 ts=1, nonce=0123456789abcdef, sig=abcd") == nil, "a short signature is malformed")
+  check(RunnerAuth.parse("IPU-HMAC-SHA256 ts=1, nonce=zz23456789abcdef, sig=\(String(repeating: "ab", count: 32))") == nil,
+        "a non-hex nonce is malformed")
+  check(RunnerAuth.parse("IPU-HMAC-SHA256ts=1, nonce=0123456789abcdef, sig=\(String(repeating: "ab", count: 32))") == nil,
+        "the scheme needs its space")
+
+  check(RunnerAuth.constantTimeEqual(Data([1, 2, 3]), Data([1, 2, 3])), "equal bytes compare equal")
+  check(!RunnerAuth.constantTimeEqual(Data([1, 2, 3]), Data([1, 2, 4])), "a last-byte difference is found")
+  check(!RunnerAuth.constantTimeEqual(Data([9, 2, 3]), Data([1, 2, 3])), "a first-byte difference is found")
+  check(!RunnerAuth.constantTimeEqual(Data([1, 2]), Data([1, 2, 3])), "different lengths never match")
+
+  let refused = RunnerAuth.refusalResponse(.missing)
+  let refusedBody = (try? JSONSerialization.jsonObject(with: refused.body)) as? [String: Any]
+  check(refused.status == 401 && (refusedBody?["value"] as? [String: Any])?["error"] as? String == "unauthorized",
+        "a refusal is a 401 in the WDA error envelope")
+  check(String(decoding: refused.serialized().prefix(25), as: UTF8.self) == "HTTP/1.1 401 Unauthorized",
+        "with the right status line")
+  check(!String(decoding: refused.serialized(), as: UTF8.self).contains(token), "and never echoes a token")
+
+  // Bounded nonce memory: past the cap, old timestamps are refused rather than forgotten.
+  let small = RunnerAuth(token: token)
+  var accepted = 0
+  for i in 0..<(RunnerAuth.maxNonces + 10) {
+    let n = String(format: "%032x", i)
+    let r = signed("GET", "/status", Data(), header("GET", "/status", Data(), ts: ts - 600 + Int64(i % 600), nonce: n))!
+    if small.check(r, now: now) == nil { accepted += 1 }
+  }
+  check(accepted >= RunnerAuth.maxNonces, "distinct nonces are accepted up to the cap and beyond")
+  let replayOld = signed("GET", "/status", Data(), header("GET", "/status", Data(), ts: ts - 600, nonce: String(format: "%032x", 0)))!
+  check(small.check(replayOld, now: now) == .replay, "a forgotten nonce's timestamp is below the floor: still a replay")
+}
+
+// MARK: - Sized screenshots (GET /screenshot?max_side=&format=&quality=)
+
+do {
+  check((try ScreenshotOptions.parse([:])) == nil, "no options: the WebDriverAgent screenshot, untouched")
+  check((try ScreenshotOptions.parse(["foo": "1"])) == nil, "unrelated query keys change nothing")
+  let jpeg = try? ScreenshotOptions.parse(["max_side": "1024", "format": "jpeg", "quality": "0.7"])
+  check(jpeg == ScreenshotOptions(maxSide: 1024, png: false, quality: 0.7), "max_side + format + quality parse")
+  check((try? ScreenshotOptions.parse(["max_side": "800"])) == ScreenshotOptions(maxSide: 800, png: true, quality: 0.7),
+        "max_side alone stays PNG")
+  check((try? ScreenshotOptions.parse(["format": "JPG"]))?.png == false, "jpg is jpeg, any case")
+  check((try? ScreenshotOptions.parse(["format": "jpeg"]))??.maxSide == nil, "format alone keeps full size")
+  check((try? ScreenshotOptions.parse(["quality": "1"]))??.quality == 1, "quality 1 is allowed")
+  expectThrows("invalid argument", "max_side must be a number") { _ = try ScreenshotOptions.parse(["max_side": "big"]) }
+  expectThrows("invalid argument", "max_side below 16") { _ = try ScreenshotOptions.parse(["max_side": "8"]) }
+  expectThrows("invalid argument", "max_side above 8192") { _ = try ScreenshotOptions.parse(["max_side": "9000"]) }
+  expectThrows("invalid argument", "unknown format") { _ = try ScreenshotOptions.parse(["format": "webp"]) }
+  expectThrows("invalid argument", "quality above 1") { _ = try ScreenshotOptions.parse(["quality": "1.5"]) }
+  expectThrows("invalid argument", "quality not a number") { _ = try ScreenshotOptions.parse(["quality": "nan"]) }
+
+  if case .complete(let request) = HTTPRequest.parse(Data("GET /session/S/screenshot?max_side=1024&format=jpeg&quality=0.7 HTTP/1.1\r\n\r\n".utf8)) {
+    check(CaptureLane.claims(request), "a sized screenshot still takes the capture lane")
+    check(request.target == "/session/S/screenshot?max_side=1024&format=jpeg&quality=0.7",
+          "the signature covers the sizing query (the raw target is what is signed)")
+    check((try? ScreenshotOptions.parse(request.query))??.maxSide == 1024, "options read from the request line")
+  } else {
+    check(false, "sized screenshot request parses")
+  }
+
+  let headers = ScreenshotOptions.headers(["sourceWidth": 1320, "sourceHeight": 2868, "width": 471, "height": 1024, "png": false])
+  check(headers["X-IPU-Image-Width"] == "471" && headers["X-IPU-Image-Height"] == "1024", "pixel size in headers")
+  check(headers["X-IPU-Image-Source-Width"] == "1320" && headers["X-IPU-Image-Source-Height"] == "2868", "capture size in headers")
+  check(headers["X-IPU-Image-Scale"] == "0.3568" && headers["X-IPU-Image-Format"] == "jpeg", "scale and format in headers")
+
+  // The codec the runner runs (IPURImageCodec.h), on a synthetic 1320×2868 capture shaped like a
+  // photo (smooth gradients plus sensor-like noise): the screens whose full PNG runs to megabytes.
+  let width = 1320, height = 2868
+  var pixels = [UInt8](repeating: 0, count: width * height * 4)
+  var seed: UInt32 = 0x2468ace1
+  func noise() -> Int {
+    seed = seed &* 1_664_525 &+ 1_013_904_223
+    return Int(seed >> 27) - 16
+  }
+  for y in 0..<height {
+    for x in 0..<width {
+      let i = (y * width + x) * 4
+      let r = 40 + x * 160 / width, g = 60 + y * 140 / height, b = 200 - (x + y) * 120 / (width + height)
+      pixels[i] = UInt8(max(0, min(255, r + noise())))
+      pixels[i + 1] = UInt8(max(0, min(255, g + noise())))
+      pixels[i + 2] = UInt8(max(0, min(255, b + noise())))
+      pixels[i + 3] = 255
+    }
+  }
+  let space = CGColorSpaceCreateDeviceRGB()
+  let context = CGContext(data: &pixels, width: width, height: height, bitsPerComponent: 8, bytesPerRow: width * 4,
+                          space: space, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
+  let synthetic = context.makeImage()!
+  let pngData = NSMutableData()
+  let destination = CGImageDestinationCreateWithData(pngData, "public.png" as CFString, 1, nil)!
+  CGImageDestinationAddImage(destination, synthetic, nil)
+  check(CGImageDestinationFinalize(destination), "synthetic capture encodes")
+  let full = pngData as Data
+
+  var raw: NSDictionary?
+  var info: [String: NSNumber]? { raw as? [String: NSNumber] }
+  let same = IPURBridge.fitImage(full, maxSide: UInt(0), png: true, quality: 0.7, info: &raw)
+  check(same == full, "full size PNG asked of a PNG: the bytes come back untouched")
+  check(info?["width"]?.intValue == width && info?["sourceHeight"]?.intValue == height, "full size info")
+  let big = IPURBridge.fitImage(full, maxSide: UInt(4000), png: true, quality: 0.7, info: &raw)
+  check(big == full, "max_side above the capture never upscales")
+  let shrunk = IPURBridge.fitImage(full, maxSide: UInt(1024), png: false, quality: 0.7, info: &raw)
+  check(shrunk.map { $0.starts(with: [0xff, 0xd8]) } == true, "JPEG asked: JPEG back")
+  check(info?["height"]?.intValue == 1024 && info?["width"]?.intValue == 471, "long side 1024, aspect kept (1320×2868 → 471×1024)")
+  check(info?["png"]?.boolValue == false && info?["sourceWidth"]?.intValue == width, "info names the format and the capture")
+  let shrunkPNG = IPURBridge.fitImage(full, maxSide: UInt(600), png: true, quality: 0.7, info: &raw)
+  check(shrunkPNG.map { $0.starts(with: [0x89, 0x50, 0x4e, 0x47]) } == true && info?["height"]?.intValue == 600,
+        "PNG asked with max_side: a smaller PNG")
+  check(IPURBridge.fitImage(Data("not an image".utf8), maxSide: UInt(100), png: false, quality: 0.7, info: &raw) == nil,
+        "undecodable bytes: nil, never garbage")
+
+  // IPU_BENCH=1 (paths in IPU_BENCH_IMAGES, ':'-separated): bytes and time of the full PNG the
+  // runner used to send vs the scaled JPEG, per image. Run by unit-check.sh --bench.
+  if ProcessInfo.processInfo.environment["IPU_BENCH"] == "1" {
+    let paths = (ProcessInfo.processInfo.environment["IPU_BENCH_IMAGES"] ?? "").split(separator: ":").map(String.init)
+    var inputs: [(String, Data)] = paths.compactMap { path in
+      guard let data = FileManager.default.contents(atPath: path), let png = IPURBridge.reencodePNG(data) else { return nil }
+      return ((path as NSString).lastPathComponent, png)
+    }
+    inputs.append(("synthetic-photo", full))
+    func ms(_ body: () -> Void) -> Double {
+      let runs = 5
+      let start = Date()
+      for _ in 0..<runs { autoreleasepool { body() } }
+      return Date().timeIntervalSince(start) * 1000 / Double(runs)
+    }
+    print("bench: image | full PNG bytes | variant | bytes | ratio | encode ms (Mac)")
+    for (name, png) in inputs {
+      for (label, side, asPNG, quality) in [("jpeg q0.7 max_side 1024", 1024, false, 0.7),
+                                            ("jpeg q0.7 max_side 1200", 1200, false, 0.7),
+                                            ("jpeg q0.5 max_side 512", 512, false, 0.5),
+                                            ("png max_side 1024", 1024, true, 0.7)] {
+        var out: Data?
+        var metaRaw: NSDictionary?
+        let t = ms { out = IPURBridge.fitImage(png, maxSide: UInt(side), png: asPNG, quality: quality, info: &metaRaw) }
+        let meta = metaRaw as? [String: NSNumber]
+        let bytes = out?.count ?? 0
+        print(String(format: "bench: %@ (%@×%@) | %d | %@ | %d | %.1f%% | %.1f", name,
+                     meta?["sourceWidth"] ?? 0, meta?["sourceHeight"] ?? 0, png.count, label, bytes,
+                     100 * Double(bytes) / Double(max(png.count, 1)), t))
+      }
+    }
+  }
+}
+
+print(failures == 0 ? "unit check: \(checks) checks passed" : "unit check: \(failures) of \(checks) checks FAILED")
+exit(failures == 0 ? 0 : 1)
