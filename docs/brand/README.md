@@ -1,9 +1,9 @@
-# flick
+# Operator
 
-Lowercase, one word. A small motion that does something.
+An open O and one square contact. One color, precise geometry, no gradients or effects. The break in the ring gives the mark a direction; the detached square is the point of contact.
 
-The mark is an open **f** with one detached touch. One color; no gradients or effects. SVG uses `currentColor` and scales from the 128-unit grid. Use at 20 px or larger, with at least 16 units of clear space.
+Use `operator-mark.svg` at 20 px or larger. Keep at least one stroke of clear space. The wordmark is outlined vector geometry and needs no installed font. `preview.svg` and `preview.png` are the dark repository lockup; `operator-avatar.svg` is the square avatar.
 
-The brand is **flick**. Existing `sprint_*` MCP tool names and runner bundle IDs remain stable for installed clients. The runner keeps the centered Libraries.dev working orb.
+The app name is Operator. Existing `sprint_*` MCP tools and signing identifiers remain stable for installed clients. The phone screen keeps the official Libraries.dev ThinkingOrb, working state, centered at 64 pt on #121212. The brand mark does not replace the orb.
 
-The symbol and wordmark are original vector paths; no font file or font outlines are bundled. MIT, like this repository.
+Original vector artwork, MIT, like the repository.

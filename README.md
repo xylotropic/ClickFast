@@ -1,6 +1,6 @@
-# flick
+# Operator
 
-![flick](docs/brand/preview.png)
+![Operator](docs/brand/preview.png)
 
 Tiny, general iPhone control for coding agents. One signed XCTest runner, a USB relay, and **three MCP tools**. No saved routines, mandatory cloud service, video stream, npm packages, or extra model API. The optional JEV loop is off until configured and explicitly requested.
 
@@ -36,7 +36,7 @@ The setup defaults to `/opt/homebrew/bin/iproxy`; use `--iproxy /absolute/path/t
 Register the persistent stdio MCP process:
 
 ```sh
-codex mcp add iphone-sprint -- node /absolute/path/to/iphone-sprint/src/cli.mjs mcp
+codex mcp add operator -- node /absolute/path/to/Operator/src/cli.mjs mcp
 ```
 
 Other MCP clients can use the same `node` command and absolute script path. **Control stays silent:** observe/execute verify native media volume at zero, lower it only when necessary, and stop if mute cannot be verified. Volume is not automatically restored. Tools:
