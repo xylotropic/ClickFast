@@ -70,7 +70,7 @@
   "new_instagram_posts_created": 0,
   "whole_posting_task_speedup_verified": false,
   "narrow_driver_cycle_reduction_fraction": 0.0977653693503816,
-  "repository_publication": "MIT source; new active benchmark passed. Public release verification pending.",
+  "repository_publication": "Public MIT repository: https://github.com/xylotropic/iphone-sprint",
   "active_benchmark": "Calculator: 7 + 8 =15, independently read back",
   "goal_change": "User replaced posting acceptance with the easiest verifiable speed benchmark. Historical posting evidence remains recorded; further posting work was stopped.",
   "historical_posting_tests": [
