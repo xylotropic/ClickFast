@@ -76,7 +76,7 @@ final class RunnerTests: XCTestCase {
   /// The runner must outlive any XCTest failure: a recorded issue would otherwise end the serving
   /// test case. Issues are logged and attached to the request that caused them.
   override func record(_ issue: XCTIssue) {
-    if serveEnded {
+    if !serveStarted || serveEnded {
       super.record(issue)
       return
     }
@@ -87,6 +87,7 @@ final class RunnerTests: XCTestCase {
   /// Set once the serve loop is over: from then on a failure is the test's own verdict (a listener
   /// that never came up), not a request's, and must reach xcodebuild.
   var serveEnded = false
+  var serveStarted = false
 
   func testServe() throws {
     let patched = IPURBridge.installQuiescenceBypass()
@@ -124,6 +125,7 @@ final class RunnerTests: XCTestCase {
     }
     self.server = server
     server.start()
+    serveStarted = true
     dashboard.start()
 
     // MJPEG stream; IPU_RUNNER_MJPEG_PORT=0 turns it off. A failure here must not take the
@@ -174,7 +176,12 @@ final class RunnerTests: XCTestCase {
     }
     guard request.method == "GET" else { return nil }
     if request.path == "/sprint/audio" {
-      return .value(["media_volume": AVAudioSession.sharedInstance().outputVolume])
+      // AVAudioSession.outputVolume can stay cached while this test host is
+      // backgrounded. Read the system media category without activating audio.
+      guard let volume = IPURBridge.systemMediaVolume() else {
+        return .error(503, "audio unavailable", "Current system media volume is unavailable")
+      }
+      return .value(["media_volume": volume, "source": "system_media_category"])
     }
     if request.path == "/status" {
       return .value(statusValue(), sessionId: Self.sessionID)

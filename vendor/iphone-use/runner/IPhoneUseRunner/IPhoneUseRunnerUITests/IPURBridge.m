@@ -17,6 +17,7 @@
 #import <mach/mach.h>
 #import <objc/message.h>
 #import <objc/runtime.h>
+#import <math.h>
 
 NSString *const IPURTreeOkKey = @"ok";
 NSString *const IPURTreeRootKey = @"root";
@@ -1608,6 +1609,27 @@ static CGImageRef IPURDecodeScaled(NSData *input, double scale) CF_RETURNS_RETAI
     return error.localizedDescription ?: @"performDeviceEvent:error: returned NO";
   } @catch (NSException *exception) {
     return [NSString stringWithFormat:@"%@: %@", exception.name, exception.reason];
+  }
+}
+
++ (NSNumber *)systemMediaVolume {
+  static dispatch_once_t once;
+  dispatch_once(&once, ^{
+    dlopen("/System/Library/PrivateFrameworks/Celestial.framework/Celestial", RTLD_LAZY);
+  });
+  Class cls = NSClassFromString(@"AVSystemController");
+  SEL shared = NSSelectorFromString(@"sharedAVSystemController");
+  SEL get = NSSelectorFromString(@"getVolume:forCategory:");
+  if (cls == Nil || ![cls respondsToSelector:shared]) return nil;
+  @try {
+    id controller = ((id (*)(id, SEL))objc_msgSend)(cls, shared);
+    if (![controller respondsToSelector:get]) return nil;
+    float volume = NAN;
+    BOOL ok = ((BOOL (*)(id, SEL, float *, NSString *))objc_msgSend)(
+      controller, get, &volume, @"Audio/Video");
+    return ok && isfinite(volume) && volume >= 0 && volume <= 1 ? @(volume) : nil;
+  } @catch (NSException *exception) {
+    return nil;
   }
 }
 

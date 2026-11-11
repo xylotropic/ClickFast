@@ -252,6 +252,10 @@ FOUNDATION_EXPORT NSString *const IPURNodeAXElementKey;
 /// or nil when the event was delivered.
 + (nullable NSString *)resetIdleTimer;
 
+/// Current Audio/Video category volume. Unlike a background AVAudioSession's
+/// cached outputVolume, this reads the system controller. nil means unavailable.
++ (nullable NSNumber *)systemMediaVolume;
+
 @end
 
 NS_ASSUME_NONNULL_END
