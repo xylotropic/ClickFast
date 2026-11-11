@@ -6,6 +6,8 @@
 // (MIT License, Copyright (c) 2026 Callstack), RunnerTests.swift. See runner/README.md.
 
 import Network
+import AVFAudio
+import Photos
 import UIKit
 import XCTest
 
@@ -19,8 +21,12 @@ final class RunnerTests: XCTestCase {
   static let defaultExtensionCalls = 8
 
   var sprintSnapshot = ""
+  var sprintCapturedAt: TimeInterval = 0
   var sprintPID: Int32 = 0
   var sprintIDs = Set<String>()
+  var sprintMediaJobs: [String: [String: Any]] = [:]
+  var sprintMediaAuthorizationRequested = false
+  let dashboard = SprintDashboard()
 
   var server: RunnerHTTPServer?
   /// This launch's request authentication (both ports).
@@ -118,6 +124,7 @@ final class RunnerTests: XCTestCase {
     }
     self.server = server
     server.start()
+    dashboard.start()
 
     // MJPEG stream; IPU_RUNNER_MJPEG_PORT=0 turns it off. A failure here must not take the
     // command API down with it.
@@ -137,6 +144,7 @@ final class RunnerTests: XCTestCase {
     let result = XCTWaiter.wait(for: [expectation], timeout: 365 * 24 * 60 * 60)
     NSLog("ipu-runner: serve loop ended (%@)", String(describing: result))
     server.stop()
+    dashboard.stop()
     mjpeg?.stop()
     // A runner that never served must not end as a passing test: xcodebuild would print
     // "TEST EXECUTE SUCCEEDED" for a phone nobody can drive. The usual cause is another runner
@@ -165,6 +173,9 @@ final class RunnerTests: XCTestCase {
       return keepAwakeResponse(request)
     }
     guard request.method == "GET" else { return nil }
+    if request.path == "/sprint/audio" {
+      return .value(["media_volume": AVAudioSession.sharedInstance().outputVolume])
+    }
     if request.path == "/status" {
       return .value(statusValue(), sessionId: Self.sessionID)
     }
@@ -320,7 +331,9 @@ final class RunnerTests: XCTestCase {
 
   func route(_ request: HTTPRequest) throws -> HTTPResponse {
     if request.path == "/sprint/observe", request.method == "GET" { return try sprintObserve() }
+    if request.path == "/sprint/frame", request.method == "GET" { return try sprintFrame() }
     if request.path == "/sprint/act", request.method == "POST" { return try sprintAct(request) }
+    if request.path == "/sprint/media" { return try sprintMedia(request) }
     if let response = try routeWDA(request) { return response }
     switch (request.method, request.path) {
     case ("GET", "/source"): return try source(request)
@@ -921,7 +934,8 @@ final class KeepAwake {
     until = Date().addingTimeInterval(seconds)
     guard timer == nil else { return }
     let timer = DispatchSource.makeTimerSource(queue: queue)
-    timer.schedule(deadline: .now(), repeating: Self.interval, leeway: .seconds(1))
+    // Do not put an idle-reset event ahead of the agent's first command during app launch.
+    timer.schedule(deadline: .now() + Self.interval, repeating: Self.interval, leeway: .seconds(1))
     timer.setEventHandler { [weak self] in self?.tick() }
     self.timer = timer
     timer.resume()
@@ -1006,12 +1020,67 @@ final class KeepAwake {
 // iPhone Sprint additions, Copyright (c) 2026 Floyd Korzan II, MIT.
 // Capture and register element handles in one AX traversal. No global idle wait or video stream.
 extension RunnerTests {
+  /// Optional fixture provisioning, separate from UI control and disabled by default.
+  /// Only add-only Photos access is requested. No existing library assets are read or changed.
+  func sprintMedia(_ request: HTTPRequest) throws -> HTTPResponse {
+    guard ProcessInfo.processInfo.environment["IPU_SPRINT_MEDIA_IMPORT"] == "1" else {
+      return .error(403, "disabled", "Media fixture import is disabled; enable it explicitly during setup")
+    }
+    let authorization = PHPhotoLibrary.authorizationStatus(for: .addOnly)
+    if request.method == "GET" {
+      return .value(["authorization": authorization.rawValue,
+        "job": request.query["id"].flatMap { sprintMediaJobs[$0] } as Any? ?? NSNull()])
+    }
+    guard request.method == "POST", lockedOnMain() == false else {
+      throw RunnerError.failed("Import requires an unlocked phone and POST request")
+    }
+    let body = try request.jsonObject()
+    if body["authorize"] as? Bool == true {
+      guard Bundle.main.object(forInfoDictionaryKey: "NSPhotoLibraryAddUsageDescription") != nil else {
+        throw RunnerError.failed("Runner Info.plist is missing the add-only Photos purpose string")
+      }
+      if authorization == .notDetermined && !sprintMediaAuthorizationRequested {
+        sprintMediaAuthorizationRequested = true
+        PHPhotoLibrary.requestAuthorization(for: .addOnly) { _ in }
+      }
+      return .value(["authorization": authorization.rawValue, "requested": true])
+    }
+    guard authorization == .authorized || authorization == .limited else {
+      throw RunnerError.failed("Add-only Photos authorization is required before import")
+    }
+    let id = try requiredString(body, "id")
+    guard UUID(uuidString: id) != nil else { throw RunnerError.invalidArgument("Invalid import ID") }
+    if let existing = sprintMediaJobs[id] { return .value(existing) }
+    guard sprintMediaJobs.count < 16 else { throw RunnerError.failed("Fixture import job limit reached") }
+    guard let encoded = body["data"] as? String, let data = Data(base64Encoded: encoded),
+      !data.isEmpty, data.count <= 1_000_000 else {
+      throw RunnerError.invalidArgument("Fixture must be a base64 video of at most 1 MB")
+    }
+    let url = FileManager.default.temporaryDirectory.appendingPathComponent("sprint-\(id).mp4")
+    try data.write(to: url, options: .atomic)
+    sprintMediaJobs[id] = ["id": id, "status": "pending"]
+    PHPhotoLibrary.shared().performChanges({
+      let asset = PHAssetCreationRequest.forAsset()
+      asset.creationDate = Date()
+      asset.addResource(with: .video, fileURL: url, options: nil)
+    }, completionHandler: { success, error in
+      DispatchQueue.main.async { [weak self] in
+        var job: [String: Any] = ["id": id, "status": success ? "complete" : "failed"]
+        if let error = error as NSError? { job["error_domain"] = error.domain; job["error_code"] = error.code }
+        self?.sprintMediaJobs[id] = job
+        try? FileManager.default.removeItem(at: url)
+      }
+    })
+    return .value(sprintMediaJobs[id]!)
+  }
+
   func sprintObserve() throws -> HTTPResponse {
     guard lockedOnMain() == false else { throw RunnerError.failed("Device is locked or lock state is unknown; unlock it on the phone") }
     let target = foreground()
-    let root = try foregroundTree(target)
+    let root = try foregroundTree(target, publicFallback: false)
     let screen = windowSizePoints()
     sprintSnapshot = UUID().uuidString
+    sprintCapturedAt = ProcessInfo.processInfo.systemUptime
     sprintPID = target.pid
     sprintIDs.removeAll()
     var rows: [[String: Any]] = []
@@ -1040,6 +1109,8 @@ extension RunnerTests {
   }
 
   func sprintAct(_ request: HTTPRequest) throws -> HTTPResponse {
+    var delivery = "not_sent"
+    do {
     guard lockedOnMain() == false else { throw RunnerError.failed("Device is locked or lock state is unknown; no input dispatched") }
     let body = try request.jsonObject()
     let path = try requiredString(body, "path")
@@ -1051,16 +1122,24 @@ extension RunnerTests {
     }
     if path != "/home" && path != "/launch" {
       guard !sprintSnapshot.isEmpty, body["snapshot"] as? String == sprintSnapshot,
+        ProcessInfo.processInfo.systemUptime - sprintCapturedAt < 30,
         foreground().pid == sprintPID else {
         throw RunnerError.failed("Screen snapshot is stale; no input dispatched")
       }
     }
+    var clickPoint: CGPoint?
     if elementClick {
       let id = String(path.dropFirst("/element/".count).dropLast("/click".count))
       guard !sprintSnapshot.isEmpty, body["snapshot"] as? String == sprintSnapshot,
         sprintIDs.contains(id), foreground().pid == sprintPID else {
         throw RunnerError.staleElement(id)
       }
+      guard let stored = elements.node(id), stored.axElement != nil else { throw RunnerError.staleElement(id) }
+      let current = try freshNode(id)
+      if let refusal = SprintTargetAdmission.refusal(stored: stored, current: current, screen: windowSizePoints()) {
+        throw RunnerError.failed(refusal)
+      }
+      clickPoint = current.center
     }
     // Consume old targets before dispatch. A timeout must never authorize replay.
     sprintSnapshot = ""
@@ -1069,9 +1148,35 @@ extension RunnerTests {
     let forwarded = HTTPRequest(method: "POST", path: path, query: [:], headers: [:],
       body: try JSONSerialization.data(withJSONObject: payload))
     if KeepAwake.isInput(path) { keepAwake.noteCommand() }
-    let action = try route(forwarded)
+    delivery = "unknown"
+    let action: HTTPResponse
+    if let clickPoint {
+      try tapPoint(clickPoint)
+      action = .value(NSNull())
+    } else { action = try route(forwarded) }
     guard action.status < 400 else { return action }
+    delivery = "applied"
     if body["observe"] as? Bool == true { return try sprintObserve() }
     return action
+    } catch {
+      var response = HTTPResponse.from(error)
+      // A failed read AFTER successful input must never erase the delivery receipt.
+      response.headers["X-Sprint-Delivery"] = delivery
+      return response
+    }
+  }
+
+  /// Register a screen context without querying the AX tree. Screenshot capture
+  /// runs on its existing independent lane; pixel-only controls need no AX refs.
+  func sprintFrame() throws -> HTTPResponse {
+    guard lockedOnMain() == false else { throw RunnerError.failed("Device is locked; no screen context created") }
+    let target = foreground()
+    let screen = windowSizePoints()
+    sprintSnapshot = UUID().uuidString
+    sprintCapturedAt = ProcessInfo.processInfo.systemUptime
+    sprintPID = target.pid
+    sprintIDs.removeAll()
+    return .value(["snapshot": sprintSnapshot, "app": target.bundleID ?? "",
+      "width": screen.width, "height": screen.height, "elements": [], "mode": "pixels"])
   }
 }

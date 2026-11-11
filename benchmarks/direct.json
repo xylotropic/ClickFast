@@ -1,10 +1,914 @@
 {
-  "time": "2026-11-11T19:41:22.044Z",
+  "time": "2026-11-11T19:59:15.972Z",
   "device": "physical iPhone",
-  "trials": [],
+  "trials": [
+    {
+      "task": "observe_calculator",
+      "mode": "source",
+      "round": 0,
+      "ms": 45.442999999999984,
+      "success": true
+    },
+    {
+      "task": "observe_calculator",
+      "mode": "one_pass",
+      "round": 0,
+      "ms": 44.09808300000009,
+      "success": true
+    },
+    {
+      "task": "observe_calculator",
+      "mode": "one_pass",
+      "round": 1,
+      "ms": 45.47333300000014,
+      "success": true
+    },
+    {
+      "task": "observe_calculator",
+      "mode": "source",
+      "round": 1,
+      "ms": 43.20112500000005,
+      "success": true
+    },
+    {
+      "task": "observe_calculator",
+      "mode": "source",
+      "round": 2,
+      "ms": 45.5279579999999,
+      "success": true
+    },
+    {
+      "task": "observe_calculator",
+      "mode": "one_pass",
+      "round": 2,
+      "ms": 49.08616599999982,
+      "success": true
+    },
+    {
+      "task": "observe_calculator",
+      "mode": "one_pass",
+      "round": 3,
+      "ms": 38.16416600000002,
+      "success": true
+    },
+    {
+      "task": "observe_calculator",
+      "mode": "source",
+      "round": 3,
+      "ms": 38.34812499999998,
+      "success": true
+    },
+    {
+      "task": "observe_calculator",
+      "mode": "source",
+      "round": 4,
+      "ms": 38.11112500000013,
+      "success": true
+    },
+    {
+      "task": "observe_calculator",
+      "mode": "one_pass",
+      "round": 4,
+      "ms": 47.55662499999994,
+      "success": true
+    },
+    {
+      "task": "observe_calculator",
+      "mode": "one_pass",
+      "round": 5,
+      "ms": 38.92774999999983,
+      "success": true
+    },
+    {
+      "task": "observe_calculator",
+      "mode": "source",
+      "round": 5,
+      "ms": 39.29883299999983,
+      "success": true
+    },
+    {
+      "task": "observe_calculator",
+      "mode": "source",
+      "round": 6,
+      "ms": 39.65945899999997,
+      "success": true
+    },
+    {
+      "task": "observe_calculator",
+      "mode": "one_pass",
+      "round": 6,
+      "ms": 44.77145799999971,
+      "success": true
+    },
+    {
+      "task": "observe_calculator",
+      "mode": "one_pass",
+      "round": 7,
+      "ms": 43.23545800000011,
+      "success": true
+    },
+    {
+      "task": "observe_calculator",
+      "mode": "source",
+      "round": 7,
+      "ms": 43.914458000000195,
+      "success": true
+    },
+    {
+      "task": "observe_calculator",
+      "mode": "source",
+      "round": 8,
+      "ms": 50.00108300000011,
+      "success": true
+    },
+    {
+      "task": "observe_calculator",
+      "mode": "one_pass",
+      "round": 8,
+      "ms": 54.373875000000226,
+      "success": true
+    },
+    {
+      "task": "observe_calculator",
+      "mode": "one_pass",
+      "round": 9,
+      "ms": 60.79374999999982,
+      "success": true
+    },
+    {
+      "task": "observe_calculator",
+      "mode": "source",
+      "round": 9,
+      "ms": 54.7947079999999,
+      "success": true
+    },
+    {
+      "task": "open com.apple.calculator",
+      "mode": "direct",
+      "round": 0,
+      "ms": 123.36362499999996,
+      "success": true
+    },
+    {
+      "task": "open com.apple.calculator",
+      "mode": "direct",
+      "round": 1,
+      "ms": 83.63274999999976,
+      "success": true
+    },
+    {
+      "task": "open com.apple.calculator",
+      "mode": "direct",
+      "round": 2,
+      "ms": 92.16816699999981,
+      "success": true
+    },
+    {
+      "task": "open com.apple.mobiletimer",
+      "mode": "direct",
+      "round": 0,
+      "ms": 1571.8865830000004,
+      "success": true
+    },
+    {
+      "task": "open com.apple.mobiletimer",
+      "mode": "direct",
+      "round": 1,
+      "ms": 530.4873329999991,
+      "success": true
+    },
+    {
+      "task": "open com.apple.mobiletimer",
+      "mode": "direct",
+      "round": 2,
+      "ms": 506.7824580000015,
+      "success": true
+    },
+    {
+      "task": "open com.apple.Preferences",
+      "mode": "direct",
+      "round": 0,
+      "ms": 1302.7697919999991,
+      "success": true
+    },
+    {
+      "task": "open com.apple.Preferences",
+      "mode": "direct",
+      "round": 1,
+      "ms": 201.42075000000114,
+      "success": true
+    },
+    {
+      "task": "open com.apple.Preferences",
+      "mode": "direct",
+      "round": 2,
+      "ms": 181.55208299999867,
+      "success": true
+    }
+  ],
   "scope": "Direct controller only; excludes model inference. No mirroring speedup inferred.",
-  "error": "Unlock the iPhone before benchmarking. No app actions were dispatched.",
-  "incomplete": true,
-  "comparison_valid": false,
-  "context": "Preflight stopped because the physical phone was locked. Zero app trials and no app input. Earlier mixed-mirroring observations are not represented as valid samples here."
+  "os": {
+    "sdkVersion": "26.5",
+    "name": "iOS",
+    "version": "26.5"
+  },
+  "runner": {
+    "productBundleIdentifier": "io.github.xylotropic.iphone-sprint",
+    "runner": "iphone-use-native",
+    "version": "0.2.0"
+  },
+  "summary": {
+    "observe_calculator/source": {
+      "count": 10,
+      "successes": 10,
+      "median_ms": 43.55779150000012
+    },
+    "observe_calculator/one_pass": {
+      "count": 10,
+      "successes": 10,
+      "median_ms": 45.122395499999925
+    },
+    "open com.apple.calculator/direct": {
+      "count": 3,
+      "successes": 3,
+      "median_ms": 92.16816699999981
+    },
+    "open com.apple.mobiletimer/direct": {
+      "count": 3,
+      "successes": 3,
+      "median_ms": 530.4873329999991
+    },
+    "open com.apple.Preferences/direct": {
+      "count": 3,
+      "successes": 3,
+      "median_ms": 201.42075000000114
+    }
+  },
+  "runner_calls": [
+    {
+      "path": "/wda/locked",
+      "ms": 6.395541999999992,
+      "runner_ms": null,
+      "bytes": 15,
+      "status": 200
+    },
+    {
+      "path": "/wda/keepawake",
+      "ms": 15.345792000000003,
+      "runner_ms": null,
+      "bytes": 179,
+      "status": 200
+    },
+    {
+      "path": "/status",
+      "ms": 7.493332999999993,
+      "runner_ms": null,
+      "bytes": 714,
+      "status": 200
+    },
+    {
+      "path": "/sprint/act",
+      "ms": 1415.3729580000002,
+      "runner_ms": 1209,
+      "bytes": 55,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 137.81316700000002,
+      "runner_ms": 131,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/source",
+      "ms": 45.324708999999984,
+      "runner_ms": 40,
+      "bytes": 9205,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 43.89320799999996,
+      "runner_ms": 38,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 45.19491700000003,
+      "runner_ms": 38,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/source",
+      "ms": 43.106832999999824,
+      "runner_ms": 37,
+      "bytes": 9205,
+      "status": 200
+    },
+    {
+      "path": "/source",
+      "ms": 45.31099999999992,
+      "runner_ms": 38,
+      "bytes": 9205,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 48.868875000000116,
+      "runner_ms": 41,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 37.95479099999989,
+      "runner_ms": 32,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/source",
+      "ms": 38.178125000000136,
+      "runner_ms": 33,
+      "bytes": 9205,
+      "status": 200
+    },
+    {
+      "path": "/source",
+      "ms": 37.98562500000003,
+      "runner_ms": 32,
+      "bytes": 9205,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 47.27258300000017,
+      "runner_ms": 42,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 38.71875,
+      "runner_ms": 33,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/source",
+      "ms": 39.18504200000007,
+      "runner_ms": 34,
+      "bytes": 9205,
+      "status": 200
+    },
+    {
+      "path": "/source",
+      "ms": 39.51145899999983,
+      "runner_ms": 33,
+      "bytes": 9205,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 44.40370900000016,
+      "runner_ms": 38,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 42.93004199999996,
+      "runner_ms": 37,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/source",
+      "ms": 43.805667000000085,
+      "runner_ms": 38,
+      "bytes": 9205,
+      "status": 200
+    },
+    {
+      "path": "/source",
+      "ms": 49.9222920000002,
+      "runner_ms": 44,
+      "bytes": 9205,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 54.237290999999914,
+      "runner_ms": 49,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 60.564167,
+      "runner_ms": 55,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/source",
+      "ms": 54.64904200000001,
+      "runner_ms": 49,
+      "bytes": 9205,
+      "status": 200
+    },
+    {
+      "path": "/sprint/act",
+      "ms": 470.51987499999996,
+      "runner_ms": 465,
+      "bytes": 14,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 52.80170799999996,
+      "runner_ms": 48,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 49.950417000000016,
+      "runner_ms": 45,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 51.547415999999885,
+      "runner_ms": 47,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 55.81483299999991,
+      "runner_ms": 50,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 58.954375000000255,
+      "runner_ms": 54,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 261.2122909999998,
+      "runner_ms": 255,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 126.59770800000024,
+      "runner_ms": 122,
+      "bytes": 8420,
+      "status": 200
+    },
+    {
+      "path": "/sprint/act",
+      "ms": 27.01179200000024,
+      "runner_ms": 24,
+      "bytes": 55,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 95.84349999999995,
+      "runner_ms": 89,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/act",
+      "ms": 468.2169170000002,
+      "runner_ms": 463,
+      "bytes": 14,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 55.26774999999998,
+      "runner_ms": 50,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 52.58299999999963,
+      "runner_ms": 47,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 50.80212500000016,
+      "runner_ms": 46,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 51.67112500000076,
+      "runner_ms": 47,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 56.22637500000019,
+      "runner_ms": 51,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 143.56104200000027,
+      "runner_ms": 135,
+      "bytes": 8420,
+      "status": 200
+    },
+    {
+      "path": "/sprint/act",
+      "ms": 23.366833000000042,
+      "runner_ms": 19,
+      "bytes": 55,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 59.76495799999975,
+      "runner_ms": 54,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/act",
+      "ms": 471.18066699999963,
+      "runner_ms": 466,
+      "bytes": 14,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 54.2397090000004,
+      "runner_ms": 48,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 53.17100000000028,
+      "runner_ms": 47,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 54.321874999999636,
+      "runner_ms": 50,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 53.24883299999965,
+      "runner_ms": 48,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 80.33399999999983,
+      "runner_ms": 75,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 108.24766600000021,
+      "runner_ms": 103,
+      "bytes": 8420,
+      "status": 200
+    },
+    {
+      "path": "/sprint/act",
+      "ms": 23.47400000000016,
+      "runner_ms": 19,
+      "bytes": 55,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 68.31687500000044,
+      "runner_ms": 62,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/act",
+      "ms": 468.4494169999998,
+      "runner_ms": 464,
+      "bytes": 14,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 53.28920899999957,
+      "runner_ms": 47,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 52.28029200000037,
+      "runner_ms": 47,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 53.15529200000037,
+      "runner_ms": 48,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 52.08333399999992,
+      "runner_ms": 47,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 58.65954199999942,
+      "runner_ms": 53,
+      "bytes": 4804,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 128.42512499999975,
+      "runner_ms": 122,
+      "bytes": 8420,
+      "status": 200
+    },
+    {
+      "path": "/sprint/act",
+      "ms": 1119.3495000000003,
+      "runner_ms": 1115,
+      "bytes": 56,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 452.04025,
+      "runner_ms": 446,
+      "bytes": 9456,
+      "status": 200
+    },
+    {
+      "path": "/sprint/act",
+      "ms": 468.9143750000003,
+      "runner_ms": 464,
+      "bytes": 14,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 299.0567919999994,
+      "runner_ms": 293,
+      "bytes": 10067,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 337.47383400000035,
+      "runner_ms": 331,
+      "bytes": 10067,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 105.61666700000023,
+      "runner_ms": 100,
+      "bytes": 8420,
+      "status": 200
+    },
+    {
+      "path": "/sprint/act",
+      "ms": 43.59895800000049,
+      "runner_ms": 39,
+      "bytes": 56,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 486.4103749999995,
+      "runner_ms": 481,
+      "bytes": 9337,
+      "status": 200
+    },
+    {
+      "path": "/sprint/act",
+      "ms": 470.74154199999975,
+      "runner_ms": 466,
+      "bytes": 14,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 299.7613330000004,
+      "runner_ms": 294,
+      "bytes": 9638,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 284.0839589999996,
+      "runner_ms": 279,
+      "bytes": 9638,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 112.10429099999965,
+      "runner_ms": 107,
+      "bytes": 8420,
+      "status": 200
+    },
+    {
+      "path": "/sprint/act",
+      "ms": 33.15504200000032,
+      "runner_ms": 29,
+      "bytes": 56,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 473.1202910000011,
+      "runner_ms": 467,
+      "bytes": 9252,
+      "status": 200
+    },
+    {
+      "path": "/sprint/act",
+      "ms": 468.73112500000025,
+      "runner_ms": 464,
+      "bytes": 14,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 282.0191249999989,
+      "runner_ms": 277,
+      "bytes": 9946,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 282.9742500000011,
+      "runner_ms": 278,
+      "bytes": 9946,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 119.18412499999977,
+      "runner_ms": 114,
+      "bytes": 8420,
+      "status": 200
+    },
+    {
+      "path": "/sprint/act",
+      "ms": 1147.844416,
+      "runner_ms": 1143,
+      "bytes": 56,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 154.65820799999892,
+      "runner_ms": 149,
+      "bytes": 11834,
+      "status": 200
+    },
+    {
+      "path": "/sprint/act",
+      "ms": 460.3015839999989,
+      "runner_ms": 456,
+      "bytes": 14,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 101.17541600000004,
+      "runner_ms": 95,
+      "bytes": 12078,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 80.38366700000006,
+      "runner_ms": 75,
+      "bytes": 12078,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 93.14812499999971,
+      "runner_ms": 87,
+      "bytes": 12078,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 253.68187500000022,
+      "runner_ms": 248,
+      "bytes": 12216,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 126.26824999999917,
+      "runner_ms": 121,
+      "bytes": 8420,
+      "status": 200
+    },
+    {
+      "path": "/sprint/act",
+      "ms": 45.892792000000554,
+      "runner_ms": 42,
+      "bytes": 56,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 155.22908299999835,
+      "runner_ms": 150,
+      "bytes": 12216,
+      "status": 200
+    },
+    {
+      "path": "/sprint/act",
+      "ms": 468.7290410000005,
+      "runner_ms": 465,
+      "bytes": 14,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 105.79537499999788,
+      "runner_ms": 101,
+      "bytes": 12216,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 103.30987499999901,
+      "runner_ms": 98,
+      "bytes": 12216,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 107.12987499999872,
+      "runner_ms": 101,
+      "bytes": 12216,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 150.87425000000076,
+      "runner_ms": 145,
+      "bytes": 8420,
+      "status": 200
+    },
+    {
+      "path": "/sprint/act",
+      "ms": 38.654624999999214,
+      "runner_ms": 33,
+      "bytes": 56,
+      "status": 200
+    },
+    {
+      "path": "/sprint/observe",
+      "ms": 142.4719159999986,
+      "runner_ms": 134,
+      "bytes": 12216,
+      "status": 200
+    }
+  ]
 }

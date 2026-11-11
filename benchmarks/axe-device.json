@@ -1,0 +1,60 @@
+{
+  "time": "2026-11-11T20:42:46.688Z",
+  "version": "v2.0.2",
+  "release_sha256": "ba11a0e584156b7e3cdfcdfdbd66a0ea2c6029a255033369cad7ab3f49531731",
+  "isolation": "XCTest stopped and host process exit confirmed; Mirroring quit",
+  "trials": [
+    {
+      "command": "doctor",
+      "ms": 873.207167,
+      "success": false,
+      "error_code": 1,
+      "signal": null,
+      "killed": false,
+      "error": {
+        "code": "screenshotServiceUnavailable",
+        "message": "The device does not advertise the screenshot service. Check device preparation in Xcode."
+      }
+    },
+    {
+      "command": "screenshot",
+      "ms": 409.18829200000005,
+      "success": false,
+      "error_code": 1,
+      "signal": null,
+      "killed": false,
+      "error": {
+        "code": "screenshotServiceUnavailable",
+        "message": "The device does not advertise the screenshot service. Check device preparation in Xcode."
+      }
+    },
+    {
+      "command": "describe-ui",
+      "ms": 1713.479667,
+      "success": true,
+      "stdout_bytes": 9407
+    },
+    {
+      "command": "describe-ui",
+      "ms": 1399.8052500000003,
+      "success": true,
+      "stdout_bytes": 9407
+    },
+    {
+      "command": "describe-ui",
+      "ms": 1417.6060419999994,
+      "success": true,
+      "stdout_bytes": 9407
+    }
+  ],
+  "tap_trials": [
+    {
+      "round": 0,
+      "success": false,
+      "error": {
+        "code": "deviceOperationFailed",
+        "message": "The device does not advertise a supported com.apple.coredevice.hid.indigo service. Check device preparation in Xcode."
+      }
+    }
+  ]
+}

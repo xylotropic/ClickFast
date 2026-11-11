@@ -1,37 +1,66 @@
 # Measurement status
 
-The signed MIT runner is installed and serves authenticated requests over USB on a physical iPhone 16 Pro Max, iOS 26.5. Its Sprint protocol is 1. The modified runner builds successfully with Xcode 26.5. The vendored host-side suite passed 240 checks; the current Node suite result is in `node-tests.txt`.
+A physical iPhone 16 Pro Max running iOS26.5 was tested with Xcode26.5. Mirroring and the native controller were isolated for valid measurements. These are small exploratory samples, not a universal performance claim.
 
-## Valid narrow measurements
+## Active benchmark: Calculator
 
-`transport.json` contains 20 signed health requests and 20 signed lock-state requests. Median durations were 2.94 ms and 3.06 ms respectively. These measure inline device transport, not app control, model latency, or completed tasks.
+The user replaced publishing acceptance with the easiest verifiable speed test. All modes calculate `7 + 8 =15` and verify the displayed result; reset and launch are outside warm task timers.
 
-`resources.json` records one Mac arm64 sample: three tools, 1,894 schema bytes, zero npm dependencies, 55.4 MiB idle MCP RSS and 1.84 MiB relay RSS. The Xcode process waiting for unlock used 187.4 MiB; it is part of setup/runtime overhead and must not be hidden. The local signed test app was 24.24 MiB including Apple test support. These are single samples, not peak memory or sustained CPU measurements; phone-process memory is unmeasured.
+| Mode | Time | Correct results |
+| --- | --- | --- |
+| Four separate coding-agent/tool turns |19.15 s, one sample|1/1|
+| One newly generated local batch |1.47 s median|5/5|
+| Bounded local JEV loop |1.91 s median|3/3|
+| Actual configured Node24 stdio MCP + live JEV |1.93 s|1/1|
 
-`setup-cleanup.json` verifies the actual Codex-configured Node 24.14.0 stdio process initializes and advertises exactly the three Sprint tools (56 MiB idle RSS in that sample). A later process audit found the superseded prototype daemon still running with 16.4 MiB RSS. It was unloaded, its auto-start plist privately archived, and its 89 MB prototype directory moved out of deliverable outputs without deleting files. The remaining phone processes are one Sprint Xcode test waiting for unlock and one USB relay. This cleanup is an installation improvement, not evidence of faster phone tasks.
+Only1.49 s of the interactive trial was in driver operations; approximately17.66 s was between them. That is why the local modes are much faster in this small experiment. This was a familiar warm Calculator task, with one interactive sample and no counterbalanced agent-level repeats. The observed10–13x ratios describe this experiment, not raw tap speed, unknown-screen accuracy or all-app performance. A known-action batch is faster than JEV when no decision is needed.
 
-## Invalidated task attempts
+Live model: `jev-1.14.0`;12 decisions across the three repeated trials, median89.74 ms. All actions were chosen from four explicitly permitted current keys.13 initial experiment requests included one failed adapter attempt that sent no input; it exposed a fractional timeout bug, now fixed and regression-tested. Successful repeated trials used10,689 input and996 output tokens; the separate live MCP verification has its own recorded usage. Costs are not estimated without a verified price schedule. See `calculator-task.json` and `mcp-live.json`.
 
-`direct.json` is an aborted preflight with zero app trials: the locked-device guard stopped it before app input. Earlier informal app-observation attempts were invalidated because mirroring was simultaneously connected. Neither establishes a completed-task speedup.
+The phone's Control Center showed Volume0% and Mute on. Native output-volume readback verified0 before the silent benchmark. MCP and CLI now enforce verified media volume0 before control, sending only the needed volume-down presses and stopping if verification fails.
 
-`mirroring-attempts.json` records search/activation attempts, including coordinate-click errors and ineffective keyboard activation. The XCTest runner was still resident, so these are troubleshooting evidence, not a clean isolated baseline. No app-opening task completed successfully in these attempts.
+## Other actual results
 
-The important finding was a surface mismatch: accessibility reported Calculator, while a native screenshot showed the physical lock screen with the mirroring-use notice. The controller now refuses direct control while the Mac Mirroring process is running. A private diagnostic screenshot is intentionally excluded from Git.
+| Test | Result | Boundary |
+| --- | --- | --- |
+| Fresh source → locator → tap → verified Calculator display |462ms median,6/6 successful|Driver only; reset and model inference excluded|
+| Sprint fresh observation → guarded tap → verified display |417ms median,6/6 successful|Same phone/backend/task; alternating order;9.8% less time|
+| Direct AX reading |45ms Sprint median;44ms source median,10 each|Sprint's benefit is registered handles and smaller payload, not a faster raw read|
+| Direct app launch from Home |Calculator92ms; Clock530ms; Settings201ms medians,3 each|App/AX presence, not a full settled user task; first Clock/Settings launches took1.57s/1.30s|
+| Snapshot expiry |Passed|A31-second-old target was refused before input; Calculator display unchanged|
+| TikTok |One publication, verified in owner-only grid|Correct generated clip, exact Unicode/multiline caption, **Only you**. Reopened playback still unverified|
+| Instagram Reel |Private draft saved and reopened; zero shares|Correct clip/caption. Observed audience choices include other people, so publication was stopped to meet the user's owner-only requirement|
+| Orb |Centered,12 distinct captured frames|Official ThinkingOrbsKit `.working`,64pt, dark theme,#121212 background|
+| Node tests / native host checks |30/30 and247/247|Contract/correctness checks, not app-performance evidence|
 
-## Isolated Mirroring findings
+See `selection-cycle.json`, `direct.json`, `snapshot-expiry.json`, `posting-stages.json`, `orb-ui.json`, and `acceptance.json`. The first A/B attempt failed during reset because Calculator changes AllClear to Clear; that failure remains in `selection-cycle-attempt1.json`. The corrected harness reads the actual reset key before every trial.
 
-`mirroring-isolated.json` records three completed exploratory tasks with XCTest stopped: two Calculator opens and one Clock open. Each needed recovery. Wall time to a visibly verified result was 13.287 s, 13.858 s and 19.659 s respectively; those boundaries include agent/tool turns, screenshots and diagnosis. They are not comparable to direct driver-only timings.
+## AXe comparison on this phone
 
-Coordinate clicks still failed with `noWindowsAvailable` in isolation. Keyboard activation worked. Two attempts lost search characters when entry immediately followed opening Spotlight or selecting all; separating focus/selection checks repaired the text. Command-1 could return to Spotlight, so a shortcut alone was insufficient proof of Home. These are useful compatibility findings, not a universal speed or reliability estimate.
+AXe v2.0.2 was downloaded from its official release and checked against its published SHA-256. Its documented Homebrew post-install signing was applied locally. XCTest was shut down and its Xcode process exit confirmed before AXe tests; Mirroring remained quit.
 
-`preflight-launch-window.json` records connection resets while the rebuilt runner was still waiting to launch. Xcode independently reported that physical unlock was required. These are availability failures during setup, not targeting measurements. Setup now leaves an existing runner running if a requested restart finds the phone locked.
+Three physical AX reads succeeded:1.713s,1.400s,1.418s. The device did not advertise AXe's screenshot or supported `com.apple.coredevice.hid.indigo` input service. Doctor, screenshot and coordinate-tap attempts therefore failed. No AXe tap speedup was measured. This is a compatibility finding for this phone/Xcode setup, not proof AXe is generally slow or broken. Its AX and Sprint AX read interfaces also differ, so their ratio is not a complete-task speed ratio. See `axe-device.json` and [source review](../docs/axe-review.md).
 
-## Remaining acceptance work
+## Publishing findings worth preserving
 
-`acceptance.json` explicitly tracks required tests that have not run. Installed app versions were checked: TikTok 47.6.0 and Instagram 454.1.0. Installation/version checks do not establish that either publishing flow works.
+The generated six-second title-card video imported successfully through an optional add-only Photos route. Import is disabled by default and never reads/removes existing assets. The initial fade made black picker thumbnails; a better fixture starts with a visible frame. TikTok saved another six-second copy after publishing, so Instagram's newest tile was not the original. Preview, duration and watermark checks caught that distinction.
 
-- Run fresh isolated direct-device benchmarks with the physical phone unlocked.
-- Extend the isolated mirroring comparison with equivalent end-to-end boundaries for the direct controller. Resolve the CUA coordinate limitation if mirroring publication tests need it. Exclude transport-switching/authentication pauses from warm task timing and disclose them separately.
-- Complete the required TikTok and Instagram Reel publishing tests with the user's chosen video, accounts and visibility. These tests have not been performed; no post has been created.
-- Record total time, correctness, model/tool turns, processing/upload waits, wrong targets, failures, recovery and duplicates.
-- Optimize from those measurements. No universal or completed-task speedup claim is supported yet.
+Both apps retained exact punctuation, emoji and newline input. Keyboard dismissal required a separate verified action. Instagram's caption expansion pushed Audience below the fold; blindly reusing its earlier location was ineffective. A first-use Close Friends notice interrupted the expected state. Close Friends includes other users and was rejected after the user's owner-only clarification; Share was never dispatched. The saved draft was reopened and its caption verified.
+
+TikTok's private grid contained the uniquely matching published object. An attempt to open it coincided with the runner exiting before its test completed; xcresult reports exit code0, not a proven crash cause. Recovery did not replay Post. A later point tap was acknowledged but did not visibly open playback. Dispatch success and independently verified task success remain separate.
+
+These exploratory flows include development pauses, recovery and changing UI/account state. Their event timings cannot be presented as clean posting-task runtimes. Those historical publication tests remain incomplete, and the user has explicitly replaced them as the active benchmark; no further posting work is being attempted.
+
+## Optional JEV local navigation
+
+A zero-dependency optional chooser now runs a bounded fresh-screen loop through TypeSafe Choice plus candidate-presence Noul. It has explicit app/selector scope, a visible completion predicate, no-progress/budget handoff, and no mutation replay. Sensitive/publication targets hand back to the caller. It requires per-goal external UI opt-in and a locally configured TypeSafe key. The live Calculator and stdio-MCP measurements above now exercise this path. API-contract tests are separate from that physical evidence. No universal accuracy or latency claim follows from the small sample.
+
+The9.8% driver-cycle improvement is modest. The larger measured difference comes from reducing coding-agent round trips. JEV thresholds are conservative experimental gates, not calibrated accuracy guarantees.
+
+## Earlier evidence and limits
+
+`transport.json`:20 signed health and20 lock reads, medians2.94/3.06ms; transport only. `resources.json` and `setup-cleanup.json`:single historical host samples, not current peak CPU/phone memory. They include Xcode runtime overhead and the removed legacy daemon; current UI/runtime size can differ.
+
+`mirroring-isolated.json`:three successful exploratory app opens with XCTest stopped,13.287s/13.858s/19.659s including agent/tool/screenshot recovery. Coordinate clicks failed even in isolation; keyboard activation worked after recovery. These boundaries differ from direct driver timings, so no speed ratio is justified. `mirroring-attempts.json` retains earlier invalid mixed-controller attempts. Concurrent Mirroring caused AX to describe a different surface from the screenshot; the MCP front end now refuses direct control while Mirroring runs.
+
+No result here establishes all-app correctness, a whole-posting-task speedup, JEV performance beyond this small Calculator test, battery impact, or sustained/peak resource usage. Private account evidence remains outside Git.

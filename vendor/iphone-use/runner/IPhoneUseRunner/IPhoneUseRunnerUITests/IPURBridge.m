@@ -267,11 +267,9 @@ static BOOL IPURUseRequestCache(void)
     }
   }
   id chosen = nil;
-  if (candidates.count == 1) {
-    chosen = candidates.firstObject;
-  } else if (candidates.count > 1) {
-    // Several apps report active (split screen, a PiP, an app extension): ask the AX server
-    // who owns the probe point, like WDA's active-app detection point.
+  // A system overlay can cover a single app. Probe it too instead of always
+  // selecting the obscured app, whose AX server may no longer answer.
+  if (candidates.count > 1 || (candidates.count > 0 && springBoard != nil)) {
     id axClient = [self axClient];
     SEL hitTest = NSSelectorFromString(@"accessibilityElementForElementAtPoint:error:");
     if (axClient != nil && [axClient respondsToSelector:hitTest]) {
@@ -279,18 +277,23 @@ static BOOL IPURUseRequestCache(void)
       id hit = nil;
       @try {
         hit = ((IPURMsgSendElementAtPoint)objc_msgSend)(axClient, hitTest, probe(), &error);
-      } @catch (__unused NSException *exception) {
-        hit = nil;
-      }
+      } @catch (__unused NSException *exception) {}
       int hitPID = [self pidForAXElement:hit];
-      for (id element in candidates) {
+      for (id element in active) {
         if (hitPID > 0 && [self pidForAXElement:element] == hitPID) {
           chosen = element;
           break;
         }
       }
     }
-    if (chosen == nil) chosen = candidates.firstObject;
+  }
+  if (chosen != nil) {
+    // Hit-tested foreground, including SpringBoard overlays.
+  } else if (candidates.count == 1) {
+    chosen = candidates.firstObject;
+  } else if (candidates.count > 1) {
+    // The probe above already tried once; do not repeat a potentially slow AX call.
+    chosen = candidates.firstObject;
   } else {
     chosen = springBoard ?: [self systemApplicationElement];
   }

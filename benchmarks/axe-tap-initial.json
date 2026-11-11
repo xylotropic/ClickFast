@@ -1,0 +1,9 @@
+{
+  "tap_trials": [
+    {
+      "round": 0,
+      "success": false,
+      "error": "Command failed: ./axe --output json tap --udid <private-device> -x 168 -y 555 --verbose\n"
+    }
+  ]
+}

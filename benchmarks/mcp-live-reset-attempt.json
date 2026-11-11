@@ -1,0 +1,9 @@
+{
+  "time": "2026-11-11T20:56:00.352Z",
+  "entrypoint": "Configured Node24.14.0 persistent stdio MCP",
+  "stages": [],
+  "tools": 3,
+  "schema_bytes": 2570,
+  "ok": false,
+  "error": "Reset failed; no goal submitted"
+}

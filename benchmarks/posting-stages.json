@@ -1,0 +1,246 @@
+{
+  "updated_at": "2026-11-11T20:48:00.130703+00:00",
+  "scope": "Exploratory stage timings include development, failed steps, notices and recovery. Summed driver times are not total task wall time. No agent/processing time speed ratio.",
+  "platforms": {
+    "tiktok": {
+      "events": [
+        {
+          "stage": "open_composer",
+          "success": true,
+          "wall_ms": 531,
+          "outcome": null
+        },
+        {
+          "stage": "open_media_picker",
+          "success": true,
+          "wall_ms": 365,
+          "outcome": null
+        },
+        {
+          "stage": "open_six_second_fixture_preview",
+          "success": false,
+          "wall_ms": 44,
+          "outcome": "unknown"
+        },
+        {
+          "stage": "fixture_and_controller_recovery",
+          "success": null,
+          "wall_ms": 0,
+          "outcome": null
+        },
+        {
+          "stage": "resume_tiktok",
+          "success": true,
+          "wall_ms": 5394,
+          "outcome": null
+        },
+        {
+          "stage": "select_fixture_after_recovery",
+          "success": false,
+          "wall_ms": 0,
+          "outcome": "stopped"
+        },
+        {
+          "stage": "select_fixture_current_controller",
+          "success": true,
+          "wall_ms": 331,
+          "outcome": null
+        },
+        {
+          "stage": "accept_fixture_into_editor",
+          "success": true,
+          "wall_ms": 864,
+          "outcome": null
+        },
+        {
+          "stage": "open_caption_and_publication_settings",
+          "success": true,
+          "wall_ms": 872,
+          "outcome": null
+        },
+        {
+          "stage": "enter_unicode_multiline_caption",
+          "success": true,
+          "wall_ms": 1225,
+          "outcome": null
+        },
+        {
+          "stage": "finish_caption",
+          "success": true,
+          "wall_ms": 425,
+          "outcome": null
+        },
+        {
+          "stage": "open_tiktok_audience",
+          "success": true,
+          "wall_ms": 410,
+          "outcome": null
+        },
+        {
+          "stage": "open_audience_after_keyboard_dismissal",
+          "success": true,
+          "wall_ms": 333,
+          "outcome": null
+        },
+        {
+          "stage": "choose_only_you",
+          "success": true,
+          "wall_ms": 341,
+          "outcome": null
+        },
+        {
+          "stage": "publish_once",
+          "success": true,
+          "wall_ms": 1000,
+          "outcome": null
+        },
+        {
+          "stage": "verify_destination_profile",
+          "success": true,
+          "wall_ms": 857,
+          "outcome": null
+        },
+        {
+          "stage": "open_private_posts",
+          "success": true,
+          "wall_ms": 390,
+          "outcome": null
+        },
+        {
+          "stage": "reopen_published_tiktok",
+          "success": false,
+          "wall_ms": 15025,
+          "outcome": "unknown"
+        },
+        {
+          "stage": "recover_own_profile",
+          "success": true,
+          "wall_ms": 537,
+          "outcome": null
+        },
+        {
+          "stage": "recover_original_destination_account",
+          "success": true,
+          "wall_ms": 395,
+          "outcome": null
+        },
+        {
+          "stage": "restore_original_test_account",
+          "success": true,
+          "wall_ms": 1941,
+          "outcome": null
+        },
+        {
+          "stage": "reopen_published_post_from_current_frame",
+          "success": true,
+          "wall_ms": 278,
+          "outcome": null
+        }
+      ],
+      "event_count": 22,
+      "failed_events": 3
+    },
+    "instagram": {
+      "events": [
+        {
+          "stage": "launch_instagram",
+          "success": true,
+          "wall_ms": 2033,
+          "outcome": null
+        },
+        {
+          "stage": "verify_instagram_account",
+          "success": true,
+          "wall_ms": 402,
+          "outcome": null
+        },
+        {
+          "stage": "open_creation_menu",
+          "success": true,
+          "wall_ms": 383,
+          "outcome": null
+        },
+        {
+          "stage": "open_reel_picker",
+          "success": true,
+          "wall_ms": 371,
+          "outcome": null
+        },
+        {
+          "stage": "select_original_six_second_fixture",
+          "success": true,
+          "wall_ms": 354,
+          "outcome": null
+        },
+        {
+          "stage": "prepare_reel_editor",
+          "success": true,
+          "wall_ms": 548,
+          "outcome": null
+        },
+        {
+          "stage": "open_reel_caption_settings",
+          "success": true,
+          "wall_ms": 465,
+          "outcome": null
+        },
+        {
+          "stage": "enter_reel_unicode_caption",
+          "success": true,
+          "wall_ms": 1558,
+          "outcome": null
+        },
+        {
+          "stage": "open_reel_audience",
+          "success": false,
+          "wall_ms": 5410,
+          "outcome": "not_sent"
+        },
+        {
+          "stage": "reveal_and_open_audience",
+          "success": false,
+          "wall_ms": 6,
+          "outcome": "unknown"
+        },
+        {
+          "stage": "fresh_context_scroll_to_audience",
+          "success": true,
+          "wall_ms": 1141,
+          "outcome": null
+        },
+        {
+          "stage": "choose_and_verify_close_friends",
+          "success": false,
+          "wall_ms": 5319,
+          "outcome": "stopped"
+        },
+        {
+          "stage": "handle_first_time_close_friends_notice",
+          "success": true,
+          "wall_ms": 921,
+          "outcome": null
+        },
+        {
+          "stage": "save_private_draft_no_publication",
+          "success": true,
+          "wall_ms": 357,
+          "outcome": null
+        },
+        {
+          "stage": "reopen_private_drafts_list",
+          "success": true,
+          "wall_ms": 376,
+          "outcome": null
+        },
+        {
+          "stage": "reopen_saved_test_draft",
+          "success": true,
+          "wall_ms": 403,
+          "outcome": null
+        }
+      ],
+      "event_count": 16,
+      "failed_events": 3
+    }
+  }
+}

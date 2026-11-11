@@ -1,32 +1,117 @@
 {
-  "updated_at": "2026-11-11T19:53:11Z",
-  "required_tests": [
+  "updated_at": "2026-11-11T20:48:00.130703+00:00",
+  "scope": "One generated 6-second neutral vertical H.264/AAC clip; development/exploratory app tests, not clean task-speed trials. Private evidence retained locally and excluded from Git.",
+  "additional_tests": [
+    {
+      "criterion": "Host controller and optional chooser correctness",
+      "status": "passed",
+      "checks": 30,
+      "evidence": "node-tests.txt",
+      "scope": "Local HTTP, simulated state and API contract checks; physical live JEV evidence is recorded separately."
+    },
+    {
+      "criterion": "Native device-independent checks",
+      "status": "passed",
+      "checks": 247
+    },
+    {
+      "criterion": "Physical snapshot expiration",
+      "status": "passed",
+      "evidence": "snapshot-expiry.json",
+      "scope": "After31s, native refused old Calculator key before input; display unchanged"
+    },
+    {
+      "criterion": "Controlled read-select-tap-verify A/B",
+      "status": "measured",
+      "evidence": "selection-cycle.json",
+      "scope": "6/6 successful cycles each mode; driver only, same backend/phone"
+    },
+    {
+      "criterion": "Direct physical app launch and AX read",
+      "status": "measured",
+      "evidence": "direct.json",
+      "scope": "9/9 app launches; 20 alternating read trials; excludes model inference"
+    },
+    {
+      "criterion": "Unicode, emoji, multiline caption fidelity and correct media selection",
+      "status": "passed_for_both_test_flows",
+      "scope": "Exact readback and preview; Instagram draft reopened"
+    },
+    {
+      "criterion": "Unexpected runner exit and recovery",
+      "status": "observed",
+      "scope": "Recovered without replaying publication. Root cause unknown."
+    },
+    {
+      "criterion": "AXe runner-free physical backend",
+      "status": "partly_available",
+      "evidence": "axe-device.json",
+      "scope": "Physical AX reads succeed; screenshot and HID services unavailable on this phone/Xcode setup"
+    },
+    {
+      "criterion": "Working orb UI",
+      "status": "verified_on_phone",
+      "evidence": "orb-ui.json",
+      "scope": "12 distinct captured frames; animation centered; official native SwiftUI renderer"
+    },
+    {
+      "criterion": "JEV selection speed/accuracy",
+      "status": "measured_on_calculator",
+      "scope": "Three live correct runs with jev-1.14.0; first live adapter attempt failed before input due fractional timeout, preserved. Narrow sample, not all-app accuracy.",
+      "evidence": "calculator-task.json"
+    },
+    {
+      "criterion": "Silence during phone control",
+      "status": "passed",
+      "scope": "Control Center showed volume0% and Mute on. Native AVAudioSession readback verified0. MCP/CLI verify zero volume before control, send only volume-down events, and stop if unverified."
+    }
+  ],
+  "new_posts_created": 1,
+  "new_instagram_posts_created": 0,
+  "whole_posting_task_speedup_verified": false,
+  "narrow_driver_cycle_reduction_fraction": 0.0977653693503816,
+  "repository_publication": "MIT source; new active benchmark passed. Public release verification pending.",
+  "active_benchmark": "Calculator: 7 + 8 =15, independently read back",
+  "goal_change": "User replaced posting acceptance with the easiest verifiable speed benchmark. Historical posting evidence remains recorded; further posting work was stopped.",
+  "historical_posting_tests": [
     {
       "task": "Publish a TikTok and reopen the published video",
-      "status": "not_run",
+      "status": "published_owner_only_playback_pending",
       "app_version": "47.6.0",
-      "pending": ["Physical iPhone unlock for native runner launch", "Designated clip, account, caption and audience"],
-      "draft_counts_as_success": false
+      "fixture_verified": true,
+      "caption_exact": true,
+      "audience": "Only you",
+      "publish_dispatches": 1,
+      "published_object_verified_in_private_grid": true,
+      "playback_reopen_verified": false,
+      "limitations": [
+        "One unexpected runner exit during reopen; later point tap acknowledged but playback was not visible. Cause of exit is unproven. No second publication was attempted."
+      ]
     },
     {
       "task": "Publish an Instagram Reel and reopen the published video",
-      "status": "not_run",
+      "status": "draft_verified_publication_blocked_by_owner_only_requirement",
       "app_version": "454.1.0",
-      "pending": ["Physical iPhone unlock for native runner launch", "Designated clip, account, caption and audience"],
-      "draft_counts_as_success": false
+      "fixture_verified": true,
+      "caption_exact": true,
+      "draft_saved_and_reopened": true,
+      "share_dispatches": 0,
+      "published": false,
+      "audience_options_observed": [
+        "Followers",
+        "Close Friends"
+      ],
+      "limitation": "Neither observed audience meets the user requirement that only the account owner can view it. Close Friends was rejected and the Reel was saved as a private draft. A draft does not pass the publication test."
     }
   ],
-  "additional_tests": [
-    {"criterion":"Host control correctness","status":"passed","checks":15,"evidence":"node-tests.txt","scope":"Local HTTP and simulated control-state cases; not physical app success"},
-    {"criterion":"Vendored native host checks","status":"passed","checks":240,"scope":"Host-side suite, not device task performance"},
-    {"criterion":"Physical USB transport latency","status":"measured","evidence":"transport.json","scope":"Health and lock-state reads only"},
-    {"criterion":"Isolated Mirroring app navigation and recovery","status":"measured","evidence":"mirroring-isolated.json","scope":"Three exploratory tasks completed, each after recovery; no direct speed ratio"},
-    {"criterion":"Resource footprint","status":"partly_measured","evidence":"resources.json","pending":["Peak workload CPU and memory","Phone process memory"]},
-    {"criterion":"Media picking, caption fidelity, permissions, preview and audience selection","status":"not_run","pending":["Required publication test inputs"]},
-    {"criterion":"Actual upload, processing, publication verification and duplicate prevention","status":"not_run","pending":["Required publication tests"]},
-    {"criterion":"JEV selection latency and accuracy","status":"not_run","scope":"Primary-source research completed in docs/jev.md; optional service is not installed or called"}
-  ],
-  "new_posts_created": 0,
-  "completed_task_speedup_verified": false,
-  "repository_publication": "Private staging repository created with MIT source; public release pending required device validation."
+  "required_tests": [
+    {
+      "task": "Calculator: 7 + 8 =15, independently read back",
+      "status": "passed",
+      "evidence": "calculator-task.json",
+      "interactive_samples": 1,
+      "batch_successes": 5,
+      "jev_successes": 3
+    }
+  ]
 }

@@ -1,6 +1,12 @@
-# Required real-world acceptance tests
+# Active acceptance: fast, silent Calculator control
 
-TikTok posting and Instagram Reel posting are required. Launching apps, saving a draft, or passing host tests does not satisfy either requirement. Confirm the intended clip, account and visibility before publishing. Generate a neutral test clip only if the user chooses it. Do not publish repeated public posts merely to increase the sample count.
+The user replaced the publication benchmark with a simple independently verifiable task. Calculate `7 + 8 =15` and read the displayed result after each trial. Reset/launch are outside warm task time. Compare separate agent turns, a fresh local batch, and the optional live JEV loop on the same backend. Record correctness, timing, model/tool calls, token usage, failures and exact timing boundaries. Verify media volume0 before app control. Current results: `benchmarks/calculator-task.json`, `mcp-live.json`, and `STATUS.md`.
+
+The following posting criteria remain historical test design and evidence, not the current completion gate.
+
+# Historical publication tests
+
+TikTok posting and Instagram Reel posting are required. Launching apps, saving a draft, or passing host tests does not satisfy either requirement. Confirm the intended clip, account and visibility before publishing. When the user delegates test-media creation, generate a neutral test clip and verify its identity. The current user requires owner-only visibility: Close Friends is insufficient; keep Instagram as a draft if no owner-only audience exists. Do not publish repeated public posts merely to increase the sample count.
 
 ## Required publishing tests
 

@@ -1,0 +1,487 @@
+{
+  "time": "2026-11-11T20:52:28.816Z",
+  "task": "7 + 8 = 15",
+  "audible": false,
+  "media_volume": 0,
+  "interactive": [
+    {
+      "step": 0,
+      "op": "tap",
+      "ms": 373.31666700029746,
+      "success": true
+    },
+    {
+      "step": 0,
+      "op": "tap",
+      "ms": 366.2872919999063,
+      "success": true
+    },
+    {
+      "step": 0,
+      "op": "tap",
+      "ms": 375.6535000000149,
+      "success": true
+    },
+    {
+      "step": 0,
+      "op": "tap",
+      "ms": 377.9664580002427,
+      "success": true
+    }
+  ],
+  "batches": [
+    {
+      "round": 0,
+      "ms": 1488.8438750002533,
+      "success": true,
+      "driver_ms": 1488.7782089998946,
+      "timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 372.02841599984095,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "tap",
+          "ms": 361.8819160000421,
+          "success": true
+        },
+        {
+          "step": 2,
+          "op": "tap",
+          "ms": 381.26158299995586,
+          "success": true
+        },
+        {
+          "step": 3,
+          "op": "tap",
+          "ms": 373.60187500016764,
+          "success": true
+        }
+      ],
+      "verified_value": 15
+    },
+    {
+      "round": 1,
+      "ms": 1480.7005420001224,
+      "success": true,
+      "driver_ms": 1480.6531670000404,
+      "timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 364.69304100004956,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "tap",
+          "ms": 369.4509999998845,
+          "success": true
+        },
+        {
+          "step": 2,
+          "op": "tap",
+          "ms": 360.9485829998739,
+          "success": true
+        },
+        {
+          "step": 3,
+          "op": "tap",
+          "ms": 385.5554169998504,
+          "success": true
+        }
+      ],
+      "verified_value": 15
+    },
+    {
+      "round": 2,
+      "ms": 1473.2147500002757,
+      "success": true,
+      "driver_ms": 1473.1114999996498,
+      "timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 354.7188750002533,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "tap",
+          "ms": 365.19658300001174,
+          "success": true
+        },
+        {
+          "step": 2,
+          "op": "tap",
+          "ms": 369.7402079999447,
+          "success": true
+        },
+        {
+          "step": 3,
+          "op": "tap",
+          "ms": 383.4514999999665,
+          "success": true
+        }
+      ],
+      "verified_value": 15
+    },
+    {
+      "round": 3,
+      "ms": 1455.9594160001725,
+      "success": true,
+      "driver_ms": 1455.858874999918,
+      "timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 359.7082499996759,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "tap",
+          "ms": 363.99979199981317,
+          "success": true
+        },
+        {
+          "step": 2,
+          "op": "tap",
+          "ms": 360.92758300015703,
+          "success": true
+        },
+        {
+          "step": 3,
+          "op": "tap",
+          "ms": 371.2185410000384,
+          "success": true
+        }
+      ],
+      "verified_value": 15
+    },
+    {
+      "round": 4,
+      "ms": 1446.83212500019,
+      "success": true,
+      "driver_ms": 1446.7515830001794,
+      "timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 360.6444580000825,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "tap",
+          "ms": 356.31016700016335,
+          "success": true
+        },
+        {
+          "step": 2,
+          "op": "tap",
+          "ms": 361.00924999965355,
+          "success": true
+        },
+        {
+          "step": 3,
+          "op": "tap",
+          "ms": 368.7820419999771,
+          "success": true
+        }
+      ],
+      "verified_value": 15
+    }
+  ],
+  "scope": "Warm Calculator on the same native backend. Interactive trial includes agent/tool turn gaps; local batch elapsed excludes model planning. Small exploratory comparison, no universal speed ratio.",
+  "interactive_wall_ms": 19154.092375000007,
+  "interactive_success": true,
+  "batch_median_ms": 1473.2147500002757,
+  "interactive_tool_calls": 4,
+  "batch_tool_calls_per_task": 1,
+  "estimated_interactive_non_driver_ms": 17660.868457999546,
+  "jev": [
+    {
+      "round": 0,
+      "ms": 1923.6405,
+      "ok": true,
+      "reason": "Completion predicate observed",
+      "outcome": "verified",
+      "actions": 4,
+      "chooser_calls": 4,
+      "events": [
+        {
+          "kind": "choice",
+          "ms": 125.50995799999998,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 842,
+            "output_tokens": 83
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.96
+        },
+        {
+          "kind": "action",
+          "ms": 354.26145800000006,
+          "ok": true
+        },
+        {
+          "kind": "choice",
+          "ms": 110.48908400000005,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 873,
+            "output_tokens": 83
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.98
+        },
+        {
+          "kind": "action",
+          "ms": 361.081375,
+          "ok": true
+        },
+        {
+          "kind": "choice",
+          "ms": 116.0341249999999,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 907,
+            "output_tokens": 83
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.98
+        },
+        {
+          "kind": "action",
+          "ms": 368.814208,
+          "ok": true
+        },
+        {
+          "kind": "choice",
+          "ms": 68.52591699999994,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 941,
+            "output_tokens": 83
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.98
+        },
+        {
+          "kind": "action",
+          "ms": 367.7995000000001,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "ms": 1866.887041,
+      "ok": true,
+      "reason": "Completion predicate observed",
+      "outcome": "verified",
+      "actions": 4,
+      "chooser_calls": 4,
+      "events": [
+        {
+          "kind": "choice",
+          "ms": 97.74779200000012,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 842,
+            "output_tokens": 83
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.97
+        },
+        {
+          "kind": "action",
+          "ms": 380.202542,
+          "ok": true
+        },
+        {
+          "kind": "choice",
+          "ms": 81.73999999999978,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 873,
+            "output_tokens": 83
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.98
+        },
+        {
+          "kind": "action",
+          "ms": 365.5481669999999,
+          "ok": true
+        },
+        {
+          "kind": "choice",
+          "ms": 75.19849999999997,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 907,
+            "output_tokens": 83
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.98
+        },
+        {
+          "kind": "action",
+          "ms": 362.78733399999965,
+          "ok": true
+        },
+        {
+          "kind": "choice",
+          "ms": 76.515042,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 941,
+            "output_tokens": 83
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.98
+        },
+        {
+          "kind": "action",
+          "ms": 370.1922089999998,
+          "ok": true
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "ms": 1912.1966659999998,
+      "ok": true,
+      "reason": "Completion predicate observed",
+      "outcome": "verified",
+      "actions": 4,
+      "chooser_calls": 4,
+      "events": [
+        {
+          "kind": "choice",
+          "ms": 113.87904100000014,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 842,
+            "output_tokens": 83
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.97
+        },
+        {
+          "kind": "action",
+          "ms": 366.11041599999953,
+          "ok": true
+        },
+        {
+          "kind": "choice",
+          "ms": 101.45629199999985,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 873,
+            "output_tokens": 83
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.98
+        },
+        {
+          "kind": "action",
+          "ms": 369.8710000000001,
+          "ok": true
+        },
+        {
+          "kind": "choice",
+          "ms": 52.629000000000815,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 907,
+            "output_tokens": 83
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.98
+        },
+        {
+          "kind": "action",
+          "ms": 400.4324999999999,
+          "ok": true
+        },
+        {
+          "kind": "choice",
+          "ms": 75.17862499999956,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 941,
+            "output_tokens": 83
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.98
+        },
+        {
+          "kind": "action",
+          "ms": 364.5101249999998,
+          "ok": true
+        }
+      ]
+    }
+  ],
+  "jev_scope": "Live TypeSafe API, same four permitted current Calculator keys, fresh screen at every decision, independent result15 check. Selected screen text sent under explicit benchmark opt-in. No extra model used for generating text.",
+  "jev_attempts": [
+    {
+      "round": 0,
+      "ms": 244.14987499999995,
+      "ok": false,
+      "reason": "The value of \"delay\" is out of range. It must be an integer. Received 29756.700667",
+      "outcome": "unknown",
+      "actions": 0,
+      "chooser_calls": 1,
+      "events": [
+        {
+          "kind": "choice",
+          "ms": 184.26045799999997,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 842,
+            "output_tokens": 83
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.97
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "interactive_samples": 1,
+    "interactive_ms": 19154.092375000007,
+    "interactive_driver_ms": 1493.2239170004614,
+    "batch_samples": 5,
+    "batch_successes": 5,
+    "batch_median_ms": 1473.2147500002757,
+    "jev_samples": 3,
+    "jev_successes": 3,
+    "jev_median_ms": 1912.1966659999998,
+    "jev_decision_median_ms": 89.74389599999995,
+    "live_model": "jev-1.14.0",
+    "jev_input_tokens_successful_trials": 10689,
+    "jev_output_tokens_successful_trials": 996,
+    "scope_limit": "One interactive sample versus repeated local modes on a familiar warm Calculator task. The observed ratios include removed agent/tool turn gaps; they are not raw touch speedups or all-app estimates."
+  }
+}

@@ -1,23 +1,42 @@
-✔ HMAC matches the pinned native runner canonical format (0.781625ms)
-✔ runner transport signs real HTTP requests and does not replay ambiguous mutations (9.943917ms)
-✔ unique selector refuses duplicate controls rather than choosing the first (0.152875ms)
-✔ one observation supplies registered handle, avoiding a second full tree lookup (0.297834ms)
-✔ stale ref is rejected before any input dispatch (0.138416ms)
-✔ batch stops after an unknown input outcome and does not execute the next step (0.068167ms)
-✔ required-state wait accepts the first correct observation without double settling (0.094375ms)
-✔ cancelled execution never dispatches input (0.159083ms)
-✔ unknown operations are rejected before executing earlier valid steps (0.073625ms)
-✔ real MCP framing advertises only three small tools and rejects unknown methods (12.246375ms)
-✔ real HTTP waits accept fractional remaining deadlines (3.715666ms)
-✔ a newly appearing target uses its new snapshot handle, without another locator query (0.178ms)
-✔ action observations normalize new handles before the next dependent action (0.111166ms)
-✔ coordinate input carries its screen snapshot to the device for app revalidation (0.068167ms)
-✔ queued MCP cancellation is honored before the second task can dispatch (40.993917ms)
-ℹ tests 15
+
+> iphone-sprint@0.1.0 test
+> node --test test/*.test.mjs
+
+✔ HMAC matches the pinned native runner canonical format (1.18725ms)
+✔ runner transport signs real HTTP requests and does not replay ambiguous mutations (11.524833ms)
+✔ unique selector refuses duplicate controls rather than choosing the first (0.223167ms)
+✔ one observation supplies registered handle, avoiding a second full tree lookup (0.499416ms)
+✔ stale ref is rejected before any input dispatch (0.202708ms)
+✔ batch stops after an unknown input outcome and does not execute the next step (0.115917ms)
+✔ required-state wait accepts the first correct observation without double settling (0.118125ms)
+✔ cancelled execution never dispatches input (0.244916ms)
+✔ unknown operations are rejected before executing earlier valid steps (0.1005ms)
+✔ real MCP framing advertises only three small tools and rejects unknown methods (13.224541ms)
+✔ real HTTP waits accept fractional remaining deadlines (5.303916ms)
+✔ a newly appearing target uses its new snapshot handle, without another locator query (0.211125ms)
+✔ action observations normalize new handles before the next dependent action (0.186875ms)
+✔ coordinate input carries its screen snapshot to the device for app revalidation (0.106917ms)
+✔ pixel observation skips AX and supplies the context for a guarded coordinate tap (0.093125ms)
+✔ queued MCP cancellation is honored before the second task can dispatch (45.720917ms)
+✔ a failed postcondition invalidates handles and recovery must obtain fresh context (26.641167ms)
+✔ an interrupted observation does not retain the previous screen context (0.154208ms)
+✔ native delivery receipts distinguish unsent input from applied input with a failed read (2.447792ms)
+✔ navigation projection reduces model payload while keeping full native text available (0.109416ms)
+✔ phone control verifies zero media volume and sends only the needed volume-down events (0.117084ms)
+✔ unverifiable media mute prevents app control (0.141334ms)
+✔ bounded local-loop execution accepts fractional remaining time (0.085458ms)
+✔ JEV uses the primary API shape and sends only bounded candidate labels (1.093042ms)
+✔ a malformed or fabricated JEV action is refused (0.279625ms)
+✔ local goal requires explicit external UI opt-in before observing or sending (0.341458ms)
+✔ one bounded chooser action succeeds only after its independent predicate appears (0.644708ms)
+✔ JEV DONE cannot substitute for a visible result (0.231541ms)
+✔ a low-confidence decision and protected publication target send no input (0.162209ms)
+✔ an uncertain native action is handed back once without replay (0.1385ms)
+ℹ tests 30
 ℹ suites 0
-ℹ pass 15
+ℹ pass 30
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 144.326292
+ℹ duration_ms 223.515417

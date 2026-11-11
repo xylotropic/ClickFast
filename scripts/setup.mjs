@@ -25,8 +25,34 @@ console.log('Building the MIT runner with your Apple development team…');
 await run('xcodebuild',['build-for-testing','-project',project,'-scheme','IPhoneUseRunner','-destination',`id=${udid}`,
   '-derivedDataPath',derived,'-allowProvisioningUpdates','-allowProvisioningDeviceRegistration',
   `DEVELOPMENT_TEAM=${team}`,'CODE_SIGN_STYLE=Automatic','CODE_SIGN_IDENTITY=Apple Development',
-  'PRODUCT_BUNDLE_IDENTIFIER=io.github.xylotropic.iphone-sprint'],'build.log');
+  'PRODUCT_BUNDLE_IDENTIFIER=io.github.xylotropic.iphone-sprint',
+  'INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription=Import a generated video for an explicitly requested posting test.'],'build.log');
 const product=join(derived,'Build/Products');
+// Xcode's generated UI-test host has its own Info.plist; target INFOPLIST_KEY values
+// do not reach it. Give the host a modern launch screen (otherwise iOS uses a 320x480
+// compatibility canvas), add the optional fixture purpose, and re-sign it
+// using the exact identity and entitlements from this successful signed build.
+{
+ const app=join(product,'Debug-iphoneos/iPhoneUse-Runner.app');
+ const entitlements=join(state,'runner-entitlements.plist');
+ const original=execFileSync('/usr/bin/codesign',['-d','--entitlements',':-',app],{stdio:['ignore','pipe','pipe']});
+ await writeFile(entitlements,original,{mode:0o600});
+ const buildLog=await readFile(join(state,'build.log'),'utf8');
+ const identity=[...buildLog.matchAll(/\/usr\/bin\/codesign --force --sign ([A-F0-9]{40}) /g)].at(-1)?.[1];
+ if(!identity)throw new Error('Could not identify the successful build signing identity; no app was modified.');
+ const patchInfo=`import plistlib,sys
+p=sys.argv[1]
+with open(p,'rb') as f: d=plistlib.load(f)
+d['UILaunchScreen']={}
+d['CFBundleDisplayName']='iPhone Sprint'
+if sys.argv[2]=='1': d['NSPhotoLibraryAddUsageDescription']='Import a generated video for an explicitly requested posting test.'
+else: d.pop('NSPhotoLibraryAddUsageDescription',None)
+with open(p,'wb') as f: plistlib.dump(d,f,fmt=plistlib.FMT_BINARY)
+`;
+ execFileSync('/usr/bin/python3',['-c',patchInfo,join(app,'Info.plist'),args.includes('--enable-media-import')?'1':'0'],{stdio:['ignore','pipe','pipe']});
+ execFileSync('/usr/bin/codesign',['--force','--sign',identity,'--entitlements',entitlements,'--timestamp=none',app],{stdio:['ignore','pipe','pipe']});
+ execFileSync('/usr/bin/codesign',['--verify','--deep','--strict',app],{stdio:['ignore','pipe','pipe']});
+}
 const xctestrun=(await readdir(product)).find(name=>name.endsWith('.xctestrun')&&name!=='Sprint.xctestrun');
 if(!xctestrun)throw new Error('Build produced no xctestrun file');
 let token;
@@ -39,7 +65,7 @@ p=plistlib.load(open(sys.argv[1],'rb'))
 def patch(v):
  if isinstance(v,dict):
   if 'TestBundlePath' in v:
-   v.setdefault('EnvironmentVariables',{}).update({'IPU_RUNNER_TOKEN':sys.stdin.read().strip(),'IPU_RUNNER_PORT':'8100','IPU_RUNNER_MJPEG_PORT':'0'})
+   v.setdefault('EnvironmentVariables',{}).update({'IPU_RUNNER_TOKEN':sys.stdin.read().strip(),'IPU_RUNNER_PORT':'8100','IPU_RUNNER_MJPEG_PORT':'0','IPU_SPRINT_MEDIA_IMPORT':sys.argv[3]})
   for x in v.values(): patch(x)
  elif isinstance(v,list):
   for x in v: patch(x)
@@ -47,7 +73,7 @@ patch(p)
 with open(sys.argv[2],'wb') as f: plistlib.dump(p,f)
 os.chmod(sys.argv[2],0o600)
 `;
-execFileSync('/usr/bin/python3',['-c',python,join(product,xctestrun),launch],{input:token,stdio:['pipe','pipe','pipe']});
+execFileSync('/usr/bin/python3',['-c',python,join(product,xctestrun),launch,args.includes('--enable-media-import')?'1':'0'],{input:token,stdio:['pipe','pipe','pipe']});
 await writeFile(join(state,'config.json'),JSON.stringify({udid,team,port})+'\n',{mode:0o600});
 async function background(program,argv,log){
   const fd=await open(join(state,log),'a',0o600);

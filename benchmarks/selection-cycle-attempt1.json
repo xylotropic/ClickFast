@@ -1,0 +1,37 @@
+{
+  "time": "2026-11-11T20:39:43.716Z",
+  "task": "Fresh read, select 7, verify Calculator display",
+  "trials": [
+    {
+      "round": 0,
+      "mode": "source_then_find",
+      "ms": 416.35016600000006,
+      "success": true,
+      "requests": [
+        {
+          "path": "/source",
+          "ms": 39.042417,
+          "bytes": 9205
+        },
+        {
+          "path": "/elements",
+          "ms": 35.75508300000001,
+          "bytes": 139
+        },
+        {
+          "path": "/element/:id/click",
+          "ms": 285.83954100000005,
+          "bytes": 14
+        },
+        {
+          "path": "/source",
+          "ms": 54.45287500000006,
+          "bytes": 9226
+        }
+      ]
+    }
+  ],
+  "scope": "Driver-only cycle on the same phone and backend. Excludes reset, model inference and launch. No Mirroring or general posting speed ratio.",
+  "error": "The operation was aborted",
+  "incomplete": true
+}

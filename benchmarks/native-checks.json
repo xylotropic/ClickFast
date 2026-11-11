@@ -1,0 +1,6 @@
+{
+  "updated_at": "2026-11-11T20:48:00.130703+00:00",
+  "checks": 247,
+  "passed": true,
+  "signed_device_build": "passed; installed and served after native target-admission changes"
+}

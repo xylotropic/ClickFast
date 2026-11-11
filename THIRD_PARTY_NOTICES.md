@@ -9,3 +9,7 @@ That historical MIT grant is the basis for this vendored copy. Later iphone-use 
 Local changes are the `/sprint/observe` and `/sprint/act` routes in `RunnerTests.swift`. These register live handles during observation and validate snapshot ownership before element clicks. The Node controller and MCP server are new MIT code.
 
 `iproxy` is an external optional prerequisite from libusbmuxd, installed independently through Homebrew. It is not bundled or relicensed by this repository. Apple XCTest and Xcode are external Apple prerequisites, not included in the distribution.
+
+## Thinking Orbs / Libraries.dev
+
+The runner UI embeds the official SwiftUI ThinkingOrbsKit source from Jakub Antalik's Libraries.dev, revision `387b049ca8fe97b5d72999b5bf61a19ab1ccff81`, under MIT. Source and the complete upstream license are in `vendor/iphone-use/runner/IPhoneUseRunner/IPhoneUseRunnerUITests/ThinkingOrbs/`. See its `UPSTREAM.md` for provenance.

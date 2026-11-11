@@ -1,12 +1,12 @@
 # JEV for choosing the next iPhone action
 
-Research checked November 11, 2026. No live JEV requests were made for this report. No iPhone JEV latency, accuracy or task-speed result has been measured here.
+Research checked November 11, 2026. Primary-source research was followed by live physical-Calculator tests. See the implementation/benchmark note below; the literature’s Android findings remain separate.
 
 ## Recommendation
 
 Keep the default controller dependency-free. The smallest promising optional addition is **a text-only Choice over fresh accessibility action IDs**, inside a bounded local execution loop. Keep the existing agent for interpreting the user's task, supplying exact text, and reviewing outcomes. Jev is a typed decision service, not a replacement for the coding agent's reasoning model. [TypeSafe: Jev with coding agents](https://docs.typesafe.ai/introduction/coding-agents)
 
-Our proposed flow is: agent supplies one local goal → observe → construct current candidates → Jev chooses → validate and execute → observe again. Return control when the goal completes, the action set is insufficient, a budget expires, or an outcome is uncertain. This is a design recommendation, not an implemented or benchmarked feature.
+The experimental implemented flow is: agent supplies one local goal → observe → construct current candidates → Jev chooses → validate and execute → observe again. Return control when the goal completes, the action set is insufficient, a budget expires, or an outcome is uncertain. The optional `src/jev.mjs` implements bounded tap navigation with explicit app/selector scope and per-goal external-UI opt-in. It is contract-tested; a small live Calculator test has run, without establishing broad accuracy. Text entry, publication and sensitive actions remain with the calling agent.
 
 Use direct selection when the agent already knows the unique target. Calling another model to select an exact known label adds work. The potential gain comes from replacing several expensive agent decisions on changing screens, not from adding a second decision to every existing tool call. That break-even point must be measured.
 
@@ -95,3 +95,11 @@ Compare three modes using the same direct driver and identical postconditions: e
 Start with private, manually labeled observations gathered during required TikTok/Reel tests. Use them to test selection without dispatching clicks; then run bounded reversible navigation. Actual publication verification remains necessary to satisfy the user's required posting tests. Keep the exact clip and audience consistent across comparable trials and avoid duplicate public posts merely to enlarge the sample.
 
 The decision rule is total time to a correct result: **agent time saved must exceed added Jev requests, extra observations, handoffs and recovery**. Report both success rate and task time, with sample counts. No claim that JEV is faster on this phone is justified until that comparison runs.
+
+## Current implementation and limits
+
+`JevChooser` calls the official HTTPS endpoint with Choice and Noul in one request, uses a retained fetch implementation, and validates answer type/membership, finite distributions, selected argmax and all configured gates. `runLocalGoal` requires explicit permitted apps/selectors and a visible completion predicate, with action/time/no-progress bounds. It consumes current refs through the native controller and never retries uncertain input. Events retain timing, resolved model and token usage without private UI text.
+
+Default gates are0.9 and are not calibrated guarantees. Protected-label filtering is English and conservative; the higher-level agent's authorized app/selector scope remains essential. A local-goal result is only as strong as its provided completion predicate. It is not a publication verifier or a general authorization mechanism. Full native overlay ownership and in-flight cancellation cleanup are still separate work.
+
+A TypeSafe key can be provided through `TYPESAFE_API_KEY` or local ignored `.state/jev-token`. Each goal requires `external_ui_opt_in:true`; UI candidate labels, bounded visible static text and goal then leave the Mac for TypeSafe. Editable field values and screenshots are not sent. Live `jev-1.14.0` completed three repeated Calculator tasks correctly, median1.91 s with decision median89.74 ms. The actual Node24 stdio MCP entry completed another verified task in1.93 s. One separate interactive coding-agent trial took19.15 s, of which1.49 s was driver work. Familiar-task/order effects and the single interactive sample prevent extrapolating this ratio to other apps. All raw timing/token metadata, including a failed initial adapter attempt, are in `benchmarks/calculator-task.json` and `mcp-live.json`. No price-based cost estimate is made.

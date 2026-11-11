@@ -1,0 +1,82 @@
+{
+  "time": "2026-11-11T20:56:16.962Z",
+  "entrypoint": "Configured Node24.14.0 persistent stdio MCP",
+  "stages": [],
+  "tools": 3,
+  "schema_bytes": 2570,
+  "elapsed_ms": 1934.9430830000001,
+  "ok": true,
+  "chooser_calls": 4,
+  "actions": 4,
+  "events": [
+    {
+      "kind": "choice",
+      "ms": 123.102709,
+      "model": "jev-1.14.0",
+      "usage": {
+        "input_tokens": 822,
+        "output_tokens": 83
+      },
+      "confidence": 1,
+      "selected_probability": 1,
+      "available": 0.95
+    },
+    {
+      "kind": "action",
+      "ms": 357.655666,
+      "ok": true
+    },
+    {
+      "kind": "choice",
+      "ms": 70.74574999999982,
+      "model": "jev-1.14.0",
+      "usage": {
+        "input_tokens": 853,
+        "output_tokens": 83
+      },
+      "confidence": 1,
+      "selected_probability": 1,
+      "available": 0.98
+    },
+    {
+      "kind": "action",
+      "ms": 357.0936250000002,
+      "ok": true
+    },
+    {
+      "kind": "choice",
+      "ms": 86.37541699999997,
+      "model": "jev-1.14.0",
+      "usage": {
+        "input_tokens": 887,
+        "output_tokens": 83
+      },
+      "confidence": 1,
+      "selected_probability": 1,
+      "available": 0.98
+    },
+    {
+      "kind": "action",
+      "ms": 367.0673750000001,
+      "ok": true
+    },
+    {
+      "kind": "choice",
+      "ms": 103.98295800000028,
+      "model": "jev-1.14.0",
+      "usage": {
+        "input_tokens": 921,
+        "output_tokens": 83
+      },
+      "confidence": 1,
+      "selected_probability": 1,
+      "available": 0.98
+    },
+    {
+      "kind": "action",
+      "ms": 366.12670899999966,
+      "ok": true
+    }
+  ],
+  "verified_value": 15
+}

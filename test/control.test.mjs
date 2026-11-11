@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import http from 'node:http';
 import {createHash,createHmac} from 'node:crypto';
 import {Runner,Controller,authorization,select} from '../src/driver.mjs';
-import {compact,tools,serve} from '../src/cli.mjs';
+import {compact,tools,serve,ensureMuted} from '../src/cli.mjs';
 import {PassThrough} from 'node:stream';
 const token='a'.repeat(64);
 const screen=()=>({snapshot:'snapshot-1',app:'test.app',width:400,height:800,elements:[{kind:'Button',label:'Search',ref:'native-id',enabled:true,rect:{x:10,y:10,width:50,height:50}}]});
@@ -112,15 +112,72 @@ test('coordinate input carries its screen snapshot to the device for app revalid
  const result=await c.execute([{op:'tap_point',x:20,y:20,snapshot:s.snapshot,observe:false}]);
  assert.equal(result.ok,true);assert.equal(dispatched.snapshot,s.snapshot);
 });
+test('pixel observation skips AX and supplies the context for a guarded coordinate tap',async()=>{
+ const calls=[];const frame={...screen(),mode:'pixels',elements:[]};
+ const c=new Controller({call:async(path,body)=>{calls.push({path,body});return path==='/sprint/frame'?frame:null;}});
+ const s=await c.observe({pixelsOnly:true});
+ const r=await c.execute([{op:'tap_point',x:20,y:30,snapshot:s.snapshot,observe:false}]);
+ assert.equal(r.ok,true);assert.equal(calls.length,2);assert.equal(calls[0].path,'/sprint/frame');
+ assert.equal(calls[1].body.snapshot,s.snapshot);
+ assert.ok(!calls.some(x=>x.path==='/sprint/observe'));
+});
 test('queued MCP cancellation is honored before the second task can dispatch',async()=>{
  const input=new PassThrough(),output=new PassThrough();let release,calls=0;
  const hold=new Promise(resolve=>{release=resolve;});const messages=[];
  output.on('data',data=>messages.push(...data.toString().trim().split('\n').map(JSON.parse)));
- const controller={runner:{call:async()=>({}),close(){}},execute:async()=>{calls++;await hold;return {ok:true,completed:[],timings:[],observation:null};}};
+ const controller={runner:{call:async()=>({media_volume:0}),close(){}},execute:async()=>{calls++;await hold;return {ok:true,completed:[],timings:[],observation:null};}};
  await serve(controller,input,output);
  for(const id of [1,2])input.write(JSON.stringify({jsonrpc:'2.0',id,method:'tools/call',params:{name:'sprint_execute',arguments:{steps:[{op:'home'}]}}})+'\n');
  await new Promise(r=>setTimeout(r,5));
  input.write(JSON.stringify({jsonrpc:'2.0',method:'notifications/cancelled',params:{requestId:2}})+'\n');
  release();await new Promise(r=>setTimeout(r,25));input.end();
  assert.equal(calls,1);assert.equal(messages.find(m=>m.id===2).error.code,-32800);
+});
+test('a failed postcondition invalidates handles and recovery must obtain fresh context',async()=>{
+ let reads=0,dispatch;
+ const c=new Controller({call:async(path,body)=>{
+  if(path==='/sprint/observe'){reads++;const s=screen();s.snapshot=`revision-${reads}`;return s;}
+  dispatch=body;return null;
+ }});
+ const failed=await c.execute([{op:'wait',expect:{selector:{label:'Missing'}},timeout_ms:1}]);
+ assert.equal(failed.ok,false);assert.equal(c.current,null);assert.equal(failed.observation.stale,true);
+ const seenReads=reads;
+ const recovered=await c.execute([{op:'tap',selector:{label:'Search'},observe:false}]);
+ assert.equal(recovered.ok,true);assert.equal(reads,seenReads+1);assert.equal(dispatch.snapshot,`revision-${reads}`);
+});
+test('an interrupted observation does not retain the previous screen context',async()=>{
+ let reads=0;
+ const c=new Controller({call:async()=>{if(++reads===1)return screen();throw new Error('read interrupted');}});
+ await c.observe();await assert.rejects(c.observe(),/read interrupted/);assert.equal(c.current,null);
+});
+
+test('native delivery receipts distinguish unsent input from applied input with a failed read',async()=>{
+ let delivery='not_sent';
+ const server=http.createServer((request,response)=>{response.statusCode=409;response.setHeader('X-Sprint-Delivery',delivery);response.end(JSON.stringify({value:{error:'screen_changed',message:'fresh observation required'}}));});
+ await new Promise(r=>server.listen(0,'127.0.0.1',r));
+ const runner=new Runner({token,port:server.address().port});
+ try {for(const expected of ['not_sent','applied','unknown']){delivery=expected;await assert.rejects(runner.call('/sprint/act',{}),e=>e.outcome===expected);}}
+ finally {runner.close();await new Promise(r=>server.close(r));}
+});
+
+test('navigation projection reduces model payload while keeping full native text available',()=>{
+ const full=screen();full.elements.push({kind:'StaticText',label:'Readable content'});
+ const nav=compact(full,{view:'navigation'});
+ assert.equal(nav.elements.length,1);assert.equal(full.elements.length,2);
+ assert.equal(compact(full).elements[1].label,'Readable content');
+ assert.equal(nav.elements[0].ref,'native-id');
+});
+
+test('phone control verifies zero media volume and sends only the needed volume-down events',async()=>{
+ let volume=0.5;const paths=[];const runner={call:async(path,body)=>{paths.push(path);if(path==='/sprint/audio')return {media_volume:volume};assert.equal(body.name,'volumeDown');volume-=0.25;}};
+ const muted=await ensureMuted(runner);assert.equal(muted.muted,true);assert.equal(volume,0);assert.equal(paths.filter(x=>x==='/wda/pressButton').length,2);
+ paths.length=0;await ensureMuted(runner);assert.deepEqual(paths,['/sprint/audio']);
+});
+test('unverifiable media mute prevents app control',async()=>{
+ await assert.rejects(ensureMuted({call:async()=>({})}),/not verified/);
+ let presses=0;await assert.rejects(ensureMuted({call:async(path)=>{if(path==='/sprint/audio')return {media_volume:1};presses++;}}),/not verified/);assert.equal(presses,16);
+});
+
+test('bounded local-loop execution accepts fractional remaining time',async()=>{
+ const c=new Controller({call:async()=>null});const r=await c.execute([{op:'home',observe:false}],{timeout:1234.56});assert.equal(r.ok,true);
 });

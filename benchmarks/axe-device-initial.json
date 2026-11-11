@@ -1,0 +1,16 @@
+{
+  "time": "2026-11-11T20:42:13.525Z",
+  "version": "v2.0.2",
+  "release_sha256": "ba11a0e584156b7e3cdfcdfdbd66a0ea2c6029a255033369cad7ab3f49531731",
+  "isolation": "XCTest stopped and host process exit confirmed; Mirroring quit",
+  "trials": [
+    {
+      "command": "doctor",
+      "ms": 1198.746041,
+      "success": false,
+      "error_code": 1,
+      "signal": null,
+      "killed": false
+    }
+  ]
+}

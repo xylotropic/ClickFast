@@ -1,0 +1,55 @@
+{
+  "time": "2026-11-11T19:59:15.832Z",
+  "scope": "Physical-device preflight; no completed-app speed claim.",
+  "tests": [
+    {
+      "name": "native_protocol",
+      "expected": "ready with Sprint protocol 1",
+      "observed": {
+        "ready": true,
+        "sprint_protocol": 1
+      },
+      "success": true,
+      "ms": 6.776416999999995
+    },
+    {
+      "name": "authentication",
+      "expected": "unsigned request is refused",
+      "observed": {
+        "http_status": 401
+      },
+      "success": true,
+      "ms": 4.241332999999997
+    },
+    {
+      "name": "invalid_snapshot_input",
+      "expected": "input refused before dispatch",
+      "observed": {
+        "refused": true,
+        "reason": "stale_snapshot",
+        "input_dispatched": false
+      },
+      "success": true,
+      "ms": 5.732791999999989
+    }
+  ],
+  "environment": {
+    "os": {
+      "sdkVersion": "26.5",
+      "name": "iOS",
+      "version": "26.5"
+    },
+    "runner": {
+      "productBundleIdentifier": "io.github.xylotropic.iphone-sprint",
+      "runner": "iphone-use-native",
+      "version": "0.2.0"
+    }
+  },
+  "locked": false,
+  "resources": {
+    "relay_rss_kib": 1888,
+    "measurement_process_rss_bytes": 59981824,
+    "note": "One idle host sample, not device-runner memory or sustained workload CPU."
+  },
+  "success": true
+}

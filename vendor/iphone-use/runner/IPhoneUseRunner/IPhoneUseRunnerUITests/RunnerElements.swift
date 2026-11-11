@@ -97,6 +97,28 @@ final class UINode {
   }
 }
 
+/// Small target admission rules inspired by AXe's protected-reference contract.
+/// The live node must come from the SAME registered native element, never a label search.
+enum SprintTargetAdmission {
+  static func refusal(stored: UINode, current: UINode, screen: CGSize) -> String? {
+    guard current.pid == stored.pid, current.type == stored.type,
+      current.identifier == stored.identifier, current.label == stored.label,
+      current.value == stored.value else { return "Target changed; observe again" }
+    guard current.isEnabled else { return "Target is disabled" }
+    let frame = current.rect
+    guard [frame.minX, frame.minY, frame.width, frame.height, screen.width, screen.height].allSatisfy({ $0.isFinite }),
+      frame.width > 0, frame.height > 0,
+      CGRect(origin: .zero, size: screen).contains(frame) else {
+      return "Target is not fully on screen; scroll explicitly and observe again"
+    }
+    guard abs(frame.minX - stored.rect.minX) < 0.5,
+      abs(frame.minY - stored.rect.minY) < 0.5,
+      abs(frame.width - stored.rect.width) < 0.5,
+      abs(frame.height - stored.rect.height) < 0.5 else { return "Target moved; observe again" }
+    return nil
+  }
+}
+
 enum RunnerElementTypes {
   static let names: [String] = (0...82).map { IPURBridge.elementTypeName($0) }
   static let indexByName: [String: Int] = Dictionary(uniqueKeysWithValues: names.enumerated().map { ($1, $0) })

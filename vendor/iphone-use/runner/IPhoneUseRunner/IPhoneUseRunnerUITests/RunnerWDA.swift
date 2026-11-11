@@ -166,7 +166,7 @@ extension RunnerTests {
   // MARK: - Trees
 
   /// The foreground app's tree with live AX elements on every node.
-  func foregroundTree(_ target: Foreground? = nil) throws -> UINode {
+  func foregroundTree(_ target: Foreground? = nil, publicFallback: Bool = true) throws -> UINode {
     let target = target ?? foreground()
     if let element = target.element {
       let tree = IPURBridge.wdaTree(
@@ -177,6 +177,9 @@ extension RunnerTests {
         return UINode(raw: root, parent: nil, pid: target.pid)
       }
       NSLog("ipu-runner: element tree via private AX failed: %@", tree[IPURTreeErrorKey] as? String ?? "?")
+    }
+    guard publicFallback else {
+      throw RunnerError.failed("Accessibility is unavailable for this screen; use a pixel observation")
     }
     let application = target.application
     var snapshot: XCUIElementSnapshot?

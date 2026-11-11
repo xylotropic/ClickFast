@@ -931,5 +931,22 @@ do {
   }
 }
 
+// Sprint protected-target cases. Uses the real admission helper, without device input.
+do {
+  func target(_ x: Double = 10, label: String = "Continue", enabled: Bool = true, pid: Int32 = 3) -> UINode {
+    UINode(raw: ["type": "XCUIElementTypeButton", "rawIdentifier": "continue", "label": label,
+      "isEnabled": enabled ? "1" : "0", "rect": ["x": x, "y": 10, "width": 50, "height": 40]], parent: nil, pid: pid)
+  }
+  let stored = target(), screen = CGSize(width: 400, height: 800)
+  func refused(_ node: UINode) -> Bool { SprintTargetAdmission.refusal(stored: stored, current: node, screen: screen) != nil }
+  check(!refused(target()), "Sprint accepts unchanged live target")
+  check(refused(target(20)), "Sprint refuses a moved target")
+  check(refused(target(label: "Share")), "Sprint refuses changed target meaning")
+  check(refused(target(enabled: false)), "Sprint refuses disabled target")
+  check(refused(target(-1)), "Sprint refuses partially off-screen target without scrolling")
+  check(refused(target(Double.nan)), "Sprint refuses non-finite frame")
+  check(refused(target(pid: 4)), "Sprint refuses changed process")
+}
+
 print(failures == 0 ? "unit check: \(checks) checks passed" : "unit check: \(failures) of \(checks) checks FAILED")
 exit(failures == 0 ? 0 : 1)

@@ -1,8 +1,8 @@
 # iPhone Sprint
 
-Tiny, general iPhone control for coding agents. One signed XCTest runner, a USB relay, and **three MCP tools**. No saved routines, cloud service, video stream, npm packages, or model API required.
+Tiny, general iPhone control for coding agents. One signed XCTest runner, a USB relay, and **three MCP tools**. No saved routines, mandatory cloud service, video stream, npm packages, or extra model API. The optional JEV loop is off until configured and explicitly requested.
 
-**Status:** the signed runner builds and has served commands on a physical iPhone 16 Pro Max. Hardware benchmarking is in progress. No completed speedup or world-fastest claim is supported yet. See [measurement status](benchmarks/STATUS.md).
+**Measured on a physical iPhone:** the same warm Calculator task (`7 + 8 =15`) took **19.15 s with four separate agent/tool turns**, **1.47 s median in a local batch** (5/5), and **1.91 s median with live JEV decisions** (3/3). The interactive baseline is one sample; these are gains from removing agent round trips, not a raw touch-speed or all-app guarantee. [Evidence and limits](benchmarks/STATUS.md).
 
 ## Why this can reduce overhead
 
@@ -37,7 +37,7 @@ Register the persistent stdio MCP process:
 codex mcp add iphone-sprint -- node /absolute/path/to/iphone-sprint/src/cli.mjs mcp
 ```
 
-Other MCP clients can use the same `node` command and absolute script path. Tools:
+Other MCP clients can use the same `node` command and absolute script path. **Control stays silent:** observe/execute verify native media volume at zero, lower it only when necessary, and stop if mute cannot be verified. Volume is not automatically restored. Tools:
 
 | Tool | Purpose |
 | --- | --- |
@@ -45,7 +45,7 @@ Other MCP clients can use the same `node` command and absolute script path. Tool
 | `sprint_observe` | Fresh controls/text, optional screenshot |
 | `sprint_execute` | Run up to 24 newly generated actions/checks |
 
-Only 1,894 bytes of tool schemas in the initial build. This is a schema-size measurement, not a task-speed measurement.
+The interface keeps three tools. `sprint_observe` accepts `view:"navigation"` for controls only or `view:"reading"` for visible text, and `pixels_only:true` for a screenshot/context without a tree traversal. Tool-schema size is not a task-speed measurement.
 
 Read the screen, choose current refs or unique selectors, then execute a short sequence. Example:
 
@@ -60,7 +60,7 @@ Read the screen, choose current refs or unique selectors, then execute a short s
 
 This is an example request, not a stored workflow. A click can use `selector:{"kind":"Button","label":"7"}` or `ref` plus its matching `snapshot`. Supported operations are `observe`, `wait`, `launch`, `home`, `tap`, `tap_point`, `text`, `key`, and `swipe`. Text requires a freshly observed focused nonsecure editable field. Point coordinates are screen points; scale screenshot pixels using the observation's screen dimensions.
 
-A missing target can wait locally; multiple matching targets stop. Unknown mutation outcomes stop without replay. A timeout is not evidence that a tap failed. Read the screen and resolve the outcome before continuing. Batch only actions authorized by the current user task. Stop for user takeover, authentication, unexpected sensitive screens, or ambiguous destructive actions.
+Native snapshots expire after30seconds. A click re-reads the same registered element and rejects changed meaning, moved frames, disabled controls or partial off-screen bounds; it does not silently scroll. Full overlay/hit ownership remains a separate limitation. A missing target can wait locally; multiple matching targets stop. Unknown mutation outcomes stop without replay. A timeout is not evidence that a tap failed. Read the screen and resolve the outcome before continuing. Batch only actions authorized by the current user task. Stop for user takeover, authentication, unexpected sensitive screens, or ambiguous destructive actions.
 
 An example temporary JSON request can also be run with `node src/cli.mjs execute /path/to/request.json`. CLI invocations cannot reuse another process's in-memory refs; use semantic selectors. MCP keeps its current observation in memory.
 
@@ -87,8 +87,39 @@ This project uses private XCTest interfaces. iOS updates can change their behavi
 
 ## Required product tests and local records
 
-[Acceptance tests](docs/acceptance-tests.md) require an actual TikTok post and an actual Instagram Reel, with the designated clip, account and visibility. Drafts do not count as published posts. These tests are not complete yet.
+[Acceptance tests](docs/acceptance-tests.md) require an actual TikTok post and an actual Instagram Reel, with the designated clip, account and visibility. Drafts do not count as published posts. TikTok published once as **Only you** and was verified in the private grid; playback reopen remains unverified. Instagram reached the final settings and its private draft was saved/reopened with exact caption; **Share was never dispatched** because the available audience choices failed the user’s owner-only requirement. Both full acceptance tests remain incomplete.
 
 Every execute call records per-step durations and success/outcome metadata in private `.state/runs/`. Captions, account names, screenshots and interface text are omitted from this timing journal. Valuable failure screenshots can be kept in ignored `benchmarks/private/`; do not commit them.
 
+The user subsequently replaced publication acceptance with the Calculator benchmark; posting results remain historical evidence.
+
 **Keep the two transports isolated.** Quit iPhone Mirroring before direct control. Stop the XCTest runner before testing mirroring. In testing, concurrent mirroring caused AX to report Calculator while the physical screenshot showed the locked mirroring notice. The MCP/CLI front end now refuses direct observation/input while the Mirroring process is running. `sprint_status.drivable` includes that check. Host tools cannot guarantee every off-device controller respects this rule.
+
+## Runner screen
+
+The installed runner shows the official Libraries.dev **ThinkingOrb**, state `working`,64pt, centered on a dark gray `#121212` screen. It uses the library's native SwiftUI port and pauses while backgrounded or with Reduce Motion. No React/web runtime, external assets or network is involved. [Captured animation](docs/images/working-orb.gif), [verification](benchmarks/orb-ui.json).
+
+## Optional JEV loop
+
+The largest measured saving here comes from fewer coding-agent round trips. `sprint_execute` also accepts a newly generated `local_goal` in place of `steps`. It selects among fresh permitted controls, performs one action, observes, and continues until an explicit visible predicate or a budget/handoff. This is general bounded navigation, not a saved app routine.
+
+Set `TYPESAFE_API_KEY` in the MCP environment, or save it in ignored `.state/jev-token` with mode0600. Never commit keys. Each goal must opt into sending its goal and selected UI labels to TypeSafe. No screenshots or editable field values are sent; selected control labels and bounded visible static text provide context. Live `jev-1.14.0` completed3/3 Calculator trials correctly; decision median90 ms. The actual configured Node24 stdio MCP also completed a live goal in1.93 s. This is a narrow hardware benchmark; local API-contract tests alone do not establish latency/accuracy. [Research and contract](docs/jev.md).
+
+```json
+{
+  "local_goal": {
+    "goal": "Open the editor without publishing",
+    "apps": ["the.observed.app.bundle"],
+    "allowed_selectors": [{"kind":"Button","label":"Next"}],
+    "until": {"selector":{"kind":"StaticText","label":"Editor"}},
+    "external_ui_opt_in": true,
+    "max_actions": 6
+  }
+}
+```
+
+The calling agent supplies a narrow authorized app/selector scope from the task. Protected-label filtering is an extra conservative English-language filter, not a substitute for authorization. Publication, money, authentication, consent and destructive actions stay with the calling agent. DONE from JEV never substitutes for the completion predicate; missing/ambiguous targets, uncertain delivery, no progress or exhausted budgets hand back. Choice gates are experimental and uncalibrated.
+
+## AXe review
+
+The [pinned source review](docs/axe-review.md) covers the whole tracked path inventory and traces critical implementation areas. Sprint adopts native target identity/frame admission, snapshot expiry, input-delivery receipts, compact navigation views, and a bounded optional chooser. Full overlay ownership and native cancellation propagation remain open work. AXe's runner-free path was measured in isolation: AX reads worked; its screenshot/HID services were unavailable on this phone. No blanket replacement or performance claim follows from its simulator benchmarks.

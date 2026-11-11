@@ -39,7 +39,8 @@ export class Runner {
             if(response.statusCode>=400 || json.value?.error){
               const error=new Error(json.value?.message || `HTTP ${response.statusCode}`);
               error.code=json.value?.error||'runner_error';error.status=response.statusCode;
-              error.outcome=method==='POST'?'unknown':'read_failed';
+              const delivery=response.headers['x-sprint-delivery'];
+              error.outcome=method==='POST'&&['not_sent','applied','unknown'].includes(delivery)?delivery:method==='POST'?'unknown':'read_failed';
               reject(error);
             } else resolve(json.value);
           }catch(error){fail(error);}
@@ -72,7 +73,11 @@ export class Controller {
     this.current=result;return result;
   }
   async observe(options={}) {
-    return this.adopt(await this.runner.call('/sprint/observe',undefined,options));
+    const {pixelsOnly=false,...requestOptions}=options;
+    // A timed-out device read can still finish and replace the native snapshot. Never
+    // leave older handles usable while that request has an uncertain completion.
+    this.current=null;
+    return this.adopt(await this.runner.call(pixelsOnly?'/sprint/frame':'/sprint/observe',undefined,requestOptions));
   }
   async wait(expect,{signal,timeout=5000}={}) {
     if(!expect||(!expect.app&&!expect.selector))throw new Error('Wait requires app or selector');
@@ -84,6 +89,7 @@ export class Controller {
       if((!expect.app||last.app===expect.app)&&(!expect.selector||last.elements.some(row=>matches(row,expect.selector))))return last;
       if(performance.now()<until)await new Promise(r=>setTimeout(r,25));
     }while(performance.now()<until);
+    this.current=null;
     const error=new Error('Postcondition not observed before deadline');error.observation=last;throw error;
   }
   async act(step,{signal}={}) {
@@ -141,6 +147,8 @@ export class Controller {
     return this.current || {applied:true,observation:'not_requested'};
   }
   async execute(steps,{signal,timeout=30000}={}) {
+    if(!Number.isFinite(timeout)||timeout<=0)throw new Error('Invalid execution deadline');
+    timeout=Math.max(1,Math.min(60000,Math.ceil(timeout)));
     if(!Array.isArray(steps)||steps.length<1||steps.length>24)throw new Error('Execute requires 1–24 steps');
     for(const step of steps){
       if(!step||!['tap','tap_point','launch','home','text','key','swipe','wait','observe'].includes(step.op))throw new Error('Invalid operation in batch');
@@ -161,8 +169,10 @@ export class Controller {
         timings.push({step:index,op:step.op,ms:performance.now()-stepStarted,success:true});
       }catch(error){
         timings.push({step:index,op:steps[index].op,ms:performance.now()-stepStarted,success:false});
+        const lastSeen=this.current||error.observation||null;
+        this.current=null;
         return {ok:false,completed,timings,failed_step:index,error:error.message,outcome:error.outcome||'stopped',
-          observation:this.current||error.observation||null,elapsed_ms:performance.now()-started};
+          observation:lastSeen?{...lastSeen,stale:true}:null,elapsed_ms:performance.now()-started};
       }
     }
     return {ok:true,completed,timings,observation:this.current,elapsed_ms:performance.now()-started};

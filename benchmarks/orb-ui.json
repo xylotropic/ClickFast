@@ -1,0 +1,25 @@
+{
+  "screen_px": [
+    460,
+    1000
+  ],
+  "orb_center_px": [
+    231.0,
+    501.5
+  ],
+  "screen_center_px": [
+    230.0,
+    500.0
+  ],
+  "unique_frames": 12,
+  "captured_frames": 12,
+  "state": "working",
+  "size_points": 64,
+  "background_rgb": [
+    18,
+    18,
+    18
+  ],
+  "source": "Official ThinkingOrbsKit SwiftUI port",
+  "no_web_runtime": true
+}

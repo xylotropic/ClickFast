@@ -1,0 +1,300 @@
+{
+  "time": "2026-11-11T20:40:10.011Z",
+  "task": "Fresh read, select 7, verify Calculator display",
+  "trials": [
+    {
+      "round": 0,
+      "mode": "source_then_find",
+      "ms": 449.94975,
+      "success": true,
+      "requests": [
+        {
+          "path": "/source",
+          "ms": 58.09883300000001,
+          "bytes": 9205
+        },
+        {
+          "path": "/elements",
+          "ms": 47.981250000000045,
+          "bytes": 139
+        },
+        {
+          "path": "/element/:id/click",
+          "ms": 286.00687500000004,
+          "bytes": 14
+        },
+        {
+          "path": "/source",
+          "ms": 57.077999999999975,
+          "bytes": 9226
+        }
+      ]
+    },
+    {
+      "round": 0,
+      "mode": "sprint",
+      "ms": 414.98912499999983,
+      "success": true,
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 53.996041000000105,
+          "bytes": 4804
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 360.3087499999999,
+          "bytes": 4828
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "mode": "sprint",
+      "ms": 417.33570800000007,
+      "success": true,
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 57.39758299999994,
+          "bytes": 4804
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 359.2811670000001,
+          "bytes": 4828
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "mode": "source_then_find",
+      "ms": 454.1681669999998,
+      "success": true,
+      "requests": [
+        {
+          "path": "/source",
+          "ms": 55.5486249999999,
+          "bytes": 9205
+        },
+        {
+          "path": "/elements",
+          "ms": 53.36154099999976,
+          "bytes": 139
+        },
+        {
+          "path": "/element/:id/click",
+          "ms": 284.52141699999993,
+          "bytes": 14
+        },
+        {
+          "path": "/source",
+          "ms": 59.669790999999805,
+          "bytes": 9226
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "mode": "source_then_find",
+      "ms": 462.2077500000005,
+      "success": true,
+      "requests": [
+        {
+          "path": "/source",
+          "ms": 60.0890000000004,
+          "bytes": 9205
+        },
+        {
+          "path": "/elements",
+          "ms": 58.91616699999986,
+          "bytes": 139
+        },
+        {
+          "path": "/element/:id/click",
+          "ms": 287.9135409999999,
+          "bytes": 14
+        },
+        {
+          "path": "/source",
+          "ms": 54.57483299999967,
+          "bytes": 9226
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "mode": "sprint",
+      "ms": 416.6784579999994,
+      "success": true,
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 56.55695800000012,
+          "bytes": 4804
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 359.6349170000003,
+          "bytes": 4828
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "mode": "sprint",
+      "ms": 414.12504199999967,
+      "success": true,
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 55.435999999999694,
+          "bytes": 4804
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 358.34116600000016,
+          "bytes": 4828
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "mode": "source_then_find",
+      "ms": 462.17333299999973,
+      "success": true,
+      "requests": [
+        {
+          "path": "/source",
+          "ms": 56.057457999999315,
+          "bytes": 9205
+        },
+        {
+          "path": "/elements",
+          "ms": 55.46891700000015,
+          "bytes": 139
+        },
+        {
+          "path": "/element/:id/click",
+          "ms": 291.17245899999944,
+          "bytes": 14
+        },
+        {
+          "path": "/source",
+          "ms": 58.86658299999999,
+          "bytes": 9226
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "mode": "source_then_find",
+      "ms": 464.74012500000026,
+      "success": true,
+      "requests": [
+        {
+          "path": "/source",
+          "ms": 56.45408299999963,
+          "bytes": 9205
+        },
+        {
+          "path": "/elements",
+          "ms": 57.19579199999953,
+          "bytes": 139
+        },
+        {
+          "path": "/element/:id/click",
+          "ms": 291.84279199999946,
+          "bytes": 14
+        },
+        {
+          "path": "/source",
+          "ms": 58.59254200000032,
+          "bytes": 9226
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "mode": "sprint",
+      "ms": 430.24570799999856,
+      "success": true,
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 55.189166000000114,
+          "bytes": 4804
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 374.4813749999994,
+          "bytes": 4828
+        }
+      ]
+    },
+    {
+      "round": 5,
+      "mode": "sprint",
+      "ms": 417.3301670000001,
+      "success": true,
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 55.546875,
+          "bytes": 4804
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 361.2483339999999,
+          "bytes": 4828
+        }
+      ]
+    },
+    {
+      "round": 5,
+      "mode": "source_then_find",
+      "ms": 462.69920900000034,
+      "success": true,
+      "requests": [
+        {
+          "path": "/source",
+          "ms": 54.09754199999952,
+          "bytes": 9205
+        },
+        {
+          "path": "/elements",
+          "ms": 57.60583399999996,
+          "bytes": 139
+        },
+        {
+          "path": "/element/:id/click",
+          "ms": 293.3544580000016,
+          "bytes": 14
+        },
+        {
+          "path": "/source",
+          "ms": 57.00120799999968,
+          "bytes": 9226
+        }
+      ]
+    }
+  ],
+  "scope": "Driver-only cycle on the same phone and backend. Excludes reset, model inference and launch. No Mirroring or general posting speed ratio.",
+  "payload_bytes": {
+    "reading": 4279,
+    "navigation": 3493
+  },
+  "summary": {
+    "source_then_find": {
+      "count": 6,
+      "successes": 6,
+      "median_ms": 462.1905415000001
+    },
+    "sprint": {
+      "count": 6,
+      "successes": 6,
+      "median_ms": 417.00431249999974
+    }
+  },
+  "reduction_fraction": 0.0977653693503816
+}

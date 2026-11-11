@@ -1,0 +1,8 @@
+{
+  "time": "2026-11-11T20:40:51.883Z",
+  "scope": "Native 30-second snapshot expiry; harmless Calculator key, no automatic replay.",
+  "refused": true,
+  "outcome": "not_sent",
+  "display_unchanged": true,
+  "passed": true
+}
