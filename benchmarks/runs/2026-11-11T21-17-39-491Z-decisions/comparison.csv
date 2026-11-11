@@ -1,0 +1,11 @@
+case,ms,expected,selected,correct,passed_gates
+first-digit,154.661625,Seven,Seven,true,true
+operator,51.42799999999997,Add,Add,true,false
+second-operand,138.95658400000002,Eight,Eight,true,true
+equals,63.894416999999976,Equals,Equals,true,true
+multi-digit,104.38541600000002,Eight,Eight,true,true
+decimal-point,156.59970899999996,Decimal,Decimal,true,true
+percent,82.45754099999999,Percent,Percent,true,true
+chain,114.56904099999997,Multiply,Multiply,true,true
+clock-tab,99.17533400000002,Stopwatch,Stopwatch,true,true
+settings-navigation,53.206292000000076,com.apple.settings.general,com.apple.settings.general,true,true

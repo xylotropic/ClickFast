@@ -1,0 +1,1 @@
+{"name":"01-add-batch","task":"add","mode":"batch","ordinal":1,"started_at":"2026-11-11T21:11:24.901Z","events":[],"ok":false,"error":"Postcondition not observed before deadline","outcome":"stopped","audio_after":{"media_volume":0}}

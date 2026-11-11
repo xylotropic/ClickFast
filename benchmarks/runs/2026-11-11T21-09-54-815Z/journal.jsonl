@@ -1,0 +1,3 @@
+{"name":"01-add-batch","task":"add","mode":"batch","ordinal":1,"started_at":"2026-11-11T21:10:05.544Z","events":[],"ok":false,"error":"The operation was aborted","outcome":"stopped","audio_after":{"media_volume":0}}
+{"name":"01-add-jev","task":"add","mode":"jev","ordinal":2,"started_at":"2026-11-11T21:10:20.583Z","events":[],"ok":false,"error":"The operation was aborted","outcome":"stopped","audio_after":{"media_volume":0}}
+{"name":"02-subtract-jev","task":"subtract","mode":"jev","ordinal":3,"started_at":"2026-11-11T21:10:35.623Z","events":[],"ok":false,"error":"The operation was aborted","outcome":"stopped","audio_after":{"media_volume":0}}

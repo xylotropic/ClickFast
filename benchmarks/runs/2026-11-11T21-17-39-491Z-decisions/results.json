@@ -1,0 +1,2716 @@
+{
+  "schema": 1,
+  "id": "2026-11-11T21-17-39-491Z-decisions",
+  "created_at": "2026-11-11T21:17:39.492Z",
+  "source_commit": "ccc327b70dbb33e4f667694ec5e90456a866dce3",
+  "harness_sha256": "c744ad0f9c96b98eb744ff02de4d0d7f547b298d67bca81236a5d58629560791",
+  "scope": "Ten live TypeSafe/JEV API decisions on synthetic UI-state fixtures using observed iOS control vocabulary. No phone input, no screenshot/video, no task completion or real-device speed claim. One sample per state. Response gates use the controller threshold 0.9. Candidate order rotates to avoid a fixed target index.",
+  "trials": [
+    {
+      "name": "first-digit",
+      "fixture": {
+        "goal": "Calculate 7 + 8 and press Equals.",
+        "observation": {
+          "app": "com.apple.calculator",
+          "elements": [
+            {
+              "ref": "fixture:0",
+              "kind": "Key",
+              "identifier": "Zero",
+              "label": "0",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:1",
+              "kind": "Key",
+              "identifier": "One",
+              "label": "1",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:2",
+              "kind": "Key",
+              "identifier": "Two",
+              "label": "2",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:3",
+              "kind": "Key",
+              "identifier": "Three",
+              "label": "3",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:4",
+              "kind": "Key",
+              "identifier": "Four",
+              "label": "4",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:5",
+              "kind": "Key",
+              "identifier": "Five",
+              "label": "5",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:6",
+              "kind": "Key",
+              "identifier": "Six",
+              "label": "6",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:7",
+              "kind": "Key",
+              "identifier": "Seven",
+              "label": "7",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:8",
+              "kind": "Key",
+              "identifier": "Eight",
+              "label": "8",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:9",
+              "kind": "Key",
+              "identifier": "Nine",
+              "label": "9",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:10",
+              "kind": "Key",
+              "identifier": "Add",
+              "label": "+",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:11",
+              "kind": "Key",
+              "identifier": "Subtract",
+              "label": "−",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:12",
+              "kind": "Key",
+              "identifier": "Multiply",
+              "label": "×",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:13",
+              "kind": "Key",
+              "identifier": "Divide",
+              "label": "÷",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:14",
+              "kind": "Key",
+              "identifier": "Decimal",
+              "label": ".",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:15",
+              "kind": "Key",
+              "identifier": "Percent",
+              "label": "%",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:16",
+              "kind": "Key",
+              "identifier": "Equals",
+              "label": "=",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:17",
+              "kind": "Key",
+              "identifier": "AllClear",
+              "label": "AC",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:18",
+              "kind": "Key",
+              "identifier": "Sign",
+              "label": "+/−",
+              "enabled": true
+            },
+            {
+              "kind": "StaticText",
+              "label": "0"
+            }
+          ]
+        },
+        "candidates": [
+          {
+            "ref": "fixture:0",
+            "kind": "Key",
+            "identifier": "Zero",
+            "label": "0",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:1",
+            "kind": "Key",
+            "identifier": "One",
+            "label": "1",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:2",
+            "kind": "Key",
+            "identifier": "Two",
+            "label": "2",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:3",
+            "kind": "Key",
+            "identifier": "Three",
+            "label": "3",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:4",
+            "kind": "Key",
+            "identifier": "Four",
+            "label": "4",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:5",
+            "kind": "Key",
+            "identifier": "Five",
+            "label": "5",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:6",
+            "kind": "Key",
+            "identifier": "Six",
+            "label": "6",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:7",
+            "kind": "Key",
+            "identifier": "Seven",
+            "label": "7",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:8",
+            "kind": "Key",
+            "identifier": "Eight",
+            "label": "8",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:9",
+            "kind": "Key",
+            "identifier": "Nine",
+            "label": "9",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:10",
+            "kind": "Key",
+            "identifier": "Add",
+            "label": "+",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:11",
+            "kind": "Key",
+            "identifier": "Subtract",
+            "label": "−",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:12",
+            "kind": "Key",
+            "identifier": "Multiply",
+            "label": "×",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:13",
+            "kind": "Key",
+            "identifier": "Divide",
+            "label": "÷",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:14",
+            "kind": "Key",
+            "identifier": "Decimal",
+            "label": ".",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:15",
+            "kind": "Key",
+            "identifier": "Percent",
+            "label": "%",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:16",
+            "kind": "Key",
+            "identifier": "Equals",
+            "label": "=",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:17",
+            "kind": "Key",
+            "identifier": "AllClear",
+            "label": "AC",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:18",
+            "kind": "Key",
+            "identifier": "Sign",
+            "label": "+/−",
+            "enabled": true
+          }
+        ],
+        "history": []
+      },
+      "expected": "Seven",
+      "ms": 154.661625,
+      "response": {
+        "choice": "a7",
+        "confidence": 1,
+        "selected_probability": 1,
+        "available": 0.97,
+        "model": "jev-1.14.0",
+        "usage": {
+          "input_tokens": 2071,
+          "output_tokens": 212
+        }
+      },
+      "selected": "Seven",
+      "correct": true,
+      "passed_gates": true,
+      "accepted_correct": true
+    },
+    {
+      "name": "operator",
+      "fixture": {
+        "goal": "Calculate 7 + 8 and press Equals.",
+        "observation": {
+          "app": "com.apple.calculator",
+          "elements": [
+            {
+              "ref": "fixture:7",
+              "kind": "Key",
+              "identifier": "Seven",
+              "label": "7",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:8",
+              "kind": "Key",
+              "identifier": "Eight",
+              "label": "8",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:9",
+              "kind": "Key",
+              "identifier": "Nine",
+              "label": "9",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:10",
+              "kind": "Key",
+              "identifier": "Add",
+              "label": "+",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:11",
+              "kind": "Key",
+              "identifier": "Subtract",
+              "label": "−",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:12",
+              "kind": "Key",
+              "identifier": "Multiply",
+              "label": "×",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:13",
+              "kind": "Key",
+              "identifier": "Divide",
+              "label": "÷",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:14",
+              "kind": "Key",
+              "identifier": "Decimal",
+              "label": ".",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:15",
+              "kind": "Key",
+              "identifier": "Percent",
+              "label": "%",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:16",
+              "kind": "Key",
+              "identifier": "Equals",
+              "label": "=",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:17",
+              "kind": "Key",
+              "identifier": "AllClear",
+              "label": "AC",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:18",
+              "kind": "Key",
+              "identifier": "Sign",
+              "label": "+/−",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:0",
+              "kind": "Key",
+              "identifier": "Zero",
+              "label": "0",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:1",
+              "kind": "Key",
+              "identifier": "One",
+              "label": "1",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:2",
+              "kind": "Key",
+              "identifier": "Two",
+              "label": "2",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:3",
+              "kind": "Key",
+              "identifier": "Three",
+              "label": "3",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:4",
+              "kind": "Key",
+              "identifier": "Four",
+              "label": "4",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:5",
+              "kind": "Key",
+              "identifier": "Five",
+              "label": "5",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:6",
+              "kind": "Key",
+              "identifier": "Six",
+              "label": "6",
+              "enabled": true
+            },
+            {
+              "kind": "StaticText",
+              "label": "7"
+            }
+          ]
+        },
+        "candidates": [
+          {
+            "ref": "fixture:7",
+            "kind": "Key",
+            "identifier": "Seven",
+            "label": "7",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:8",
+            "kind": "Key",
+            "identifier": "Eight",
+            "label": "8",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:9",
+            "kind": "Key",
+            "identifier": "Nine",
+            "label": "9",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:10",
+            "kind": "Key",
+            "identifier": "Add",
+            "label": "+",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:11",
+            "kind": "Key",
+            "identifier": "Subtract",
+            "label": "−",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:12",
+            "kind": "Key",
+            "identifier": "Multiply",
+            "label": "×",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:13",
+            "kind": "Key",
+            "identifier": "Divide",
+            "label": "÷",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:14",
+            "kind": "Key",
+            "identifier": "Decimal",
+            "label": ".",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:15",
+            "kind": "Key",
+            "identifier": "Percent",
+            "label": "%",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:16",
+            "kind": "Key",
+            "identifier": "Equals",
+            "label": "=",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:17",
+            "kind": "Key",
+            "identifier": "AllClear",
+            "label": "AC",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:18",
+            "kind": "Key",
+            "identifier": "Sign",
+            "label": "+/−",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:0",
+            "kind": "Key",
+            "identifier": "Zero",
+            "label": "0",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:1",
+            "kind": "Key",
+            "identifier": "One",
+            "label": "1",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:2",
+            "kind": "Key",
+            "identifier": "Two",
+            "label": "2",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:3",
+            "kind": "Key",
+            "identifier": "Three",
+            "label": "3",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:4",
+            "kind": "Key",
+            "identifier": "Four",
+            "label": "4",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:5",
+            "kind": "Key",
+            "identifier": "Five",
+            "label": "5",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:6",
+            "kind": "Key",
+            "identifier": "Six",
+            "label": "6",
+            "enabled": true
+          }
+        ],
+        "history": [
+          {
+            "step": 0,
+            "action": "tap",
+            "identifier": "Seven",
+            "label": "7"
+          }
+        ]
+      },
+      "expected": "Add",
+      "ms": 51.42799999999997,
+      "response": {
+        "choice": "a3",
+        "confidence": 0.83,
+        "selected_probability": 0.84,
+        "available": 0.97,
+        "model": "jev-1.14.0",
+        "usage": {
+          "input_tokens": 2102,
+          "output_tokens": 212
+        }
+      },
+      "selected": "Add",
+      "correct": true,
+      "passed_gates": false,
+      "accepted_correct": false
+    },
+    {
+      "name": "second-operand",
+      "fixture": {
+        "goal": "Calculate 7 + 8 and press Equals.",
+        "observation": {
+          "app": "com.apple.calculator",
+          "elements": [
+            {
+              "ref": "fixture:14",
+              "kind": "Key",
+              "identifier": "Decimal",
+              "label": ".",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:15",
+              "kind": "Key",
+              "identifier": "Percent",
+              "label": "%",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:16",
+              "kind": "Key",
+              "identifier": "Equals",
+              "label": "=",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:17",
+              "kind": "Key",
+              "identifier": "AllClear",
+              "label": "AC",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:18",
+              "kind": "Key",
+              "identifier": "Sign",
+              "label": "+/−",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:0",
+              "kind": "Key",
+              "identifier": "Zero",
+              "label": "0",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:1",
+              "kind": "Key",
+              "identifier": "One",
+              "label": "1",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:2",
+              "kind": "Key",
+              "identifier": "Two",
+              "label": "2",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:3",
+              "kind": "Key",
+              "identifier": "Three",
+              "label": "3",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:4",
+              "kind": "Key",
+              "identifier": "Four",
+              "label": "4",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:5",
+              "kind": "Key",
+              "identifier": "Five",
+              "label": "5",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:6",
+              "kind": "Key",
+              "identifier": "Six",
+              "label": "6",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:7",
+              "kind": "Key",
+              "identifier": "Seven",
+              "label": "7",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:8",
+              "kind": "Key",
+              "identifier": "Eight",
+              "label": "8",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:9",
+              "kind": "Key",
+              "identifier": "Nine",
+              "label": "9",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:10",
+              "kind": "Key",
+              "identifier": "Add",
+              "label": "+",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:11",
+              "kind": "Key",
+              "identifier": "Subtract",
+              "label": "−",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:12",
+              "kind": "Key",
+              "identifier": "Multiply",
+              "label": "×",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:13",
+              "kind": "Key",
+              "identifier": "Divide",
+              "label": "÷",
+              "enabled": true
+            },
+            {
+              "kind": "StaticText",
+              "label": "7"
+            }
+          ]
+        },
+        "candidates": [
+          {
+            "ref": "fixture:14",
+            "kind": "Key",
+            "identifier": "Decimal",
+            "label": ".",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:15",
+            "kind": "Key",
+            "identifier": "Percent",
+            "label": "%",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:16",
+            "kind": "Key",
+            "identifier": "Equals",
+            "label": "=",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:17",
+            "kind": "Key",
+            "identifier": "AllClear",
+            "label": "AC",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:18",
+            "kind": "Key",
+            "identifier": "Sign",
+            "label": "+/−",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:0",
+            "kind": "Key",
+            "identifier": "Zero",
+            "label": "0",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:1",
+            "kind": "Key",
+            "identifier": "One",
+            "label": "1",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:2",
+            "kind": "Key",
+            "identifier": "Two",
+            "label": "2",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:3",
+            "kind": "Key",
+            "identifier": "Three",
+            "label": "3",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:4",
+            "kind": "Key",
+            "identifier": "Four",
+            "label": "4",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:5",
+            "kind": "Key",
+            "identifier": "Five",
+            "label": "5",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:6",
+            "kind": "Key",
+            "identifier": "Six",
+            "label": "6",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:7",
+            "kind": "Key",
+            "identifier": "Seven",
+            "label": "7",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:8",
+            "kind": "Key",
+            "identifier": "Eight",
+            "label": "8",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:9",
+            "kind": "Key",
+            "identifier": "Nine",
+            "label": "9",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:10",
+            "kind": "Key",
+            "identifier": "Add",
+            "label": "+",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:11",
+            "kind": "Key",
+            "identifier": "Subtract",
+            "label": "−",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:12",
+            "kind": "Key",
+            "identifier": "Multiply",
+            "label": "×",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:13",
+            "kind": "Key",
+            "identifier": "Divide",
+            "label": "÷",
+            "enabled": true
+          }
+        ],
+        "history": [
+          {
+            "step": 0,
+            "action": "tap",
+            "identifier": "Seven",
+            "label": "7"
+          },
+          {
+            "step": 1,
+            "action": "tap",
+            "identifier": "Add",
+            "label": "+"
+          }
+        ]
+      },
+      "expected": "Eight",
+      "ms": 138.95658400000002,
+      "response": {
+        "choice": "a13",
+        "confidence": 1,
+        "selected_probability": 1,
+        "available": 0.98,
+        "model": "jev-1.14.0",
+        "usage": {
+          "input_tokens": 2134,
+          "output_tokens": 213
+        }
+      },
+      "selected": "Eight",
+      "correct": true,
+      "passed_gates": true,
+      "accepted_correct": true
+    },
+    {
+      "name": "equals",
+      "fixture": {
+        "goal": "Calculate 7 + 8 and press Equals.",
+        "observation": {
+          "app": "com.apple.calculator",
+          "elements": [
+            {
+              "ref": "fixture:2",
+              "kind": "Key",
+              "identifier": "Two",
+              "label": "2",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:3",
+              "kind": "Key",
+              "identifier": "Three",
+              "label": "3",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:4",
+              "kind": "Key",
+              "identifier": "Four",
+              "label": "4",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:5",
+              "kind": "Key",
+              "identifier": "Five",
+              "label": "5",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:6",
+              "kind": "Key",
+              "identifier": "Six",
+              "label": "6",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:7",
+              "kind": "Key",
+              "identifier": "Seven",
+              "label": "7",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:8",
+              "kind": "Key",
+              "identifier": "Eight",
+              "label": "8",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:9",
+              "kind": "Key",
+              "identifier": "Nine",
+              "label": "9",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:10",
+              "kind": "Key",
+              "identifier": "Add",
+              "label": "+",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:11",
+              "kind": "Key",
+              "identifier": "Subtract",
+              "label": "−",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:12",
+              "kind": "Key",
+              "identifier": "Multiply",
+              "label": "×",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:13",
+              "kind": "Key",
+              "identifier": "Divide",
+              "label": "÷",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:14",
+              "kind": "Key",
+              "identifier": "Decimal",
+              "label": ".",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:15",
+              "kind": "Key",
+              "identifier": "Percent",
+              "label": "%",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:16",
+              "kind": "Key",
+              "identifier": "Equals",
+              "label": "=",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:17",
+              "kind": "Key",
+              "identifier": "AllClear",
+              "label": "AC",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:18",
+              "kind": "Key",
+              "identifier": "Sign",
+              "label": "+/−",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:0",
+              "kind": "Key",
+              "identifier": "Zero",
+              "label": "0",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:1",
+              "kind": "Key",
+              "identifier": "One",
+              "label": "1",
+              "enabled": true
+            },
+            {
+              "kind": "StaticText",
+              "label": "8"
+            }
+          ]
+        },
+        "candidates": [
+          {
+            "ref": "fixture:2",
+            "kind": "Key",
+            "identifier": "Two",
+            "label": "2",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:3",
+            "kind": "Key",
+            "identifier": "Three",
+            "label": "3",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:4",
+            "kind": "Key",
+            "identifier": "Four",
+            "label": "4",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:5",
+            "kind": "Key",
+            "identifier": "Five",
+            "label": "5",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:6",
+            "kind": "Key",
+            "identifier": "Six",
+            "label": "6",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:7",
+            "kind": "Key",
+            "identifier": "Seven",
+            "label": "7",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:8",
+            "kind": "Key",
+            "identifier": "Eight",
+            "label": "8",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:9",
+            "kind": "Key",
+            "identifier": "Nine",
+            "label": "9",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:10",
+            "kind": "Key",
+            "identifier": "Add",
+            "label": "+",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:11",
+            "kind": "Key",
+            "identifier": "Subtract",
+            "label": "−",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:12",
+            "kind": "Key",
+            "identifier": "Multiply",
+            "label": "×",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:13",
+            "kind": "Key",
+            "identifier": "Divide",
+            "label": "÷",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:14",
+            "kind": "Key",
+            "identifier": "Decimal",
+            "label": ".",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:15",
+            "kind": "Key",
+            "identifier": "Percent",
+            "label": "%",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:16",
+            "kind": "Key",
+            "identifier": "Equals",
+            "label": "=",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:17",
+            "kind": "Key",
+            "identifier": "AllClear",
+            "label": "AC",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:18",
+            "kind": "Key",
+            "identifier": "Sign",
+            "label": "+/−",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:0",
+            "kind": "Key",
+            "identifier": "Zero",
+            "label": "0",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:1",
+            "kind": "Key",
+            "identifier": "One",
+            "label": "1",
+            "enabled": true
+          }
+        ],
+        "history": [
+          {
+            "step": 0,
+            "action": "tap",
+            "identifier": "Seven",
+            "label": "7"
+          },
+          {
+            "step": 1,
+            "action": "tap",
+            "identifier": "Add",
+            "label": "+"
+          },
+          {
+            "step": 2,
+            "action": "tap",
+            "identifier": "Eight",
+            "label": "8"
+          }
+        ]
+      },
+      "expected": "Equals",
+      "ms": 63.894416999999976,
+      "response": {
+        "choice": "a14",
+        "confidence": 1,
+        "selected_probability": 1,
+        "available": 0.98,
+        "model": "jev-1.14.0",
+        "usage": {
+          "input_tokens": 2166,
+          "output_tokens": 213
+        }
+      },
+      "selected": "Equals",
+      "correct": true,
+      "passed_gates": true,
+      "accepted_correct": true
+    },
+    {
+      "name": "multi-digit",
+      "fixture": {
+        "goal": "Calculate 48 minus 19 and press Equals.",
+        "observation": {
+          "app": "com.apple.calculator",
+          "elements": [
+            {
+              "ref": "fixture:9",
+              "kind": "Key",
+              "identifier": "Nine",
+              "label": "9",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:10",
+              "kind": "Key",
+              "identifier": "Add",
+              "label": "+",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:11",
+              "kind": "Key",
+              "identifier": "Subtract",
+              "label": "−",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:12",
+              "kind": "Key",
+              "identifier": "Multiply",
+              "label": "×",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:13",
+              "kind": "Key",
+              "identifier": "Divide",
+              "label": "÷",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:14",
+              "kind": "Key",
+              "identifier": "Decimal",
+              "label": ".",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:15",
+              "kind": "Key",
+              "identifier": "Percent",
+              "label": "%",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:16",
+              "kind": "Key",
+              "identifier": "Equals",
+              "label": "=",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:17",
+              "kind": "Key",
+              "identifier": "AllClear",
+              "label": "AC",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:18",
+              "kind": "Key",
+              "identifier": "Sign",
+              "label": "+/−",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:0",
+              "kind": "Key",
+              "identifier": "Zero",
+              "label": "0",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:1",
+              "kind": "Key",
+              "identifier": "One",
+              "label": "1",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:2",
+              "kind": "Key",
+              "identifier": "Two",
+              "label": "2",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:3",
+              "kind": "Key",
+              "identifier": "Three",
+              "label": "3",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:4",
+              "kind": "Key",
+              "identifier": "Four",
+              "label": "4",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:5",
+              "kind": "Key",
+              "identifier": "Five",
+              "label": "5",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:6",
+              "kind": "Key",
+              "identifier": "Six",
+              "label": "6",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:7",
+              "kind": "Key",
+              "identifier": "Seven",
+              "label": "7",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:8",
+              "kind": "Key",
+              "identifier": "Eight",
+              "label": "8",
+              "enabled": true
+            },
+            {
+              "kind": "StaticText",
+              "label": "4"
+            }
+          ]
+        },
+        "candidates": [
+          {
+            "ref": "fixture:9",
+            "kind": "Key",
+            "identifier": "Nine",
+            "label": "9",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:10",
+            "kind": "Key",
+            "identifier": "Add",
+            "label": "+",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:11",
+            "kind": "Key",
+            "identifier": "Subtract",
+            "label": "−",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:12",
+            "kind": "Key",
+            "identifier": "Multiply",
+            "label": "×",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:13",
+            "kind": "Key",
+            "identifier": "Divide",
+            "label": "÷",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:14",
+            "kind": "Key",
+            "identifier": "Decimal",
+            "label": ".",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:15",
+            "kind": "Key",
+            "identifier": "Percent",
+            "label": "%",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:16",
+            "kind": "Key",
+            "identifier": "Equals",
+            "label": "=",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:17",
+            "kind": "Key",
+            "identifier": "AllClear",
+            "label": "AC",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:18",
+            "kind": "Key",
+            "identifier": "Sign",
+            "label": "+/−",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:0",
+            "kind": "Key",
+            "identifier": "Zero",
+            "label": "0",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:1",
+            "kind": "Key",
+            "identifier": "One",
+            "label": "1",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:2",
+            "kind": "Key",
+            "identifier": "Two",
+            "label": "2",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:3",
+            "kind": "Key",
+            "identifier": "Three",
+            "label": "3",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:4",
+            "kind": "Key",
+            "identifier": "Four",
+            "label": "4",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:5",
+            "kind": "Key",
+            "identifier": "Five",
+            "label": "5",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:6",
+            "kind": "Key",
+            "identifier": "Six",
+            "label": "6",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:7",
+            "kind": "Key",
+            "identifier": "Seven",
+            "label": "7",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:8",
+            "kind": "Key",
+            "identifier": "Eight",
+            "label": "8",
+            "enabled": true
+          }
+        ],
+        "history": [
+          {
+            "step": 0,
+            "action": "tap",
+            "identifier": "Four",
+            "label": "4"
+          }
+        ]
+      },
+      "expected": "Eight",
+      "ms": 104.38541600000002,
+      "response": {
+        "choice": "a18",
+        "confidence": 0.95,
+        "selected_probability": 0.95,
+        "available": 0.96,
+        "model": "jev-1.14.0",
+        "usage": {
+          "input_tokens": 2104,
+          "output_tokens": 213
+        }
+      },
+      "selected": "Eight",
+      "correct": true,
+      "passed_gates": true,
+      "accepted_correct": true
+    },
+    {
+      "name": "decimal-point",
+      "fixture": {
+        "goal": "Calculate 1.5 + 2.25 and press Equals.",
+        "observation": {
+          "app": "com.apple.calculator",
+          "elements": [
+            {
+              "ref": "fixture:16",
+              "kind": "Key",
+              "identifier": "Equals",
+              "label": "=",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:17",
+              "kind": "Key",
+              "identifier": "AllClear",
+              "label": "AC",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:18",
+              "kind": "Key",
+              "identifier": "Sign",
+              "label": "+/−",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:0",
+              "kind": "Key",
+              "identifier": "Zero",
+              "label": "0",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:1",
+              "kind": "Key",
+              "identifier": "One",
+              "label": "1",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:2",
+              "kind": "Key",
+              "identifier": "Two",
+              "label": "2",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:3",
+              "kind": "Key",
+              "identifier": "Three",
+              "label": "3",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:4",
+              "kind": "Key",
+              "identifier": "Four",
+              "label": "4",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:5",
+              "kind": "Key",
+              "identifier": "Five",
+              "label": "5",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:6",
+              "kind": "Key",
+              "identifier": "Six",
+              "label": "6",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:7",
+              "kind": "Key",
+              "identifier": "Seven",
+              "label": "7",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:8",
+              "kind": "Key",
+              "identifier": "Eight",
+              "label": "8",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:9",
+              "kind": "Key",
+              "identifier": "Nine",
+              "label": "9",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:10",
+              "kind": "Key",
+              "identifier": "Add",
+              "label": "+",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:11",
+              "kind": "Key",
+              "identifier": "Subtract",
+              "label": "−",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:12",
+              "kind": "Key",
+              "identifier": "Multiply",
+              "label": "×",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:13",
+              "kind": "Key",
+              "identifier": "Divide",
+              "label": "÷",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:14",
+              "kind": "Key",
+              "identifier": "Decimal",
+              "label": ".",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:15",
+              "kind": "Key",
+              "identifier": "Percent",
+              "label": "%",
+              "enabled": true
+            },
+            {
+              "kind": "StaticText",
+              "label": "1"
+            }
+          ]
+        },
+        "candidates": [
+          {
+            "ref": "fixture:16",
+            "kind": "Key",
+            "identifier": "Equals",
+            "label": "=",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:17",
+            "kind": "Key",
+            "identifier": "AllClear",
+            "label": "AC",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:18",
+            "kind": "Key",
+            "identifier": "Sign",
+            "label": "+/−",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:0",
+            "kind": "Key",
+            "identifier": "Zero",
+            "label": "0",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:1",
+            "kind": "Key",
+            "identifier": "One",
+            "label": "1",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:2",
+            "kind": "Key",
+            "identifier": "Two",
+            "label": "2",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:3",
+            "kind": "Key",
+            "identifier": "Three",
+            "label": "3",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:4",
+            "kind": "Key",
+            "identifier": "Four",
+            "label": "4",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:5",
+            "kind": "Key",
+            "identifier": "Five",
+            "label": "5",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:6",
+            "kind": "Key",
+            "identifier": "Six",
+            "label": "6",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:7",
+            "kind": "Key",
+            "identifier": "Seven",
+            "label": "7",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:8",
+            "kind": "Key",
+            "identifier": "Eight",
+            "label": "8",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:9",
+            "kind": "Key",
+            "identifier": "Nine",
+            "label": "9",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:10",
+            "kind": "Key",
+            "identifier": "Add",
+            "label": "+",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:11",
+            "kind": "Key",
+            "identifier": "Subtract",
+            "label": "−",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:12",
+            "kind": "Key",
+            "identifier": "Multiply",
+            "label": "×",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:13",
+            "kind": "Key",
+            "identifier": "Divide",
+            "label": "÷",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:14",
+            "kind": "Key",
+            "identifier": "Decimal",
+            "label": ".",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:15",
+            "kind": "Key",
+            "identifier": "Percent",
+            "label": "%",
+            "enabled": true
+          }
+        ],
+        "history": [
+          {
+            "step": 0,
+            "action": "tap",
+            "identifier": "One",
+            "label": "1"
+          }
+        ]
+      },
+      "expected": "Decimal",
+      "ms": 156.59970899999996,
+      "response": {
+        "choice": "a17",
+        "confidence": 0.96,
+        "selected_probability": 0.96,
+        "available": 0.95,
+        "model": "jev-1.14.0",
+        "usage": {
+          "input_tokens": 2107,
+          "output_tokens": 213
+        }
+      },
+      "selected": "Decimal",
+      "correct": true,
+      "passed_gates": true,
+      "accepted_correct": true
+    },
+    {
+      "name": "percent",
+      "fixture": {
+        "goal": "Calculate 50 multiplied by 10 percent and press Equals.",
+        "observation": {
+          "app": "com.apple.calculator",
+          "elements": [
+            {
+              "ref": "fixture:4",
+              "kind": "Key",
+              "identifier": "Four",
+              "label": "4",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:5",
+              "kind": "Key",
+              "identifier": "Five",
+              "label": "5",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:6",
+              "kind": "Key",
+              "identifier": "Six",
+              "label": "6",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:7",
+              "kind": "Key",
+              "identifier": "Seven",
+              "label": "7",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:8",
+              "kind": "Key",
+              "identifier": "Eight",
+              "label": "8",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:9",
+              "kind": "Key",
+              "identifier": "Nine",
+              "label": "9",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:10",
+              "kind": "Key",
+              "identifier": "Add",
+              "label": "+",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:11",
+              "kind": "Key",
+              "identifier": "Subtract",
+              "label": "−",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:12",
+              "kind": "Key",
+              "identifier": "Multiply",
+              "label": "×",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:13",
+              "kind": "Key",
+              "identifier": "Divide",
+              "label": "÷",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:14",
+              "kind": "Key",
+              "identifier": "Decimal",
+              "label": ".",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:15",
+              "kind": "Key",
+              "identifier": "Percent",
+              "label": "%",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:16",
+              "kind": "Key",
+              "identifier": "Equals",
+              "label": "=",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:17",
+              "kind": "Key",
+              "identifier": "AllClear",
+              "label": "AC",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:18",
+              "kind": "Key",
+              "identifier": "Sign",
+              "label": "+/−",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:0",
+              "kind": "Key",
+              "identifier": "Zero",
+              "label": "0",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:1",
+              "kind": "Key",
+              "identifier": "One",
+              "label": "1",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:2",
+              "kind": "Key",
+              "identifier": "Two",
+              "label": "2",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:3",
+              "kind": "Key",
+              "identifier": "Three",
+              "label": "3",
+              "enabled": true
+            },
+            {
+              "kind": "StaticText",
+              "label": "10"
+            }
+          ]
+        },
+        "candidates": [
+          {
+            "ref": "fixture:4",
+            "kind": "Key",
+            "identifier": "Four",
+            "label": "4",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:5",
+            "kind": "Key",
+            "identifier": "Five",
+            "label": "5",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:6",
+            "kind": "Key",
+            "identifier": "Six",
+            "label": "6",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:7",
+            "kind": "Key",
+            "identifier": "Seven",
+            "label": "7",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:8",
+            "kind": "Key",
+            "identifier": "Eight",
+            "label": "8",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:9",
+            "kind": "Key",
+            "identifier": "Nine",
+            "label": "9",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:10",
+            "kind": "Key",
+            "identifier": "Add",
+            "label": "+",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:11",
+            "kind": "Key",
+            "identifier": "Subtract",
+            "label": "−",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:12",
+            "kind": "Key",
+            "identifier": "Multiply",
+            "label": "×",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:13",
+            "kind": "Key",
+            "identifier": "Divide",
+            "label": "÷",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:14",
+            "kind": "Key",
+            "identifier": "Decimal",
+            "label": ".",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:15",
+            "kind": "Key",
+            "identifier": "Percent",
+            "label": "%",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:16",
+            "kind": "Key",
+            "identifier": "Equals",
+            "label": "=",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:17",
+            "kind": "Key",
+            "identifier": "AllClear",
+            "label": "AC",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:18",
+            "kind": "Key",
+            "identifier": "Sign",
+            "label": "+/−",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:0",
+            "kind": "Key",
+            "identifier": "Zero",
+            "label": "0",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:1",
+            "kind": "Key",
+            "identifier": "One",
+            "label": "1",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:2",
+            "kind": "Key",
+            "identifier": "Two",
+            "label": "2",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:3",
+            "kind": "Key",
+            "identifier": "Three",
+            "label": "3",
+            "enabled": true
+          }
+        ],
+        "history": [
+          {
+            "step": 0,
+            "action": "tap",
+            "identifier": "Five",
+            "label": "5"
+          },
+          {
+            "step": 1,
+            "action": "tap",
+            "identifier": "Zero",
+            "label": "0"
+          },
+          {
+            "step": 2,
+            "action": "tap",
+            "identifier": "Multiply",
+            "label": "×"
+          },
+          {
+            "step": 3,
+            "action": "tap",
+            "identifier": "One",
+            "label": "1"
+          },
+          {
+            "step": 4,
+            "action": "tap",
+            "identifier": "Zero",
+            "label": "0"
+          }
+        ]
+      },
+      "expected": "Percent",
+      "ms": 82.45754099999999,
+      "response": {
+        "choice": "a11",
+        "confidence": 0.96,
+        "selected_probability": 0.96,
+        "available": 0.93,
+        "model": "jev-1.14.0",
+        "usage": {
+          "input_tokens": 2235,
+          "output_tokens": 213
+        }
+      },
+      "selected": "Percent",
+      "correct": true,
+      "passed_gates": true,
+      "accepted_correct": true
+    },
+    {
+      "name": "chain",
+      "fixture": {
+        "goal": "Calculate 12 plus 8, press Equals, then multiply that result by 3 and press Equals.",
+        "observation": {
+          "app": "com.apple.calculator",
+          "elements": [
+            {
+              "ref": "fixture:11",
+              "kind": "Key",
+              "identifier": "Subtract",
+              "label": "−",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:12",
+              "kind": "Key",
+              "identifier": "Multiply",
+              "label": "×",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:13",
+              "kind": "Key",
+              "identifier": "Divide",
+              "label": "÷",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:14",
+              "kind": "Key",
+              "identifier": "Decimal",
+              "label": ".",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:15",
+              "kind": "Key",
+              "identifier": "Percent",
+              "label": "%",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:16",
+              "kind": "Key",
+              "identifier": "Equals",
+              "label": "=",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:17",
+              "kind": "Key",
+              "identifier": "AllClear",
+              "label": "AC",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:18",
+              "kind": "Key",
+              "identifier": "Sign",
+              "label": "+/−",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:0",
+              "kind": "Key",
+              "identifier": "Zero",
+              "label": "0",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:1",
+              "kind": "Key",
+              "identifier": "One",
+              "label": "1",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:2",
+              "kind": "Key",
+              "identifier": "Two",
+              "label": "2",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:3",
+              "kind": "Key",
+              "identifier": "Three",
+              "label": "3",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:4",
+              "kind": "Key",
+              "identifier": "Four",
+              "label": "4",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:5",
+              "kind": "Key",
+              "identifier": "Five",
+              "label": "5",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:6",
+              "kind": "Key",
+              "identifier": "Six",
+              "label": "6",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:7",
+              "kind": "Key",
+              "identifier": "Seven",
+              "label": "7",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:8",
+              "kind": "Key",
+              "identifier": "Eight",
+              "label": "8",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:9",
+              "kind": "Key",
+              "identifier": "Nine",
+              "label": "9",
+              "enabled": true
+            },
+            {
+              "ref": "fixture:10",
+              "kind": "Key",
+              "identifier": "Add",
+              "label": "+",
+              "enabled": true
+            },
+            {
+              "kind": "StaticText",
+              "label": "20"
+            }
+          ]
+        },
+        "candidates": [
+          {
+            "ref": "fixture:11",
+            "kind": "Key",
+            "identifier": "Subtract",
+            "label": "−",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:12",
+            "kind": "Key",
+            "identifier": "Multiply",
+            "label": "×",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:13",
+            "kind": "Key",
+            "identifier": "Divide",
+            "label": "÷",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:14",
+            "kind": "Key",
+            "identifier": "Decimal",
+            "label": ".",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:15",
+            "kind": "Key",
+            "identifier": "Percent",
+            "label": "%",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:16",
+            "kind": "Key",
+            "identifier": "Equals",
+            "label": "=",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:17",
+            "kind": "Key",
+            "identifier": "AllClear",
+            "label": "AC",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:18",
+            "kind": "Key",
+            "identifier": "Sign",
+            "label": "+/−",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:0",
+            "kind": "Key",
+            "identifier": "Zero",
+            "label": "0",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:1",
+            "kind": "Key",
+            "identifier": "One",
+            "label": "1",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:2",
+            "kind": "Key",
+            "identifier": "Two",
+            "label": "2",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:3",
+            "kind": "Key",
+            "identifier": "Three",
+            "label": "3",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:4",
+            "kind": "Key",
+            "identifier": "Four",
+            "label": "4",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:5",
+            "kind": "Key",
+            "identifier": "Five",
+            "label": "5",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:6",
+            "kind": "Key",
+            "identifier": "Six",
+            "label": "6",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:7",
+            "kind": "Key",
+            "identifier": "Seven",
+            "label": "7",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:8",
+            "kind": "Key",
+            "identifier": "Eight",
+            "label": "8",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:9",
+            "kind": "Key",
+            "identifier": "Nine",
+            "label": "9",
+            "enabled": true
+          },
+          {
+            "ref": "fixture:10",
+            "kind": "Key",
+            "identifier": "Add",
+            "label": "+",
+            "enabled": true
+          }
+        ],
+        "history": [
+          {
+            "step": 0,
+            "action": "tap",
+            "identifier": "One",
+            "label": "1"
+          },
+          {
+            "step": 1,
+            "action": "tap",
+            "identifier": "Two",
+            "label": "2"
+          },
+          {
+            "step": 2,
+            "action": "tap",
+            "identifier": "Add",
+            "label": "+"
+          },
+          {
+            "step": 3,
+            "action": "tap",
+            "identifier": "Eight",
+            "label": "8"
+          },
+          {
+            "step": 4,
+            "action": "tap",
+            "identifier": "Equals",
+            "label": "="
+          }
+        ]
+      },
+      "expected": "Multiply",
+      "ms": 114.56904099999997,
+      "response": {
+        "choice": "a1",
+        "confidence": 1,
+        "selected_probability": 1,
+        "available": 0.97,
+        "model": "jev-1.14.0",
+        "usage": {
+          "input_tokens": 2243,
+          "output_tokens": 212
+        }
+      },
+      "selected": "Multiply",
+      "correct": true,
+      "passed_gates": true,
+      "accepted_correct": true
+    },
+    {
+      "name": "clock-tab",
+      "fixture": {
+        "goal": "Switch Clock from World Clock to Stopwatch. Only change tabs; do not start or edit anything.",
+        "observation": {
+          "app": "com.apple.mobiletimer",
+          "elements": [
+            {
+              "ref": "World Clock",
+              "kind": "Button",
+              "label": "World Clock",
+              "identifier": "World Clock",
+              "enabled": true
+            },
+            {
+              "ref": "Alarms",
+              "kind": "Button",
+              "label": "Alarms",
+              "identifier": "Alarms",
+              "enabled": true
+            },
+            {
+              "ref": "Stopwatch",
+              "kind": "Button",
+              "label": "Stopwatch",
+              "identifier": "Stopwatch",
+              "enabled": true
+            },
+            {
+              "ref": "Timers",
+              "kind": "Button",
+              "label": "Timers",
+              "identifier": "Timers",
+              "enabled": true
+            },
+            {
+              "kind": "StaticText",
+              "label": "World Clock"
+            }
+          ]
+        },
+        "candidates": [
+          {
+            "ref": "World Clock",
+            "kind": "Button",
+            "label": "World Clock",
+            "identifier": "World Clock",
+            "enabled": true
+          },
+          {
+            "ref": "Alarms",
+            "kind": "Button",
+            "label": "Alarms",
+            "identifier": "Alarms",
+            "enabled": true
+          },
+          {
+            "ref": "Stopwatch",
+            "kind": "Button",
+            "label": "Stopwatch",
+            "identifier": "Stopwatch",
+            "enabled": true
+          },
+          {
+            "ref": "Timers",
+            "kind": "Button",
+            "label": "Timers",
+            "identifier": "Timers",
+            "enabled": true
+          }
+        ],
+        "history": []
+      },
+      "expected": "Stopwatch",
+      "ms": 99.17533400000002,
+      "response": {
+        "choice": "a2",
+        "confidence": 0.99,
+        "selected_probability": 0.99,
+        "available": 0.97,
+        "model": "jev-1.14.0",
+        "usage": {
+          "input_tokens": 841,
+          "output_tokens": 83
+        }
+      },
+      "selected": "Stopwatch",
+      "correct": true,
+      "passed_gates": true,
+      "accepted_correct": true
+    },
+    {
+      "name": "settings-navigation",
+      "fixture": {
+        "goal": "Open General in Settings. Do not change any setting.",
+        "observation": {
+          "app": "com.apple.Preferences",
+          "elements": [
+            {
+              "ref": "com.apple.settings.general",
+              "kind": "Button",
+              "label": "General",
+              "identifier": "com.apple.settings.general",
+              "enabled": true
+            },
+            {
+              "ref": "com.apple.settings.display",
+              "kind": "Button",
+              "label": "Display & Brightness",
+              "identifier": "com.apple.settings.display",
+              "enabled": true
+            },
+            {
+              "ref": "com.apple.settings.accessibility",
+              "kind": "Button",
+              "label": "Accessibility",
+              "identifier": "com.apple.settings.accessibility",
+              "enabled": true
+            },
+            {
+              "kind": "StaticText",
+              "label": "Settings"
+            }
+          ]
+        },
+        "candidates": [
+          {
+            "ref": "com.apple.settings.general",
+            "kind": "Button",
+            "label": "General",
+            "identifier": "com.apple.settings.general",
+            "enabled": true
+          },
+          {
+            "ref": "com.apple.settings.display",
+            "kind": "Button",
+            "label": "Display & Brightness",
+            "identifier": "com.apple.settings.display",
+            "enabled": true
+          },
+          {
+            "ref": "com.apple.settings.accessibility",
+            "kind": "Button",
+            "label": "Accessibility",
+            "identifier": "com.apple.settings.accessibility",
+            "enabled": true
+          }
+        ],
+        "history": []
+      },
+      "expected": "com.apple.settings.general",
+      "ms": 53.206292000000076,
+      "response": {
+        "choice": "a0",
+        "confidence": 0.99,
+        "selected_probability": 0.99,
+        "available": 0.98,
+        "model": "jev-1.14.0",
+        "usage": {
+          "input_tokens": 762,
+          "output_tokens": 75
+        }
+      },
+      "selected": "com.apple.settings.general",
+      "correct": true,
+      "passed_gates": true,
+      "accepted_correct": true
+    }
+  ],
+  "summary": {
+    "trials": 10,
+    "correct": 10,
+    "accepted_correct": 9,
+    "errors": 0,
+    "median_ms": 101.78037500000002,
+    "min_ms": 51.42799999999997,
+    "max_ms": 156.59970899999996,
+    "models": [
+      "jev-1.14.0"
+    ],
+    "input_tokens": 18765,
+    "output_tokens": 1859
+  },
+  "finished_at": "2026-11-11T21:17:40.551Z"
+}

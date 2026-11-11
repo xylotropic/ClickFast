@@ -1,0 +1,218 @@
+{
+  "schema": 1,
+  "id": "2026-11-11T21-09-54-815Z",
+  "created_at": "2026-11-11T21:09:54.818Z",
+  "source_commit": "ccc327b70dbb33e4f667694ec5e90456a866dce3",
+  "harness_sha256": "d2e3f221a498470ef3d3e7ef68bdf1f34cca6a7062d013aede4c5faea799a75d",
+  "environment": {
+    "node": "v24.14.0",
+    "os": "iOS 26.5",
+    "device": "iPhone 16 Pro Max",
+    "transport": "USB",
+    "audio": "Media volume verified zero before each run"
+  },
+  "method": {
+    "modes": [
+      "batch",
+      "jev"
+    ],
+    "order": "Alternated per task",
+    "repeats_per_mode_per_task": 1,
+    "recording": "Native screenshots at at most 3 fps, 1000px long edge, JPEG quality 0.65. Separate HTTP connection/capture lane. No audio. Capture timestamps recorded; encoding happens after all measurements.",
+    "timing": "After reset and initial video frame: fresh observation, actions, independent fresh AX verification. Recording continues during both modes. Reset, launch, first camera frame and encoding excluded; setup duration recorded separately.",
+    "limits": "Ten different tasks, one pair each. No statistical per-task latency claim. Scripted batch is an execution floor with known steps, not a competing general planner. JEV must choose among current permitted keys/tabs. General cross-app reliability and end-to-end agent speed are not established."
+  },
+  "tasks": [
+    {
+      "name": "add",
+      "expression": "7 + 8",
+      "expected": "15",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 7 + 8 in Calculator and press Equals. Finish with the displayed result 15.",
+      "expected_actions": 4,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "\u200e15"
+        }
+      }
+    },
+    {
+      "name": "subtract",
+      "expression": "48 \u2212 19",
+      "expected": "29",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 48 \u2212 19 in Calculator and press Equals. Finish with the displayed result 29.",
+      "expected_actions": 6,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "\u200e29"
+        }
+      }
+    },
+    {
+      "name": "multiply",
+      "expression": "6 \u00d7 7",
+      "expected": "42",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 6 \u00d7 7 in Calculator and press Equals. Finish with the displayed result 42.",
+      "expected_actions": 4,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "\u200e42"
+        }
+      }
+    },
+    {
+      "name": "divide",
+      "expression": "81 \u00f7 9",
+      "expected": "9",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 81 \u00f7 9 in Calculator and press Equals. Finish with the displayed result 9.",
+      "expected_actions": 5,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "\u200e9"
+        }
+      }
+    },
+    {
+      "name": "decimal",
+      "expression": "1.5 + 2.25",
+      "expected": "3.75",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 1.5 + 2.25 in Calculator and press Equals. Finish with the displayed result 3.75.",
+      "expected_actions": 9,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "\u200e3.75"
+        }
+      }
+    },
+    {
+      "name": "percent",
+      "expression": "50 \u00d7 10%",
+      "expected": "5",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 50 \u00d7 10% in Calculator and press Equals. Finish with the displayed result 5.",
+      "expected_actions": 7,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "\u200e5"
+        }
+      }
+    },
+    {
+      "name": "chain",
+      "expression": "(12 + 8) \u00d7 3",
+      "expected": "60",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 12 plus 8, press Equals, then multiply that result by 3 and press Equals. Finish with the displayed result 60.",
+      "expected_actions": 8,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "\u200e60"
+        }
+      }
+    },
+    {
+      "name": "clock-stopwatch",
+      "app": "com.apple.mobiletimer",
+      "start": "World Clock",
+      "goal": "Switch Clock from World Clock to Stopwatch. Only change tabs; do not start, stop, reset, add or edit anything.",
+      "expected_actions": 1,
+      "verification": {
+        "selector": {
+          "kind": "Button",
+          "label": "Lap"
+        }
+      }
+    },
+    {
+      "name": "clock-world-clock",
+      "app": "com.apple.mobiletimer",
+      "start": "Stopwatch",
+      "goal": "Switch Clock from Stopwatch to World Clock. Only change tabs; do not add, remove or edit anything.",
+      "expected_actions": 1,
+      "verification": {
+        "selector": {
+          "kind": "NavigationBar",
+          "label": "World Clock"
+        }
+      }
+    },
+    {
+      "name": "settings-general",
+      "app": "com.apple.Preferences",
+      "goal": "Open General in Settings. Do not change any setting.",
+      "expected_actions": 1,
+      "verification": {
+        "selector": {
+          "kind": "NavigationBar",
+          "label": "General"
+        }
+      }
+    }
+  ],
+  "runs": [
+    {
+      "name": "01-add-batch",
+      "task": "add",
+      "mode": "batch",
+      "ordinal": 1,
+      "started_at": "2026-11-11T21:10:05.544Z",
+      "events": [],
+      "ok": false,
+      "error": "The operation was aborted",
+      "outcome": "stopped",
+      "audio_after": {
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "01-add-jev",
+      "task": "add",
+      "mode": "jev",
+      "ordinal": 2,
+      "started_at": "2026-11-11T21:10:20.583Z",
+      "events": [],
+      "ok": false,
+      "error": "The operation was aborted",
+      "outcome": "stopped",
+      "audio_after": {
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "02-subtract-jev",
+      "task": "subtract",
+      "mode": "jev",
+      "ordinal": 3,
+      "started_at": "2026-11-11T21:10:35.623Z",
+      "events": [],
+      "ok": false,
+      "error": "The operation was aborted",
+      "outcome": "stopped",
+      "audio_after": {
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "02-subtract-batch",
+      "task": "subtract",
+      "mode": "batch",
+      "ordinal": 4,
+      "started_at": "2026-11-11T21:10:50.663Z",
+      "events": [],
+      "ok": false,
+      "error": "Stopped after setup authorization failure"
+    }
+  ],
+  "fatal_error": "Aborted suite: XCTest reported Not authorized for performing UI testing actions after Mirroring. No timed trial completed."
+}

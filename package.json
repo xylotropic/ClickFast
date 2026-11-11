@@ -1,1 +1,17 @@
-{"name":"iphone-sprint","version":"0.1.0","private":true,"type":"module","license":"MIT","description":"Tiny general iPhone control over USB: one native XCTest runner, three MCP tools, no saved routines.","engines":{"node":">=22"},"scripts":{"test":"node --test test/*.test.mjs","start":"node src/cli.mjs mcp"}}
+{
+  "name": "flick",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "description": "Tiny general iPhone control over USB: one native XCTest runner, three MCP tools, no saved routines.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "start": "node src/cli.mjs mcp",
+    "benchmark:suite": "node scripts/benchmark-suite.mjs",
+    "benchmark:decisions": "node scripts/benchmark-decisions.mjs"
+  }
+}

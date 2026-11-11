@@ -1,4 +1,6 @@
-# iPhone Sprint
+# flick
+
+![flick](docs/brand/preview.png)
 
 Tiny, general iPhone control for coding agents. One signed XCTest runner, a USB relay, and **three MCP tools**. No saved routines, mandatory cloud service, video stream, npm packages, or extra model API. The optional JEV loop is off until configured and explicitly requested.
 
@@ -63,6 +65,14 @@ This is an example request, not a stored workflow. A click can use `selector:{"k
 Native snapshots expire after30seconds. A click re-reads the same registered element and rejects changed meaning, moved frames, disabled controls or partial off-screen bounds; it does not silently scroll. Full overlay/hit ownership remains a separate limitation. A missing target can wait locally; multiple matching targets stop. Unknown mutation outcomes stop without replay. A timeout is not evidence that a tap failed. Read the screen and resolve the outcome before continuing. Batch only actions authorized by the current user task. Stop for user takeover, authentication, unexpected sensitive screens, or ambiguous destructive actions.
 
 An example temporary JSON request can also be run with `node src/cli.mjs execute /path/to/request.json`. CLI invocations cannot reuse another process's in-memory refs; use semantic selectors. MCP keeps its current observation in memory.
+
+## Recorded comparison suite
+
+`node scripts/benchmark-suite.mjs` runs ten reversible tasks in alternating batch/JEV order, with a native 3 fps screen recording and timestamped input/decision logs for each run. It checks media volume before every run and verifies results with a separate fresh accessibility read. JEV credentials are required. Raw captures stay in ignored `benchmarks/private/`. See [suite method](docs/benchmark-suite.md).
+
+[New live chooser trials](benchmarks/runs/2026-11-11T21-17-39-491Z-decisions/comparison.md): 10/10 expected choices, 9/10 above the existing decision gate, 102 ms median. These synthetic-state tests do not prove phone task speed. Physical recording attempts stopped during setup after disconnection; wireless remains unreachable.
+
+Brand assets: [mark and wordmark](docs/brand/). Existing `sprint_*` tools and signing IDs remain compatible.
 
 ## Development and validation
 

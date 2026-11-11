@@ -64,3 +64,10 @@ The9.8% driver-cycle improvement is modest. The larger measured difference comes
 `mirroring-isolated.json`:three successful exploratory app opens with XCTest stopped,13.287s/13.858s/19.659s including agent/tool/screenshot recovery. Coordinate clicks failed even in isolation; keyboard activation worked after recovery. These boundaries differ from direct driver timings, so no speed ratio is justified. `mirroring-attempts.json` retains earlier invalid mixed-controller attempts. Concurrent Mirroring caused AX to describe a different surface from the screenshot; the MCP front end now refuses direct control while Mirroring runs.
 
 No result here establishes all-app correctness, a whole-posting-task speedup, JEV performance beyond this small Calculator test, battery impact, or sustained/peak resource usage. Private account evidence remains outside Git.
+
+## Additional comparison suite — November 11
+
+- [Ten live synthetic-state JEV decisions](runs/2026-11-11T21-17-39-491Z-decisions/comparison.md): 10/10 correct choices, 9/10 accepted by the existing 0.9 gate. Median API latency 101.8 ms. Full fixture/response logs and CSV saved. No phone input or real-device speed claim.
+- Ten physical task pairs with video were prepared. Two setup sessions failed before any timed task completed. The user confirmed the cable is unavailable; paired wireless discovery remains unreachable. No new phone videos or completed task measurements are claimed.
+- Recorder/encoder fixture check: two videos and one paired comparison produced and decoded; this is pipeline validation with an old public image, not a fresh device recording.
+- Repository brand: flick; original monochrome SVG mark and wordmark in docs/brand. Stable sprint APIs and native runner identifiers retained.
