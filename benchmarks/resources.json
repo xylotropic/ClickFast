@@ -1,0 +1,23 @@
+{
+  "time": "2026-11-11T19:52:38.361Z",
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v25.9.0"
+  },
+  "schema_bytes": 1894,
+  "tools": 3,
+  "mcp_idle_rss_kib": 56752,
+  "relay_idle_rss_kib": 1888,
+  "xcode_waiting_for_unlock_rss_kib": 191856,
+  "tracked_file_count": 47,
+  "tracked_source_and_docs_bytes": 499991,
+  "local_signed_runner_app_bytes": 25419953,
+  "npm_dependencies": 0,
+  "limitations": [
+    "Single host RSS samples after MCP initialize/tools-list; no app workload or peak-memory claim.",
+    "Xcode process is waiting for unlock, not an active task measurement.",
+    "Signed build includes Apple test support and provisioning; never distributed in this repository.",
+    "No iPhone process-memory measurement yet."
+  ]
+}

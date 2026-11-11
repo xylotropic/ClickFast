@@ -1,0 +1,69 @@
+{
+  "measured_at": "2026-11-11T19:49:42.085Z",
+  "transport": "Apple iPhone Mirroring through Codex CUA",
+  "isolation": "Native XCTest test process was stopped and its exit verified before Mirroring started. Mirroring was fully quit afterward.",
+  "scope": "Exploratory agent-driven app-opening tests. Wall time includes agent/tool turns, screenshots and recovery. Dispatch-call time is not completed-action latency. These are not comparable to driver-only direct timings.",
+  "device": "iPhone 16 Pro Max, iOS 26.5",
+  "trials": [
+    {
+      "task": "Open Calculator from Home",
+      "started": "2026-11-11T19:49:42.085Z",
+      "success": true,
+      "first_attempt_success": false,
+      "wall_ms_to_verified_result": 13287,
+      "events": [
+        {"stage":"open_search","dispatch_call_ms":25},
+        {"stage":"enter_app_query","dispatch_call_ms":135},
+        {"stage":"coordinate_activation","dispatch_call_ms":7,"success":false,"error_class":"CUA_noWindowsAvailable"},
+        {"stage":"keyboard_recovery","dispatch_call_ms":6}
+      ],
+      "verification": "Calculator keypad visible",
+      "recovery": "Used Return after inspecting the failed coordinate click; app opened."
+    },
+    {
+      "task": "Open Calculator from Home",
+      "started": "2026-11-11T19:50:13.463Z",
+      "success": true,
+      "first_attempt_success": false,
+      "wall_ms_to_verified_result": 13858,
+      "events": [
+        {"stage":"open_search_and_immediate_text","dispatch_call_ms":142},
+        {"stage":"verify_query","success":false,"error_class":"partial_text"},
+        {"stage":"repair_own_query","dispatch_call_ms":144},
+        {"stage":"keyboard_activation","dispatch_call_ms":7}
+      ],
+      "verification": "Calculator keypad visible after query repair",
+      "recovery": "Replaced only the test search query after input focus was established."
+    },
+    {
+      "task": "Open Clock from Home",
+      "started": "2026-11-11T19:50:41.356Z",
+      "success": true,
+      "first_attempt_success": false,
+      "wall_ms_to_verified_result": 19659,
+      "events": [
+        {"stage":"open_search","dispatch_call_ms":6},
+        {"stage":"select_all_and_immediate_text","dispatch_call_ms":84},
+        {"stage":"verify_query","success":false,"error_class":"missing_first_character"},
+        {"stage":"repair_after_separate_selection_observation","dispatch_call_ms":77},
+        {"stage":"keyboard_activation","dispatch_call_ms":5}
+      ],
+      "verification": "Clock Alarms view visible; no alarm changed",
+      "recovery": "Separated Select All from text entry with a visible selection check; exact query then arrived."
+    }
+  ],
+  "summary": {"attempted_tasks":3,"eventually_completed":3,"first_attempt_successes":0,"publications":0},
+  "findings": [
+    "Coordinate clicking still returned noWindowsAvailable with native XCTest stopped. The earlier coordinate errors cannot be attributed solely to controller overlap.",
+    "A keyboard-only app-opening route worked, so Mirroring itself was not completely unusable.",
+    "Immediate text after opening Spotlight or selecting all lost characters in two exploratory attempts. Separate focus/selection verification repaired input.",
+    "Command-1 from an app opened through Spotlight can return to search; the actual Home state must be verified before resetting a timed trial.",
+    "The next screenshot immediately after Return could show an in-progress transition; a changed frame alone did not establish completion."
+  ],
+  "limitations": [
+    "Small exploratory sample with diagnostic recovery; no general success-rate estimate.",
+    "No native direct completed-app task has yet been compared under equivalent timing boundaries.",
+    "No TikTok or Instagram Reel was published."
+  ],
+  "speedup_ratio": null
+}

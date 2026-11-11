@@ -1,0 +1,32 @@
+{
+  "updated_at": "2026-11-11T19:53:11Z",
+  "required_tests": [
+    {
+      "task": "Publish a TikTok and reopen the published video",
+      "status": "not_run",
+      "app_version": "47.6.0",
+      "pending": ["Physical iPhone unlock for native runner launch", "Designated clip, account, caption and audience"],
+      "draft_counts_as_success": false
+    },
+    {
+      "task": "Publish an Instagram Reel and reopen the published video",
+      "status": "not_run",
+      "app_version": "454.1.0",
+      "pending": ["Physical iPhone unlock for native runner launch", "Designated clip, account, caption and audience"],
+      "draft_counts_as_success": false
+    }
+  ],
+  "additional_tests": [
+    {"criterion":"Host control correctness","status":"passed","checks":15,"evidence":"node-tests.txt","scope":"Local HTTP and simulated control-state cases; not physical app success"},
+    {"criterion":"Vendored native host checks","status":"passed","checks":240,"scope":"Host-side suite, not device task performance"},
+    {"criterion":"Physical USB transport latency","status":"measured","evidence":"transport.json","scope":"Health and lock-state reads only"},
+    {"criterion":"Isolated Mirroring app navigation and recovery","status":"measured","evidence":"mirroring-isolated.json","scope":"Three exploratory tasks completed, each after recovery; no direct speed ratio"},
+    {"criterion":"Resource footprint","status":"partly_measured","evidence":"resources.json","pending":["Peak workload CPU and memory","Phone process memory"]},
+    {"criterion":"Media picking, caption fidelity, permissions, preview and audience selection","status":"not_run","pending":["Required publication test inputs"]},
+    {"criterion":"Actual upload, processing, publication verification and duplicate prevention","status":"not_run","pending":["Required publication tests"]},
+    {"criterion":"JEV selection latency and accuracy","status":"not_run","scope":"Primary-source research completed in docs/jev.md; optional service is not installed or called"}
+  ],
+  "new_posts_created": 0,
+  "completed_task_speedup_verified": false,
+  "repository_publication": "Private staging repository created with MIT source; public release pending required device validation."
+}
