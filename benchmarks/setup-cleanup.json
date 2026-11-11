@@ -1,0 +1,26 @@
+{
+  "time": "2026-11-11T19:56:22.603Z",
+  "legacy_daemon_found_running": true,
+  "legacy_idle_rss_kib_before_cleanup": 16816,
+  "legacy_autostart_removed": true,
+  "legacy_process_exit_verified": true,
+  "legacy_prototype_archived_outside_outputs": true,
+  "remaining_phone_launchagents": 0,
+  "own_xcode_test_processes": 1,
+  "own_usb_relays": 1,
+  "mcp_registration_enabled": true,
+  "configured_runtime": "v24.14.0",
+  "configured_mcp_server": {
+    "name": "iphone-sprint",
+    "version": "0.1.0"
+  },
+  "configured_mcp_tools": [
+    "sprint_status",
+    "sprint_observe",
+    "sprint_execute"
+  ],
+  "schema_bytes": 1894,
+  "configured_mcp_idle_rss_kib": 57344,
+  "phone_actions_dispatched": 0,
+  "note": "Actual configured stdio process completed initialize/tools-list. Xcode remains pending physical unlock; this is setup validation, not app-control performance."
+}

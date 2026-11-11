@@ -8,6 +8,8 @@ The signed MIT runner is installed and serves authenticated requests over USB on
 
 `resources.json` records one Mac arm64 sample: three tools, 1,894 schema bytes, zero npm dependencies, 55.4 MiB idle MCP RSS and 1.84 MiB relay RSS. The Xcode process waiting for unlock used 187.4 MiB; it is part of setup/runtime overhead and must not be hidden. The local signed test app was 24.24 MiB including Apple test support. These are single samples, not peak memory or sustained CPU measurements; phone-process memory is unmeasured.
 
+`setup-cleanup.json` verifies the actual Codex-configured Node 24.14.0 stdio process initializes and advertises exactly the three Sprint tools (56 MiB idle RSS in that sample). A later process audit found the superseded prototype daemon still running with 16.4 MiB RSS. It was unloaded, its auto-start plist privately archived, and its 89 MB prototype directory moved out of deliverable outputs without deleting files. The remaining phone processes are one Sprint Xcode test waiting for unlock and one USB relay. This cleanup is an installation improvement, not evidence of faster phone tasks.
+
 ## Invalidated task attempts
 
 `direct.json` is an aborted preflight with zero app trials: the locked-device guard stopped it before app input. Earlier informal app-observation attempts were invalidated because mirroring was simultaneously connected. Neither establishes a completed-task speedup.
