@@ -1,0 +1,40 @@
+{
+  "kind": "Live JEV decisions from one saved physical X frame; no device input",
+  "runs": [
+    {
+      "goal": "Open the Following tab.",
+      "ms": 225.883708,
+      "ok": true,
+      "choice": {
+        "choice": "a1",
+        "confidence": 1,
+        "selected_probability": 1,
+        "available": 0.99,
+        "model": "jev-1.14.0",
+        "usage": {
+          "input_tokens": 655,
+          "output_tokens": 51
+        }
+      }
+    },
+    {
+      "goal": "Return to the For you feed.",
+      "ms": 72.83500000000004,
+      "ok": true,
+      "choice": {
+        "choice": "a0",
+        "confidence": 1,
+        "selected_probability": 1,
+        "available": 0.98,
+        "model": "jev-1.14.0",
+        "usage": {
+          "input_tokens": 657,
+          "output_tokens": 51
+        }
+      }
+    }
+  ],
+  "source_session": "2026-11-12T07-26-20-589Z-general",
+  "source_task": "x-open",
+  "method": "The current local OCR reads the original recorded X frame. Live JEV chooses between the two matched UI labels; no screenshot or other OCR text is sent to TypeSafe, and no phone input is performed. Both gates remain at 0.9."
+}

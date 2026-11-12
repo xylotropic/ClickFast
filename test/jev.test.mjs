@@ -205,3 +205,11 @@ test('a newly launched pixel-only frame gets fresh AX before the next navigation
  const result=await runLocalGoal(c,{...options,visible_controls:true,until:{selector:{kind:'SearchField',value:'needle'}}},{chooser:{choose:async()=>{throw Error('A transient empty frame is not a model decision');}}});
  assert.equal(result.ok,true);assert.equal(reads,2);assert.equal(result.chooser_calls,0);
 });
+
+test('an explicitly scoped visual intent rechecks the selected text before guarded input',async()=>{
+ const row={text:'Next',confidence:.99,x:.2,y:.5,width:.2,height:.05};let captures=0;const inputs=[];
+ const c={current:null,async observe(){return this.current={app:'test.app',snapshot:'s0',mode:'pixels',width:400,height:800,elements:[]};},async execute(steps){inputs.push(steps[0]);return {ok:true,completed:[0]};}};
+ const vision={async capture(){captures++;return c.current={app:'test.app',snapshot:'s'+captures,mode:'pixels',width:400,height:800,elements:[],visual_rows:[captures>2?{...row,text:'Editor'}:row]};}};
+ const result=await runLocalGoal(c,{external_ui_opt_in:true,goal:'Open the editor',apps:['test.app'],visual_labels:['Next'],until:{app:'test.app',visual:{all:['Editor']}}},{vision,chooser:{choose:async({candidates})=>{assert.deepEqual(candidates.map(x=>x.label),['Next']);return decision;}}});
+ assert.equal(result.ok,true);assert.equal(inputs.length,1);assert.equal(inputs[0].op,'tap_point');assert.equal(inputs[0].snapshot,'s2');assert.equal(captures,3);
+});

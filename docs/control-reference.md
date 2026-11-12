@@ -140,3 +140,41 @@ The calling agent supplies an authorized app and control scope. Protected-label 
 ## AXe review
 
 The [pinned source review](axe-review.md) covers the whole tracked path inventory and traces critical implementation areas. ClickFast adopts native target identity/frame admission, snapshot expiry, input-delivery receipts, compact navigation views, and a bounded optional chooser. Full overlay ownership and native cancellation propagation remain open work. AXe's runner-free path was measured in isolation: AX reads worked; its screenshot/HID services were unavailable on this phone. No blanket replacement or performance claim follows from its simulator benchmarks.
+
+## Local visual navigation (experimental)
+
+When AX is unavailable, a caller can select a local OCR path for the next intent. This uses Apple Vision on the Mac and the existing signed phone runner. Normal AX control starts no OCR worker. Build the optional helper once:
+
+```sh
+node scripts/setup-vision.mjs
+```
+
+The MCP interface still has three tools. `sprint_execute.local_goal` accepts `visual_labels` and an app-scoped `until.visual` predicate. Labels are exact words or phrases; word boxes separate adjoining dropdown glyphs. Only unique matching supplied labels and supplied result/readiness markers are sent to JEV. Screenshots and unrelated recognized text stay local. The worker deletes its temporary image after each read and closes with the client.
+
+For example, after inspecting an app's feed, the caller can request a newly generated scroll:
+
+```json
+{
+  "local_goal": {
+    "external_ui_opt_in": true,
+    "goal": "Scroll up once in the current feed.",
+    "apps": ["com.atebits.Tweetie2"],
+    "visual_labels": [],
+    "visual_ready": {"all": ["For You", "Following"]},
+    "scroll_directions": ["up"],
+    "until": {
+      "app": "com.atebits.Tweetie2",
+      "visual": {"all": ["For You", "Following"], "moved": true}
+    },
+    "max_actions": 1
+  }
+}
+```
+
+`visual_ready` waits for starting markers before inference and checks them again before input. Its local wait defaults to two seconds; `readiness_timeout_ms` can set 0–10,000 ms within the overall intent deadline. Waiting remains inside task timing. `until.visual.all` must appear in a fresh final image; optional `none` markers block completion. `moved:true` additionally requires coherent movement of at least two readable body-text anchors. A full-feed replacement without common anchors hands back. Callers must choose markers that prove their task: unchanged tab labels alone cannot prove a tab became selected. A new image after the model choice must retain the same app, geometry and unique target within two screen points. Native snapshot/app admission still runs before the touch.
+
+The mode does not type into fields or guess unlabeled icons. It refuses ambiguous/protected labels and keeps the same 0.9 JEV gates. Changing video text cannot authorize repeating an unchanged tap. Unknown input stops without replay. English is the current recognition language; other languages and full overlay ownership remain unverified. Word boxes are approximate, so this is not a substitute for app semantics or a guarantee that every visible label is tappable.
+
+The first measurements are **offline**, not a new phone score. On ten different saved phone images, keeping OCR running reduced median recognition time from 267 ms to 79 ms, with matching text and rounded word geometry. A repeat on the same ten images measured 234 ms versus 77 ms. Two live JEV decisions on a saved X frame passed their gates; neither dispatched phone input. The phone disconnected before live visual-mode testing. The older twenty-task score remains 16/20. See [OCR records](../benchmarks/runs/2026-11-12T07-48-48-509Z-offline-ocr/results.json) and [repeat](../benchmarks/runs/2026-11-12T07-56-52-065Z-offline-ocr/results.json), and [decision replay](../benchmarks/runs/2026-11-12-replayed-visual-decisions/results.json).
+
+Run `node scripts/benchmark-visual-goals.mjs TASKS.json` after reconnecting the phone. Each task supplies an `id`, `local_goal`, and optional `min_actions`. The harness records real frames, decisions, mute state, independent result checks, setup and cleanup. These visual predicates form a separate task set; they must not silently replace an older AX predicate to improve its score.

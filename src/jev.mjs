@@ -1,6 +1,8 @@
 // Optional local intent execution. The caller supplies scope, literals and a verifiable result.
 import {performance} from 'node:perf_hooks';
 import {matches,validateSelector} from './driver.mjs';
+import {runVisualGoal,wantsVisualGoal} from './visual-goal.mjs';
+export {wantsVisualGoal} from './visual-goal.mjs';
 const probability=n=>typeof n==='number'&&Number.isFinite(n)&&n>=0&&n<=1;
 const protectedLabel=/\b(post|publish|share|send|pay|buy|purchase|subscribe|delete|remove|accept|agree|allow|password|sign.?in|log.?in|confirm|order|book)\b/i;
 const fields=['TextField','SearchField','TextView'];
@@ -107,8 +109,9 @@ function nextDecisionGoal(goal,observation,options,candidates){
  return goal;
 }
 
-export async function runLocalGoal(controller,options,{chooser,signal,onBeforeAction}={}){
+export async function runLocalGoal(controller,options,{chooser,signal,onBeforeAction,vision}={}){
  if(options?.external_ui_opt_in!==true)throw new Error('JEV requires explicit external_ui_opt_in: selected UI labels, supplied literals and the intent are sent to TypeSafe');
+ if(wantsVisualGoal(options))return runVisualGoal(controller,options,{chooser,signal,onBeforeAction,vision});
  const {goal,apps,allowed_selectors,until}=options;
  if(typeof goal!=='string'||goal.length<1||goal.length>2000||!Array.isArray(apps)||!apps.length||apps.length>16||apps.some(x=>typeof x!=='string'||!/^[\w.-]+$/.test(x)))throw new Error('A bounded intent and explicit app scope are required');
  if(!Array.isArray(allowed_selectors)&&options.visible_controls!==true)throw new Error('Specify allowed_selectors or visible_controls:true');

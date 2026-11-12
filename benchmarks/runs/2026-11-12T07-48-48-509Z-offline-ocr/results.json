@@ -1,0 +1,175 @@
+{
+  "id": "2026-11-12T07-48-48-509Z-offline-ocr",
+  "kind": "Offline OCR on ten saved physical-phone images; no live input or phone task success claim",
+  "source_session": "2026-11-12T07-26-20-589Z-general",
+  "method": "Alternate worker/process order across ten different recorded task images. Each pair reads identical bytes, with original cold startup retained. Compare normalized text and rounded word geometry without publishing recognized UI text. The worker is local Apple Vision, not an additional model API.",
+  "source_sha256": {
+    "src/local-vision.mjs": "1262c6bf35026a8a24c82d09e510a7a00ea9e2899f0ca4a454d8babae4f8d482",
+    "src/ocr-worker.mjs": "1e86ca29d3fe79845d81bfb388550a9fcb3e706c440e273610cbf0bbdb2ebc8a",
+    "scripts/visual-ocr.swift": "a106bfb3af8e53f26c54096c1259f17558c6600b2df6827ca5a85571b40dedf9",
+    "scripts/benchmark-ocr.mjs": "2c6ceaabd5c8261018ac26291d9a9de386c3f2e2953fc49a41529e8a7191d0e3"
+  },
+  "runs": [
+    {
+      "task": "folder-clock-home",
+      "mode": "process",
+      "ms": 297.993917,
+      "rows": 35,
+      "source_image_sha256": "1b34add40974b037c7beb1a921f60ce55ebda36bbf13dfed2b907d88e24707d6",
+      "output_sha256": "08235ffe5f25f4a9f8fa31f7f86ed109067c927c6dcce8b439829f27466dfd1c"
+    },
+    {
+      "task": "folder-clock-home",
+      "mode": "worker",
+      "ms": 268.577792,
+      "rows": 35,
+      "source_image_sha256": "1b34add40974b037c7beb1a921f60ce55ebda36bbf13dfed2b907d88e24707d6",
+      "output_sha256": "08235ffe5f25f4a9f8fa31f7f86ed109067c927c6dcce8b439829f27466dfd1c"
+    },
+    {
+      "task": "folder-media-youtube-home",
+      "mode": "worker",
+      "ms": 79.631708,
+      "rows": 36,
+      "source_image_sha256": "1f2eedeadd5c5855e360d221360e0de30f53bf21b0e097d150445d29ec4fe45a",
+      "output_sha256": "97e79585e0336512e4c2af1b590d12372619c9b3a8c3feb693b8013d8f78f97b"
+    },
+    {
+      "task": "folder-media-youtube-home",
+      "mode": "process",
+      "ms": 271.64483299999995,
+      "rows": 36,
+      "source_image_sha256": "1f2eedeadd5c5855e360d221360e0de30f53bf21b0e097d150445d29ec4fe45a",
+      "output_sha256": "97e79585e0336512e4c2af1b590d12372619c9b3a8c3feb693b8013d8f78f97b"
+    },
+    {
+      "task": "contacts-text",
+      "mode": "process",
+      "ms": 261.56425,
+      "rows": 25,
+      "source_image_sha256": "7f711a5b7558e421a11e8bfaf0ad3c7f40e916ad40cb209533081a2cb9926d52",
+      "output_sha256": "791999f396cc952fe5feac7ab0a193156aa82db775820c0d8e6c7d8209164348"
+    },
+    {
+      "task": "contacts-text",
+      "mode": "worker",
+      "ms": 79.36366599999997,
+      "rows": 25,
+      "source_image_sha256": "7f711a5b7558e421a11e8bfaf0ad3c7f40e916ad40cb209533081a2cb9926d52",
+      "output_sha256": "791999f396cc952fe5feac7ab0a193156aa82db775820c0d8e6c7d8209164348"
+    },
+    {
+      "task": "shortcuts-gallery",
+      "mode": "worker",
+      "ms": 55.062041000000136,
+      "rows": 9,
+      "source_image_sha256": "0cac55fbbbc30eafea7b673a28a120e4aa959f1e538b5c60bd1ca87381e8d954",
+      "output_sha256": "1d117060a67362ec16c9b46d41069cf34e0a6009dcfc3c953dac45e580d9e808"
+    },
+    {
+      "task": "shortcuts-gallery",
+      "mode": "process",
+      "ms": 243.533541,
+      "rows": 9,
+      "source_image_sha256": "0cac55fbbbc30eafea7b673a28a120e4aa959f1e538b5c60bd1ca87381e8d954",
+      "output_sha256": "1d117060a67362ec16c9b46d41069cf34e0a6009dcfc3c953dac45e580d9e808"
+    },
+    {
+      "task": "calendar-date-text",
+      "mode": "process",
+      "ms": 252.40370899999994,
+      "rows": 34,
+      "source_image_sha256": "3307d4f080e006fadd3bca080bf438050717047ca535e7726662988aaa1fefe0",
+      "output_sha256": "fe31d52a661be174df1890d45f14c4444bab17b082937c31223a2e3bc34c9152"
+    },
+    {
+      "task": "calendar-date-text",
+      "mode": "worker",
+      "ms": 79.24104199999988,
+      "rows": 34,
+      "source_image_sha256": "3307d4f080e006fadd3bca080bf438050717047ca535e7726662988aaa1fefe0",
+      "output_sha256": "fe31d52a661be174df1890d45f14c4444bab17b082937c31223a2e3bc34c9152"
+    },
+    {
+      "task": "files-document-find",
+      "mode": "worker",
+      "ms": 75.98979199999985,
+      "rows": 24,
+      "source_image_sha256": "9db90e5e595b08a35e8d5650d25f22be749a638a186b8cc7b8ccde39df30d9e2",
+      "output_sha256": "edb7ba82c6aacca6bcf73a24bc70d45dcb7d5531e4c0b138e723b4ca87be4eac"
+    },
+    {
+      "task": "files-document-find",
+      "mode": "process",
+      "ms": 251.55099999999993,
+      "rows": 24,
+      "source_image_sha256": "9db90e5e595b08a35e8d5650d25f22be749a638a186b8cc7b8ccde39df30d9e2",
+      "output_sha256": "edb7ba82c6aacca6bcf73a24bc70d45dcb7d5531e4c0b138e723b4ca87be4eac"
+    },
+    {
+      "task": "app-store-multiword",
+      "mode": "process",
+      "ms": 272.01404200000025,
+      "rows": 32,
+      "source_image_sha256": "b25c5f44d3797bb77a42a712a6b4f9b1077469f9fd71f09989f7f7c75b8e4cf3",
+      "output_sha256": "23b9e852b298104b15da31cc0e9810d853096cb0c61ef44bf390dd8522351c95"
+    },
+    {
+      "task": "app-store-multiword",
+      "mode": "worker",
+      "ms": 91.94437500000004,
+      "rows": 32,
+      "source_image_sha256": "b25c5f44d3797bb77a42a712a6b4f9b1077469f9fd71f09989f7f7c75b8e4cf3",
+      "output_sha256": "23b9e852b298104b15da31cc0e9810d853096cb0c61ef44bf390dd8522351c95"
+    },
+    {
+      "task": "reminders-punctuation",
+      "mode": "worker",
+      "ms": 77.59804200000008,
+      "rows": 24,
+      "source_image_sha256": "693b22da0b9b2aa8b54bfa31620f2ba9950710852726d14e6b10e5d1c2c6b057",
+      "output_sha256": "9734fc6bd8736658c1d326a3fb0652bcc638140803ea9199016650479c1f1143"
+    },
+    {
+      "task": "reminders-punctuation",
+      "mode": "process",
+      "ms": 258.9271249999997,
+      "rows": 24,
+      "source_image_sha256": "693b22da0b9b2aa8b54bfa31620f2ba9950710852726d14e6b10e5d1c2c6b057",
+      "output_sha256": "9734fc6bd8736658c1d326a3fb0652bcc638140803ea9199016650479c1f1143"
+    },
+    {
+      "task": "x-open",
+      "mode": "process",
+      "ms": 291.50300000000016,
+      "rows": 34,
+      "source_image_sha256": "9ec3eade1524b99e6a52c93600d0da738e9cd67a54cb98d7a47f1cf7b7110ee9",
+      "output_sha256": "0cd5e7ae95948bb80befeaee60e06f11a2810a02541c3823f6f637000e7fd710"
+    },
+    {
+      "task": "x-open",
+      "mode": "worker",
+      "ms": 104.41150000000016,
+      "rows": 34,
+      "source_image_sha256": "9ec3eade1524b99e6a52c93600d0da738e9cd67a54cb98d7a47f1cf7b7110ee9",
+      "output_sha256": "0cd5e7ae95948bb80befeaee60e06f11a2810a02541c3823f6f637000e7fd710"
+    },
+    {
+      "task": "x-scroll",
+      "mode": "worker",
+      "ms": 106.15716699999984,
+      "rows": 33,
+      "source_image_sha256": "4c5646aa17cef065c6204d733930d95fe396ecbcd2f172d423c73bb4bc8a4f31",
+      "output_sha256": "324bc928d24a326e18b1c2fd8a19c0c57b95ab8ccf23dd6a65f6754b79284d1c"
+    },
+    {
+      "task": "x-scroll",
+      "mode": "process",
+      "ms": 298.7102910000003,
+      "rows": 33,
+      "source_image_sha256": "4c5646aa17cef065c6204d733930d95fe396ecbcd2f172d423c73bb4bc8a4f31",
+      "output_sha256": "324bc928d24a326e18b1c2fd8a19c0c57b95ab8ccf23dd6a65f6754b79284d1c"
+    }
+  ],
+  "outputs_match": true
+}

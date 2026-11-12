@@ -81,3 +81,11 @@ Books passed two recorded retests in `2026-11-12T07-28-32-772Z-general` (2.262 s
 Both TikTok retests stopped before scrolling because the visual Home choice failed the unchanged 0.9 JEV presence gate. A separately recorded, caller-directed guarded drag on the visibly ready feed took 0.730 s of input but left the same creator, caption and counters on screen. It remains a failed scroll. These focused results do not replace the full suite's 16/20 score.
 
 The final recorded transition check `2026-11-12T07-32-10-854Z-general` passed both folder/app round trips and Books (3/3) after empty AX observations were also excluded from absence checks. These are focused regressions, not another twenty-task score.
+
+## Visual-mode work after the disconnect
+
+The developer connection disappeared at 07:36 UTC after the completed phone tests. CoreDevice no longer lists an available tunnel. The user has been asked to reconnect the cable; no passcode or security setting is being changed.
+
+An explicit local OCR/JEV mode is implemented for screens whose AX tree is unavailable. It rechecks app, geometry, readiness and target text after the decision, then uses the native guarded point/scroll path. Its host checks cover ambiguity, moving targets, low confidence, cancellation, stale worker replies and Unicode IPC. A ten-image OCR ablation and two model decisions use the original recorded phone frames; these are offline evidence and do not count as live phone successes. The physical visual-mode suite is still unrun. [Interface and limits](control-reference.md#local-visual-navigation-experimental).
+
+The existing wireless Mirroring route briefly reconnected during a read-only check. It then reported “iPhone in Use” after owner takeover, and Mirroring was closed. No new live visual-task result follows from that connection check. Mac output mute was verified before the check. The host suite now passes 120 checks; the twenty-task physical score remains unchanged.
