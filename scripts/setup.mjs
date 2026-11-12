@@ -44,7 +44,7 @@ const product=join(derived,'Build/Products');
 p=sys.argv[1]
 with open(p,'rb') as f: d=plistlib.load(f)
 d['UILaunchScreen']={}
-d['CFBundleDisplayName']='Operator'
+d['CFBundleDisplayName']='ClickFast'
 if sys.argv[2]=='1': d['NSPhotoLibraryAddUsageDescription']='Import a generated video for an explicitly requested posting test.'
 else: d.pop('NSPhotoLibraryAddUsageDescription',None)
 with open(p,'wb') as f: plistlib.dump(d,f,fmt=plistlib.FMT_BINARY)

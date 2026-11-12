@@ -1,9 +1,9 @@
-# Operator
+# ClickFast
 
-A compact `op` monogram and a lowercase wordmark, set in Geist. The icon uses an off-white tile with dark lettering; the wordmark uses one color. No gradients or effects.
+The logo is the artwork supplied by Floyd. `clickfast-source.png` is the original upload, unchanged.
 
-Use `operator-mark.svg` at 20 px or larger. The wordmark and monogram are outlined vectors and need no installed font. `preview.svg` and `preview.png` are the dark repository lockup; `operator-avatar.svg` is the square avatar. Reports use the bundled Geist regular and medium fonts.
+`clickfast-lockup.svg` displays the complete mark and wordmark with the outer white margin cropped by its viewport. `clickfast-mark.svg` displays the C mark. Both files embed the original image; neither redraws the lettering or symbol.
 
-The app name is Operator. Existing `sprint_*` MCP tools and signing identifiers remain stable for installed clients. Operator's own app screen uses the official Libraries.dev ThinkingOrb, working state, centered at 64 pt on #121212. This app screen is separate from Apple's system automation shield.
+Run `python3 scripts/build-brand.py` to rebuild the two SVG wrappers. The source image hash is recorded in `source.json`.
 
-Geist is distributed under the SIL Open Font License 1.1; see [fonts/OFL.txt](fonts/OFL.txt) and [source.json](source.json) for provenance and hashes. The arrangement and build script are MIT, like the repository. Build with `scripts/build-brand.py`; it outlines the bundled fonts with fontTools.
+Earlier Operator artwork is in `archive/operator/` for the historical reports. Those reports still use the bundled Geist fonts, licensed under the [SIL Open Font License](fonts/OFL.txt). Existing tool names and signing identifiers stay stable for installed clients.

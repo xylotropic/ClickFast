@@ -86,7 +86,7 @@ test('real MCP framing advertises only three small tools and rejects unknown met
  input.write(JSON.stringify({jsonrpc:'2.0',id:2,method:'tools/list'})+'\n');
  input.write(JSON.stringify({jsonrpc:'2.0',id:3,method:'invented'})+'\n');
  await new Promise(r=>setTimeout(r,10));input.end();
- assert.equal(messages[0].result.serverInfo.name,'operator');
+ assert.equal(messages[0].result.serverInfo.name,'clickfast');
  assert.deepEqual(messages[1].result.tools.map(t=>t.name),tools.map(t=>t.name));
  assert.equal(tools.length,3);assert.ok(Buffer.byteLength(JSON.stringify(tools))<6000);
  assert.equal(messages[2].error.code,-32601);

@@ -1,10 +1,10 @@
 {
-  "name": "operator",
+  "name": "clickfast",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "license": "MIT",
-  "description": "Give your AI agent hands on your iPhone. A small local runner for tapping, typing, and moving between apps.",
+  "description": "Let your AI agent use your iPhone.",
   "engines": {
     "node": ">=22"
   },
