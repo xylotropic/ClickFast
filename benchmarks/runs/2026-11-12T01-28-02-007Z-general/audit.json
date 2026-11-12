@@ -1,0 +1,4 @@
+{
+  "correction": "The min_actions message in several failed runs incorrectly said the starting state was complete. These runs failed JEV gates before completing; phase reasons, observations, ok:false and recordings retain the actual evidence. They are failures, not excluded zero-action successes. The harness now emits that message only when every phase and independent final verification passed but too few actions occurred.",
+  "source_results_unchanged": true
+}

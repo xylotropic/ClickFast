@@ -196,5 +196,24 @@ test('unverifiable media mute prevents app control',async()=>{
 });
 
 test('bounded local-loop execution accepts fractional remaining time',async()=>{
- const c=new Controller({call:async()=>null});const r=await c.execute([{op:'home',observe:false}],{timeout:1234.56});assert.equal(r.ok,true);
+ const c=new Controller({call:async()=>({...screen(),app:'com.apple.springboard'})});const r=await c.execute([{op:'home',observe:false}],{timeout:1234.56});assert.equal(r.ok,true);
+});
+test('launch waits for the requested foreground app instead of returning the old app ACK',async()=>{
+ let reads=0,sent=0;const c=new Controller({call:async(path)=>{if(path==='/sprint/act'){sent++;return screen();}const s=screen();if(++reads>1)s.app='next.app';return s;}});
+ const result=await c.execute([{op:'launch',bundle:'next.app',timeout_ms:500}]);assert.equal(result.ok,true);assert.equal(result.observation.app,'next.app');assert.equal(sent,1);
+});
+test('text target app and field identity are rechecked immediately before typing',async()=>{
+ let sent=0;const make=(app,label)=>new Controller({call:async(path)=>{if(path!=='/sprint/observe')sent++;return {...screen(),app,elements:[{...screen().elements[0],kind:'SearchField',label,focused:true}]};}});
+ for(const c of [make('other.app','Search'),make('test.app','Other field')]){const result=await c.execute([{op:'text',text:'Operator',app:'test.app',selector:{kind:'SearchField',label:'Search'}}]);assert.equal(result.ok,false);}
+ assert.equal(sent,0);
+});
+test('Home waits for Springboard before another app decision',async()=>{
+ let reads=0,sent=0;const c=new Controller({call:async(path)=>{if(path==='/sprint/act'){sent++;return screen();}const s=screen();if(++reads>1)s.app='com.apple.springboard';return s;}});
+ const result=await c.execute([{op:'home',timeout_ms:500}]);assert.equal(result.ok,true);assert.equal(result.observation.app,'com.apple.springboard');assert.equal(sent,1);
+});
+test('folder dismissal waits for its name field to disappear without repeating Home',async()=>{
+ let reads=0,inputs=0;const folder={kind:'TextField',label:'Productivity, Folder name'};
+ const c=new Controller({call:async(path)=>{if(path==='/sprint/act'){inputs++;return null;}return {...screen(),app:'com.apple.springboard',elements:++reads<3?[folder]:[]};}});
+ const result=await c.execute([{op:'home',expect:{app:'com.apple.springboard',absent:folder},timeout_ms:500}]);
+ assert.equal(result.ok,true);assert.equal(result.observation.elements.length,0);assert.equal(inputs,1);assert.equal(reads,3);
 });

@@ -100,6 +100,20 @@ final class UINode {
 /// Small target admission rules inspired by AXe's protected-reference contract.
 /// The live node must come from the SAME registered native element, never a label search.
 enum SprintTargetAdmission {
+  static func emptyEditor(_ node: UINode) -> Bool {
+    guard ["XCUIElementTypeTextField", "XCUIElementTypeSearchField", "XCUIElementTypeTextView"].contains(node.type) else { return false }
+    return (node.value ?? "").isEmpty || (node.type != "XCUIElementTypeTextView" && node.placeholder != nil && node.value == node.placeholder)
+  }
+  static func textRefusal(stored: UINode, current: UINode, screen: CGSize, requireFocus: Bool) -> String? {
+    guard current.pid == stored.pid, current.type == stored.type,
+      current.identifier == stored.identifier, current.label == stored.label else { return "Text target changed" }
+    guard emptyEditor(stored), emptyEditor(current) else { return "Text field contains existing content; no text sent" }
+    guard current.isEnabled, !requireFocus || current.isFocused else { return "Text target is not enabled and focused" }
+    let frame = current.rect
+    guard [frame.minX, frame.minY, frame.width, frame.height].allSatisfy({ $0.isFinite }), frame.width > 0, frame.height > 0,
+      CGRect(origin: .zero, size: screen).contains(frame) else { return "Text target is not fully on screen" }
+    return nil
+  }
   static func numericKey(_ node: UINode) -> Bool {
     guard node.type == "XCUIElementTypeKey" else { return false }
     let label = node.label?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""

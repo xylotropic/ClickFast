@@ -38,6 +38,7 @@ export class Runner {
             const record={path,ms:performance.now()-started,runner_ms:Number(response.headers['x-ipu-ms'])||null,bytes:length,status:response.statusCode};
             const synthesis=Object.fromEntries(['orientation','build','wait','hold','calls'].filter(k=>response.headers['x-ipu-synth-'+k+(k==='calls'?'':'-ms')]!==undefined).map(k=>[k,Number(response.headers['x-ipu-synth-'+k+(k==='calls'?'':'-ms')])]));
             if(Object.keys(synthesis).length)record.synthesis=synthesis;
+            if(response.headers['x-sprint-input-count']!==undefined)record.input_count=Number(response.headers['x-sprint-input-count']);
             this.trace.push(record);if(this.trace.length>500)this.trace.shift();
             if(response.statusCode>=400 || json.value?.error){
               const error=new Error(json.value?.message || `HTTP ${response.statusCode}`);
@@ -96,13 +97,14 @@ export class Controller {
     return this.adopt(await this.runner.call(pixelsOnly?'/sprint/frame':'/sprint/observe',undefined,requestOptions));
   }
   async wait(expect,{signal,timeout=5000}={}) {
-    if(!expect||(!expect.app&&!expect.selector))throw new Error('Wait requires app or selector');
+    if(!expect||(!expect.app&&!expect.selector&&!expect.absent))throw new Error('Wait requires app or selector');
     if(expect.selector)validateSelector(expect.selector);
+    if(expect.absent)validateSelector(expect.absent);
     const until=performance.now()+timeout;let last;
     do {
       signal?.throwIfAborted();
       last=await this.observe({signal,timeout:Math.max(1,until-performance.now())});
-      if((!expect.app||last.app===expect.app)&&(!expect.selector||last.elements.some(row=>matches(row,expect.selector))))return last;
+      if((!expect.app||last.app===expect.app)&&(!expect.selector||last.elements.some(row=>matches(row,expect.selector)))&&(!expect.absent||!last.elements.some(row=>matches(row,expect.absent))))return last;
       if(performance.now()<until)await new Promise(r=>setTimeout(r,25));
     }while(performance.now()<until);
     this.current=null;
@@ -110,6 +112,7 @@ export class Controller {
   }
   async act(step,{signal}={}) {
     let path,body={},snapshot;
+    const required=step.expect||(step.op==='launch'?{app:step.bundle}:step.op==='home'?{app:'com.apple.springboard'}:null);
     switch(step.op){
       case 'tap': {
         const current=this.current || await this.observe({signal});
@@ -137,13 +140,23 @@ export class Controller {
         if(typeof step.bundle!=='string'||!/^[\w.-]+$/.test(step.bundle))throw new Error('Invalid app bundle');
         path='/launch';body={bundle:step.bundle};break;
       case 'home':path='/home';break;
-      case 'text':
+      case 'text': {
         if(typeof step.text!=='string'||step.text.length>20000)throw new Error('Invalid text');
-        // Require a fresh focused editable field; never send text into an unknown destination.
+        if(step.ref){
+          if(!this.current||step.snapshot!==this.current.snapshot)throw new Error('Text requires the current field snapshot');
+          const target=this.current.elements.find(row=>row.ref===step.ref);
+          if(!target||!['TextField','SearchField','TextView'].includes(target.kind))throw new Error('Text requires an observed nonsecure editable target');
+          if(this.current.bound_text!==1)throw new Error('Install the runner with native field-bound text support');
+          if(step.app&&this.current.app!==step.app)throw new Error('App changed before authorized text entry');
+          path='/sprint/enter-text';body={id:target.native_ref||target.ref,text:step.text};snapshot=this.current.snapshot;break;
+        }
         await this.observe({signal});
-        {const fields=this.current.elements.filter(row=>row.focused&&['TextField','SearchField','TextView'].includes(row.kind));
-          if(fields.length!==1)throw new Error('Text requires one observed focused nonsecure field');}
+        if(step.app&&this.current.app!==step.app)throw new Error('App changed before authorized text entry');
+        const fields=this.current.elements.filter(row=>row.focused&&['TextField','SearchField','TextView'].includes(row.kind));
+        if(fields.length!==1)throw new Error('Text requires one observed focused nonsecure field');
+        if(step.selector&&!matches(fields[0],step.selector))throw new Error('Focused field differs from the authorized text target');
         path='/type';body={text:step.text,frequency:250};snapshot=this.current.snapshot;break;
+      }
       case 'key':
         if(!['\n','\b','\t','\u001b'].includes(step.key))throw new Error('Unsupported key');
         if(!this.current)await this.observe({signal});
@@ -157,9 +170,9 @@ export class Controller {
       default:throw new Error(`Unsupported operation ${step.op}`);
     }
     this.current=null;
-    const result=await this.runner.call('/sprint/act',{path,body,snapshot,observe:!step.expect&&step.observe!==false},{signal});
+    const result=await this.runner.call('/sprint/act',{path,body,snapshot,observe:!required&&step.observe!==false},{signal});
     if(result?.snapshot)this.adopt(result);
-    if(step.expect)return await this.wait(step.expect,{signal,timeout:step.timeout_ms??5000});
+    if(required)return await this.wait(required,{signal,timeout:step.timeout_ms??5000});
     return this.current || {applied:true,observation:'not_requested'};
   }
   async execute(steps,{signal,timeout=30000}={}) {
@@ -170,6 +183,7 @@ export class Controller {
       if(!step||!['tap','tap_point','launch','home','text','key','swipe','wait','observe'].includes(step.op))throw new Error('Invalid operation in batch');
       if(step.selector)validateSelector(step.selector);
       if(step.expect?.selector)validateSelector(step.expect.selector);
+      if(step.expect?.absent)validateSelector(step.expect.absent);
       if(step.timeout_ms!==undefined&&(!Number.isInteger(step.timeout_ms)||step.timeout_ms<1||step.timeout_ms>15000))throw new Error('Invalid step deadline');
     }
     const stop=signal?AbortSignal.any([signal,AbortSignal.timeout(timeout)]):AbortSignal.timeout(timeout);

@@ -114,13 +114,15 @@ The user subsequently replaced publication acceptance with the Calculator benchm
 
 ## Runner screen
 
-The installed runner shows the official Libraries.dev **ThinkingOrb**, state `working`,64pt, centered on a dark gray `#121212` screen. It uses the library's native SwiftUI port and pauses while backgrounded or with Reduce Motion. No React/web runtime, external assets or network is involved. [Actual installed screen](docs/images/operator-on-phone.png), [captured animation](docs/images/working-orb.gif), [verification](benchmarks/orb-ui.json).
+Operator's own app screen shows the official Libraries.dev **ThinkingOrb**, state `working`, 64 pt, centered on dark gray `#121212`. It uses the library's native SwiftUI port and pauses while backgrounded or with Reduce Motion. [Installed app screen](docs/images/operator-on-phone.png), [captured animation](docs/images/working-orb.gif), [verification](benchmarks/orb-ui.json). This does **not** replace Apple's system “Automation Running” shield. That shield remains a platform limitation of this XCTest control path; screenshots of our app do not prove it changed.
 
 ## Optional JEV loop
 
 The largest measured saving here comes from fewer coding-agent round trips. `sprint_execute` also accepts a newly generated `local_goal` in place of `steps`. It selects among fresh permitted controls, performs one action, observes, and continues until an explicit visible predicate or a budget/handoff. This is general bounded navigation, not a saved app routine.
 
-Set `TYPESAFE_API_KEY` in the MCP environment, or save it in ignored `.state/jev-token` with mode0600. Never commit keys. Each goal must opt into sending its goal and selected UI labels to TypeSafe. No screenshots or editable field values are sent; selected control labels and bounded visible static text provide context. Earlier `jev-1.14.0` completed3/3 simple Calculator trials; the larger stricter physical suite completed4/10. Do not generalize from the earlier small sample. [Research and contract](docs/jev.md).
+Set `TYPESAFE_API_KEY` in the MCP environment, or save it in ignored `.state/jev-token` with mode 0600. Never commit keys. Each goal must opt into sending its goal and selected UI labels to TypeSafe. Screenshots and editable field values are excluded. The current chooser receives permitted control labels and the exact text literals supplied in the goal. It can choose a tap, bound text entry, Home, an allowed app launch, or a bounded swipe. [Research and contract](docs/jev.md), [general-control implementation review](docs/jev-general-control-research.md).
+
+JEV is still experimental. An earlier strict physical suite completed 4/10 tasks. A later, different set of 12 tasks verified seven: a folder/app round trip and input or navigation in Contacts, Shortcuts, Calendar, Reminders, Weather and Books. Four tasks stopped at decision gates; one failed its starting-state check. These are separate task sets, not a measured improvement from 4/10 to 7/12. [Full broader run and failures](docs/general-control-results.md). The 0.9 execution gates remain unchanged.
 
 ```json
 {
@@ -135,7 +137,7 @@ Set `TYPESAFE_API_KEY` in the MCP environment, or save it in ignored `.state/jev
 }
 ```
 
-The calling agent supplies a narrow authorized app/selector scope from the task. Protected-label filtering is an extra conservative English-language filter, not a substitute for authorization. Publication, money, authentication, consent and destructive actions stay with the calling agent. For entry tasks, add `until.after_action`, for example `{"kind":"Key","identifier":"Equals"}`, so an intermediate matching number cannot finish the goal. Both the last submitted action and the visible result must match. DONE from JEV never substitutes for the completion predicate; missing/ambiguous targets, uncertain delivery, no progress or exhausted budgets hand back. Choice gates are experimental and uncalibrated.
+The calling agent supplies an authorized app and control scope. Protected-label filtering is an extra English-language check, not a substitute for authorization. Publication, money, authentication, consent and destructive actions stay with the calling agent. For calculations, add `until.after_action`, for example `{"kind":"Key","identifier":"Equals"}`, so an intermediate matching number cannot finish the goal. Text entry binds the original field's native identity and rechecks it after focusing. Home can require the open folder title to disappear. Completion comes from a fresh explicit predicate; a model answer alone cannot finish the task. Ambiguous targets, uncertain delivery, no progress or exhausted budgets hand back. Choice gates are experimental and uncalibrated.
 
 ## AXe review
 

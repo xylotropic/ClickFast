@@ -1,0 +1,763 @@
+{
+  "schema": 1,
+  "id": "2026-11-12T01-11-00-356Z-general",
+  "kind": "Physical iPhone general intents with live JEV",
+  "source_commit": "97d770cda7777523940cf794d66cc986eba3a8b1",
+  "source_dirty": true,
+  "source_sha256": {
+    "src/jev.mjs": "e7fdf924d940c5796a88c1ac7483a7fd8e2831b36faeb0da61f0ccebdb4ce923",
+    "src/driver.mjs": "fdfd367b10e6ef4a61b7e830f6b444a8cf84cd9eeb195f349831a63ce41513fc",
+    "scripts/benchmark-general.mjs": "1c09c121f88539f1f7faa32f8b2df6d031e1e424256cd73b5b76681eb1f14710",
+    ".state/general-pilot.json": "08cc85fda1d2e92b7fa295aa7b9420fdbce95cc71a454b47e737fd0a0edfab33"
+  },
+  "device": "iPhone16ProMax / iOS26.5 / USB",
+  "repeats": 1,
+  "tasks": [
+    {
+      "id": "folder-clock-home",
+      "description": "Open productivity folder, enter Clock, return and close folder",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "ready": {
+        "app": "com.apple.springboard",
+        "selector": {
+          "kind": "Icon",
+          "label": "media folder"
+        }
+      },
+      "phases": [
+        {
+          "goal": "Open the productivity folder, then open Clock inside it.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.mobiletimer"
+          ],
+          "allowed_selectors": [
+            {
+              "kind": "Icon",
+              "label": "productivity folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "directory folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "Visible"
+            },
+            {
+              "kind": "Icon",
+              "label": "Sudoku"
+            },
+            {
+              "kind": "Icon",
+              "label": "health folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "travel folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "Connect"
+            },
+            {
+              "kind": "Icon",
+              "label": "Chromagraph Camera"
+            },
+            {
+              "kind": "Icon",
+              "label": "payment folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "selling folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "assets folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "stores folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "google folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "media folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "AI folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "design folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "QuickScan"
+            },
+            {
+              "kind": "Icon",
+              "label": "Phone"
+            },
+            {
+              "kind": "Icon",
+              "label": "Messages"
+            },
+            {
+              "kind": "Icon",
+              "label": "Spotify"
+            },
+            {
+              "kind": "Icon",
+              "label": "Clock"
+            },
+            {
+              "kind": "Icon",
+              "label": "Notes"
+            },
+            {
+              "kind": "Icon",
+              "label": "Reminders"
+            }
+          ],
+          "until": {
+            "app": "com.apple.mobiletimer"
+          }
+        },
+        {
+          "goal": "Return to the Home Screen and close any open folder. Finish on the main Home Screen page.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.mobiletimer"
+          ],
+          "allow_home": true,
+          "allowed_selectors": [
+            {
+              "kind": "Icon",
+              "label": "productivity folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "directory folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "Visible"
+            },
+            {
+              "kind": "Icon",
+              "label": "Sudoku"
+            },
+            {
+              "kind": "Icon",
+              "label": "health folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "travel folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "Connect"
+            },
+            {
+              "kind": "Icon",
+              "label": "Chromagraph Camera"
+            },
+            {
+              "kind": "Icon",
+              "label": "payment folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "selling folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "assets folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "stores folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "google folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "media folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "AI folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "design folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "QuickScan"
+            },
+            {
+              "kind": "Icon",
+              "label": "Phone"
+            },
+            {
+              "kind": "Icon",
+              "label": "Messages"
+            },
+            {
+              "kind": "Icon",
+              "label": "Spotify"
+            },
+            {
+              "kind": "Icon",
+              "label": "Clock"
+            },
+            {
+              "kind": "Icon",
+              "label": "Notes"
+            },
+            {
+              "kind": "Icon",
+              "label": "Reminders"
+            }
+          ],
+          "until": {
+            "app": "com.apple.springboard",
+            "selector": {
+              "kind": "Icon",
+              "label": "media folder"
+            }
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.apple.springboard",
+        "selector": {
+          "kind": "Icon",
+          "label": "media folder"
+        }
+      }
+    },
+    {
+      "id": "contacts-text",
+      "description": "Type a controlled multiword search in Contacts, without creating or editing a contact",
+      "setup": [
+        {
+          "op": "launch",
+          "bundle": "com.apple.MobileAddressBook"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Enter the exact provided query into the Contacts search field. Do not create or edit a contact.",
+          "apps": [
+            "com.apple.MobileAddressBook"
+          ],
+          "allowed_selectors": [
+            {
+              "kind": "SearchField",
+              "label": "Search"
+            },
+            {
+              "kind": "Button",
+              "label": "Cancel"
+            },
+            {
+              "kind": "Button",
+              "label": "Lists"
+            }
+          ],
+          "texts": {
+            "query": "Operator Jane Doe 27"
+          },
+          "until": {
+            "app": "com.apple.MobileAddressBook",
+            "selector": {
+              "kind": "SearchField",
+              "value": "Operator Jane Doe 27"
+            }
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.apple.MobileAddressBook",
+        "selector": {
+          "kind": "SearchField",
+          "value": "Operator Jane Doe 27"
+        }
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Cancel"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shortcuts-gallery",
+      "description": "Navigate to Gallery in Shortcuts without running any shortcut",
+      "setup": [
+        {
+          "op": "launch",
+          "bundle": "com.apple.shortcuts"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open the Gallery tab in Shortcuts. Do not run or add a shortcut.",
+          "apps": [
+            "com.apple.shortcuts"
+          ],
+          "allowed_selectors": [
+            {
+              "kind": "Button",
+              "label": "Library"
+            },
+            {
+              "kind": "Button",
+              "label": "Gallery"
+            },
+            {
+              "kind": "SearchField",
+              "label": "Search"
+            }
+          ],
+          "until": {
+            "app": "com.apple.shortcuts",
+            "selector": {
+              "kind": "NavigationBar",
+              "label": "Gallery"
+            }
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.apple.shortcuts",
+        "selector": {
+          "kind": "NavigationBar",
+          "label": "Gallery"
+        }
+      }
+    }
+  ],
+  "method": "All phases use live JEV with unchanged0.9 gates. Known setup/reset is excluded and separately timed. Warm timer includes fresh observation, model decisions, native input and independent fresh AX verification. Screenshot recorder up to5fps uses a separate connection; all frame request/completion intervals retained. No audio. No failed input is replayed. Every attempt and recovery is retained. This is a bounded-intent benchmark, not a human or market-wide speed comparison.",
+  "runs": [
+    {
+      "name": "01-folder-clock-home",
+      "task": "folder-clock-home",
+      "repeat": 1,
+      "started_at": "2026-11-12T01:11:00.415Z",
+      "phases": [
+        {
+          "goal": "Open the productivity folder, then open Clock inside it.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 2,
+          "chooser_calls": 2,
+          "events": [
+            {
+              "kind": "choice",
+              "ms": 136.32916699999987,
+              "model": "jev-1.14.0",
+              "usage": {
+                "input_tokens": 1796,
+                "output_tokens": 205
+              },
+              "confidence": 1,
+              "selected_probability": 1,
+              "available": 0.97,
+              "choice": "a0",
+              "candidate_count": 20
+            },
+            {
+              "kind": "action",
+              "operation": "tap",
+              "ms": 372.10641599999985,
+              "ok": true
+            },
+            {
+              "kind": "choice",
+              "ms": 71.99225000000001,
+              "model": "jev-1.14.0",
+              "usage": {
+                "input_tokens": 818,
+                "output_tokens": 67
+              },
+              "confidence": 1,
+              "selected_probability": 1,
+              "available": 0.97,
+              "choice": "a1",
+              "candidate_count": 4
+            },
+            {
+              "kind": "action",
+              "operation": "tap",
+              "ms": 375.5749169999999,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 1061.8399590000001,
+          "outcome": "verified"
+        },
+        {
+          "goal": "Return to the Home Screen and close any open folder. Finish on the main Home Screen page.",
+          "ok": false,
+          "reason": "Chooser handed back or failed decision gates",
+          "actions": 1,
+          "chooser_calls": 2,
+          "events": [
+            {
+              "kind": "choice",
+              "ms": 76.23549999999977,
+              "model": "jev-1.14.0",
+              "usage": {
+                "input_tokens": 591,
+                "output_tokens": 43
+              },
+              "confidence": 1,
+              "selected_probability": 1,
+              "available": 0.95,
+              "choice": "a0",
+              "candidate_count": 1
+            },
+            {
+              "kind": "action",
+              "operation": "home",
+              "ms": 602.5625829999999,
+              "ok": true
+            },
+            {
+              "kind": "choice",
+              "ms": 48.01900000000023,
+              "model": "jev-1.14.0",
+              "usage": {
+                "input_tokens": 654,
+                "output_tokens": 43
+              },
+              "confidence": 1,
+              "selected_probability": 1,
+              "available": 0.68,
+              "choice": "a0",
+              "candidate_count": 1
+            }
+          ],
+          "elapsed_ms": 900.2958749999998,
+          "outcome": "stopped"
+        }
+      ],
+      "setup_ms": 817.6975,
+      "verification_ms": 59.08058299999993,
+      "verified": false,
+      "ok": false,
+      "elapsed_ms": 2023.922,
+      "actions": 3,
+      "chooser_calls": 4,
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 104.3582080000001,
+          "runner_ms": 101,
+          "bytes": 8466,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 371.8454579999998,
+          "runner_ms": 368,
+          "bytes": 4518,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 280.5,
+            "hold": 50,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 375.10083299999974,
+          "runner_ms": 370,
+          "bytes": 4132,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 284.5,
+            "hold": 50,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 172.95166699999982,
+          "runner_ms": 168,
+          "bytes": 4132,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 602.2999999999997,
+          "runner_ms": 598,
+          "bytes": 4132,
+          "status": 200,
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 58.94487500000014,
+          "runner_ms": 55,
+          "bytes": 4132,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": -97.30879199999981,
+            "completed_ms": -0.002416999999923064
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 202.3460829999999,
+            "completed_ms": 305.57174999999984
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 507.7328329999998,
+            "completed_ms": 572.7063329999999
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 774.5622079999998,
+            "completed_ms": 862.3194999999998
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1062.7697079999998,
+            "completed_ms": 1123.654375
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 1325.3692499999997,
+            "completed_ms": 1366.3020000000001
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 1568.4625409999999,
+            "completed_ms": 1724.178875
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 1926.012416,
+            "completed_ms": 1979.0465829999998
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 2180.951958,
+            "completed_ms": 2237.2965
+          }
+        ]
+      },
+      "audio": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "02-contacts-text",
+      "task": "contacts-text",
+      "repeat": 1,
+      "started_at": "2026-11-12T01:11:03.711Z",
+      "phases": [
+        {
+          "goal": "Enter the exact provided query into the Contacts search field. Do not create or edit a contact.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 1,
+          "events": [
+            {
+              "kind": "choice",
+              "ms": 63.794374999999945,
+              "model": "jev-1.14.0",
+              "usage": {
+                "input_tokens": 600,
+                "output_tokens": 43
+              },
+              "confidence": 1,
+              "selected_probability": 1,
+              "available": 0.94,
+              "choice": "a0",
+              "candidate_count": 1
+            },
+            {
+              "kind": "action",
+              "operation": "text",
+              "ms": 729.6186250000001,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 869.3393329999994,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 304.2275840000002,
+      "verification_ms": 42.79512499999964,
+      "verified": true,
+      "ok": true,
+      "elapsed_ms": 913.2902090000002,
+      "actions": 1,
+      "chooser_calls": 1,
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 75.14008400000012,
+          "runner_ms": 71,
+          "bytes": 9458,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 729.2115839999997,
+          "runner_ms": 725,
+          "bytes": 9375,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 567.3,
+            "hold": 4450,
+            "calls": 2
+          },
+          "input_count": 2
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 42.54541699999936,
+          "runner_ms": 38,
+          "bytes": 9502,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": -41.713624999999865,
+            "completed_ms": -0.006334000000151718
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 202.01012500000024,
+            "completed_ms": 268.96500000000015
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 470.2596669999998,
+            "completed_ms": 620.1479590000004
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 822.3771250000004,
+            "completed_ms": 894.2592500000005
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1096.2294589999997,
+            "completed_ms": 1158.7136670000004
+          }
+        ]
+      },
+      "audio": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      },
+      "cleanup_error": "Postcondition not observed before deadline"
+    },
+    {
+      "name": "03-shortcuts-gallery",
+      "task": "shortcuts-gallery",
+      "repeat": 1,
+      "started_at": "2026-11-12T01:11:10.325Z",
+      "phases": [
+        {
+          "goal": "Open the Gallery tab in Shortcuts. Do not run or add a shortcut.",
+          "ok": false,
+          "reason": "An allowed selector is ambiguous",
+          "actions": 0,
+          "chooser_calls": 0,
+          "events": [],
+          "elapsed_ms": 114.86887500000012,
+          "outcome": "unknown"
+        }
+      ],
+      "setup_ms": 1301.8338329999988,
+      "verification_ms": 99.46250000000146,
+      "verified": false,
+      "ok": false,
+      "elapsed_ms": 216.21654200000012,
+      "actions": 0,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 114.48237499999959,
+          "runner_ms": 109,
+          "bytes": 13356,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 99.15970800000105,
+          "runner_ms": 94,
+          "bytes": 13356,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": -69.71050000000105,
+            "completed_ms": -0.005624999999781721
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 202.19616700000006,
+            "completed_ms": 280.02116699999897
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 280.026249999999,
+            "completed_ms": 328.234375
+          }
+        ]
+      },
+      "audio": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    }
+  ],
+  "finished_at": "2026-11-12T01:11:12.125Z"
+}

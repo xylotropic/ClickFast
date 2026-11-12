@@ -1,0 +1,13 @@
+{
+  "font": "Geist",
+  "package": "@fontsource/geist",
+  "version": "5.3.0",
+  "license": "SIL Open Font License1.1",
+  "source": "https://www.npmjs.com/package/@fontsource/geist",
+  "files": {
+    "geist-latin-600-normal.woff2": "edde7cc4e2719898f981a6d970a756030fff75a8ed36dd6a457a60181b889ebf",
+    "geist-latin-500-normal.woff2": "6145bf6706dbc1b6686f04f871489cf724951f00b752745896ccdcac07639a53",
+    "geist-latin-400-normal.woff2": "ead637fd0b6b887d829b3ce3f25fdc242b1de0cfb69c0d97987933675d1315ba",
+    "OFL.txt": "71609cbb5c78b5870d712eab73a31d76622635c6ed034ab5cee3b9ecbda8685f"
+  }
+}

@@ -1091,6 +1091,7 @@ extension RunnerTests {
     sprintPID = target.pid
     sprintIDs.removeAll()
     var rows: [[String: Any]] = []
+    var canonicalHandles: [NSObject: String] = [:]
     let actionable: Set<String> = ["Button", "Cell", "Link", "Key", "Switch", "TextField", "SecureTextField", "SearchField", "TextView", "Tab", "Icon", "MenuItem", "SegmentedControl"]
     for node in [root] + root.descendants() {
       let kind = node.type.replacingOccurrences(of: "XCUIElementType", with: "")
@@ -1102,9 +1103,12 @@ extension RunnerTests {
                  "width": node.rect.width, "height": node.rect.height],
         "enabled": node.isEnabled, "focused": node.isFocused]
       if let identifier = node.identifier { row["identifier"] = identifier }
+      if let placeholder = node.placeholder, kind != "SecureTextField" { row["placeholder"] = placeholder }
       if let value = node.value, kind != "SecureTextField" { row["value"] = value }
       if actionable.contains(kind), node.isEnabled, node.axElement != nil, sprintIDs.count < 250 {
-        let id = elements.register(node)
+        let object = node.axElement as? NSObject
+        let id = object.flatMap { canonicalHandles[$0] } ?? elements.register(node)
+        if let object { canonicalHandles[object] = id }
         sprintIDs.insert(id)
         row["ref"] = id
       }
@@ -1112,17 +1116,18 @@ extension RunnerTests {
     }
     return .value(["snapshot": sprintSnapshot, "app": target.bundleID ?? "",
       "width": screen.width, "height": screen.height, "elements": rows,
-      "truncated": rows.count >= 600 || sprintIDs.count >= 250, "key_burst": 1])
+      "truncated": rows.count >= 600 || sprintIDs.count >= 250, "key_burst": 1, "bound_text": 1])
   }
 
   func sprintAct(_ request: HTTPRequest) throws -> HTTPResponse {
     var delivery = "not_sent"
+    var inputCount = 0
     do {
     guard lockedOnMain() == false else { throw RunnerError.failed("Device is locked or lock state is unknown; no input dispatched") }
     let body = try request.jsonObject()
     let path = try requiredString(body, "path")
     let allowed: Set<String> = ["/tap", "/type", "/swipe", "/longpress", "/home",
-      "/launch", "/wda/keys", "/wda/keyboard/dismiss", "/alert", "/sprint/key-burst"]
+      "/launch", "/wda/keys", "/wda/keyboard/dismiss", "/alert", "/sprint/key-burst", "/sprint/enter-text"]
     let elementClick = path.hasPrefix("/element/") && path.hasSuffix("/click")
     guard allowed.contains(path) || elementClick else {
       throw RunnerError.invalidArgument("unsupported Sprint action path")
@@ -1136,6 +1141,16 @@ extension RunnerTests {
     }
     var clickPoint: CGPoint?
     var keyPoints: [NSValue]?
+    var textTarget: (String, UINode, String)?
+    if path == "/sprint/enter-text" {
+      let payload = body["body"] as? [String: Any] ?? [:]
+      guard let id = payload["id"] as? String, sprintIDs.contains(id), let stored = elements.node(id), stored.axElement != nil,
+        let text = payload["text"] as? String, !text.isEmpty, text.count <= 2000 else { throw RunnerError.invalidArgument("Bound text requires a current nonsecure field and literal") }
+      let current = try freshNode(id)
+      if let refusal = SprintTargetAdmission.refusal(stored: stored, current: current, screen: windowSizePoints()) { throw RunnerError.failed(refusal) }
+      if let refusal = SprintTargetAdmission.textRefusal(stored: stored, current: current, screen: windowSizePoints(), requireFocus: false) { throw RunnerError.failed(refusal) }
+      textTarget = (id, stored, text)
+    }
     if path == "/sprint/key-burst" {
       let payload = body["body"] as? [String: Any] ?? [:]
       guard let ids = payload["ids"] as? [String], (2...8).contains(ids.count), sprintPID > 0 else {
@@ -1176,21 +1191,43 @@ extension RunnerTests {
     if KeepAwake.isInput(path) { keepAwake.noteCommand() }
     delivery = "unknown"
     let action: HTTPResponse
-    if let clickPoint {
+    if let (id, stored, text) = textTarget {
+      var current = try freshNode(id)
+      if !current.isFocused {
+        inputCount += 1
+        try tapPoint(current.center)
+        delivery = "applied"
+      }
+      let deadline = ProcessInfo.processInfo.systemUptime + 1
+      while !current.isFocused && ProcessInfo.processInfo.systemUptime < deadline {
+        Thread.sleep(forTimeInterval: 0.025)
+        current = try freshNode(id)
+      }
+      guard lockedOnMain() == false, foreground().pid == sprintPID else { throw RunnerError.failed("App or lock changed during focus; no text sent") }
+      if let refusal = SprintTargetAdmission.textRefusal(stored: stored, current: current, screen: windowSizePoints(), requireFocus: true) { throw RunnerError.failed(refusal) }
+      inputCount += 1
+      delivery = "unknown"
+      if let failure = IPURBridge.synthesizeText(text, charactersPerSecond: 250, pid: sprintPID) { throw RunnerError.failed(failure) }
+      action = .value(NSNull())
+    } else if let clickPoint {
+      inputCount += 1
       try tapPoint(clickPoint)
       action = .value(NSNull())
     } else if let keyPoints {
+      inputCount += keyPoints.count
       if let failure = IPURBridge.synthesizeKeyTaps(keyPoints, pid: sprintPID) { throw RunnerError.failed(failure) }
       action = .value(NSNull())
-    } else { action = try route(forwarded) }
+    } else { inputCount += 1; action = try route(forwarded) }
     guard action.status < 400 else { return action }
     delivery = "applied"
-    if body["observe"] as? Bool == true { return try sprintObserve() }
-    return action
+    var response = body["observe"] as? Bool == true ? try sprintObserve() : action
+    response.headers["X-Sprint-Input-Count"] = String(inputCount)
+    return response
     } catch {
       var response = HTTPResponse.from(error)
       // A failed read AFTER successful input must never erase the delivery receipt.
       response.headers["X-Sprint-Delivery"] = delivery
+      response.headers["X-Sprint-Input-Count"] = String(inputCount)
       return response
     }
   }

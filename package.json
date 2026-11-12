@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "license": "MIT",
-  "description": "Tiny general iPhone control over USB: one native XCTest runner, three MCP tools, no saved routines.",
+  "description": "Give your AI agent hands on your iPhone. A small local runner for tapping, typing, and moving between apps.",
   "engines": {
     "node": ">=22"
   },

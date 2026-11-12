@@ -1,0 +1,1492 @@
+{
+  "schema": 1,
+  "tasks": [
+    {
+      "id": "folder-clock-home",
+      "description": "Open productivity folder, enter Clock, return and close folder",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "ready": {
+        "app": "com.apple.springboard",
+        "selector": {
+          "kind": "Icon",
+          "label": "media folder"
+        }
+      },
+      "phases": [
+        {
+          "goal": "Open the productivity folder, then open Clock inside it.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.mobiletimer"
+          ],
+          "allowed_selectors": [
+            {
+              "kind": "Icon",
+              "label": "productivity folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "directory folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "Visible"
+            },
+            {
+              "kind": "Icon",
+              "label": "Sudoku"
+            },
+            {
+              "kind": "Icon",
+              "label": "health folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "travel folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "Connect"
+            },
+            {
+              "kind": "Icon",
+              "label": "Chromagraph Camera"
+            },
+            {
+              "kind": "Icon",
+              "label": "payment folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "selling folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "assets folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "stores folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "google folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "media folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "AI folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "design folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "QuickScan"
+            },
+            {
+              "kind": "Icon",
+              "label": "Phone"
+            },
+            {
+              "kind": "Icon",
+              "label": "Messages"
+            },
+            {
+              "kind": "Icon",
+              "label": "Spotify"
+            },
+            {
+              "kind": "Icon",
+              "label": "Clock"
+            },
+            {
+              "kind": "Icon",
+              "label": "Notes"
+            },
+            {
+              "kind": "Icon",
+              "label": "Reminders"
+            }
+          ],
+          "until": {
+            "app": "com.apple.mobiletimer"
+          }
+        },
+        {
+          "goal": "Press Home to exit the current app and return to the Home Screen.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.mobiletimer"
+          ],
+          "allow_home": true,
+          "allowed_selectors": [
+            {
+              "kind": "Icon",
+              "label": "productivity folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "directory folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "Visible"
+            },
+            {
+              "kind": "Icon",
+              "label": "Sudoku"
+            },
+            {
+              "kind": "Icon",
+              "label": "health folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "travel folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "Connect"
+            },
+            {
+              "kind": "Icon",
+              "label": "Chromagraph Camera"
+            },
+            {
+              "kind": "Icon",
+              "label": "payment folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "selling folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "assets folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "stores folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "google folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "media folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "AI folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "design folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "QuickScan"
+            },
+            {
+              "kind": "Icon",
+              "label": "Phone"
+            },
+            {
+              "kind": "Icon",
+              "label": "Messages"
+            },
+            {
+              "kind": "Icon",
+              "label": "Spotify"
+            },
+            {
+              "kind": "Icon",
+              "label": "Clock"
+            },
+            {
+              "kind": "Icon",
+              "label": "Notes"
+            },
+            {
+              "kind": "Icon",
+              "label": "Reminders"
+            }
+          ],
+          "until": {
+            "app": "com.apple.springboard"
+          }
+        },
+        {
+          "goal": "Close the currently open folder.",
+          "apps": [
+            "com.apple.springboard"
+          ],
+          "allow_home": true,
+          "allowed_selectors": [
+            {
+              "kind": "Icon",
+              "label": "productivity folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "directory folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "Visible"
+            },
+            {
+              "kind": "Icon",
+              "label": "Sudoku"
+            },
+            {
+              "kind": "Icon",
+              "label": "health folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "travel folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "Connect"
+            },
+            {
+              "kind": "Icon",
+              "label": "Chromagraph Camera"
+            },
+            {
+              "kind": "Icon",
+              "label": "payment folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "selling folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "assets folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "stores folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "google folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "media folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "AI folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "design folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "QuickScan"
+            },
+            {
+              "kind": "Icon",
+              "label": "Phone"
+            },
+            {
+              "kind": "Icon",
+              "label": "Messages"
+            },
+            {
+              "kind": "Icon",
+              "label": "Spotify"
+            },
+            {
+              "kind": "Icon",
+              "label": "Clock"
+            },
+            {
+              "kind": "Icon",
+              "label": "Notes"
+            },
+            {
+              "kind": "Icon",
+              "label": "Reminders"
+            }
+          ],
+          "until": {
+            "app": "com.apple.springboard",
+            "absent": {
+              "kind": "TextField",
+              "label": "productivity, Folder name"
+            }
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.apple.springboard",
+        "absent": {
+          "kind": "TextField",
+          "label": "productivity, Folder name"
+        }
+      }
+    },
+    {
+      "id": "folder-media-youtube-home",
+      "description": "Open media folder, enter YouTube, return and close folder",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "ready": {
+        "app": "com.apple.springboard",
+        "selector": {
+          "kind": "Icon",
+          "label": "media folder"
+        }
+      },
+      "phases": [
+        {
+          "goal": "Open the media folder.",
+          "apps": [
+            "com.apple.springboard"
+          ],
+          "allowed_selectors": [
+            {
+              "kind": "Icon",
+              "label": "productivity folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "directory folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "Visible"
+            },
+            {
+              "kind": "Icon",
+              "label": "Sudoku"
+            },
+            {
+              "kind": "Icon",
+              "label": "health folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "travel folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "Connect"
+            },
+            {
+              "kind": "Icon",
+              "label": "Chromagraph Camera"
+            },
+            {
+              "kind": "Icon",
+              "label": "payment folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "selling folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "assets folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "stores folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "google folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "media folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "AI folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "design folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "QuickScan"
+            },
+            {
+              "kind": "Icon",
+              "label": "Phone"
+            },
+            {
+              "kind": "Icon",
+              "label": "Messages"
+            },
+            {
+              "kind": "Icon",
+              "label": "Spotify"
+            },
+            {
+              "kind": "Icon",
+              "label": "Clock"
+            },
+            {
+              "kind": "Icon",
+              "label": "Notes"
+            },
+            {
+              "kind": "Icon",
+              "label": "Reminders"
+            }
+          ],
+          "until": {
+            "app": "com.apple.springboard",
+            "selector": {
+              "kind": "TextField",
+              "label": "media, Folder name"
+            }
+          }
+        },
+        {
+          "goal": "Open YouTube inside the current folder.",
+          "apps": [
+            "com.apple.springboard",
+            "com.google.ios.youtube"
+          ],
+          "allowed_selectors": [
+            {
+              "kind": "Icon",
+              "label": "productivity folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "directory folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "Visible"
+            },
+            {
+              "kind": "Icon",
+              "label": "Sudoku"
+            },
+            {
+              "kind": "Icon",
+              "label": "health folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "travel folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "Connect"
+            },
+            {
+              "kind": "Icon",
+              "label": "Chromagraph Camera"
+            },
+            {
+              "kind": "Icon",
+              "label": "payment folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "selling folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "assets folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "stores folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "google folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "media folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "AI folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "design folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "QuickScan"
+            },
+            {
+              "kind": "Icon",
+              "label": "Phone"
+            },
+            {
+              "kind": "Icon",
+              "label": "Messages"
+            },
+            {
+              "kind": "Icon",
+              "label": "Spotify"
+            },
+            {
+              "kind": "Icon",
+              "label": "Clock"
+            },
+            {
+              "kind": "Icon",
+              "label": "Notes"
+            },
+            {
+              "kind": "Icon",
+              "label": "Reminders"
+            },
+            {
+              "kind": "Icon",
+              "label": "YouTube"
+            },
+            {
+              "kind": "Icon",
+              "label": "YouTube Music"
+            },
+            {
+              "kind": "Icon",
+              "label": "Instagram"
+            },
+            {
+              "kind": "Icon",
+              "label": "TikTok"
+            }
+          ],
+          "until": {
+            "app": "com.google.ios.youtube"
+          }
+        },
+        {
+          "goal": "Press Home to exit the current app and return to the Home Screen.",
+          "apps": [
+            "com.apple.springboard",
+            "com.google.ios.youtube"
+          ],
+          "allow_home": true,
+          "allowed_selectors": [
+            {
+              "kind": "Icon",
+              "label": "productivity folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "directory folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "Visible"
+            },
+            {
+              "kind": "Icon",
+              "label": "Sudoku"
+            },
+            {
+              "kind": "Icon",
+              "label": "health folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "travel folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "Connect"
+            },
+            {
+              "kind": "Icon",
+              "label": "Chromagraph Camera"
+            },
+            {
+              "kind": "Icon",
+              "label": "payment folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "selling folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "assets folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "stores folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "google folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "media folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "AI folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "design folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "QuickScan"
+            },
+            {
+              "kind": "Icon",
+              "label": "Phone"
+            },
+            {
+              "kind": "Icon",
+              "label": "Messages"
+            },
+            {
+              "kind": "Icon",
+              "label": "Spotify"
+            },
+            {
+              "kind": "Icon",
+              "label": "Clock"
+            },
+            {
+              "kind": "Icon",
+              "label": "Notes"
+            },
+            {
+              "kind": "Icon",
+              "label": "Reminders"
+            }
+          ],
+          "until": {
+            "app": "com.apple.springboard"
+          }
+        },
+        {
+          "goal": "Close the currently open folder.",
+          "apps": [
+            "com.apple.springboard"
+          ],
+          "allow_home": true,
+          "allowed_selectors": [
+            {
+              "kind": "Icon",
+              "label": "productivity folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "directory folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "Visible"
+            },
+            {
+              "kind": "Icon",
+              "label": "Sudoku"
+            },
+            {
+              "kind": "Icon",
+              "label": "health folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "travel folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "Connect"
+            },
+            {
+              "kind": "Icon",
+              "label": "Chromagraph Camera"
+            },
+            {
+              "kind": "Icon",
+              "label": "payment folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "selling folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "assets folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "stores folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "google folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "media folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "AI folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "design folder"
+            },
+            {
+              "kind": "Icon",
+              "label": "QuickScan"
+            },
+            {
+              "kind": "Icon",
+              "label": "Phone"
+            },
+            {
+              "kind": "Icon",
+              "label": "Messages"
+            },
+            {
+              "kind": "Icon",
+              "label": "Spotify"
+            },
+            {
+              "kind": "Icon",
+              "label": "Clock"
+            },
+            {
+              "kind": "Icon",
+              "label": "Notes"
+            },
+            {
+              "kind": "Icon",
+              "label": "Reminders"
+            }
+          ],
+          "until": {
+            "app": "com.apple.springboard",
+            "absent": {
+              "kind": "TextField",
+              "label": "media, Folder name"
+            }
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.apple.springboard",
+        "absent": {
+          "kind": "TextField",
+          "label": "media, Folder name"
+        }
+      },
+      "min_actions": 4
+    },
+    {
+      "id": "contacts-text",
+      "description": "Type a controlled multiword search in Contacts, without creating or editing a contact",
+      "setup": [
+        {
+          "op": "launch",
+          "bundle": "com.apple.MobileAddressBook"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Enter \"Operator Jane Doe 27\" into the Search search field. Open search first if the field is not visible.",
+          "apps": [
+            "com.apple.MobileAddressBook"
+          ],
+          "allowed_selectors": [
+            {
+              "kind": "SearchField",
+              "label": "Search"
+            },
+            {
+              "kind": "Button",
+              "label": "Cancel"
+            },
+            {
+              "kind": "Button",
+              "label": "Lists"
+            }
+          ],
+          "texts": {
+            "query": "Operator Jane Doe 27"
+          },
+          "until": {
+            "app": "com.apple.MobileAddressBook",
+            "selector": {
+              "kind": "SearchField",
+              "value": "Operator Jane Doe 27"
+            }
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.apple.MobileAddressBook",
+        "selector": {
+          "kind": "SearchField",
+          "value": "Operator Jane Doe 27"
+        }
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ],
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField"
+        },
+        "owned_values": [
+          "Operator Jane Doe 27"
+        ],
+        "when_present": true
+      }
+    },
+    {
+      "id": "shortcuts-gallery",
+      "description": "Navigate to Gallery in Shortcuts without running any shortcut",
+      "setup": [
+        {
+          "op": "launch",
+          "bundle": "com.apple.shortcuts"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open the Gallery tab in Shortcuts. Do not run or add a shortcut.",
+          "apps": [
+            "com.apple.shortcuts"
+          ],
+          "allowed_selectors": [
+            {
+              "kind": "Button",
+              "label": "Library"
+            },
+            {
+              "kind": "Button",
+              "label": "Gallery"
+            },
+            {
+              "kind": "SearchField",
+              "label": "Search"
+            }
+          ],
+          "until": {
+            "app": "com.apple.shortcuts",
+            "selector": {
+              "kind": "NavigationBar",
+              "label": "Gallery"
+            }
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.apple.shortcuts",
+        "selector": {
+          "kind": "NavigationBar",
+          "label": "Gallery"
+        }
+      },
+      "setup_targets": [
+        {
+          "selector": {
+            "kind": "Button",
+            "label": "Library"
+          },
+          "placement": "bottom"
+        }
+      ]
+    },
+    {
+      "id": "calendar-date-text",
+      "description": "Enter the exact supplied query, including its punctuation, into the observed search field",
+      "setup": [
+        {
+          "op": "launch",
+          "bundle": "com.apple.mobilecal"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Enter \"Operator coffee \u2014 11/11, 8:30 pm\" into the Search search field. Open search first if the field is not visible.",
+          "apps": [
+            "com.apple.mobilecal"
+          ],
+          "allowed_selectors": [
+            {
+              "kind": "Button",
+              "label": "Search"
+            },
+            {
+              "kind": "SearchField",
+              "label": "Search"
+            },
+            {
+              "kind": "Button",
+              "label": "Close"
+            }
+          ],
+          "texts": {
+            "query": "Operator coffee \u2014 11/11, 8:30 pm"
+          },
+          "until": {
+            "app": "com.apple.mobilecal",
+            "selector": {
+              "kind": "SearchField",
+              "label": "Search",
+              "value": "Operator coffee \u2014 11/11, 8:30 pm"
+            }
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.apple.mobilecal",
+        "selector": {
+          "kind": "SearchField",
+          "label": "Search",
+          "value": "Operator coffee \u2014 11/11, 8:30 pm"
+        }
+      },
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField",
+          "label": "Search"
+        },
+        "owned_values": [
+          "Operator coffee \u2014 11/11, 8:30 pm"
+        ],
+        "when_present": true
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ]
+    },
+    {
+      "id": "files-document-find",
+      "description": "Enter the exact supplied query, including its punctuation, into the observed search field",
+      "setup": [
+        {
+          "op": "launch",
+          "bundle": "com.apple.DocumentsApp"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Enter \"Operator_draft-27.txt\" into the Find search field. Open search first if the field is not visible.",
+          "apps": [
+            "com.apple.DocumentsApp"
+          ],
+          "allowed_selectors": [
+            {
+              "kind": "Button",
+              "label": "Search"
+            },
+            {
+              "kind": "SearchField",
+              "identifier": "find.searchField"
+            },
+            {
+              "kind": "Button",
+              "identifier": "find.doneButton"
+            }
+          ],
+          "texts": {
+            "query": "Operator_draft-27.txt"
+          },
+          "until": {
+            "app": "com.apple.DocumentsApp",
+            "selector": {
+              "kind": "SearchField",
+              "identifier": "find.searchField",
+              "value": "Operator_draft-27.txt"
+            }
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.apple.DocumentsApp",
+        "selector": {
+          "kind": "SearchField",
+          "identifier": "find.searchField",
+          "value": "Operator_draft-27.txt"
+        }
+      },
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField",
+          "identifier": "find.searchField"
+        },
+        "owned_values": [
+          "Operator_draft-27.txt"
+        ],
+        "when_present": true
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ]
+    },
+    {
+      "id": "app-store-multiword",
+      "description": "Enter the exact supplied query, including its punctuation, into the observed search field",
+      "setup": [
+        {
+          "op": "launch",
+          "bundle": "com.apple.AppStore"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Enter \"focus timer\" into the Games, Apps, Stories, and More search field. Open search first if the field is not visible.",
+          "apps": [
+            "com.apple.AppStore"
+          ],
+          "allowed_selectors": [
+            {
+              "kind": "Button",
+              "label": "Search"
+            },
+            {
+              "kind": "SearchField",
+              "identifier": "AppStore.searchField"
+            },
+            {
+              "kind": "Button",
+              "label": "Cancel"
+            }
+          ],
+          "texts": {
+            "query": "focus timer"
+          },
+          "until": {
+            "app": "com.apple.AppStore",
+            "selector": {
+              "kind": "SearchField",
+              "identifier": "AppStore.searchField",
+              "value": "focus timer"
+            }
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.apple.AppStore",
+        "selector": {
+          "kind": "SearchField",
+          "identifier": "AppStore.searchField",
+          "value": "focus timer"
+        }
+      },
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField",
+          "identifier": "AppStore.searchField"
+        },
+        "owned_values": [
+          "focus timer"
+        ],
+        "when_present": true
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ]
+    },
+    {
+      "id": "reminders-punctuation",
+      "description": "Enter the exact supplied query, including its punctuation, into the observed search field",
+      "setup": [
+        {
+          "op": "launch",
+          "bundle": "com.apple.reminders"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Enter \"Operator groceries: tea & oat milk\" into the Search search field. Open search first if the field is not visible.",
+          "apps": [
+            "com.apple.reminders"
+          ],
+          "allowed_selectors": [
+            {
+              "kind": "Button",
+              "label": "Search"
+            },
+            {
+              "kind": "SearchField"
+            },
+            {
+              "kind": "Button",
+              "label": "Cancel"
+            }
+          ],
+          "texts": {
+            "query": "Operator groceries: tea & oat milk"
+          },
+          "until": {
+            "app": "com.apple.reminders",
+            "selector": {
+              "kind": "SearchField",
+              "value": "Operator groceries: tea & oat milk"
+            }
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.apple.reminders",
+        "selector": {
+          "kind": "SearchField",
+          "value": "Operator groceries: tea & oat milk"
+        }
+      },
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField"
+        },
+        "owned_values": [
+          "Operator groceries: tea & oat milk"
+        ],
+        "when_present": true
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ]
+    },
+    {
+      "id": "weather-city-unicode",
+      "description": "Enter the exact supplied query, including its punctuation, into the observed search field",
+      "setup": [
+        {
+          "op": "launch",
+          "bundle": "com.apple.weather"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Enter \"S\u00e3o Paulo\" into the Search for a city or airport search field. Open search first if the field is not visible.",
+          "apps": [
+            "com.apple.weather"
+          ],
+          "allowed_selectors": [
+            {
+              "kind": "Button",
+              "label": "Location List"
+            },
+            {
+              "kind": "SearchField",
+              "label": "Search for a city or airport"
+            },
+            {
+              "kind": "Button",
+              "label": "Cancel"
+            }
+          ],
+          "texts": {
+            "query": "S\u00e3o Paulo"
+          },
+          "until": {
+            "app": "com.apple.weather",
+            "selector": {
+              "kind": "SearchField",
+              "label": "Search for a city or airport",
+              "value": "S\u00e3o Paulo"
+            }
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.apple.weather",
+        "selector": {
+          "kind": "SearchField",
+          "label": "Search for a city or airport",
+          "value": "S\u00e3o Paulo"
+        }
+      },
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField",
+          "label": "Search for a city or airport"
+        },
+        "owned_values": [
+          "S\u00e3o Paulo"
+        ],
+        "when_present": true
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ]
+    },
+    {
+      "id": "books-title-query",
+      "description": "Enter the exact supplied query, including its punctuation, into the observed search field",
+      "setup": [
+        {
+          "op": "launch",
+          "bundle": "com.apple.iBooks"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Enter \"The Little Prince\" into the Apple Books search field. Open search first if the field is not visible.",
+          "apps": [
+            "com.apple.iBooks"
+          ],
+          "allowed_selectors": [
+            {
+              "label": "Search",
+              "kind": "Button"
+            },
+            {
+              "label": "Search",
+              "kind": "Cell"
+            },
+            {
+              "kind": "SearchField"
+            },
+            {
+              "kind": "TextField"
+            },
+            {
+              "kind": "Button",
+              "label": "Cancel"
+            }
+          ],
+          "texts": {
+            "query": "The Little Prince"
+          },
+          "until": {
+            "app": "com.apple.iBooks",
+            "selector": {
+              "kind": "SearchField",
+              "value": "The Little Prince"
+            }
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.apple.iBooks",
+        "selector": {
+          "kind": "SearchField",
+          "value": "The Little Prince"
+        }
+      },
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField"
+        },
+        "owned_values": [
+          "The Little Prince"
+        ],
+        "when_present": true
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ]
+    },
+    {
+      "id": "settings-search",
+      "description": "Enter the exact supplied query, including its punctuation, into the observed search field",
+      "setup": [
+        {
+          "op": "launch",
+          "bundle": "com.apple.Preferences"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Enter \"Reduce Motion\" into the Search search field. Open search first if the field is not visible.",
+          "apps": [
+            "com.apple.Preferences"
+          ],
+          "allowed_selectors": [
+            {
+              "kind": "SearchField",
+              "label": "Search"
+            },
+            {
+              "kind": "Button",
+              "label": "Cancel"
+            }
+          ],
+          "texts": {
+            "query": "Reduce Motion"
+          },
+          "until": {
+            "app": "com.apple.Preferences",
+            "selector": {
+              "kind": "SearchField",
+              "label": "Search",
+              "value": "Reduce Motion"
+            }
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.apple.Preferences",
+        "selector": {
+          "kind": "SearchField",
+          "label": "Search",
+          "value": "Reduce Motion"
+        }
+      },
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField",
+          "label": "Search"
+        },
+        "owned_values": [
+          "Reduce Motion"
+        ],
+        "when_present": true
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ]
+    },
+    {
+      "id": "youtube-query",
+      "description": "Enter the exact supplied query, including its punctuation, into the observed search field",
+      "setup": [
+        {
+          "op": "launch",
+          "bundle": "com.google.ios.youtube"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Enter \"quiet keyboard ASMR\" into the Search YouTube search field. Open search first if the field is not visible.",
+          "apps": [
+            "com.google.ios.youtube"
+          ],
+          "allowed_selectors": [
+            {
+              "kind": "Button",
+              "identifier": "id.ui.navigation.search.button"
+            },
+            {
+              "kind": "TextField"
+            },
+            {
+              "kind": "SearchField"
+            },
+            {
+              "kind": "Button",
+              "label": "Cancel"
+            }
+          ],
+          "texts": {
+            "query": "quiet keyboard ASMR"
+          },
+          "until": {
+            "app": "com.google.ios.youtube",
+            "selector": {
+              "kind": "SearchField",
+              "identifier": "id.navigation.search.text_field",
+              "value": "quiet keyboard ASMR"
+            }
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.google.ios.youtube",
+        "selector": {
+          "kind": "SearchField",
+          "identifier": "id.navigation.search.text_field",
+          "value": "quiet keyboard ASMR"
+        }
+      },
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField",
+          "identifier": "id.navigation.search.text_field"
+        },
+        "owned_values": [
+          "quiet keyboard ASMR"
+        ],
+        "when_present": true
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ]
+    }
+  ]
+}

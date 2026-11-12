@@ -958,5 +958,29 @@ do {
   check(!SprintTargetAdmission.numericKey(key("Delete", "Delete")), "Numeric burst refuses deletion controls")
 }
 
+// Native field-bound text must retain its original owner and stay empty through focus.
+do {
+  func editor(type: String = "SearchField", value: String = "", focused: Bool = true,
+              enabled: Bool = true, pid: Int32 = 3, x: Double = 10) -> UINode {
+    UINode(raw: ["type": "XCUIElementType" + type, "label": "Search", "rawIdentifier": "search",
+      "value": value, "placeholderValue": "Search", "isFocused": focused ? "1" : "0",
+      "isEnabled": enabled ? "1" : "0", "rect": ["x": x, "y": 10, "width": 100, "height": 40]], parent: nil, pid: pid)
+  }
+  let stored = editor(focused: false), screen = CGSize(width: 400, height: 800)
+  func refused(_ current: UINode, focus: Bool = true) -> Bool {
+    SprintTargetAdmission.textRefusal(stored: stored, current: current, screen: screen, requireFocus: focus) != nil
+  }
+  check(!refused(editor()), "Bound text accepts the same empty focused field")
+  check(!refused(editor(value: "Search")), "Bound text accepts an actual placeholder value")
+  check(!refused(editor(focused: false), focus: false), "Bound text can admit an empty field before focus")
+  check(refused(editor(focused: false)), "Bound text refuses typing before focus is observed")
+  check(refused(editor(value: "Existing draft")), "Bound text preserves content inserted during focus")
+  check(refused(editor(pid: 4)), "Bound text refuses a different app process")
+  check(refused(editor(type: "SecureTextField")), "Bound text refuses a secure field")
+  check(refused(editor(enabled: false)), "Bound text refuses a disabled field")
+  check(refused(editor(x: -1)), "Bound text refuses a partially off-screen field")
+  check(!SprintTargetAdmission.emptyEditor(editor(type: "TextView", value: "Search")), "A document label is not a TextView placeholder")
+}
+
 print(failures == 0 ? "unit check: \(checks) checks passed" : "unit check: \(failures) of \(checks) checks FAILED")
 exit(failures == 0 ? 0 : 1)

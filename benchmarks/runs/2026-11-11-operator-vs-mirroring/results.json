@@ -18,7 +18,7 @@
     "mirroring_total_ms": 30525.388916002586,
     "total_ratio": 4.0932248527939565
   },
-  "method": "Same physical iPhone 16 Pro Max/iOS26.5. Operator USB runner and ordinary Apple Mirroring through CUA measured separately, never concurrently. Known action plans on both paths. Warm task time includes actions and independent result verification; setup/app launch excluded. Native fresh AX verification; Mirroring Apple Vision plus Tesseract OCR. Calculator zero also checked against a visually verified real capture. Clock starting tab explicitly verified before timing. All ten confirmed pairs are shown; earlier failures retained separately. Native capture up to3fps; Mirroring capture after each action; video resamples these real frames at10fps with a final0.75s hold. No audio. Clock details and Settings account/network regions masked in public video. Original captures remain local.",
+  "method": "Same physical iPhone 16 Pro Max/iOS26.5. Operator USB runner and ordinary Apple Mirroring through CUA measured separately, never concurrently. Known action plans on both paths. Warm task time includes actions and independent result verification; setup/app launch excluded. Native fresh AX verification; Mirroring Apple Vision plus Tesseract OCR. Calculator zero also checked against a visually verified real capture. Clock starting tab explicitly verified before timing. All ten confirmed pairs are shown; earlier failures retained separately. Native capture up to3fps; Mirroring capture after each action; video resamples these real frames at10fps with a final0.75s hold. No audio. Only the inspected Settings owner-name and Wi-Fi-name regions are blurred in public video. Clock screens are shown without masks. Original captures remain local.",
   "limits": "One confirmed pair per task, ordered native suite then Mirroring suite. Different observation/capture costs are part of the control-path comparison; this is not raw touch latency, a human benchmark, a randomized controlled planner trial or evidence of all-app reliability. Warm timing omits development/recovery and app launch. Confirmed samples do not erase earlier failed attempts.",
   "rows": [
     {
@@ -176,7 +176,7 @@
     {
       "task": "add",
       "file": "videos/add.mp4",
-      "sha256": "720af635db5e49f7f36b0963a2befe605e0fb2ed3062afbd1565e90b66c78c02",
+      "sha256": "8ee735565a0cef2bdc8fc5c1aec8a720fb04e32714009f4745c22be54cac52e0",
       "duration_seconds": 3.5,
       "full_decode_passed": true,
       "audio_streams": 0,
@@ -186,7 +186,7 @@
     {
       "task": "subtract",
       "file": "videos/subtract.mp4",
-      "sha256": "f33fa789c8a6bf4707815a9a215911724b45a95d0dedee90e03571286ee1dcca",
+      "sha256": "454521fc61b8256da0dbf32523ef193cdc78d29f5b8acaebab9d64e5a28060b9",
       "duration_seconds": 4.6,
       "full_decode_passed": true,
       "audio_streams": 0,
@@ -196,7 +196,7 @@
     {
       "task": "multiply",
       "file": "videos/multiply.mp4",
-      "sha256": "0057d98ba629437a114eef0391e9a705d5527b26836a208e3595364caa1448ef",
+      "sha256": "0e9d7a4ce7899956719e996f97e826cb33566db9e523bc8e0fea72f53aa4867c",
       "duration_seconds": 3.5,
       "full_decode_passed": true,
       "audio_streams": 0,
@@ -206,7 +206,7 @@
     {
       "task": "divide",
       "file": "videos/divide.mp4",
-      "sha256": "df23fe0b012a3277634089d162d27a92e85c2290d809bf1b30d31be09506e08d",
+      "sha256": "9222e6c6ebd01a9bd5e5217b4de1345b83adc2be55f13fdc89210c87e4c661a4",
       "duration_seconds": 4.2,
       "full_decode_passed": true,
       "audio_streams": 0,
@@ -216,7 +216,7 @@
     {
       "task": "decimal",
       "file": "videos/decimal.mp4",
-      "sha256": "281acb5c9b294fb6a602f1b56fdbc712d369c45e4895ddd851e7486ea6d2c52d",
+      "sha256": "29ed141010d05adc02ddf573410634cf932ee9a6b8262b0b287d1bafb4ae5e8a",
       "duration_seconds": 6.6,
       "full_decode_passed": true,
       "audio_streams": 0,
@@ -226,7 +226,7 @@
     {
       "task": "percent",
       "file": "videos/percent.mp4",
-      "sha256": "e0dbd05c9456afec847e61f9b9bc2fb2693b2e288e6923e5fe0b46c660ed7b87",
+      "sha256": "a3d660014f6ded842c5f847c064952246abce226adf41069a41fce1d58545d49",
       "duration_seconds": 5.4,
       "full_decode_passed": true,
       "audio_streams": 0,
@@ -236,7 +236,7 @@
     {
       "task": "chain",
       "file": "videos/chain.mp4",
-      "sha256": "935c9f78a6c03037ae392a3c089f553451160d5c792a40dfe638b1148586d94c",
+      "sha256": "a5206e61ae861293229f77f0b075666df1dbc8ff908b0f278e89e95f5ee7de8d",
       "duration_seconds": 6.0,
       "full_decode_passed": true,
       "audio_streams": 0,
@@ -246,7 +246,7 @@
     {
       "task": "clock-stopwatch",
       "file": "videos/clock-stopwatch.mp4",
-      "sha256": "ebdcd433b982540115fc84760ac4990c70bd491e529633e23ed722319b3f545d",
+      "sha256": "ffaf0d5787f5a9259f2c335d5e26ed473fbe57a42f984ccf847c7dd41cf082c7",
       "duration_seconds": 1.7,
       "full_decode_passed": true,
       "audio_streams": 0,
@@ -256,7 +256,7 @@
     {
       "task": "clock-world-clock",
       "file": "videos/clock-world-clock.mp4",
-      "sha256": "8e0b2c439c637611287960045a0f2101f2ae9e58126ffc7a2850f12c6700e8fc",
+      "sha256": "bbf977d2b62341e2fbefd4d05d89764cc952272f65506c3681d29818465f7f47",
       "duration_seconds": 1.6,
       "full_decode_passed": true,
       "audio_streams": 0,
@@ -266,7 +266,7 @@
     {
       "task": "settings-general",
       "file": "videos/settings-general.mp4",
-      "sha256": "99bb130ad677924bf75db1f36d356bb11439aa3b8d2fec3a3ebb02d01309a3c1",
+      "sha256": "1cfc4f3694a7c0d5acefcc67fb8beadd89aa8afed83afc8482e61a4bc5d43c3e",
       "duration_seconds": 1.7,
       "full_decode_passed": true,
       "audio_streams": 0,
