@@ -2,13 +2,15 @@
   <img src="docs/brand/clickfast-lockup.svg" width="720" alt="ClickFast">
 </p>
 
-ClickFast lets Codex use your iPhone. It can tap, type, search, and move between apps.
+ClickFast connects your iPhone to Codex and other AI agents. Your agent can open apps, tap buttons, enter text, scroll, and check the screen.
 
-Connect your phone, tell your agent what you need, and let it handle the tapping. It reads the screen as it goes and checks the result.
+Try a task such as “Open Weather and search for São Paulo.” The agent reads the phone’s controls, chooses the actions, and checks the result.
 
-## Try it
+ClickFast sends actions directly to the phone over USB. Several steps can run in one request, which cuts the wait between taps.
 
-You'll need a Mac, Xcode, Node 22 or newer, and an iPhone with Developer Mode enabled. Setup also needs an Apple development team for signing.
+## Setup
+
+You need a Mac, Xcode, Node 22 or newer, and an iPhone with Developer Mode enabled. Xcode needs an Apple development team to sign the runner.
 
 ```sh
 git clone https://github.com/xylotropic/ClickFast.git
@@ -18,23 +20,24 @@ node scripts/setup.mjs --udid YOUR_PHONE_UDID --team YOUR_TEAM_ID
 codex mcp add clickfast -- node "$PWD/src/cli.mjs" mcp
 ```
 
-Keep the phone unlocked during setup. Once connected, ask your agent to open an app and try a small task. Other agents can connect through MCP too.
+Keep the phone unlocked during setup. Once connected, ask Codex to try a small task. Other agents can use the same MCP connection.
 
-[Setup and control reference](docs/control-reference.md)
+You can also let JEV choose the next action from the current screen controls. That option needs a TypeSafe API key. See the [setup and control reference](docs/control-reference.md).
 
-## What we've tested
+## Results
 
-Ten small tasks on a wired iPhone took 7.46 seconds with ClickFast and 30.53 seconds through iPhone Mirroring. Those were Calculator and navigation tasks, not an all-app test. [Recordings and method](benchmarks/runs/2026-11-11-operator-vs-mirroring/comparison.md).
+Ten recorded Calculator and navigation tasks took **7.46 seconds with ClickFast** and **30.53 seconds through iPhone Mirroring**. Both completed all ten using known action plans. The timings include actions and result checks, but exclude setup and app launch. [Watch the comparisons](benchmarks/runs/2026-11-11-operator-vs-mirroring/comparison.md).
 
-JEV handles the next-action decisions in the optional local loop. It completed seven of twelve broader trials. That part still needs work. [Results, including failures](docs/general-control-results.md).
+JEV completed **7 of 12** tasks in a separate test across more apps. General control still needs work. The [full results](docs/general-control-results.md) include the failed attempts.
 
-The phone stays muted during control. Apple's system automation screen is still there. Full details and current limits are in the [control reference](docs/control-reference.md).
+ClickFast sets media volume to zero before control. Apple still shows its system “Automation Running” screen during XCTest control.
 
-## More
+## Docs
 
-- [Physical-phone measurements](docs/operator-performance.md)
-- [Wireless setup and results](docs/wireless.md)
-- [JEV notes](docs/jev.md)
+- [Setup, commands, and current limits](docs/control-reference.md)
+- [Phone test results](docs/operator-performance.md)
+- [Wireless control](docs/wireless.md)
+- [JEV setup and notes](docs/jev.md)
 - [Logo files](docs/brand/)
 
-MIT. Based on the MIT release of Callstack's iphone-use. [License and credits](THIRD_PARTY_NOTICES.md).
+MIT. Based on Callstack’s MIT release of iphone-use. [License and credits](THIRD_PARTY_NOTICES.md).
