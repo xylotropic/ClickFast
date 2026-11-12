@@ -1112,7 +1112,7 @@ extension RunnerTests {
     }
     return .value(["snapshot": sprintSnapshot, "app": target.bundleID ?? "",
       "width": screen.width, "height": screen.height, "elements": rows,
-      "truncated": rows.count >= 600 || sprintIDs.count >= 250])
+      "truncated": rows.count >= 600 || sprintIDs.count >= 250, "key_burst": 1])
   }
 
   func sprintAct(_ request: HTTPRequest) throws -> HTTPResponse {
@@ -1122,7 +1122,7 @@ extension RunnerTests {
     let body = try request.jsonObject()
     let path = try requiredString(body, "path")
     let allowed: Set<String> = ["/tap", "/type", "/swipe", "/longpress", "/home",
-      "/launch", "/wda/keys", "/wda/keyboard/dismiss", "/alert"]
+      "/launch", "/wda/keys", "/wda/keyboard/dismiss", "/alert", "/sprint/key-burst"]
     let elementClick = path.hasPrefix("/element/") && path.hasSuffix("/click")
     guard allowed.contains(path) || elementClick else {
       throw RunnerError.invalidArgument("unsupported Sprint action path")
@@ -1135,6 +1135,25 @@ extension RunnerTests {
       }
     }
     var clickPoint: CGPoint?
+    var keyPoints: [NSValue]?
+    if path == "/sprint/key-burst" {
+      let payload = body["body"] as? [String: Any] ?? [:]
+      guard let ids = payload["ids"] as? [String], (2...8).contains(ids.count), sprintPID > 0 else {
+        throw RunnerError.invalidArgument("Numeric key bursts require 2–8 current keys")
+      }
+      var points: [NSValue] = []
+      for id in ids {
+        guard sprintIDs.contains(id), let stored = elements.node(id), stored.axElement != nil else { throw RunnerError.staleElement(id) }
+        let current = try freshNode(id)
+        guard SprintTargetAdmission.numericKey(current) else {
+          throw RunnerError.invalidArgument("Only numeric/operator Key controls can be grouped")
+        }
+        if let refusal = SprintTargetAdmission.refusal(stored: stored, current: current, screen: windowSizePoints()) { throw RunnerError.failed(refusal) }
+        points.append(NSValue(cgPoint: current.center))
+      }
+      guard lockedOnMain() == false, foreground().pid == sprintPID else { throw RunnerError.failed("App or lock state changed before numeric keys; no input dispatched") }
+      keyPoints = points
+    }
     if elementClick {
       let id = String(path.dropFirst("/element/".count).dropLast("/click".count))
       guard !sprintSnapshot.isEmpty, body["snapshot"] as? String == sprintSnapshot,
@@ -1159,6 +1178,9 @@ extension RunnerTests {
     let action: HTTPResponse
     if let clickPoint {
       try tapPoint(clickPoint)
+      action = .value(NSNull())
+    } else if let keyPoints {
+      if let failure = IPURBridge.synthesizeKeyTaps(keyPoints, pid: sprintPID) { throw RunnerError.failed(failure) }
       action = .value(NSNull())
     } else { action = try route(forwarded) }
     guard action.status < 400 else { return action }

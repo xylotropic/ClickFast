@@ -56,7 +56,7 @@ export const tools=[
 ];
 // Keep the three-tool interface. The optional local chooser replaces per-step agent turns.
 tools[2].description+=' Optional local_goal runs bounded JEV navigation with an app/selector scope and visible completion predicate; requires external_ui_opt_in and a configured TypeSafe key. Publishing and sensitive actions hand back.';
-tools[2].inputSchema.properties.local_goal={type:'object',description:'Experimental JEV loop: goal, apps, allowed_selectors, until, external_ui_opt_in:true; optional max_actions 1–12 and timeout_ms 1–60000. UI labels are sent to TypeSafe.'};
+tools[2].inputSchema.properties.local_goal={type:'object',description:'Experimental JEV loop: goal, apps, allowed_selectors, until, external_ui_opt_in:true; optional until.after_action selector to require the last submitted tap, max_actions 1–12 and timeout_ms 1–60000. UI labels are sent to TypeSafe.'};
 delete tools[2].inputSchema.required;
 tools[2].inputSchema.oneOf=[{required:['steps']},{required:['local_goal']}];
 async function localChooser(){

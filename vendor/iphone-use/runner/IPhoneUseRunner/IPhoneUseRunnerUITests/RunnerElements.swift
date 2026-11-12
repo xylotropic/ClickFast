@@ -100,6 +100,14 @@ final class UINode {
 /// Small target admission rules inspired by AXe's protected-reference contract.
 /// The live node must come from the SAME registered native element, never a label search.
 enum SprintTargetAdmission {
+  static func numericKey(_ node: UINode) -> Bool {
+    guard node.type == "XCUIElementTypeKey" else { return false }
+    let label = node.label?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+    if label.count == 1, "0123456789+−-×÷*/%=.,".contains(label) { return true }
+    let operators = ["Add": "Add", "Subtract": "Subtract", "Multiply": "Multiply",
+      "Divide": "Divide", "Equals": "Equals", "Decimal": "Point", "Percent": "Percent"]
+    return operators[node.identifier ?? ""] == label
+  }
   static func refusal(stored: UINode, current: UINode, screen: CGSize) -> String? {
     guard current.pid == stored.pid, current.type == stored.type,
       current.identifier == stored.identifier, current.label == stored.label,

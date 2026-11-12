@@ -1,0 +1,185 @@
+{
+  "schema": 1,
+  "name": "Operator app control comparison",
+  "tasks": [
+    {
+      "name": "add",
+      "expression": "7 + 8",
+      "expected": "15",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 7 + 8 in Calculator and press Equals. Finish with the displayed result 15.",
+      "expected_actions": 4,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "\u200e15"
+        },
+        "after_action": {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      }
+    },
+    {
+      "name": "subtract",
+      "expression": "48 \u2212 19",
+      "expected": "29",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 48 \u2212 19 in Calculator and press Equals. Finish with the displayed result 29.",
+      "expected_actions": 6,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "\u200e29"
+        },
+        "after_action": {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      }
+    },
+    {
+      "name": "multiply",
+      "expression": "6 \u00d7 7",
+      "expected": "42",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 6 \u00d7 7 in Calculator and press Equals. Finish with the displayed result 42.",
+      "expected_actions": 4,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "\u200e42"
+        },
+        "after_action": {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      }
+    },
+    {
+      "name": "divide",
+      "expression": "81 \u00f7 9",
+      "expected": "9",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 81 \u00f7 9 in Calculator and press Equals. Finish with the displayed result 9.",
+      "expected_actions": 5,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "\u200e9"
+        },
+        "after_action": {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      }
+    },
+    {
+      "name": "decimal",
+      "expression": "1.5 + 2.25",
+      "expected": "3.75",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 1.5 + 2.25 in Calculator and press Equals. Finish with the displayed result 3.75.",
+      "expected_actions": 9,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "\u200e3.75"
+        },
+        "after_action": {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      }
+    },
+    {
+      "name": "percent",
+      "expression": "50 \u00d7 10%",
+      "expected": "5",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 50 \u00d7 10% in Calculator and press Equals. Finish with the displayed result 5.",
+      "expected_actions": 7,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "\u200e5"
+        },
+        "after_action": {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      }
+    },
+    {
+      "name": "chain",
+      "expression": "(12 + 8) \u00d7 3",
+      "expected": "60",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 12 plus 8, press Equals, then multiply that result by 3 and press Equals. Finish with the displayed result 60.",
+      "expected_actions": 8,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "\u200e60"
+        },
+        "after_action": {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      }
+    },
+    {
+      "name": "clock-stopwatch",
+      "app": "com.apple.mobiletimer",
+      "start": "World Clock",
+      "goal": "Switch Clock from World Clock to Stopwatch. Only change tabs; do not start, stop, reset, add or edit anything.",
+      "expected_actions": 1,
+      "verification": {
+        "selector": {
+          "kind": "Button",
+          "label": "Lap"
+        }
+      }
+    },
+    {
+      "name": "clock-world-clock",
+      "app": "com.apple.mobiletimer",
+      "start": "Stopwatch",
+      "goal": "Switch Clock from Stopwatch to World Clock. Only change tabs; do not add, remove or edit anything.",
+      "expected_actions": 1,
+      "verification": {
+        "selector": {
+          "kind": "NavigationBar",
+          "label": "World Clock"
+        }
+      }
+    },
+    {
+      "name": "settings-general",
+      "app": "com.apple.Preferences",
+      "goal": "Open General in Settings. Do not change any setting.",
+      "expected_actions": 1,
+      "verification": {
+        "selector": {
+          "kind": "NavigationBar",
+          "label": "General"
+        }
+      }
+    }
+  ],
+  "modes": [
+    "Operator planned batch",
+    "Operator JEV local loop",
+    "plain Apple iPhone Mirroring through CUA"
+  ],
+  "required_record": [
+    "exact source revision and file hashes",
+    "starting state and result predicate",
+    "setup and warm latency separately",
+    "correct completion, handback and uncertain input counts",
+    "actual screenshot capture request/completion timestamps",
+    "native gesture phases and JEV model/calls/tokens",
+    "audio volume before and after control"
+  ],
+  "interpretation": "This compares automated control paths. It does not establish human speed. A failed or handed-back task contributes a failure, never a fast completion."
+}

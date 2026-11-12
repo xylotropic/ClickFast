@@ -37,8 +37,8 @@ for run in report['runs']:
 for task in report['tasks']:
  pair={x['mode']:x for x in rendered if x['task']==task['name']}
  if len(pair)!=2:continue
- maximum=max(pair[x]['duration_seconds'] for x in pair);video=out/(task['name']+'-comparison.mp4')
- subprocess.run(['ffmpeg','-v','error','-y','-i',str(root/pair['batch']['path']),'-i',str(root/pair['jev']['path']),'-filter_complex',f'[0:v]fps=10,tpad=stop_mode=clone:stop_duration={maximum},trim=duration={maximum},setpts=PTS-STARTPTS[a];[1:v]fps=10,tpad=stop_mode=clone:stop_duration={maximum},trim=duration={maximum},setpts=PTS-STARTPTS[b];[a][b]hstack=inputs=2[v]','-map','[v]','-c:v','libx264','-preset','fast','-crf','23','-pix_fmt','yuv420p','-an','-movflags','+faststart',str(video)],check=True)
+ left,right=report['method']['modes'];maximum=max(pair[x]['duration_seconds'] for x in pair);video=out/(task['name']+'-comparison.mp4')
+ subprocess.run(['ffmpeg','-v','error','-y','-i',str(root/pair[left]['path']),'-i',str(root/pair[right]['path']),'-filter_complex',f'[0:v]fps=10,tpad=stop_mode=clone:stop_duration={maximum},trim=duration={maximum},setpts=PTS-STARTPTS[a];[1:v]fps=10,tpad=stop_mode=clone:stop_duration={maximum},trim=duration={maximum},setpts=PTS-STARTPTS[b];[a][b]hstack=inputs=2[v]','-map','[v]','-c:v','libx264','-preset','fast','-crf','23','-pix_fmt','yuv420p','-an','-movflags','+faststart',str(video)],check=True)
  actual=float(json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries','format=duration','-of','json',str(video)]))['format']['duration'])
  if abs(actual-maximum)>.11:raise RuntimeError('Paired video duration is incorrect')
  video_info={'task':task['name'],'path':str(video.relative_to(root)),'sha256':hashlib.sha256(video.read_bytes()).hexdigest(),'duration_seconds':actual}
@@ -46,11 +46,11 @@ for task in report['tasks']:
 (private/'recordings.json').write_text(json.dumps(rendered,indent=2)+'\n')
 fields=['task','mode','ordinal','ok','elapsed_ms','setup_ms','actions','chooser_calls','verification_ms','reason','error']
 with (pub/'comparison.csv').open('w') as f:
- w=csv.DictWriter(f,fieldnames=fields,extrasaction='ignore');w.writeheader();w.writerows(report['runs'])
+ w=csv.DictWriter(f,fieldnames=fields,extrasaction='ignore',lineterminator='\n');w.writeheader();w.writerows(report['runs'])
 rows=[]
 for t in report['tasks']:
- pair={r['mode']:r for r in report['runs'] if r['task']==t['name']};a=pair.get('batch',{});b=pair.get('jev',{})
+ pair={r['mode']:r for r in report['runs'] if r['task']==t['name']};a=pair.get(report['method']['modes'][0],{});b=pair.get(report['method']['modes'][1],{})
  fmt=lambda r: f'{r["elapsed_ms"]/1000:.3f}s '+('✓' if r.get('ok') else 'FAILED') if r.get('elapsed_ms') else 'setup failed'
  rows.append(f'| {t["name"]} | {fmt(a)} | {fmt(b)} |')
-(pub/'comparison.md').write_text('# Recorded comparison\n\nOne pair per task. Alternate mode order; recording on both sides. Setup excluded, fresh result verification included. Batch knows the correct steps; JEV selects from current permitted UI controls.\n\n| Task | Batch | JEV |\n|---|---:|---:|\n'+'\n'.join(rows)+'\n\nRaw videos, originals and frame timestamps are in the local ignored private session directory. Video resamples the ~3 fps capture; the final 0.75 second hold is outside the timer. Failed decisions and inputs are retained in results.json.\n')
+(pub/'comparison.md').write_text('# Recorded comparison\n\nOne pair per task. Alternate mode order; recording on both sides. Setup excluded, fresh result verification included. See results.json for the mode definitions and experiment limits.\n\n| Task | '+report['method']['modes'][0]+' | '+report['method']['modes'][1]+' |\n|---|---:|---:|\n'+'\n'.join(rows)+'\n\nRaw videos, originals and frame timestamps are in the local ignored private session directory. Video resamples the ~3 fps capture; the final 0.75 second hold is outside the timer. Failed decisions and inputs are retained in results.json.\n')
 print(json.dumps({'encoded_runs':sum('mode' in x for x in rendered),'paired_videos':sum('mode' not in x for x in rendered),'blank_frames':sum(x.get('blank_frames',0) for x in rendered)}))

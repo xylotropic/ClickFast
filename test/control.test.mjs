@@ -6,12 +6,29 @@ import {Runner,Controller,authorization,select} from '../src/driver.mjs';
 import {compact,tools,serve,ensureMuted} from '../src/cli.mjs';
 import {PassThrough} from 'node:stream';
 const token='a'.repeat(64);
+const numericScreen=()=>({snapshot:'numeric-1',app:'test.calculator',width:400,height:800,key_burst:1,elements:['7','Add','8','Equals'].map((label,i)=>({kind:'Key',label,identifier:['Seven','Add','Eight','Equals'][i],ref:'native-'+i,enabled:true,rect:{x:10+i*60,y:600,width:50,height:50}}))});
 const screen=()=>({snapshot:'snapshot-1',app:'test.app',width:400,height:800,elements:[{kind:'Button',label:'Search',ref:'native-id',enabled:true,rect:{x:10,y:10,width:50,height:50}}]});
 
 test('HMAC matches the pinned native runner canonical format',()=>{
  const body=Buffer.from('{"x":3}');const hash=createHash('sha256').update(body).digest('hex');
  const expected=createHmac('sha256',token).update(`ipu-runner-v1\nPOST\n/tap\n123\n0123456789abcdef\n${hash}`).digest('hex');
  assert.equal(authorization(token,'POST','/tap',body,123,'0123456789abcdef'),`IPU-HMAC-SHA256 ts=123, nonce=0123456789abcdef, sig=${expected}`);
+});
+test('a planned numeric sequence uses one guarded native gesture and one resulting observation',async()=>{
+ const calls=[];const c=new Controller({call:async(path,body)=>{calls.push({path,body});return numericScreen();}});
+ await c.observe();const result=await c.execute(['Seven','Add','Eight','Equals'].map(identifier=>({op:'tap',selector:{kind:'Key',identifier}})));
+ assert.equal(result.ok,true);assert.deepEqual(result.completed,[0,1,2,3]);assert.equal(calls.length,2);
+ assert.equal(calls[1].body.path,'/sprint/key-burst');assert.deepEqual(calls[1].body.body.ids,['native-0','native-1','native-2','native-3']);assert.equal(calls[1].body.snapshot,'numeric-1');
+});
+test('an uncertain numeric burst stops the whole batch without replay or a later Home action',async()=>{
+ let sent=0;const c=new Controller({call:async(path)=>{if(path==='/sprint/observe')return numericScreen();sent++;throw Object.assign(Error('lost burst response'),{outcome:'unknown'});}});
+ await c.observe();const result=await c.execute([{op:'tap',selector:{label:'7'}},{op:'tap',selector:{label:'8'}},{op:'home'}]);
+ assert.equal(result.ok,false);assert.equal(sent,1);assert.equal(result.outcome,'unknown');assert.deepEqual(result.uncertain_steps,[0,1]);
+});
+test('numeric bursts never absorb a transition predicate or a Send key',async()=>{
+ const calls=[];const s=numericScreen();s.elements[2].label='Send';const c=new Controller({call:async(path,body)=>{calls.push({path,body});return s;}});
+ await c.observe();await c.execute([{op:'tap',selector:{label:'7'},expect:{app:s.app}},{op:'tap',selector:{label:'Send'}}]);
+ assert.ok(calls.every(x=>x.body?.path!=='/sprint/key-burst'));
 });
 test('runner transport signs real HTTP requests and does not replay ambiguous mutations',async()=>{
  let calls=0,seen;

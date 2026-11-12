@@ -24,8 +24,11 @@ final class SprintDashboard {
       let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
       let scene = scenes.first { $0.activationState == .foregroundActive } ?? scenes.first
       let window = scene.map { UIWindow(windowScene: $0) } ?? UIWindow(frame: UIScreen.main.bounds)
+      window.frame = scene?.coordinateSpace.bounds ?? UIScreen.main.bounds
+      let background = UIColor(red: 18 / 255, green: 18 / 255, blue: 18 / 255, alpha: 1)
       let host = UIHostingController(rootView: SprintOrbScreen(clock: clock))
-      host.view.backgroundColor = UIColor(white: 0.07, alpha: 1)
+      host.view.backgroundColor = background
+      window.backgroundColor = background
       window.rootViewController = host
       window.windowLevel = .normal + 1
       window.isUserInteractionEnabled = false
@@ -50,7 +53,7 @@ private struct SprintOrbScreen: View {
   @ObservedObject var clock: SprintOrbClock
   var body: some View {
     ZStack {
-      Color(white: 0.07)
+      Color(.sRGB, red: 18 / 255, green: 18 / 255, blue: 18 / 255)
       ThinkingOrb(state: .working, size: .px64, theme: .dark, paused: clock.paused)
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)

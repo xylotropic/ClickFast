@@ -1,0 +1,3092 @@
+{
+  "schema": 1,
+  "id": "2026-11-11T23-49-23-694Z",
+  "created_at": "2026-11-11T23:49:23.696Z",
+  "source_commit": "1c7360f1eb80ebda3580eb31e1200b5d3a873f00",
+  "harness_sha256": "ac2b872a7c1e8b6261bfc10bca28f4cf6233cbbf10862f326407c156de02bc3b",
+  "environment": {
+    "node": "v24.14.0",
+    "os": "iOS 26.5",
+    "device": "iPhone 16 Pro Max",
+    "transport": "USB",
+    "audio": "Media volume verified zero before each run"
+  },
+  "method": {
+    "modes": [
+      "batch",
+      "jev"
+    ],
+    "order": "Alternated per task",
+    "repeats_per_mode_per_task": 1,
+    "recording": "Native screenshots at at most 3 fps, 1000px long edge, JPEG quality 0.65. Separate HTTP connection/capture lane. No audio. Capture timestamps recorded; encoding happens after all measurements.",
+    "timing": "After reset and initial video frame: fresh observation, actions, independent fresh AX verification. Recording continues during both modes. Reset, launch, first camera frame and encoding excluded; setup duration recorded separately.",
+    "limits": "Ten different tasks, one pair each. No statistical per-task latency claim. Scripted batch is an execution floor with known steps, not a competing general planner. JEV must choose among current permitted keys/tabs. General cross-app reliability and end-to-end agent speed are not established."
+  },
+  "tasks": [
+    {
+      "name": "add",
+      "expression": "7 + 8",
+      "expected": "15",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 7 + 8 in Calculator and press Equals. Finish with the displayed result 15.",
+      "expected_actions": 4,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎15"
+        },
+        "after_action": {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      }
+    },
+    {
+      "name": "subtract",
+      "expression": "48 − 19",
+      "expected": "29",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 48 − 19 in Calculator and press Equals. Finish with the displayed result 29.",
+      "expected_actions": 6,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎29"
+        },
+        "after_action": {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      }
+    },
+    {
+      "name": "multiply",
+      "expression": "6 × 7",
+      "expected": "42",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 6 × 7 in Calculator and press Equals. Finish with the displayed result 42.",
+      "expected_actions": 4,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎42"
+        },
+        "after_action": {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      }
+    },
+    {
+      "name": "divide",
+      "expression": "81 ÷ 9",
+      "expected": "9",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 81 ÷ 9 in Calculator and press Equals. Finish with the displayed result 9.",
+      "expected_actions": 5,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎9"
+        },
+        "after_action": {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      }
+    },
+    {
+      "name": "decimal",
+      "expression": "1.5 + 2.25",
+      "expected": "3.75",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 1.5 + 2.25 in Calculator and press Equals. Finish with the displayed result 3.75.",
+      "expected_actions": 9,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎3.75"
+        },
+        "after_action": {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      }
+    },
+    {
+      "name": "percent",
+      "expression": "50 × 10%",
+      "expected": "5",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 50 × 10% in Calculator and press Equals. Finish with the displayed result 5.",
+      "expected_actions": 7,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎5"
+        },
+        "after_action": {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      }
+    },
+    {
+      "name": "chain",
+      "expression": "(12 + 8) × 3",
+      "expected": "60",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 12 plus 8, press Equals, then multiply that result by 3 and press Equals. Finish with the displayed result 60.",
+      "expected_actions": 8,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎60"
+        },
+        "after_action": {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      }
+    },
+    {
+      "name": "clock-stopwatch",
+      "app": "com.apple.mobiletimer",
+      "start": "World Clock",
+      "goal": "Switch Clock from World Clock to Stopwatch. Only change tabs; do not start, stop, reset, add or edit anything.",
+      "expected_actions": 1,
+      "verification": {
+        "selector": {
+          "kind": "Button",
+          "label": "Lap"
+        }
+      }
+    },
+    {
+      "name": "clock-world-clock",
+      "app": "com.apple.mobiletimer",
+      "start": "Stopwatch",
+      "goal": "Switch Clock from Stopwatch to World Clock. Only change tabs; do not add, remove or edit anything.",
+      "expected_actions": 1,
+      "verification": {
+        "selector": {
+          "kind": "NavigationBar",
+          "label": "World Clock"
+        }
+      }
+    },
+    {
+      "name": "settings-general",
+      "app": "com.apple.Preferences",
+      "goal": "Open General in Settings. Do not change any setting.",
+      "expected_actions": 1,
+      "verification": {
+        "selector": {
+          "kind": "NavigationBar",
+          "label": "General"
+        }
+      }
+    }
+  ],
+  "runs": [
+    {
+      "name": "01-add-batch",
+      "task": "add",
+      "mode": "batch",
+      "ordinal": 1,
+      "started_at": "2026-11-11T23:49:23.783Z",
+      "events": [],
+      "setup_ms": 1067.680167,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "Seven"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Add"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Eight"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 54.93504200000007,
+      "actions": 4,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "numeric_key_burst",
+          "steps": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "at_ms": 0.0012910000000374566,
+          "ms": 525.741,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 64.2137909999999,
+      "elapsed_ms": 645.0263340000001,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎15"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 54.752750000000106,
+          "runner_ms": 51,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 525.3034169999999,
+          "runner_ms": 518,
+          "bytes": 5197,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 432.8,
+            "hold": 290,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 63.84720799999991,
+          "runner_ms": 58,
+          "bytes": 5197,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "01-add-batch",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 49145,
+            "requested_ms": -55.59170800000015,
+            "completed_ms": -0.46116600000004837,
+            "capture_ms": 55.130542000000105
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 50661,
+            "requested_ms": 334.80725000000007,
+            "completed_ms": 386.7006250000002,
+            "capture_ms": 51.893375000000106
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 50340,
+            "requested_ms": 722.5745000000002,
+            "completed_ms": 777.3463750000001,
+            "capture_ms": 54.77187499999991
+          }
+        ],
+        "frame_count": 3
+      },
+      "audio_after": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "01-add-jev",
+      "task": "add",
+      "mode": "jev",
+      "ordinal": 2,
+      "started_at": "2026-11-11T23:49:25.693Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 254.186917,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "7",
+            "identifier": "Seven"
+          },
+          "ok": true,
+          "finished_ms": 629.7077920000002
+        }
+      ],
+      "setup_ms": 1046.3424589999997,
+      "actions": 1,
+      "chooser_calls": 2,
+      "decisions": [
+        {
+          "kind": "choice",
+          "ms": 200.28333299999986,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 733,
+            "output_tokens": 83
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.99,
+          "choice": "a0",
+          "candidate_count": 4
+        },
+        {
+          "kind": "action",
+          "ms": 375.7182499999999,
+          "ok": true
+        },
+        {
+          "kind": "choice",
+          "ms": 103.69429200000013,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 764,
+            "output_tokens": 83
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.8,
+          "choice": "a2",
+          "candidate_count": 4
+        }
+      ],
+      "execution_ok": false,
+      "reason": "Chooser handed back or failed decision gates",
+      "outcome": "stopped",
+      "verified": false,
+      "verification_ms": 65.91979200000014,
+      "elapsed_ms": 799.735459,
+      "ok": false,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎15"
+        },
+        "matched": false
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 51.54608300000018,
+          "runner_ms": 47,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 375.2765840000002,
+          "runner_ms": 369,
+          "bytes": 4842,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 284.9,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 65.83024999999998,
+          "runner_ms": 61,
+          "bytes": 4842,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "01-add-jev",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 49050,
+            "requested_ms": -59.981166999999914,
+            "completed_ms": -0.9614579999997659,
+            "capture_ms": 59.01970900000015
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 49126,
+            "requested_ms": 334.7069999999999,
+            "completed_ms": 404.2110419999999,
+            "capture_ms": 69.50404200000003
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 48483,
+            "requested_ms": 739.3086250000001,
+            "completed_ms": 792.6938340000002,
+            "capture_ms": 53.38520900000003
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 48450,
+            "requested_ms": 1127.5552089999996,
+            "completed_ms": 1202.797,
+            "capture_ms": 75.24179100000038
+          }
+        ],
+        "frame_count": 4
+      },
+      "audio_after": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "02-subtract-jev",
+      "task": "subtract",
+      "mode": "jev",
+      "ordinal": 3,
+      "started_at": "2026-11-11T23:49:28.010Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 219.0860419999999,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "4",
+            "identifier": "Four"
+          },
+          "ok": true,
+          "finished_ms": 592.5929580000002
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 662.8267500000002,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "8",
+            "identifier": "Eight"
+          },
+          "ok": true,
+          "finished_ms": 1027.633167
+        }
+      ],
+      "setup_ms": 1045.6613339999994,
+      "actions": 2,
+      "chooser_calls": 3,
+      "decisions": [
+        {
+          "kind": "choice",
+          "ms": 165.213667,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 837,
+            "output_tokens": 99
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.96,
+          "choice": "a2",
+          "candidate_count": 6
+        },
+        {
+          "kind": "action",
+          "ms": 373.5886250000003,
+          "ok": true
+        },
+        {
+          "kind": "choice",
+          "ms": 69.81662499999948,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 868,
+            "output_tokens": 99
+          },
+          "confidence": 0.9,
+          "selected_probability": 0.91,
+          "available": 0.93,
+          "choice": "a0",
+          "candidate_count": 6
+        },
+        {
+          "kind": "action",
+          "ms": 364.95529200000055,
+          "ok": true
+        },
+        {
+          "kind": "choice",
+          "ms": 69.66499999999996,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 901,
+            "output_tokens": 99
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.88,
+          "choice": "a3",
+          "candidate_count": 6
+        }
+      ],
+      "execution_ok": false,
+      "reason": "Chooser handed back or failed decision gates",
+      "outcome": "stopped",
+      "verified": false,
+      "verification_ms": 62.883082999999715,
+      "elapsed_ms": 1160.5305420000004,
+      "ok": false,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎29"
+        },
+        "matched": false
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 53.522125000000415,
+          "runner_ms": 50,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 373.35899999999947,
+          "runner_ms": 368,
+          "bytes": 4842,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 289.6,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 364.55112499999996,
+          "runner_ms": 359,
+          "bytes": 4812,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 276.7,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 62.6566670000002,
+          "runner_ms": 56,
+          "bytes": 4812,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "02-subtract-jev",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 48656,
+            "requested_ms": -65.4325000000008,
+            "completed_ms": -0.40733300000010786,
+            "capture_ms": 65.02516700000069
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 48922,
+            "requested_ms": 335.68895800000064,
+            "completed_ms": 385.95287499999995,
+            "capture_ms": 50.26391699999931
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 48281,
+            "requested_ms": 719.7606670000005,
+            "completed_ms": 797.917625,
+            "capture_ms": 78.15695799999958
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 49573,
+            "requested_ms": 1134.8835,
+            "completed_ms": 1204.3507920000002,
+            "capture_ms": 69.46729200000027
+          },
+          {
+            "file": "0004.jpg",
+            "bytes": 49575,
+            "requested_ms": 1205.244667,
+            "completed_ms": 1260.7951670000002,
+            "capture_ms": 55.550500000000284
+          }
+        ],
+        "frame_count": 5
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "02-subtract-batch",
+      "task": "subtract",
+      "mode": "batch",
+      "ordinal": 4,
+      "started_at": "2026-11-11T23:49:30.389Z",
+      "events": [],
+      "setup_ms": 1076.9434170000004,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "Four"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Eight"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Subtract"
+        },
+        {
+          "kind": "Key",
+          "identifier": "One"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Nine"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 52.610625000000255,
+      "actions": 6,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "numeric_key_burst",
+          "steps": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "at_ms": 0.0026250000000800355,
+          "ms": 648.7357500000007,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 55.78337500000089,
+      "elapsed_ms": 757.2383749999999,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎29"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 52.36241700000028,
+          "runner_ms": 47,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 648.4318329999996,
+          "runner_ms": 643,
+          "bytes": 5199,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 540.2,
+            "hold": 450,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 55.56783399999949,
+          "runner_ms": 50,
+          "bytes": 5199,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "02-subtract-batch",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 48696,
+            "requested_ms": -69.75799999999981,
+            "completed_ms": -0.8890419999997903,
+            "capture_ms": 68.86895800000002
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 49791,
+            "requested_ms": 333.6058750000002,
+            "completed_ms": 451.320834000001,
+            "capture_ms": 117.71495900000082
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 51147,
+            "requested_ms": 787.7300000000005,
+            "completed_ms": 847.4675420000012,
+            "capture_ms": 59.73754200000076
+          }
+        ],
+        "frame_count": 3
+      },
+      "audio_after": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "03-multiply-batch",
+      "task": "multiply",
+      "mode": "batch",
+      "ordinal": 5,
+      "started_at": "2026-11-11T23:49:32.393Z",
+      "events": [],
+      "setup_ms": 1026.6970419999998,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "Six"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Multiply"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Seven"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 54.95762500000092,
+      "actions": 4,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "numeric_key_burst",
+          "steps": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "at_ms": 0.0029169999997975538,
+          "ms": 542.6346250000006,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 56.298665999998775,
+      "elapsed_ms": 653.993625000001,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎42"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 54.685457999999926,
+          "runner_ms": 50,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 542.2886669999989,
+          "runner_ms": 537,
+          "bytes": 5167,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 438.2,
+            "hold": 290,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 56.069250000000466,
+          "runner_ms": 50,
+          "bytes": 5167,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "03-multiply-batch",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 48590,
+            "requested_ms": -63.85095799999908,
+            "completed_ms": -1.528415999999197,
+            "capture_ms": 62.322541999999885
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 50730,
+            "requested_ms": 334.4264579999999,
+            "completed_ms": 379.0555409999997,
+            "capture_ms": 44.62908299999981
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 50284,
+            "requested_ms": 715.398000000001,
+            "completed_ms": 778.1315830000003,
+            "capture_ms": 62.73358299999927
+          }
+        ],
+        "frame_count": 3
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "03-multiply-jev",
+      "task": "multiply",
+      "mode": "jev",
+      "ordinal": 6,
+      "started_at": "2026-11-11T23:49:34.270Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 132.7554999999993,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "6",
+            "identifier": "Six"
+          },
+          "ok": true,
+          "finished_ms": 495.13737500000025
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 626.0955830000003,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Multiply",
+            "identifier": "Multiply"
+          },
+          "ok": true,
+          "finished_ms": 986.1085829999993
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 1151.285249999999,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "7",
+            "identifier": "Seven"
+          },
+          "ok": true,
+          "finished_ms": 1513.0450409999994
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 1610.8859159999993,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Equals",
+            "identifier": "Equals"
+          },
+          "ok": true,
+          "finished_ms": 1954.2756659999995
+        }
+      ],
+      "setup_ms": 1029.1810839999998,
+      "actions": 4,
+      "chooser_calls": 4,
+      "decisions": [
+        {
+          "kind": "choice",
+          "ms": 74.0192500000012,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 733,
+            "output_tokens": 83
+          },
+          "confidence": 0.96,
+          "selected_probability": 0.97,
+          "available": 0.98,
+          "choice": "a2",
+          "candidate_count": 4
+        },
+        {
+          "kind": "action",
+          "ms": 362.52999999999884,
+          "ok": true
+        },
+        {
+          "kind": "choice",
+          "ms": 130.19904099999985,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 764,
+            "output_tokens": 83
+          },
+          "confidence": 0.96,
+          "selected_probability": 0.97,
+          "available": 0.9,
+          "choice": "a1",
+          "candidate_count": 4
+        },
+        {
+          "kind": "action",
+          "ms": 360.15229200000067,
+          "ok": true
+        },
+        {
+          "kind": "choice",
+          "ms": 164.76816599999984,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 798,
+            "output_tokens": 83
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.95,
+          "choice": "a0",
+          "candidate_count": 4
+        },
+        {
+          "kind": "action",
+          "ms": 361.88275000000067,
+          "ok": true
+        },
+        {
+          "kind": "choice",
+          "ms": 97.32520900000054,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 832,
+            "output_tokens": 83
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.96,
+          "choice": "a3",
+          "candidate_count": 4
+        },
+        {
+          "kind": "action",
+          "ms": 343.59166600000026,
+          "ok": true
+        }
+      ],
+      "execution_ok": true,
+      "reason": "Completion predicate observed",
+      "outcome": "verified",
+      "verified": true,
+      "verification_ms": 65.47891700000037,
+      "elapsed_ms": 2019.9551250000004,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎42"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 58.201499999999214,
+          "runner_ms": 54,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 362.1659580000014,
+          "runner_ms": 356,
+          "bytes": 4842,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 277,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 359.82066699999996,
+          "runner_ms": 354,
+          "bytes": 4847,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 278.5,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 361.53879099999904,
+          "runner_ms": 357,
+          "bytes": 4851,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 279.8,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 343.1803749999999,
+          "runner_ms": 339,
+          "bytes": 5167,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 270.3,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 65.38395799999853,
+          "runner_ms": 60,
+          "bytes": 5167,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "03-multiply-jev",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 48603,
+            "requested_ms": -58.367707999999766,
+            "completed_ms": -0.46600000000034925,
+            "capture_ms": 57.90170799999942
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 48770,
+            "requested_ms": 334.811040999999,
+            "completed_ms": 391.6009159999994,
+            "capture_ms": 56.78987500000039
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 48633,
+            "requested_ms": 728.2244580000006,
+            "completed_ms": 810.9874579999996,
+            "capture_ms": 82.76299999999901
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 49651,
+            "requested_ms": 1149.3347080000003,
+            "completed_ms": 1222.7322910000003,
+            "capture_ms": 73.39758299999994
+          },
+          {
+            "file": "0004.jpg",
+            "bytes": 50427,
+            "requested_ms": 1558.864540999999,
+            "completed_ms": 1620.7430409999997,
+            "capture_ms": 61.87850000000071
+          },
+          {
+            "file": "0005.jpg",
+            "bytes": 50380,
+            "requested_ms": 1955.113958,
+            "completed_ms": 2018.2960000000003,
+            "capture_ms": 63.182042000000365
+          },
+          {
+            "file": "0006.jpg",
+            "bytes": 50457,
+            "requested_ms": 2352.788875,
+            "completed_ms": 2418.847749999999,
+            "capture_ms": 66.0588749999988
+          }
+        ],
+        "frame_count": 7
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "04-divide-jev",
+      "task": "divide",
+      "mode": "jev",
+      "ordinal": 7,
+      "started_at": "2026-11-11T23:49:37.784Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 125.63933399999951,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "8",
+            "identifier": "Eight"
+          },
+          "ok": true,
+          "finished_ms": 493.5992499999993
+        }
+      ],
+      "setup_ms": 1072.9569580000007,
+      "actions": 1,
+      "chooser_calls": 2,
+      "decisions": [
+        {
+          "kind": "choice",
+          "ms": 69.45000000000073,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 784,
+            "output_tokens": 91
+          },
+          "confidence": 0.92,
+          "selected_probability": 0.93,
+          "available": 0.98,
+          "choice": "a1",
+          "candidate_count": 5
+        },
+        {
+          "kind": "action",
+          "ms": 368.00658399999884,
+          "ok": true
+        },
+        {
+          "kind": "choice",
+          "ms": 109.15016599999944,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 815,
+            "output_tokens": 91
+          },
+          "confidence": 0.88,
+          "selected_probability": 0.9,
+          "available": 0.8,
+          "choice": "a3",
+          "candidate_count": 5
+        }
+      ],
+      "execution_ok": false,
+      "reason": "Chooser handed back or failed decision gates",
+      "outcome": "stopped",
+      "verified": false,
+      "verification_ms": 59.15412499999911,
+      "elapsed_ms": 662.0199589999993,
+      "ok": false,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎9"
+        },
+        "matched": false
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 55.642291000000114,
+          "runner_ms": 51,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 367.8766660000001,
+          "runner_ms": 363,
+          "bytes": 4842,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 285.5,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 59.066249999999854,
+          "runner_ms": 54,
+          "bytes": 4842,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "04-divide-jev",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 48644,
+            "requested_ms": -65.06129099999998,
+            "completed_ms": -0.9125409999996918,
+            "capture_ms": 64.14875000000029
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 48761,
+            "requested_ms": 335.1168340000004,
+            "completed_ms": 397.97191700000076,
+            "capture_ms": 62.85508300000038
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 48684,
+            "requested_ms": 733.4925839999996,
+            "completed_ms": 795.2327089999999,
+            "capture_ms": 61.74012500000026
+          }
+        ],
+        "frame_count": 3
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "04-divide-batch",
+      "task": "divide",
+      "mode": "batch",
+      "ordinal": 8,
+      "started_at": "2026-11-11T23:49:39.724Z",
+      "events": [],
+      "setup_ms": 1024.1444589999992,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "Eight"
+        },
+        {
+          "kind": "Key",
+          "identifier": "One"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Divide"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Nine"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 54.15550000000076,
+      "actions": 5,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "numeric_key_burst",
+          "steps": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "at_ms": 0.0010409999995317776,
+          "ms": 568.4966249999998,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 28.156457999997656,
+      "elapsed_ms": 650.8457080000007,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎9"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 54.06587500000023,
+          "runner_ms": 50,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 568.3678749999999,
+          "runner_ms": 564,
+          "bytes": 5198,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 483.7,
+            "hold": 370,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 28.04820800000016,
+          "runner_ms": 24,
+          "bytes": 5198,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "04-divide-batch",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 48700,
+            "requested_ms": -61.07266600000003,
+            "completed_ms": -0.3052910000005795,
+            "capture_ms": 60.76737499999945
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 49600,
+            "requested_ms": 335.69237500000236,
+            "completed_ms": 466.9466250000005,
+            "capture_ms": 131.25424999999814
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 49959,
+            "requested_ms": 802.3865420000002,
+            "completed_ms": 855.3034170000028,
+            "capture_ms": 52.91687500000262
+          }
+        ],
+        "frame_count": 3
+      },
+      "audio_after": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "05-decimal-batch",
+      "task": "decimal",
+      "mode": "batch",
+      "ordinal": 9,
+      "started_at": "2026-11-11T23:49:41.670Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 832.038708,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Equals",
+            "identifier": "Equals"
+          },
+          "ok": true,
+          "finished_ms": 1192.1552909999991
+        }
+      ],
+      "setup_ms": 1017.4346250000017,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "One"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Decimal"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Five"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Add"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Two"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Decimal"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Two"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Five"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 53.93829099999857,
+      "actions": 9,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "numeric_key_burst",
+          "steps": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "at_ms": 0.001082999999198364,
+          "ms": 778.0394589999996,
+          "success": true
+        },
+        {
+          "step": 8,
+          "op": "tap",
+          "ms": 360.15000000000146,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 47.10954199999833,
+      "elapsed_ms": 1239.2758749999994,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎3.75"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 53.850750000001426,
+          "runner_ms": 50,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 777.9026250000024,
+          "runner_ms": 774,
+          "bytes": 4855,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 658.3,
+            "hold": 610,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 360.01279200000135,
+          "runner_ms": 356,
+          "bytes": 5204,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 279.1,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 47.02708299999722,
+          "runner_ms": 43,
+          "bytes": 5204,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "05-decimal-batch",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 48592,
+            "requested_ms": -67.46566600000006,
+            "completed_ms": -0.3187079999988782,
+            "capture_ms": 67.14695800000118
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 48571,
+            "requested_ms": 335.161583000001,
+            "completed_ms": 411.67562499999985,
+            "capture_ms": 76.51404199999888
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 53296,
+            "requested_ms": 747.2767910000002,
+            "completed_ms": 800.5377079999998,
+            "capture_ms": 53.26091699999961
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 52398,
+            "requested_ms": 1136.7327079999995,
+            "completed_ms": 1193.5144160000018,
+            "capture_ms": 56.781708000002254
+          },
+          {
+            "file": "0004.jpg",
+            "bytes": 52431,
+            "requested_ms": 1528.891040999999,
+            "completed_ms": 1588.4943329999987,
+            "capture_ms": 59.60329199999978
+          }
+        ],
+        "frame_count": 5
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "05-decimal-jev",
+      "task": "decimal",
+      "mode": "jev",
+      "ordinal": 10,
+      "started_at": "2026-11-11T23:49:44.349Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 140.9247499999983,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "1",
+            "identifier": "One"
+          },
+          "ok": true,
+          "finished_ms": 506.67291699999987
+        }
+      ],
+      "setup_ms": 1027.888791999998,
+      "actions": 1,
+      "chooser_calls": 2,
+      "decisions": [
+        {
+          "kind": "choice",
+          "ms": 87.0679170000003,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 835,
+            "output_tokens": 99
+          },
+          "confidence": 0.94,
+          "selected_probability": 0.95,
+          "available": 0.98,
+          "choice": "a1",
+          "candidate_count": 6
+        },
+        {
+          "kind": "action",
+          "ms": 365.7873749999999,
+          "ok": true
+        },
+        {
+          "kind": "choice",
+          "ms": 82.83187499999985,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 866,
+            "output_tokens": 99
+          },
+          "confidence": 0.92,
+          "selected_probability": 0.93,
+          "available": 0.79,
+          "choice": "a4",
+          "candidate_count": 6
+        }
+      ],
+      "execution_ok": false,
+      "reason": "Chooser handed back or failed decision gates",
+      "outcome": "stopped",
+      "verified": false,
+      "verification_ms": 65.56962500000009,
+      "elapsed_ms": 655.2059169999993,
+      "ok": false,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎3.75"
+        },
+        "matched": false
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 53.576458999999886,
+          "runner_ms": 50,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 365.656415999998,
+          "runner_ms": 361,
+          "bytes": 4842,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 280,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 65.49070899999788,
+          "runner_ms": 61,
+          "bytes": 4842,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "05-decimal-jev",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 48604,
+            "requested_ms": -63.80950000000303,
+            "completed_ms": -0.6092920000010054,
+            "capture_ms": 63.20020800000202
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 48084,
+            "requested_ms": 335.9565829999992,
+            "completed_ms": 397.1960829999989,
+            "capture_ms": 61.23949999999968
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 47806,
+            "requested_ms": 732.8161250000012,
+            "completed_ms": 806.1410419999993,
+            "capture_ms": 73.3249169999981
+          }
+        ],
+        "frame_count": 3
+      },
+      "audio_after": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "06-percent-jev",
+      "task": "percent",
+      "mode": "jev",
+      "ordinal": 11,
+      "started_at": "2026-11-11T23:49:46.252Z",
+      "events": [],
+      "setup_ms": 1046.4282499999972,
+      "actions": 0,
+      "chooser_calls": 1,
+      "decisions": [
+        {
+          "kind": "choice",
+          "ms": 67.56883300000118,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 830,
+            "output_tokens": 99
+          },
+          "confidence": 0.89,
+          "selected_probability": 0.9,
+          "available": 0.97,
+          "choice": "a2",
+          "candidate_count": 6
+        }
+      ],
+      "execution_ok": false,
+      "reason": "Chooser handed back or failed decision gates",
+      "outcome": "stopped",
+      "verified": false,
+      "verification_ms": 63.42570799999885,
+      "elapsed_ms": 186.79404100000102,
+      "ok": false,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎5"
+        },
+        "matched": false
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 55.43083300000217,
+          "runner_ms": 51,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 63.243374999998196,
+          "runner_ms": 57,
+          "bytes": 4818,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "06-percent-jev",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 48729,
+            "requested_ms": -70.18912499999715,
+            "completed_ms": -0.5191659999982221,
+            "capture_ms": 69.66995899999893
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 48729,
+            "requested_ms": 333.8695000000007,
+            "completed_ms": 407.643415999999,
+            "capture_ms": 73.77391599999828
+          }
+        ],
+        "frame_count": 2
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "06-percent-batch",
+      "task": "percent",
+      "mode": "batch",
+      "ordinal": 12,
+      "started_at": "2026-11-11T23:49:47.784Z",
+      "events": [],
+      "setup_ms": 1077.3787499999999,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "Five"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Zero"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Multiply"
+        },
+        {
+          "kind": "Key",
+          "identifier": "One"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Zero"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Percent"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 55.95966699999917,
+      "actions": 7,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "numeric_key_burst",
+          "steps": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "at_ms": 0.002958000000944594,
+          "ms": 720.5357919999988,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 59.53195799999958,
+      "elapsed_ms": 836.1669999999976,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎5"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 55.69237500000236,
+          "runner_ms": 51,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 720.0413750000007,
+          "runner_ms": 714,
+          "bytes": 5172,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 601.7,
+            "hold": 530,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 59.39279200000237,
+          "runner_ms": 55,
+          "bytes": 5172,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "06-percent-batch",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 48610,
+            "requested_ms": -120.69887500000186,
+            "completed_ms": -0.9964580000014394,
+            "capture_ms": 119.70241700000042
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 51156,
+            "requested_ms": 334.7704999999987,
+            "completed_ms": 403.698124999999,
+            "capture_ms": 68.92762500000026
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 50132,
+            "requested_ms": 739.4010419999977,
+            "completed_ms": 824.7344589999993,
+            "capture_ms": 85.33341700000165
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 50275,
+            "requested_ms": 1163.6645839999983,
+            "completed_ms": 1229.7648749999971,
+            "capture_ms": 66.10029099999883
+          }
+        ],
+        "frame_count": 4
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "07-chain-batch",
+      "task": "chain",
+      "mode": "batch",
+      "ordinal": 13,
+      "started_at": "2026-11-11T23:49:50.221Z",
+      "events": [],
+      "setup_ms": 1053.1850830000003,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "One"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Two"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Add"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Eight"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Multiply"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Three"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 59.53500000000349,
+      "actions": 8,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "numeric_key_burst",
+          "steps": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "at_ms": 0.002334000000701053,
+          "ms": 801.5032499999979,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 36.534999999999854,
+      "elapsed_ms": 897.6431250000023,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎60"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 59.38920900000085,
+          "runner_ms": 54,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 801.2997499999983,
+          "runner_ms": 796,
+          "bytes": 5168,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 647.8,
+            "hold": 610,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 36.39966699999786,
+          "runner_ms": 32,
+          "bytes": 5168,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "07-chain-batch",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 48690,
+            "requested_ms": -64.69404199999917,
+            "completed_ms": -0.8105419999992591,
+            "capture_ms": 63.88349999999991
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 48104,
+            "requested_ms": 335.06408400000146,
+            "completed_ms": 468.18366700000115,
+            "capture_ms": 133.1195829999997
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 51202,
+            "requested_ms": 802.9858340000028,
+            "completed_ms": 857.8335420000003,
+            "capture_ms": 54.84770799999751
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 51272,
+            "requested_ms": 1192.8117500000008,
+            "completed_ms": 1250.7596250000024,
+            "capture_ms": 57.94787500000166
+          }
+        ],
+        "frame_count": 4
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "07-chain-jev",
+      "task": "chain",
+      "mode": "jev",
+      "ordinal": 14,
+      "started_at": "2026-11-11T23:49:52.599Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 139.32579199999964,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "1",
+            "identifier": "One"
+          },
+          "ok": true,
+          "finished_ms": 503.02791699999943
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 564.6816669999971,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "2",
+            "identifier": "Two"
+          },
+          "ok": true,
+          "finished_ms": 924.1603749999995
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 1019.7326249999969,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Add",
+            "identifier": "Add"
+          },
+          "ok": true,
+          "finished_ms": 1380.0575419999986
+        }
+      ],
+      "setup_ms": 1085.409667,
+      "actions": 3,
+      "chooser_calls": 4,
+      "decisions": [
+        {
+          "kind": "choice",
+          "ms": 84.0002080000013,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 886,
+            "output_tokens": 107
+          },
+          "confidence": 0.98,
+          "selected_probability": 0.98,
+          "available": 0.98,
+          "choice": "a2",
+          "candidate_count": 7
+        },
+        {
+          "kind": "action",
+          "ms": 363.8005410000005,
+          "ok": true
+        },
+        {
+          "kind": "choice",
+          "ms": 61.201624999997875,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 917,
+            "output_tokens": 107
+          },
+          "confidence": 0.93,
+          "selected_probability": 0.94,
+          "available": 0.9,
+          "choice": "a3",
+          "candidate_count": 7
+        },
+        {
+          "kind": "action",
+          "ms": 359.58724999999686,
+          "ok": true
+        },
+        {
+          "kind": "choice",
+          "ms": 95.0689999999995,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 950,
+            "output_tokens": 107
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.91,
+          "choice": "a5",
+          "candidate_count": 7
+        },
+        {
+          "kind": "action",
+          "ms": 360.434874999999,
+          "ok": true
+        },
+        {
+          "kind": "choice",
+          "ms": 117.41262500000084,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 984,
+            "output_tokens": 107
+          },
+          "confidence": 0.87,
+          "selected_probability": 0.88,
+          "available": 0.98,
+          "choice": "a0",
+          "candidate_count": 7
+        }
+      ],
+      "execution_ok": false,
+      "reason": "Chooser handed back or failed decision gates",
+      "outcome": "stopped",
+      "verified": false,
+      "verification_ms": 63.56708399999843,
+      "elapsed_ms": 1561.4126249999972,
+      "ok": false,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎60"
+        },
+        "matched": false
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 54.7320830000026,
+          "runner_ms": 50,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 363.4677499999998,
+          "runner_ms": 358,
+          "bytes": 4842,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 274.6,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 359.25966699999844,
+          "runner_ms": 353,
+          "bytes": 4812,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 273.8,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 360.11199999999735,
+          "runner_ms": 354,
+          "bytes": 4847,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 276.2,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 63.315082999997685,
+          "runner_ms": 57,
+          "bytes": 4847,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "07-chain-jev",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 48621,
+            "requested_ms": -71.1832089999989,
+            "completed_ms": -0.9544999999998254,
+            "capture_ms": 70.22870899999907
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 48039,
+            "requested_ms": 336.0368329999983,
+            "completed_ms": 400.38166699999783,
+            "capture_ms": 64.34483399999954
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 49180,
+            "requested_ms": 735.0264579999966,
+            "completed_ms": 790.6229999999996,
+            "capture_ms": 55.596542000002955
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 48975,
+            "requested_ms": 1124.6394169999985,
+            "completed_ms": 1182.9853749999966,
+            "capture_ms": 58.34595799999806
+          },
+          {
+            "file": "0004.jpg",
+            "bytes": 49479,
+            "requested_ms": 1517.6763329999994,
+            "completed_ms": 1603.2797499999979,
+            "capture_ms": 85.60341699999844
+          },
+          {
+            "file": "0005.jpg",
+            "bytes": 49501,
+            "requested_ms": 1604.1573329999992,
+            "completed_ms": 1657.1010829999977,
+            "capture_ms": 52.943749999998545
+          }
+        ],
+        "frame_count": 6
+      },
+      "audio_after": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "08-clock-stopwatch-jev",
+      "task": "clock-stopwatch",
+      "mode": "jev",
+      "ordinal": 15,
+      "started_at": "2026-11-11T23:49:55.423Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 158.75033399999666,
+          "op": "tap",
+          "target": {
+            "kind": "Button",
+            "label": "Stopwatch"
+          },
+          "ok": true,
+          "finished_ms": 534.6507500000007
+        }
+      ],
+      "setup_ms": 1382.718208000002,
+      "actions": 1,
+      "chooser_calls": 1,
+      "decisions": [
+        {
+          "kind": "choice",
+          "ms": 93.37566699999297,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 761,
+            "output_tokens": 83
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.98,
+          "choice": "a2",
+          "candidate_count": 4
+        },
+        {
+          "kind": "action",
+          "ms": 376.01900000000023,
+          "ok": true
+        }
+      ],
+      "execution_ok": true,
+      "reason": "Completion predicate observed",
+      "outcome": "verified",
+      "verified": true,
+      "verification_ms": 59.10308300000179,
+      "elapsed_ms": 593.8943749999962,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.mobiletimer",
+        "selector": {
+          "kind": "Button",
+          "label": "Lap"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 64.78120800000033,
+          "runner_ms": 60,
+          "bytes": 4256,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 375.71345799999835,
+          "runner_ms": 370,
+          "bytes": 3233,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 292,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 58.99895799999649,
+          "runner_ms": 53,
+          "bytes": 3233,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "08-clock-stopwatch-jev",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 38089,
+            "requested_ms": -43.46858400000201,
+            "completed_ms": -1.1903340000062599,
+            "capture_ms": 42.27824999999575
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 37434,
+            "requested_ms": 334.33699999999953,
+            "completed_ms": 391.0844589999979,
+            "capture_ms": 56.747458999998344
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 28155,
+            "requested_ms": 727.7233339999948,
+            "completed_ms": 786.0623749999941,
+            "capture_ms": 58.33904099999927
+          }
+        ],
+        "frame_count": 3
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "08-clock-stopwatch-batch",
+      "task": "clock-stopwatch",
+      "mode": "batch",
+      "ordinal": 16,
+      "started_at": "2026-11-11T23:49:57.644Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 63.571083000002545,
+          "op": "tap",
+          "target": {
+            "kind": "Button",
+            "label": "Stopwatch"
+          },
+          "ok": true,
+          "finished_ms": 420.83437499999854
+        }
+      ],
+      "setup_ms": 582.7139580000003,
+      "plan": [
+        {
+          "kind": "Button",
+          "label": "Stopwatch"
+        }
+      ],
+      "execution_started_ms": 63.443874999997206,
+      "actions": 1,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 357.33366699999897,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 55.656457999997656,
+      "elapsed_ms": 476.51224999999977,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.mobiletimer",
+        "selector": {
+          "kind": "Button",
+          "label": "Lap"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 63.21150000000489,
+          "runner_ms": 59,
+          "bytes": 4256,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 357.0749169999981,
+          "runner_ms": 352,
+          "bytes": 3233,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 282.7,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 55.493875000000116,
+          "runner_ms": 51,
+          "bytes": 3233,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "08-clock-stopwatch-batch",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 37488,
+            "requested_ms": -46.1472089999952,
+            "completed_ms": -1.0338339999943855,
+            "capture_ms": 45.113375000000815
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 31968,
+            "requested_ms": 333.25491599999805,
+            "completed_ms": 386.21866600000067,
+            "capture_ms": 52.96375000000262
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 28041,
+            "requested_ms": 722.7174159999995,
+            "completed_ms": 790.7597909999968,
+            "capture_ms": 68.04237499999726
+          }
+        ],
+        "frame_count": 3
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "09-clock-world-clock-batch",
+      "task": "clock-world-clock",
+      "mode": "batch",
+      "ordinal": 17,
+      "started_at": "2026-11-11T23:49:59.071Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 56.486415999999736,
+          "op": "tap",
+          "target": {
+            "kind": "Button",
+            "label": "World Clock"
+          },
+          "ok": true,
+          "finished_ms": 436.89141599999857
+        }
+      ],
+      "setup_ms": 565.4744159999973,
+      "plan": [
+        {
+          "kind": "Button",
+          "label": "World Clock"
+        }
+      ],
+      "execution_started_ms": 56.378333000000566,
+      "actions": 1,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 380.45100000000093,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 53.81858300000022,
+      "elapsed_ms": 490.7281660000008,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.mobiletimer",
+        "selector": {
+          "kind": "NavigationBar",
+          "label": "World Clock"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 56.12691700000141,
+          "runner_ms": 51,
+          "bytes": 3233,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 380.1010000000024,
+          "runner_ms": 374,
+          "bytes": 4256,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 271.1,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 53.64691599999787,
+          "runner_ms": 48,
+          "bytes": 4256,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "09-clock-world-clock-batch",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 28226,
+            "requested_ms": -55.595500000003085,
+            "completed_ms": -1.0080410000009579,
+            "capture_ms": 54.58745900000213
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 37982,
+            "requested_ms": 334.29479100000026,
+            "completed_ms": 383.66387499999837,
+            "capture_ms": 49.36908399999811
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 37882,
+            "requested_ms": 719.8941659999982,
+            "completed_ms": 776.2946250000023,
+            "capture_ms": 56.40045900000405
+          }
+        ],
+        "frame_count": 3
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "09-clock-world-clock-jev",
+      "task": "clock-world-clock",
+      "mode": "jev",
+      "ordinal": 18,
+      "started_at": "2026-11-11T23:50:00.478Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 137.12904200000048,
+          "op": "tap",
+          "target": {
+            "kind": "Button",
+            "label": "World Clock"
+          },
+          "ok": true,
+          "finished_ms": 511.72483400000056
+        }
+      ],
+      "setup_ms": 570.6100000000006,
+      "actions": 1,
+      "chooser_calls": 1,
+      "decisions": [
+        {
+          "kind": "choice",
+          "ms": 86.89337499999965,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 715,
+            "output_tokens": 83
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.98,
+          "choice": "a0",
+          "candidate_count": 4
+        },
+        {
+          "kind": "action",
+          "ms": 374.6872500000027,
+          "ok": true
+        }
+      ],
+      "execution_ok": true,
+      "reason": "Completion predicate observed",
+      "outcome": "verified",
+      "verified": true,
+      "verification_ms": 64.76883299999463,
+      "elapsed_ms": 576.6857499999969,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.mobiletimer",
+        "selector": {
+          "kind": "NavigationBar",
+          "label": "World Clock"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 49.80095799999981,
+          "runner_ms": 45,
+          "bytes": 3233,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 374.37766700000066,
+          "runner_ms": 369,
+          "bytes": 4196,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 280.7,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 64.62529099999665,
+          "runner_ms": 60,
+          "bytes": 4196,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "09-clock-world-clock-jev",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 28005,
+            "requested_ms": -53.97745800000121,
+            "completed_ms": -0.9561669999966398,
+            "capture_ms": 53.02129100000457
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 37280,
+            "requested_ms": 333.88370900000155,
+            "completed_ms": 388.3179170000003,
+            "capture_ms": 54.43420799999876
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 37906,
+            "requested_ms": 723.5494590000017,
+            "completed_ms": 780.8767499999958,
+            "capture_ms": 57.32729099999415
+          }
+        ],
+        "frame_count": 3
+      },
+      "audio_after": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "10-settings-general-jev",
+      "task": "settings-general",
+      "mode": "jev",
+      "ordinal": 19,
+      "started_at": "2026-11-11T23:50:01.892Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 171.33245899999747,
+          "op": "tap",
+          "target": {
+            "kind": "Button",
+            "label": "General",
+            "identifier": "com.apple.settings.general"
+          },
+          "ok": true,
+          "finished_ms": 693.6992919999975
+        }
+      ],
+      "setup_ms": 2371.0166249999966,
+      "actions": 1,
+      "chooser_calls": 1,
+      "decisions": [
+        {
+          "kind": "choice",
+          "ms": 78.70954199999687,
+          "model": "jev-1.14.0",
+          "usage": {
+            "input_tokens": 749,
+            "output_tokens": 67
+          },
+          "confidence": 1,
+          "selected_probability": 1,
+          "available": 0.98,
+          "choice": "a0",
+          "candidate_count": 2
+        },
+        {
+          "kind": "action",
+          "ms": 522.4829580000005,
+          "ok": true
+        }
+      ],
+      "execution_ok": true,
+      "reason": "Completion predicate observed",
+      "outcome": "verified",
+      "verified": true,
+      "verification_ms": 174.73166700000002,
+      "elapsed_ms": 869.0805419999961,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.Preferences",
+        "selector": {
+          "kind": "NavigationBar",
+          "label": "General"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 91.76854199999798,
+          "runner_ms": 87,
+          "bytes": 15256,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 521.9100830000025,
+          "runner_ms": 514,
+          "bytes": 23856,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 292.4,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 174.4205409999995,
+          "runner_ms": 169,
+          "bytes": 22808,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "10-settings-general-jev",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 52836,
+            "requested_ms": -70.99587500000052,
+            "completed_ms": -1.088208000001032,
+            "capture_ms": 69.90766699999949
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 52434,
+            "requested_ms": 335.30949999999575,
+            "completed_ms": 397.49633399999584,
+            "capture_ms": 62.18683400000009
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 51238,
+            "requested_ms": 734.2887919999994,
+            "completed_ms": 880.2430000000022,
+            "capture_ms": 145.95420800000284
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 50522,
+            "requested_ms": 881.8782500000016,
+            "completed_ms": 920.5961669999961,
+            "capture_ms": 38.717916999994486
+          }
+        ],
+        "frame_count": 4
+      },
+      "audio_after": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "10-settings-general-batch",
+      "task": "settings-general",
+      "mode": "batch",
+      "ordinal": 20,
+      "started_at": "2026-11-11T23:50:05.262Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 105.93745900000067,
+          "op": "tap",
+          "target": {
+            "kind": "Button",
+            "label": "General",
+            "identifier": "com.apple.settings.general"
+          },
+          "ok": true,
+          "finished_ms": 610.9759170000034
+        }
+      ],
+      "setup_ms": 1274.8320000000022,
+      "plan": [
+        {
+          "kind": "Button",
+          "identifier": "com.apple.settings.general"
+        }
+      ],
+      "execution_started_ms": 105.82779200000368,
+      "actions": 1,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 505.11741600000096,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 163.1229999999996,
+      "elapsed_ms": 774.1155839999992,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.Preferences",
+        "selector": {
+          "kind": "NavigationBar",
+          "label": "General"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 105.69662500000413,
+          "runner_ms": 102,
+          "bytes": 15256,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 504.67425000000367,
+          "runner_ms": 499,
+          "bytes": 23858,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 274.4,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 162.82766699999775,
+          "runner_ms": 157,
+          "bytes": 22808,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "10-settings-general-batch",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 52490,
+            "requested_ms": -58.789708000003884,
+            "completed_ms": -0.5698330000013812,
+            "capture_ms": 58.2198750000025
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 63924,
+            "requested_ms": 334.89512500000274,
+            "completed_ms": 388.03975000000355,
+            "capture_ms": 53.144625000000815
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 51066,
+            "requested_ms": 722.0535000000018,
+            "completed_ms": 783.0300839999982,
+            "capture_ms": 60.976583999996365
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 50522,
+            "requested_ms": 784.0481670000008,
+            "completed_ms": 826.1259170000048,
+            "capture_ms": 42.077750000004016
+          }
+        ],
+        "frame_count": 4
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    }
+  ],
+  "key_bursts_enabled": true,
+  "jev_scope": "Unique keys required by this task; no ordering supplied to chooser",
+  "source_dirty": true,
+  "source_files_sha256": {
+    "src/driver.mjs": "f4c7b5d2ae72f0370d6e4fc1dd39f46eb77289f39e5828ef770d6f256230b7eb",
+    "src/jev.mjs": "e376c283aaa5c2710c959dcaf62b305b110315be653da4ce330acb45ce55ffac",
+    "src/cli.mjs": "18de60674e4b49ad88283b0354a879ea5aff124b5f22c8472d2fcf321fcd9ab2",
+    "vendor/iphone-use/runner/IPhoneUseRunner/IPhoneUseRunnerUITests/RunnerTests.swift": "517d3dbb80c03c83e8e1701243c2cc294f816631f71ba92bd7c774c7a4079f13",
+    "vendor/iphone-use/runner/IPhoneUseRunner/IPhoneUseRunnerUITests/IPURBridge.m": "52824337ffb36902dc14b7190c978da076eef1e7d8f1f9a6056cfbeb6de8e2d4"
+  },
+  "finished_at": "2026-11-11T23:50:07.431Z"
+}

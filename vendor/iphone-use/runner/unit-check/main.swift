@@ -946,6 +946,16 @@ do {
   check(refused(target(-1)), "Sprint refuses partially off-screen target without scrolling")
   check(refused(target(Double.nan)), "Sprint refuses non-finite frame")
   check(refused(target(pid: 4)), "Sprint refuses changed process")
+  func key(_ label: String, _ identifier: String, type: String = "Key") -> UINode {
+    UINode(raw: ["type": "XCUIElementType" + type, "label": label, "rawIdentifier": identifier], parent: nil, pid: 3)
+  }
+  check(SprintTargetAdmission.numericKey(key("7", "Seven")), "Numeric burst accepts a current digit Key")
+  check(SprintTargetAdmission.numericKey(key("Add", "Add")), "Numeric burst accepts Calculator's semantic Add label")
+  check(SprintTargetAdmission.numericKey(key("Equals", "Equals")), "Numeric burst accepts Calculator's semantic Equals label")
+  check(SprintTargetAdmission.numericKey(key("Point", "Decimal")), "Numeric burst accepts the observed decimal identifier")
+  check(!SprintTargetAdmission.numericKey(key("Send", "Add")), "Numeric burst refuses changed operator meaning")
+  check(!SprintTargetAdmission.numericKey(key("7", "Seven", type: "Button")), "Numeric burst refuses a non-Key control")
+  check(!SprintTargetAdmission.numericKey(key("Delete", "Delete")), "Numeric burst refuses deletion controls")
 }
 
 print(failures == 0 ? "unit check: \(checks) checks passed" : "unit check: \(failures) of \(checks) checks FAILED")

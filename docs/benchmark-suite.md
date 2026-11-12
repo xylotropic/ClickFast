@@ -22,10 +22,10 @@ The encoder was checked with an explicitly labeled, ignored fixture using an old
 
 ## Current evidence
 
-[Ten live chooser decisions](../benchmarks/runs/2026-11-11T21-17-39-491Z-decisions/comparison.md) completed on synthetic states. Physical recordings remain incomplete: the phone disconnected during setup, and the user confirmed the USB cable is unavailable. Xcode also reported the existing wireless pairing unreachable. Both failed setup sessions remain in `benchmarks/runs/`; neither contains a completed timed phone task. The earlier authorization failure does not establish its cause.
+The wired suite is now complete. [Ten Operator/Mirroring pairs](../benchmarks/runs/2026-11-11-operator-vs-mirroring/comparison.md) passed on both paths, with recordings. The controlled numeric-burst on/off run passed20/20. The stricter JEV suite passed4/10 and handed back on six. [Findings, failures and exact boundaries](operator-performance.md).
 
-Apple supports launching apps over a network after pairing: [Run an app on a wireless device](https://help.apple.com/xcode/mac/current/en.lproj/dev3e2f4ee6d.html). This session could not verify a wireless connection.
+`node scripts/benchmark-suite.mjs --ab-bursts` runs the native on/off comparison without a model key. `--scoped-jev` records a narrower task-specific candidate set; it is a different experiment and must be labeled. Arithmetic completion requires a visible result and the last submitted Equals tap.
 
-## Later real-phone wireless evidence
+`scripts/mirroring-app-benchmark.mjs` is a benchmark helper loaded inside an authorized CUA session with a supplied App handle. It does not provide an external UI driver. Setup must independently verify the ready state. The exporter writes inspected, masked public videos; originals remain local.
 
-The native suite above remains incomplete. A separate Apple Mirroring text-input suite subsequently completed ten actual Spotlight tasks and a 10/10 pinned confirmation, with original frames and paired video comparisons. [Results](../benchmarks/runs/2026-11-11-wireless-phone/comparison.md), [working route and remaining limitations](wireless.md). These are real phone results with different tasks and timing boundaries from the native Calculator suite.
+Earlier disconnected native attempts and later wireless Spotlight trials remain historical evidence with different tasks and timing boundaries. They do not override the current wired results.

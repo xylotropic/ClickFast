@@ -1,5 +1,7 @@
 # Measurement status
 
+**Latest:** [Ten matched Operator/Mirroring recordings](runs/2026-11-11-operator-vs-mirroring/comparison.md),10/10 on both paths;7.46s versus30.53s total warm time. Controlled native burst comparison20/20,2.85× less total time across seven calculations. Strict JEV suite4/10. [Method and failure audit](../docs/operator-performance.md). Earlier sections below are historical and use different boundaries.
+
 A physical iPhone 16 Pro Max running iOS26.5 was tested with Xcode26.5. Mirroring and the native controller were isolated for valid measurements. These are small exploratory samples, not a universal performance claim.
 
 ## Active benchmark: Calculator
@@ -70,7 +72,7 @@ No result here establishes all-app correctness, a whole-posting-task speedup, JE
 - [Ten live synthetic-state JEV decisions](runs/2026-11-11T21-17-39-491Z-decisions/comparison.md): 10/10 correct choices, 9/10 accepted by the existing 0.9 gate. Median API latency 101.8 ms. Full fixture/response logs and CSV saved. No phone input or real-device speed claim.
 - Ten physical task pairs with video were prepared. Two setup sessions failed before any timed task completed. The user confirmed the cable is unavailable; paired wireless discovery remains unreachable. No new phone videos or completed task measurements are claimed.
 - Recorder/encoder fixture check: two videos and one paired comparison produced and decoded; this is pipeline validation with an old public image, not a fresh device recording.
-- Repository brand: flick; original monochrome SVG mark and wordmark in docs/brand. Stable sprint APIs and native runner identifiers retained.
+- Historical repository brand: flick; current name is Operator. original monochrome SVG mark and wordmark in docs/brand. Stable sprint APIs and native runner identifiers retained.
 
 ## Real wireless phone confirmation
 

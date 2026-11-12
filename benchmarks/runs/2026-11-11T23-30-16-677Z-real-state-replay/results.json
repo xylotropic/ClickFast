@@ -1,0 +1,192 @@
+{
+  "current_source_sha256": "3a8fa769b7d4d1bec5b11aac90e2021ec3f4c07d951c9b70d2897c161fb72416",
+  "harness_sha256": "08db83815bdc68c657c424e0c6dcbec3b1747d6d2c377658ac2f6d2cf412031a",
+  "schema": 1,
+  "kind": "Live JEV replay of real phone AX captures; no phone input",
+  "reference_source": "c7fd99ebd4fdd7440ea3f64a4a539e988a9d903e",
+  "phone_source_session": "2026-11-11T23-14-50-827Z",
+  "started_at": "2026-11-11T23:30:16.677Z",
+  "runs": [
+    {
+      "task": "subtract",
+      "mode": "before",
+      "elapsed_ms": 156.308875,
+      "expected_identifier": "Eight",
+      "selected_identifier": "Eight",
+      "choice": "a5",
+      "confidence": 0.78,
+      "selected_probability": 0.79,
+      "available": 0.96,
+      "model": "jev-1.14.0",
+      "usage": {
+        "input_tokens": 2204,
+        "output_tokens": 221
+      },
+      "correct": true,
+      "passes_gate": false
+    },
+    {
+      "task": "subtract",
+      "mode": "current",
+      "elapsed_ms": 49.59379200000001,
+      "expected_identifier": "Eight",
+      "selected_identifier": "Eight",
+      "choice": "a5",
+      "confidence": 0.95,
+      "selected_probability": 0.95,
+      "available": 0.93,
+      "model": "jev-1.14.0",
+      "usage": {
+        "input_tokens": 1557,
+        "output_tokens": 221
+      },
+      "correct": true,
+      "passes_gate": true
+    },
+    {
+      "task": "divide",
+      "mode": "current",
+      "elapsed_ms": 66.453958,
+      "expected_identifier": "Eight",
+      "selected_identifier": "Eight",
+      "choice": "a4",
+      "confidence": 0.9,
+      "selected_probability": 0.9,
+      "available": 0.98,
+      "model": "jev-1.14.0",
+      "usage": {
+        "input_tokens": 1529,
+        "output_tokens": 221
+      },
+      "correct": true,
+      "passes_gate": true
+    },
+    {
+      "task": "divide",
+      "mode": "before",
+      "elapsed_ms": 60.485749999999996,
+      "expected_identifier": "Eight",
+      "selected_identifier": "Eight",
+      "choice": "a4",
+      "confidence": 0.83,
+      "selected_probability": 0.84,
+      "available": 0.92,
+      "model": "jev-1.14.0",
+      "usage": {
+        "input_tokens": 2178,
+        "output_tokens": 221
+      },
+      "correct": true,
+      "passes_gate": false
+    },
+    {
+      "task": "decimal",
+      "mode": "before",
+      "elapsed_ms": 51.47841599999998,
+      "expected_identifier": "Two",
+      "selected_identifier": "Two",
+      "choice": "a13",
+      "confidence": 0.82,
+      "selected_probability": 0.83,
+      "available": 0.92,
+      "model": "jev-1.14.0",
+      "usage": {
+        "input_tokens": 2376,
+        "output_tokens": 222
+      },
+      "correct": true,
+      "passes_gate": false
+    },
+    {
+      "task": "decimal",
+      "mode": "current",
+      "elapsed_ms": 69.03408400000001,
+      "expected_identifier": "Two",
+      "selected_identifier": "Two",
+      "choice": "a13",
+      "confidence": 0.93,
+      "selected_probability": 0.93,
+      "available": 0.99,
+      "model": "jev-1.14.0",
+      "usage": {
+        "input_tokens": 1729,
+        "output_tokens": 222
+      },
+      "correct": true,
+      "passes_gate": true
+    },
+    {
+      "task": "percent",
+      "mode": "current",
+      "elapsed_ms": 108.36358299999995,
+      "expected_identifier": "Five",
+      "selected_identifier": "Five",
+      "choice": "a8",
+      "confidence": 0.84,
+      "selected_probability": 0.85,
+      "available": 0.98,
+      "model": "jev-1.14.0",
+      "usage": {
+        "input_tokens": 1530,
+        "output_tokens": 221
+      },
+      "correct": true,
+      "passes_gate": false
+    },
+    {
+      "task": "percent",
+      "mode": "before",
+      "elapsed_ms": 56.19450000000006,
+      "expected_identifier": "Five",
+      "selected_identifier": "Five",
+      "choice": "a8",
+      "confidence": 0.86,
+      "selected_probability": 0.87,
+      "available": 0.92,
+      "model": "jev-1.14.0",
+      "usage": {
+        "input_tokens": 2179,
+        "output_tokens": 221
+      },
+      "correct": true,
+      "passes_gate": false
+    },
+    {
+      "task": "chain",
+      "mode": "before",
+      "elapsed_ms": 55.04937499999994,
+      "expected_identifier": "Two",
+      "selected_identifier": "One",
+      "choice": "a19",
+      "confidence": 0.44,
+      "selected_probability": 0.47,
+      "available": 0.9,
+      "model": "jev-1.14.0",
+      "usage": {
+        "input_tokens": 2212,
+        "output_tokens": 222
+      },
+      "correct": false,
+      "passes_gate": false
+    },
+    {
+      "task": "chain",
+      "mode": "current",
+      "elapsed_ms": 81.02808399999992,
+      "expected_identifier": "Two",
+      "selected_identifier": "Two",
+      "choice": "a12",
+      "confidence": 0.7,
+      "selected_probability": 0.71,
+      "available": 0.95,
+      "model": "jev-1.14.0",
+      "usage": {
+        "input_tokens": 1565,
+        "output_tokens": 222
+      },
+      "correct": true,
+      "passes_gate": false
+    }
+  ],
+  "finished_at": "2026-11-11T23:30:17.443Z"
+}

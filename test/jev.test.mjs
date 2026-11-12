@@ -10,6 +10,7 @@ test('JEV uses the primary API shape and sends only bounded candidate labels',as
  const s=screen();s.elements[0].value='private field value';
  const result=await chooser.choose({goal:'Open editor',observation:s,candidates:s.elements,history:[]});
  assert.equal(result.choice,'a0');assert.equal(sent.questions.available.type,'noul');assert.ok(!JSON.stringify(sent).includes('private field value'));
+ assert.equal(sent.state.controls.a0.label,'Next');
 });
 test('a malformed or fabricated JEV action is refused',async()=>{
  const chooser=new JevChooser({apiKey:'test-key',fetchImpl:async()=>({ok:true,text:async()=>JSON.stringify(body('invented'))})});
@@ -24,6 +25,15 @@ test('one bounded chooser action succeeds only after its independent predicate a
 });
 test('JEV DONE cannot substitute for a visible result',async()=>{
  const c=fakeController();const result=await runLocalGoal(c,options,{chooser:{choose:async()=>({...decision,choice:'DONE'})}});assert.equal(result.ok,false);assert.equal(c.inputs,0);
+});
+test('a matching intermediate value cannot finish before the required submit action',async()=>{
+ const c=fakeController();c.observe=async function(){return this.current=screen('Next');};
+ const result=await runLocalGoal(c,{...options,until:{selector:{label:'Next'},after_action:{label:'Equals'}}},{chooser:{choose:async()=>({...decision,choice:'DONE'})}});
+ assert.equal(result.ok,false);assert.equal(result.chooser_calls,1);assert.equal(c.inputs,0);
+});
+test('completion can require both a submitted action and its visible result',async()=>{
+ const c=fakeController();const result=await runLocalGoal(c,{...options,until:{selector:{label:'Editor'},after_action:{label:'Next'}}},{chooser:{choose:async()=>decision}});
+ assert.equal(result.ok,true);assert.equal(c.inputs,1);
 });
 test('a low-confidence decision and protected publication target send no input',async()=>{
  const c=fakeController();let result=await runLocalGoal(c,options,{chooser:{choose:async()=>({...decision,available:0.5})}});assert.equal(result.ok,false);assert.equal(c.inputs,0);

@@ -1,0 +1,6 @@
+{
+  "percent_jev": {
+    "valid_completion": false,
+    "reason": "Original completion predicate accepted the intermediate entry 5 after one key. Equals and the requested expression were not executed. Raw original result is retained; exclude it from successful task counts."
+  }
+}

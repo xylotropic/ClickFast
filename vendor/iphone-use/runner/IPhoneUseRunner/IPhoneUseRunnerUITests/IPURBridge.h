@@ -256,6 +256,9 @@ FOUNDATION_EXPORT NSString *const IPURNodeAXElementKey;
 /// cached outputVolume, this reads the system controller. nil means unavailable.
 + (nullable NSNumber *)systemMediaVolume;
 
+/// One bounded, app-targeted gesture for an already validated numeric keypad.
++ (nullable NSString *)synthesizeKeyTaps:(NSArray<NSValue *> *)points pid:(int)pid;
+
 @end
 
 NS_ASSUME_NONNULL_END

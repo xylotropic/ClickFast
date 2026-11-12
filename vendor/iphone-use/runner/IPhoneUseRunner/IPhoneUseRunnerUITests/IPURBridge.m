@@ -60,6 +60,7 @@ typedef void (*IPURMsgSendTypeText)(id, SEL, NSString *, double, unsigned long l
 @property(nonatomic, strong) id snapshot;
 @property(nonatomic, strong) NSMutableDictionary *node;
 @property(nonatomic, assign) NSInteger depth;
+
 @end
 
 @implementation IPURFrontier
@@ -987,6 +988,24 @@ static NSString *IPURSynthesize(id record, id path)
 + (nullable NSString *)synthesizeTapAt:(CGPoint)point pid:(int)pid
 {
   return [self synthesizeLongPressAt:point duration:0.05 pid:pid name:@"ipu-tap"];
+}
+
++ (nullable NSString *)synthesizeKeyTaps:(NSArray<NSValue *> *)points pid:(int)pid
+{
+  if (points.count < 2 || points.count > 8 || pid <= 0) return @"invalid numeric key burst";
+  id record = nil;
+  NSString *failure = IPURCreateGestureRecord(@"operator-numeric-keys", pid, &record);
+  if (failure) return failure;
+  SEL add = NSSelectorFromString(@"addPointerEventPath:");
+  for (NSUInteger i = 0; i < points.count; i++) {
+    double start = i * 0.08;
+    id path = IPURNewTouchPath(points[i].CGPointValue, start);
+    IPURLift(path, start + 0.05);
+    ((IPURMsgSendAddPath)objc_msgSend)(record, add, path);
+  }
+  [self invalidateRequestCache];
+  NSError *error = nil;
+  return IPURSynthesizeRecord(record, &error) ? nil : (error.localizedDescription ?: @"numeric key burst delivery unknown");
 }
 
 + (nullable NSString *)synthesizeLongPressAt:(CGPoint)point duration:(NSTimeInterval)duration pid:(int)pid

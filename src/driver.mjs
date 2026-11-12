@@ -1,6 +1,7 @@
 import http from 'node:http';
 import { createHash, createHmac, randomBytes } from 'node:crypto';
 import { performance } from 'node:perf_hooks';
+const numericOperators={Add:'Add',Subtract:'Subtract',Multiply:'Multiply',Divide:'Divide',Equals:'Equals',Decimal:'Point',Percent:'Percent'};
 
 export function authorization(token, method, target, body, ts = Math.floor(Date.now()/1000), nonce = randomBytes(16).toString('hex')) {
   const digest = createHash('sha256').update(body).digest('hex');
@@ -35,6 +36,8 @@ export class Runner {
           try {
             const json=JSON.parse(Buffer.concat(chunks).toString('utf8'));
             const record={path,ms:performance.now()-started,runner_ms:Number(response.headers['x-ipu-ms'])||null,bytes:length,status:response.statusCode};
+            const synthesis=Object.fromEntries(['orientation','build','wait','hold','calls'].filter(k=>response.headers['x-ipu-synth-'+k+(k==='calls'?'':'-ms')]!==undefined).map(k=>[k,Number(response.headers['x-ipu-synth-'+k+(k==='calls'?'':'-ms')])]));
+            if(Object.keys(synthesis).length)record.synthesis=synthesis;
             this.trace.push(record);if(this.trace.length>500)this.trace.shift();
             if(response.statusCode>=400 || json.value?.error){
               const error=new Error(json.value?.message || `HTTP ${response.statusCode}`);
@@ -66,7 +69,20 @@ export function select(snapshot,selector,{actionable=false}={}){
   return rows[0];
 }
 export class Controller {
-  constructor(runner){this.runner=runner;this.current=null;}
+  constructor(runner,{keyBursts=true}={}){this.runner=runner;this.current=null;this.keyBursts=keyBursts;}
+  numericGroup(steps,index){
+    if(!this.keyBursts||this.current?.key_burst!==1||this.current.elements.some(r=>r.kind==='SecureTextField'))return [];
+    const targets=[];
+    for(const step of steps.slice(index,index+8)){
+      if(step.op!=='tap'||step.expect||step.observe===false||step.timeout_ms)break;
+      let row;
+      if(step.ref){if(step.snapshot!==this.current.snapshot)break;row=this.current.elements.find(r=>r.ref===step.ref);}
+      else {if(!step.selector)break;const rows=this.current.elements.filter(r=>r.ref&&r.enabled!==false&&matches(r,step.selector));if(rows.length!==1)break;row=rows[0];}
+      if(!row||row.kind!=='Key'||row.enabled===false||typeof row.label!=='string'||(!/^([0-9]|[+−\-×÷*/%=.,])$/.test(row.label.trim())&&numericOperators[row.identifier]!==row.label.trim()))break;
+      targets.push(row);
+    }
+    return targets.length>=2?targets:[];
+  }
   adopt(result) {
     if(!result || typeof result.snapshot!=='string'||!Array.isArray(result.elements))throw new Error('Runner returned an invalid observation');
     result.elements=result.elements.map((row,index)=>row.ref?{...row,native_ref:row.ref,ref:`${result.snapshot.slice(0,8)}:${index}`} : row);
@@ -160,8 +176,19 @@ export class Controller {
     const started=performance.now();const completed=[],timings=[];
     for(let index=0;index<steps.length;index++){
       const stepStarted=performance.now();
+      let group=[];
       try{
         stop.throwIfAborted();const step=steps[index];
+        if(!this.current&&step.op==='tap'&&steps.length-index>1)await this.observe({signal:stop});
+        group=this.numericGroup(steps,index);
+        if(group.length){
+          const snapshot=this.current.snapshot;this.current=null;
+          const result=await this.runner.call('/sprint/act',{path:'/sprint/key-burst',body:{ids:group.map(r=>r.native_ref||r.ref)},snapshot,observe:true},{signal:stop});
+          this.adopt(result);
+          const indexes=group.map((_,offset)=>index+offset);completed.push(...indexes);
+          timings.push({step:index,op:'numeric_key_burst',steps:indexes,at_ms:stepStarted-started,ms:performance.now()-stepStarted,success:true});
+          index+=group.length-1;continue;
+        }
         if(step.op==='wait')await this.wait(step.expect,{signal:stop,timeout:step.timeout_ms??5000});
         else if(step.op==='observe')await this.observe({signal:stop});
         else await this.act(step,{signal:stop});
@@ -172,6 +199,7 @@ export class Controller {
         const lastSeen=this.current||error.observation||null;
         this.current=null;
         return {ok:false,completed,timings,failed_step:index,error:error.message,outcome:error.outcome||'stopped',
+          ...(group.length?{uncertain_steps:group.map((_,offset)=>index+offset)}:{}),
           observation:lastSeen?{...lastSeen,stale:true}:null,elapsed_ms:performance.now()-started};
       }
     }

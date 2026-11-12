@@ -1,0 +1,4108 @@
+{
+  "schema": 1,
+  "id": "2026-11-11T23-48-27-389Z",
+  "created_at": "2026-11-11T23:48:27.390Z",
+  "source_commit": "1c7360f1eb80ebda3580eb31e1200b5d3a873f00",
+  "harness_sha256": "b444a094d9bd4dcc9c1e76cfbca02017601f430c85d41666c9ccecbde340b353",
+  "environment": {
+    "node": "v24.14.0",
+    "os": "iOS 26.5",
+    "device": "iPhone 16 Pro Max",
+    "transport": "USB",
+    "audio": "Media volume verified zero before each run"
+  },
+  "method": {
+    "modes": [
+      "single_tap",
+      "burst"
+    ],
+    "order": "Alternated per task",
+    "repeats_per_mode_per_task": 1,
+    "recording": "Native screenshots at at most 3 fps, 1000px long edge, JPEG quality 0.65. Separate HTTP connection/capture lane. No audio. Capture timestamps recorded; encoding happens after all measurements.",
+    "timing": "After reset and initial video frame: fresh observation, actions, independent fresh AX verification. Recording continues during both modes. Reset, launch, first camera frame and encoding excluded; setup duration recorded separately.",
+    "limits": "Paired numeric-burst on/off comparison through the same native runner and verifier. Known action sequences, not a planner comparison or a human benchmark. One pair per task; all failures retained."
+  },
+  "tasks": [
+    {
+      "name": "add",
+      "expression": "7 + 8",
+      "expected": "15",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 7 + 8 in Calculator and press Equals. Finish with the displayed result 15.",
+      "expected_actions": 4,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎15"
+        }
+      }
+    },
+    {
+      "name": "subtract",
+      "expression": "48 − 19",
+      "expected": "29",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 48 − 19 in Calculator and press Equals. Finish with the displayed result 29.",
+      "expected_actions": 6,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎29"
+        }
+      }
+    },
+    {
+      "name": "multiply",
+      "expression": "6 × 7",
+      "expected": "42",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 6 × 7 in Calculator and press Equals. Finish with the displayed result 42.",
+      "expected_actions": 4,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎42"
+        }
+      }
+    },
+    {
+      "name": "divide",
+      "expression": "81 ÷ 9",
+      "expected": "9",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 81 ÷ 9 in Calculator and press Equals. Finish with the displayed result 9.",
+      "expected_actions": 5,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎9"
+        }
+      }
+    },
+    {
+      "name": "decimal",
+      "expression": "1.5 + 2.25",
+      "expected": "3.75",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 1.5 + 2.25 in Calculator and press Equals. Finish with the displayed result 3.75.",
+      "expected_actions": 9,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎3.75"
+        }
+      }
+    },
+    {
+      "name": "percent",
+      "expression": "50 × 10%",
+      "expected": "5",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 50 × 10% in Calculator and press Equals. Finish with the displayed result 5.",
+      "expected_actions": 7,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎5"
+        }
+      }
+    },
+    {
+      "name": "chain",
+      "expression": "(12 + 8) × 3",
+      "expected": "60",
+      "app": "com.apple.calculator",
+      "goal": "Calculate 12 plus 8, press Equals, then multiply that result by 3 and press Equals. Finish with the displayed result 60.",
+      "expected_actions": 8,
+      "verification": {
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎60"
+        }
+      }
+    },
+    {
+      "name": "clock-stopwatch",
+      "app": "com.apple.mobiletimer",
+      "start": "World Clock",
+      "goal": "Switch Clock from World Clock to Stopwatch. Only change tabs; do not start, stop, reset, add or edit anything.",
+      "expected_actions": 1,
+      "verification": {
+        "selector": {
+          "kind": "Button",
+          "label": "Lap"
+        }
+      }
+    },
+    {
+      "name": "clock-world-clock",
+      "app": "com.apple.mobiletimer",
+      "start": "Stopwatch",
+      "goal": "Switch Clock from Stopwatch to World Clock. Only change tabs; do not add, remove or edit anything.",
+      "expected_actions": 1,
+      "verification": {
+        "selector": {
+          "kind": "NavigationBar",
+          "label": "World Clock"
+        }
+      }
+    },
+    {
+      "name": "settings-general",
+      "app": "com.apple.Preferences",
+      "goal": "Open General in Settings. Do not change any setting.",
+      "expected_actions": 1,
+      "verification": {
+        "selector": {
+          "kind": "NavigationBar",
+          "label": "General"
+        }
+      }
+    }
+  ],
+  "runs": [
+    {
+      "name": "01-add-single_tap",
+      "task": "add",
+      "mode": "single_tap",
+      "ordinal": 1,
+      "started_at": "2026-11-11T23:48:27.477Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 54.56337499999995,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "7",
+            "identifier": "Seven"
+          },
+          "ok": true,
+          "finished_ms": 407.2479579999999
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 407.35525000000007,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Add",
+            "identifier": "Add"
+          },
+          "ok": true,
+          "finished_ms": 766.7417500000001
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 766.7790409999998,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "8",
+            "identifier": "Eight"
+          },
+          "ok": true,
+          "finished_ms": 1116.2358330000002
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 1116.2577499999998,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Equals",
+            "identifier": "Equals"
+          },
+          "ok": true,
+          "finished_ms": 1479.7252079999998
+        }
+      ],
+      "setup_ms": 1142.5017500000001,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "Seven"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Add"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Eight"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 54.451082999999926,
+      "actions": 4,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 352.7076669999999,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "tap",
+          "ms": 359.46716700000025,
+          "success": true
+        },
+        {
+          "step": 2,
+          "op": "tap",
+          "ms": 349.48395900000014,
+          "success": true
+        },
+        {
+          "step": 3,
+          "op": "tap",
+          "ms": 363.4879169999999,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 57.8415829999999,
+      "elapsed_ms": 1537.6112910000002,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎15"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 54.275458999999955,
+          "runner_ms": 51,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 352.43008299999997,
+          "runner_ms": 347,
+          "bytes": 4842,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 276.6,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 359.1097920000002,
+          "runner_ms": 350,
+          "bytes": 4815,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 275.9,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 349.2517499999999,
+          "runner_ms": 344,
+          "bytes": 4850,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 268.1,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 363.19608400000016,
+          "runner_ms": 357,
+          "bytes": 5197,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 280.6,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 57.47679199999993,
+          "runner_ms": 52,
+          "bytes": 5197,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "01-add-single_tap",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 49022,
+            "requested_ms": -56.690292,
+            "completed_ms": -0.7034579999999551,
+            "capture_ms": 55.986834000000044
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 48594,
+            "requested_ms": 333.3090829999999,
+            "completed_ms": 393.36799999999994,
+            "capture_ms": 60.058917000000065
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 49036,
+            "requested_ms": 729.728333,
+            "completed_ms": 831.5836249999998,
+            "capture_ms": 101.85529199999974
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 50484,
+            "requested_ms": 1167.9792499999999,
+            "completed_ms": 1231.780541,
+            "capture_ms": 63.80129100000022
+          },
+          {
+            "file": "0004.jpg",
+            "bytes": 50183,
+            "requested_ms": 1568.375375,
+            "completed_ms": 1626.63225,
+            "capture_ms": 58.256875000000036
+          }
+        ],
+        "frame_count": 5
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "01-add-burst",
+      "task": "add",
+      "mode": "burst",
+      "ordinal": 2,
+      "started_at": "2026-11-11T23:48:30.312Z",
+      "events": [],
+      "setup_ms": 1030.6932499999998,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "Seven"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Add"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Eight"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 53.21779199999992,
+      "actions": 4,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "numeric_key_burst",
+          "steps": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "at_ms": 0.0020410000001902517,
+          "ms": 542.7784999999999,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 57.53795799999989,
+      "elapsed_ms": 653.6361250000004,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎15"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 52.9380000000001,
+          "runner_ms": 48,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 542.3484580000004,
+          "runner_ms": 537,
+          "bytes": 5197,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 437.9,
+            "hold": 290,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 57.30908400000044,
+          "runner_ms": 52,
+          "bytes": 5197,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "01-add-burst",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 49052,
+            "requested_ms": -57.088624999999865,
+            "completed_ms": -0.865624999999909,
+            "capture_ms": 56.222999999999956
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 50703,
+            "requested_ms": 333.47974999999997,
+            "completed_ms": 376.5264169999996,
+            "capture_ms": 43.046666999999616
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 50273,
+            "requested_ms": 711.9421669999997,
+            "completed_ms": 775.8290000000002,
+            "capture_ms": 63.88683300000048
+          }
+        ],
+        "frame_count": 3
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "02-subtract-burst",
+      "task": "subtract",
+      "mode": "burst",
+      "ordinal": 3,
+      "started_at": "2026-11-11T23:48:32.184Z",
+      "events": [],
+      "setup_ms": 1036.5758749999995,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "Four"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Eight"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Subtract"
+        },
+        {
+          "kind": "Key",
+          "identifier": "One"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Nine"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 54.642792000000554,
+      "actions": 6,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "numeric_key_burst",
+          "steps": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "at_ms": 0.00316700000075798,
+          "ms": 643.6383329999999,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 57.37241699999959,
+      "elapsed_ms": 755.7756669999999,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎29"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 54.321249999999964,
+          "runner_ms": 49,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 643.2534999999998,
+          "runner_ms": 638,
+          "bytes": 5199,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 535.5,
+            "hold": 450,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 57.26091699999961,
+          "runner_ms": 52,
+          "bytes": 5199,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "02-subtract-burst",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 49043,
+            "requested_ms": -63.8563750000003,
+            "completed_ms": -1.2645840000004682,
+            "capture_ms": 62.59179099999983
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 50284,
+            "requested_ms": 333.255709,
+            "completed_ms": 446.5115000000005,
+            "capture_ms": 113.2557910000005
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 51489,
+            "requested_ms": 783.0698750000001,
+            "completed_ms": 843.0932499999999,
+            "capture_ms": 60.02337499999976
+          }
+        ],
+        "frame_count": 3
+      },
+      "audio_after": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "02-subtract-single_tap",
+      "task": "subtract",
+      "mode": "single_tap",
+      "ordinal": 4,
+      "started_at": "2026-11-11T23:48:34.135Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 55.52916699999969,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "4",
+            "identifier": "Four"
+          },
+          "ok": true,
+          "finished_ms": 423.3615
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 423.3931249999996,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "8",
+            "identifier": "Eight"
+          },
+          "ok": true,
+          "finished_ms": 780.3486669999993
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 780.3994589999993,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Subtract",
+            "identifier": "Subtract"
+          },
+          "ok": true,
+          "finished_ms": 1126.4212089999992
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 1126.4438339999988,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "1",
+            "identifier": "One"
+          },
+          "ok": true,
+          "finished_ms": 1496.8990839999997
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 1496.9254589999991,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "9",
+            "identifier": "Nine"
+          },
+          "ok": true,
+          "finished_ms": 1880.9653339999995
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 1880.9950419999996,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Equals",
+            "identifier": "Equals"
+          },
+          "ok": true,
+          "finished_ms": 2254.324625
+        }
+      ],
+      "setup_ms": 1048.62925,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "Four"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Eight"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Subtract"
+        },
+        {
+          "kind": "Key",
+          "identifier": "One"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Nine"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 55.4947089999996,
+      "actions": 6,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 367.85008299999936,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "tap",
+          "ms": 356.98845900000015,
+          "success": true
+        },
+        {
+          "step": 2,
+          "op": "tap",
+          "ms": 346.05466700000034,
+          "success": true
+        },
+        {
+          "step": 3,
+          "op": "tap",
+          "ms": 370.4760409999999,
+          "success": true
+        },
+        {
+          "step": 4,
+          "op": "tap",
+          "ms": 384.06191600000056,
+          "success": true
+        },
+        {
+          "step": 5,
+          "op": "tap",
+          "ms": 373.3592499999995,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 63.11512499999844,
+      "elapsed_ms": 2317.47375,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎29"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 55.37945799999943,
+          "runner_ms": 52,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 367.5903330000001,
+          "runner_ms": 362,
+          "bytes": 4842,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 274.8,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 356.7009999999991,
+          "runner_ms": 346,
+          "bytes": 4812,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 271.5,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 345.75066699999843,
+          "runner_ms": 340,
+          "bytes": 4847,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 268.6,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 370.2001250000012,
+          "runner_ms": 365,
+          "bytes": 4851,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 283.4,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 383.7781669999986,
+          "runner_ms": 378,
+          "bytes": 4852,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 286.3,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 373.06537500000013,
+          "runner_ms": 368,
+          "bytes": 5199,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 281,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 62.87420899999961,
+          "runner_ms": 57,
+          "bytes": 5199,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "02-subtract-single_tap",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 49020,
+            "requested_ms": -62.80866700000024,
+            "completed_ms": -0.5802080000003116,
+            "capture_ms": 62.22845899999993
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 48829,
+            "requested_ms": 334.01837499999874,
+            "completed_ms": 400.85862499999985,
+            "capture_ms": 66.8402500000011
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 50005,
+            "requested_ms": 736.9010840000001,
+            "completed_ms": 838.8284589999994,
+            "capture_ms": 101.9273749999993
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 50298,
+            "requested_ms": 1174.2717920000005,
+            "completed_ms": 1251.1297089999998,
+            "capture_ms": 76.85791699999936
+          },
+          {
+            "file": "0004.jpg",
+            "bytes": 50835,
+            "requested_ms": 1587.395916999999,
+            "completed_ms": 1656.96425,
+            "capture_ms": 69.56833300000108
+          },
+          {
+            "file": "0005.jpg",
+            "bytes": 52138,
+            "requested_ms": 1992.1157089999988,
+            "completed_ms": 2052.865084,
+            "capture_ms": 60.74937500000124
+          },
+          {
+            "file": "0006.jpg",
+            "bytes": 51518,
+            "requested_ms": 2391.8941669999995,
+            "completed_ms": 2462.528374999999,
+            "capture_ms": 70.63420799999949
+          }
+        ],
+        "frame_count": 7
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "03-multiply-single_tap",
+      "task": "multiply",
+      "mode": "single_tap",
+      "ordinal": 5,
+      "started_at": "2026-11-11T23:48:37.718Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 57.21875,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "6",
+            "identifier": "Six"
+          },
+          "ok": true,
+          "finished_ms": 414.7558749999989
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 414.7834579999999,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Multiply",
+            "identifier": "Multiply"
+          },
+          "ok": true,
+          "finished_ms": 775.269624999999
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 775.298499999999,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "7",
+            "identifier": "Seven"
+          },
+          "ok": true,
+          "finished_ms": 1123.068416
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 1123.0924579999992,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Equals",
+            "identifier": "Equals"
+          },
+          "ok": true,
+          "finished_ms": 1479.248540999999
+        }
+      ],
+      "setup_ms": 1065.2607499999995,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "Six"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Multiply"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Seven"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 57.11987500000032,
+      "actions": 4,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 357.5656250000011,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "tap",
+          "ms": 360.50529200000165,
+          "success": true
+        },
+        {
+          "step": 2,
+          "op": "tap",
+          "ms": 347.79491699999926,
+          "success": true
+        },
+        {
+          "step": 3,
+          "op": "tap",
+          "ms": 356.17533300000105,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 54.50250000000051,
+      "elapsed_ms": 1533.761290999999,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎42"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 56.88975000000028,
+          "runner_ms": 46,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 357.31158400000095,
+          "runner_ms": 352,
+          "bytes": 4842,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 276,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 360.2073330000003,
+          "runner_ms": 354,
+          "bytes": 4847,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 281.1,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 347.2744160000002,
+          "runner_ms": 343,
+          "bytes": 4851,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 274.9,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 355.93654199999946,
+          "runner_ms": 352,
+          "bytes": 5167,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 272.2,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 54.426666999999725,
+          "runner_ms": 49,
+          "bytes": 5167,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "03-multiply-single_tap",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 49064,
+            "requested_ms": -61.079499999999825,
+            "completed_ms": -1.003207999998267,
+            "capture_ms": 60.07629200000156
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 49138,
+            "requested_ms": 335.3182079999988,
+            "completed_ms": 388.4586249999993,
+            "capture_ms": 53.140417000000525
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 50008,
+            "requested_ms": 723.906583,
+            "completed_ms": 784.5244160000002,
+            "capture_ms": 60.617833000000246
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 50849,
+            "requested_ms": 1120.6291659999988,
+            "completed_ms": 1181.128499999999,
+            "capture_ms": 60.49933400000009
+          },
+          {
+            "file": "0004.jpg",
+            "bytes": 50759,
+            "requested_ms": 1516.8399580000005,
+            "completed_ms": 1574.2984579999993,
+            "capture_ms": 57.45849999999882
+          },
+          {
+            "file": "0005.jpg",
+            "bytes": 50748,
+            "requested_ms": 1575.1403329999994,
+            "completed_ms": 1616.3974999999991,
+            "capture_ms": 41.257166999999754
+          }
+        ],
+        "frame_count": 6
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "03-multiply-burst",
+      "task": "multiply",
+      "mode": "burst",
+      "ordinal": 6,
+      "started_at": "2026-11-11T23:48:40.469Z",
+      "events": [],
+      "setup_ms": 1030.6465000000007,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "Six"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Multiply"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Seven"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 56.325291000001016,
+      "actions": 4,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "numeric_key_burst",
+          "steps": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "at_ms": 0.0010840000013558893,
+          "ms": 545.6557909999992,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 56.26375000000007,
+      "elapsed_ms": 658.3865829999995,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎42"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 56.237167000001136,
+          "runner_ms": 52,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 545.4068329999991,
+          "runner_ms": 539,
+          "bytes": 5167,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 442.2,
+            "hold": 290,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 56.01050000000032,
+          "runner_ms": 48,
+          "bytes": 5167,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "03-multiply-burst",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 49028,
+            "requested_ms": -59.22583300000042,
+            "completed_ms": -0.3951249999990978,
+            "capture_ms": 58.83070800000132
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 51168,
+            "requested_ms": 334.2918329999993,
+            "completed_ms": 380.1609160000007,
+            "capture_ms": 45.86908300000141
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 50718,
+            "requested_ms": 716.1881250000006,
+            "completed_ms": 771.0981659999998,
+            "capture_ms": 54.91004099999918
+          }
+        ],
+        "frame_count": 3
+      },
+      "audio_after": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "04-divide-burst",
+      "task": "divide",
+      "mode": "burst",
+      "ordinal": 7,
+      "started_at": "2026-11-11T23:48:42.337Z",
+      "events": [],
+      "setup_ms": 1032.371208999999,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "Eight"
+        },
+        {
+          "kind": "Key",
+          "identifier": "One"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Divide"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Nine"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 57.664082999999664,
+      "actions": 5,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "numeric_key_burst",
+          "steps": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "at_ms": 0.0018749999999272404,
+          "ms": 582.1887499999993,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 50.08250000000044,
+      "elapsed_ms": 690.0305410000001,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎9"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 57.45079199999964,
+          "runner_ms": 52,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 581.8780420000021,
+          "runner_ms": 576,
+          "bytes": 5198,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 491.9,
+            "hold": 370,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 49.87066699999923,
+          "runner_ms": 44,
+          "bytes": 5198,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "04-divide-burst",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 49043,
+            "requested_ms": -65.2723330000008,
+            "completed_ms": -0.9252500000002328,
+            "capture_ms": 64.34708300000057
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 49784,
+            "requested_ms": 335.0251250000001,
+            "completed_ms": 430.09670800000094,
+            "capture_ms": 95.07158300000083
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 50458,
+            "requested_ms": 765.346125,
+            "completed_ms": 825.3887080000022,
+            "capture_ms": 60.042583000002196
+          }
+        ],
+        "frame_count": 3
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "04-divide-single_tap",
+      "task": "divide",
+      "mode": "single_tap",
+      "ordinal": 8,
+      "started_at": "2026-11-11T23:48:44.268Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 56.879667000001064,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "8",
+            "identifier": "Eight"
+          },
+          "ok": true,
+          "finished_ms": 414.1143340000017
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 414.1444589999992,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "1",
+            "identifier": "One"
+          },
+          "ok": true,
+          "finished_ms": 760.0570420000004
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 760.1253340000003,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Divide",
+            "identifier": "Divide"
+          },
+          "ok": true,
+          "finished_ms": 1106.2687920000026
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 1106.2995840000003,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "9",
+            "identifier": "Nine"
+          },
+          "ok": true,
+          "finished_ms": 1476.843417
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 1476.8531670000011,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Equals",
+            "identifier": "Equals"
+          },
+          "ok": true,
+          "finished_ms": 1843.7264170000017
+        }
+      ],
+      "setup_ms": 1074.7568339999998,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "Eight"
+        },
+        {
+          "kind": "Key",
+          "identifier": "One"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Divide"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Nine"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 56.78883400000268,
+      "actions": 5,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 357.25462499999776,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "tap",
+          "ms": 345.9397080000017,
+          "success": true
+        },
+        {
+          "step": 2,
+          "op": "tap",
+          "ms": 346.20816699999705,
+          "success": true
+        },
+        {
+          "step": 3,
+          "op": "tap",
+          "ms": 370.5659999999989,
+          "success": true
+        },
+        {
+          "step": 4,
+          "op": "tap",
+          "ms": 366.8830830000006,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 57.11554100000285,
+      "elapsed_ms": 1900.8570419999996,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎9"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 56.53270899999916,
+          "runner_ms": 52,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 356.9627079999991,
+          "runner_ms": 351,
+          "bytes": 4842,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 274.1,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 345.60941699999967,
+          "runner_ms": 340,
+          "bytes": 4812,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 273.1,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 345.80558299999757,
+          "runner_ms": 339,
+          "bytes": 4848,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 272.2,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 370.40187499999956,
+          "runner_ms": 365,
+          "bytes": 4852,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 280.9,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 366.76333299999897,
+          "runner_ms": 363,
+          "bytes": 5198,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 281.9,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 56.90241600000081,
+          "runner_ms": 51,
+          "bytes": 5198,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "04-divide-single_tap",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 49136,
+            "requested_ms": -55.270832999998674,
+            "completed_ms": -1.0684999999975844,
+            "capture_ms": 54.20233300000109
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 49318,
+            "requested_ms": 332.65033400000175,
+            "completed_ms": 393.03050000000076,
+            "capture_ms": 60.38016599999901
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 49751,
+            "requested_ms": 727.4551670000001,
+            "completed_ms": 814.3512919999994,
+            "capture_ms": 86.8961249999993
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 50332,
+            "requested_ms": 1150.6885000000002,
+            "completed_ms": 1213.998125000002,
+            "capture_ms": 63.30962500000169
+          },
+          {
+            "file": "0004.jpg",
+            "bytes": 51727,
+            "requested_ms": 1549.4127919999992,
+            "completed_ms": 1601.1144999999997,
+            "capture_ms": 51.70170800000051
+          },
+          {
+            "file": "0005.jpg",
+            "bytes": 50274,
+            "requested_ms": 1935.5200839999998,
+            "completed_ms": 1998.4022920000025,
+            "capture_ms": 62.88220800000272
+          }
+        ],
+        "frame_count": 6
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "05-decimal-single_tap",
+      "task": "decimal",
+      "mode": "single_tap",
+      "ordinal": 9,
+      "started_at": "2026-11-11T23:48:47.406Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 54.52049999999872,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "1",
+            "identifier": "One"
+          },
+          "ok": true,
+          "finished_ms": 425.7120419999992
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 425.74216700000034,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Point",
+            "identifier": "Decimal"
+          },
+          "ok": true,
+          "finished_ms": 778.7583750000013
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 778.7873340000006,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "5",
+            "identifier": "Five"
+          },
+          "ok": true,
+          "finished_ms": 1140.2415419999998
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 1140.2721249999995,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Add",
+            "identifier": "Add"
+          },
+          "ok": true,
+          "finished_ms": 1483.4508749999986
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 1483.4789170000004,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "2",
+            "identifier": "Two"
+          },
+          "ok": true,
+          "finished_ms": 1845.4102090000015
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 1845.435042000001,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Point",
+            "identifier": "Decimal"
+          },
+          "ok": true,
+          "finished_ms": 2208.8882919999996
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 2208.918334000002,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "2",
+            "identifier": "Two"
+          },
+          "ok": true,
+          "finished_ms": 2580.1710840000014
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 2580.2045419999995,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "5",
+            "identifier": "Five"
+          },
+          "ok": true,
+          "finished_ms": 2942.320917000001
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 2942.3509589999994,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Equals",
+            "identifier": "Equals"
+          },
+          "ok": true,
+          "finished_ms": 3304.5564589999994
+        }
+      ],
+      "setup_ms": 1155.1613749999997,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "One"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Decimal"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Five"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Add"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Two"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Decimal"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Two"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Five"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 54.40833399999974,
+      "actions": 9,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 371.21841700000004,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "tap",
+          "ms": 353.04145900000003,
+          "success": true
+        },
+        {
+          "step": 2,
+          "op": "tap",
+          "ms": 361.48179099999834,
+          "success": true
+        },
+        {
+          "step": 3,
+          "op": "tap",
+          "ms": 343.20287499999904,
+          "success": true
+        },
+        {
+          "step": 4,
+          "op": "tap",
+          "ms": 361.95500000000175,
+          "success": true
+        },
+        {
+          "step": 5,
+          "op": "tap",
+          "ms": 363.47704200000226,
+          "success": true
+        },
+        {
+          "step": 6,
+          "op": "tap",
+          "ms": 371.27883400000064,
+          "success": true
+        },
+        {
+          "step": 7,
+          "op": "tap",
+          "ms": 362.14587499999834,
+          "success": true
+        },
+        {
+          "step": 8,
+          "op": "tap",
+          "ms": 362.22891700000037,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 58.67695800000001,
+      "elapsed_ms": 3363.245834000001,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎3.75"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 54.01420800000051,
+          "runner_ms": 49,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 370.91849999999977,
+          "runner_ms": 365,
+          "bytes": 4842,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 281.5,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 352.64187500000116,
+          "runner_ms": 347,
+          "bytes": 4843,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 276.5,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 361.0795419999995,
+          "runner_ms": 355,
+          "bytes": 4844,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 275.8,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 342.867457999997,
+          "runner_ms": 336,
+          "bytes": 4818,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 270,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 361.6184580000008,
+          "runner_ms": 356,
+          "bytes": 4852,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 277.9,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 363.202959000002,
+          "runner_ms": 358,
+          "bytes": 4853,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 282.5,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 370.9960829999982,
+          "runner_ms": 365,
+          "bytes": 4854,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 282.3,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 361.8528750000005,
+          "runner_ms": 356,
+          "bytes": 4855,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 280.4,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 362.0350419999995,
+          "runner_ms": 357,
+          "bytes": 5204,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 272.7,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 58.50458300000173,
+          "runner_ms": 53,
+          "bytes": 5204,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "05-decimal-single_tap",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 49147,
+            "requested_ms": -63.08087499999965,
+            "completed_ms": -0.804667000000336,
+            "capture_ms": 62.276207999999315
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 48498,
+            "requested_ms": 334.95866699999897,
+            "completed_ms": 389.82050000000163,
+            "capture_ms": 54.86183300000266
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 48583,
+            "requested_ms": 724.6215840000004,
+            "completed_ms": 782.1820420000004,
+            "capture_ms": 57.560457999999926
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 49713,
+            "requested_ms": 1118.6322499999987,
+            "completed_ms": 1199.1617499999993,
+            "capture_ms": 80.52950000000055
+          },
+          {
+            "file": "0004.jpg",
+            "bytes": 50172,
+            "requested_ms": 1534.978500000001,
+            "completed_ms": 1606.1525839999995,
+            "capture_ms": 71.1740839999984
+          },
+          {
+            "file": "0005.jpg",
+            "bytes": 51359,
+            "requested_ms": 1942.526958999999,
+            "completed_ms": 2005.192167000001,
+            "capture_ms": 62.66520800000217
+          },
+          {
+            "file": "0006.jpg",
+            "bytes": 52503,
+            "requested_ms": 2342.199584000002,
+            "completed_ms": 2398.3978339999994,
+            "capture_ms": 56.19824999999764
+          },
+          {
+            "file": "0007.jpg",
+            "bytes": 53832,
+            "requested_ms": 2734.402667000002,
+            "completed_ms": 2791.9195419999996,
+            "capture_ms": 57.516874999997526
+          },
+          {
+            "file": "0008.jpg",
+            "bytes": 53179,
+            "requested_ms": 3127.014041999999,
+            "completed_ms": 3179.3521250000013,
+            "capture_ms": 52.33808300000237
+          },
+          {
+            "file": "0009.jpg",
+            "bytes": 52969,
+            "requested_ms": 3515.0747919999994,
+            "completed_ms": 3581.1544170000016,
+            "capture_ms": 66.07962500000212
+          }
+        ],
+        "frame_count": 10
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "05-decimal-burst",
+      "task": "decimal",
+      "mode": "burst",
+      "ordinal": 10,
+      "started_at": "2026-11-11T23:48:52.214Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 822.6094159999993,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Equals",
+            "identifier": "Equals"
+          },
+          "ok": true,
+          "finished_ms": 1173.5717079999995
+        }
+      ],
+      "setup_ms": 1049.4154579999995,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "One"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Decimal"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Five"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Add"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Two"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Decimal"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Two"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Five"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 54.22087499999907,
+      "actions": 9,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "numeric_key_burst",
+          "steps": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "at_ms": 0.001083000002836343,
+          "ms": 768.2816669999993,
+          "success": true
+        },
+        {
+          "step": 8,
+          "op": "tap",
+          "ms": 351.0465000000004,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 56.43779200000063,
+      "elapsed_ms": 1230.0431659999995,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎3.75"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 54.132291000001715,
+          "runner_ms": 50,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 768.0474579999973,
+          "runner_ms": 763,
+          "bytes": 4855,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 652.7,
+            "hold": 610,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 350.60329099999944,
+          "runner_ms": 346,
+          "bytes": 5204,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 268.7,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 56.20904200000223,
+          "runner_ms": 51,
+          "bytes": 5204,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "05-decimal-burst",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 49149,
+            "requested_ms": -71.06112500000017,
+            "completed_ms": -0.37670799999978044,
+            "capture_ms": 70.6844170000004
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 49377,
+            "requested_ms": 335.1432910000003,
+            "completed_ms": 484.60379100000137,
+            "capture_ms": 149.46050000000105
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 53780,
+            "requested_ms": 820.4910830000008,
+            "completed_ms": 881.4462910000002,
+            "capture_ms": 60.9552079999994
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 52838,
+            "requested_ms": 1217.8102500000023,
+            "completed_ms": 1273.6517080000012,
+            "capture_ms": 55.841457999998966
+          },
+          {
+            "file": "0004.jpg",
+            "bytes": 52861,
+            "requested_ms": 1274.8309580000023,
+            "completed_ms": 1329.1205410000002,
+            "capture_ms": 54.28958299999795
+          }
+        ],
+        "frame_count": 5
+      },
+      "audio_after": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "06-percent-burst",
+      "task": "percent",
+      "mode": "burst",
+      "ordinal": 11,
+      "started_at": "2026-11-11T23:48:54.672Z",
+      "events": [],
+      "setup_ms": 1024.372875000001,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "Five"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Zero"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Multiply"
+        },
+        {
+          "kind": "Key",
+          "identifier": "One"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Zero"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Percent"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 64.20020799999838,
+      "actions": 7,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "numeric_key_burst",
+          "steps": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "at_ms": 0.0025000000023283064,
+          "ms": 719.4541669999999,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 55.13741700000173,
+      "elapsed_ms": 838.8748749999977,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎5"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 64.023416,
+          "runner_ms": 59,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 719.1805419999982,
+          "runner_ms": 713,
+          "bytes": 5172,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 595.1,
+            "hold": 530,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 54.91829199999847,
+          "runner_ms": 49,
+          "bytes": 5172,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "06-percent-burst",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 49155,
+            "requested_ms": -79.89341599999898,
+            "completed_ms": -0.9005409999990661,
+            "capture_ms": 78.99287499999991
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 50430,
+            "requested_ms": 334.76845799999865,
+            "completed_ms": 420.35058299999946,
+            "capture_ms": 85.58212500000081
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 50712,
+            "requested_ms": 755.9485409999979,
+            "completed_ms": 840.4777499999982,
+            "capture_ms": 84.52920900000026
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 50586,
+            "requested_ms": 841.0587500000001,
+            "completed_ms": 923.2400410000009,
+            "capture_ms": 82.18129100000078
+          }
+        ],
+        "frame_count": 4
+      },
+      "audio_after": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "06-percent-single_tap",
+      "task": "percent",
+      "mode": "single_tap",
+      "ordinal": 12,
+      "started_at": "2026-11-11T23:48:56.708Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 55.95841600000131,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "5",
+            "identifier": "Five"
+          },
+          "ok": true,
+          "finished_ms": 415.92025000000285
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 415.9463750000032,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "0",
+            "identifier": "Zero"
+          },
+          "ok": true,
+          "finished_ms": 775.5266250000022
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 775.5427080000009,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Multiply",
+            "identifier": "Multiply"
+          },
+          "ok": true,
+          "finished_ms": 1133.2054580000004
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 1133.2330830000028,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "1",
+            "identifier": "One"
+          },
+          "ok": true,
+          "finished_ms": 1505.3339160000032
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 1505.3646660000013,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "0",
+            "identifier": "Zero"
+          },
+          "ok": true,
+          "finished_ms": 1860.2695830000011
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 1860.278250000003,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Percent",
+            "identifier": "Percent"
+          },
+          "ok": true,
+          "finished_ms": 2225.8104580000036
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 2225.833791000001,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Equals",
+            "identifier": "Equals"
+          },
+          "ok": true,
+          "finished_ms": 2592.8187080000025
+        }
+      ],
+      "setup_ms": 1133.4765000000007,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "Five"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Zero"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Multiply"
+        },
+        {
+          "kind": "Key",
+          "identifier": "One"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Zero"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Percent"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 55.82958300000246,
+      "actions": 7,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 359.9868749999987,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "tap",
+          "ms": 359.59958299999926,
+          "success": true
+        },
+        {
+          "step": 2,
+          "op": "tap",
+          "ms": 357.6793340000004,
+          "success": true
+        },
+        {
+          "step": 3,
+          "op": "tap",
+          "ms": 372.12487500000134,
+          "success": true
+        },
+        {
+          "step": 4,
+          "op": "tap",
+          "ms": 354.9300000000003,
+          "success": true
+        },
+        {
+          "step": 5,
+          "op": "tap",
+          "ms": 365.5408749999988,
+          "success": true
+        },
+        {
+          "step": 6,
+          "op": "tap",
+          "ms": 367.00650000000314,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 58.8961249999993,
+      "elapsed_ms": 2651.7271250000013,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎5"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 55.60341700000208,
+          "runner_ms": 51,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 359.7597500000011,
+          "runner_ms": 354,
+          "bytes": 4811,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 277.7,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 359.43962499999907,
+          "runner_ms": 354,
+          "bytes": 4812,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 277.5,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 357.43829200000255,
+          "runner_ms": 351,
+          "bytes": 4848,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 269.3,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 371.6348340000004,
+          "runner_ms": 365,
+          "bytes": 4822,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 281.3,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 354.76958399999785,
+          "runner_ms": 349,
+          "bytes": 4823,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 272.8,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 365.3543750000026,
+          "runner_ms": 360,
+          "bytes": 4857,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 281.2,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 366.75170900000376,
+          "runner_ms": 361,
+          "bytes": 5172,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 279.7,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 58.697000000000116,
+          "runner_ms": 52,
+          "bytes": 5172,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "06-percent-single_tap",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 49138,
+            "requested_ms": -74.63716600000043,
+            "completed_ms": -0.9668749999982538,
+            "capture_ms": 73.67029100000218
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 49041,
+            "requested_ms": 335.71650000000227,
+            "completed_ms": 395.65625,
+            "capture_ms": 59.93974999999773
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 50128,
+            "requested_ms": 731.6905409999999,
+            "completed_ms": 840.9829580000005,
+            "capture_ms": 109.29241700000057
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 51113,
+            "requested_ms": 1176.997958,
+            "completed_ms": 1251.2201249999998,
+            "capture_ms": 74.2221669999999
+          },
+          {
+            "file": "0004.jpg",
+            "bytes": 51659,
+            "requested_ms": 1587.1487500000003,
+            "completed_ms": 1675.7985829999998,
+            "capture_ms": 88.64983299999949
+          },
+          {
+            "file": "0005.jpg",
+            "bytes": 54297,
+            "requested_ms": 2011.0995000000003,
+            "completed_ms": 2096.2556250000016,
+            "capture_ms": 85.15612500000134
+          },
+          {
+            "file": "0006.jpg",
+            "bytes": 50949,
+            "requested_ms": 2431.0671660000044,
+            "completed_ms": 2508.5389160000013,
+            "capture_ms": 77.47174999999697
+          },
+          {
+            "file": "0007.jpg",
+            "bytes": 50788,
+            "requested_ms": 2844.4159160000017,
+            "completed_ms": 2926.6294159999998,
+            "capture_ms": 82.21349999999802
+          }
+        ],
+        "frame_count": 8
+      },
+      "audio_after": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "07-chain-single_tap",
+      "task": "chain",
+      "mode": "single_tap",
+      "ordinal": 13,
+      "started_at": "2026-11-11T23:49:00.853Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 61.38445800000045,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "1",
+            "identifier": "One"
+          },
+          "ok": true,
+          "finished_ms": 423.6542079999999
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 423.682332999997,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "2",
+            "identifier": "Two"
+          },
+          "ok": true,
+          "finished_ms": 775.6607079999958
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 775.6917079999985,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Add",
+            "identifier": "Add"
+          },
+          "ok": true,
+          "finished_ms": 1129.1082919999972
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 1129.1278329999986,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "8",
+            "identifier": "Eight"
+          },
+          "ok": true,
+          "finished_ms": 1483.8587499999994
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 1483.8890419999952,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Equals",
+            "identifier": "Equals"
+          },
+          "ok": true,
+          "finished_ms": 1851.3242919999975
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 1851.356166999998,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Multiply",
+            "identifier": "Multiply"
+          },
+          "ok": true,
+          "finished_ms": 2210.126167000002
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 2210.154208,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "3",
+            "identifier": "Three"
+          },
+          "ok": true,
+          "finished_ms": 2571.7032919999983
+        },
+        {
+          "kind": "dispatch",
+          "at_ms": 2571.728167000001,
+          "op": "tap",
+          "target": {
+            "kind": "Key",
+            "label": "Equals",
+            "identifier": "Equals"
+          },
+          "ok": true,
+          "finished_ms": 2937.8122920000023
+        }
+      ],
+      "setup_ms": 1063.701000000001,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "One"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Two"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Add"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Eight"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Multiply"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Three"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 61.259375000001455,
+      "actions": 8,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 362.29520899999625,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "tap",
+          "ms": 352.00224999999773,
+          "success": true
+        },
+        {
+          "step": 2,
+          "op": "tap",
+          "ms": 353.44137500000215,
+          "success": true
+        },
+        {
+          "step": 3,
+          "op": "tap",
+          "ms": 354.74895899999683,
+          "success": true
+        },
+        {
+          "step": 4,
+          "op": "tap",
+          "ms": 367.46250000000146,
+          "success": true
+        },
+        {
+          "step": 5,
+          "op": "tap",
+          "ms": 358.79675000000134,
+          "success": true
+        },
+        {
+          "step": 6,
+          "op": "tap",
+          "ms": 361.57416699999885,
+          "success": true
+        },
+        {
+          "step": 7,
+          "op": "tap",
+          "ms": 366.1057079999955,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 64.18341700000019,
+      "elapsed_ms": 3002.0122919999994,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎60"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 60.89408299999923,
+          "runner_ms": 56,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 361.99291699999594,
+          "runner_ms": 356,
+          "bytes": 4842,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 283.9,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 351.6944580000054,
+          "runner_ms": 347,
+          "bytes": 4812,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 275.7,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 353.1815840000054,
+          "runner_ms": 347,
+          "bytes": 4847,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 271.9,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 354.4735419999997,
+          "runner_ms": 349,
+          "bytes": 4821,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 276.9,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 367.15312500000437,
+          "runner_ms": 361,
+          "bytes": 5198,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 282,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 358.4880420000045,
+          "runner_ms": 353,
+          "bytes": 4825,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 274.8,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 361.2753340000054,
+          "runner_ms": 355,
+          "bytes": 4852,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 282.6,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 365.8356249999997,
+          "runner_ms": 360,
+          "bytes": 5168,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 276.6,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 63.97133400000166,
+          "runner_ms": 58,
+          "bytes": 5168,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "07-chain-single_tap",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 49071,
+            "requested_ms": -80.69312499999796,
+            "completed_ms": -0.6508329999996931,
+            "capture_ms": 80.04229199999827
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 48394,
+            "requested_ms": 335.1333749999976,
+            "completed_ms": 416.6640419999967,
+            "capture_ms": 81.53066699999908
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 49344,
+            "requested_ms": 752.6078330000018,
+            "completed_ms": 861.3903329999957,
+            "capture_ms": 108.78249999999389
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 49904,
+            "requested_ms": 1197.4467079999959,
+            "completed_ms": 1272.1290829999998,
+            "capture_ms": 74.68237500000396
+          },
+          {
+            "file": "0004.jpg",
+            "bytes": 51314,
+            "requested_ms": 1608.6988330000022,
+            "completed_ms": 1683.3580000000002,
+            "capture_ms": 74.65916699999798
+          },
+          {
+            "file": "0005.jpg",
+            "bytes": 51405,
+            "requested_ms": 2018.229916999997,
+            "completed_ms": 2089.4016669999983,
+            "capture_ms": 71.17175000000134
+          },
+          {
+            "file": "0006.jpg",
+            "bytes": 52136,
+            "requested_ms": 2424.6797499999957,
+            "completed_ms": 2490.0126669999954,
+            "capture_ms": 65.33291699999972
+          },
+          {
+            "file": "0007.jpg",
+            "bytes": 51776,
+            "requested_ms": 2825.884333000002,
+            "completed_ms": 2902.2976249999992,
+            "capture_ms": 76.41329199999745
+          },
+          {
+            "file": "0008.jpg",
+            "bytes": 51620,
+            "requested_ms": 3237.9224170000016,
+            "completed_ms": 3320.054833000002,
+            "capture_ms": 82.13241600000038
+          }
+        ],
+        "frame_count": 9
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "07-chain-burst",
+      "task": "chain",
+      "mode": "burst",
+      "ordinal": 14,
+      "started_at": "2026-11-11T23:49:05.328Z",
+      "events": [],
+      "setup_ms": 1042.8696249999994,
+      "plan": [
+        {
+          "kind": "Key",
+          "identifier": "One"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Two"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Add"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Eight"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Multiply"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Three"
+        },
+        {
+          "kind": "Key",
+          "identifier": "Equals"
+        }
+      ],
+      "execution_started_ms": 51.37441700000636,
+      "actions": 8,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "numeric_key_burst",
+          "steps": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "at_ms": 0.0018330000020796433,
+          "ms": 785.1054999999978,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 49.33645799999795,
+      "elapsed_ms": 885.9030420000054,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.calculator",
+        "selector": {
+          "kind": "StaticText",
+          "label": "‎60"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 51.27258299999812,
+          "runner_ms": 48,
+          "bytes": 4818,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 784.8485409999994,
+          "runner_ms": 779,
+          "bytes": 5168,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 657.2,
+            "hold": 610,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 49.15712500000518,
+          "runner_ms": 44,
+          "bytes": 5168,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "07-chain-burst",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 49009,
+            "requested_ms": -78.20754200000374,
+            "completed_ms": -0.40512500000477303,
+            "capture_ms": 77.80241699999897
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 50244,
+            "requested_ms": 335.2004580000066,
+            "completed_ms": 432.5868330000012,
+            "capture_ms": 97.38637499999459
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 51675,
+            "requested_ms": 770.7097080000021,
+            "completed_ms": 842.8245830000014,
+            "capture_ms": 72.1148749999993
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 51646,
+            "requested_ms": 1179.3530420000025,
+            "completed_ms": 1268.409458000002,
+            "capture_ms": 89.05641599999944
+          }
+        ],
+        "frame_count": 4
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "08-clock-stopwatch-burst",
+      "task": "clock-stopwatch",
+      "mode": "burst",
+      "ordinal": 15,
+      "started_at": "2026-11-11T23:49:07.729Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 67.39591600000131,
+          "op": "tap",
+          "target": {
+            "kind": "Button",
+            "label": "Stopwatch"
+          },
+          "ok": true,
+          "finished_ms": 444.12954100000206
+        }
+      ],
+      "setup_ms": 1693.9141670000026,
+      "plan": [
+        {
+          "kind": "Button",
+          "label": "Stopwatch"
+        }
+      ],
+      "execution_started_ms": 67.2686659999963,
+      "actions": 1,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 376.7844170000026,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 65.49166600000171,
+      "elapsed_ms": 509.6392909999995,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.mobiletimer",
+        "selector": {
+          "kind": "Button",
+          "label": "Lap"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 66.97437499999796,
+          "runner_ms": 62,
+          "bytes": 4256,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 376.51549999999406,
+          "runner_ms": 371,
+          "bytes": 3233,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 283.7,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 65.35866700000042,
+          "runner_ms": 61,
+          "bytes": 3233,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "08-clock-stopwatch-burst",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 38133,
+            "requested_ms": -67.83487500000047,
+            "completed_ms": -0.950790999995661,
+            "capture_ms": 66.8840840000048
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 32814,
+            "requested_ms": 334.533958,
+            "completed_ms": 410.2561659999992,
+            "capture_ms": 75.72220799999923
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 28145,
+            "requested_ms": 746.528624999999,
+            "completed_ms": 809.4808750000011,
+            "capture_ms": 62.952250000002095
+          }
+        ],
+        "frame_count": 3
+      },
+      "audio_after": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "08-clock-stopwatch-single_tap",
+      "task": "clock-stopwatch",
+      "mode": "single_tap",
+      "ordinal": 16,
+      "started_at": "2026-11-11T23:49:10.311Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 61.41954099999566,
+          "op": "tap",
+          "target": {
+            "kind": "Button",
+            "label": "Stopwatch"
+          },
+          "ok": true,
+          "finished_ms": 430.0369159999973
+        }
+      ],
+      "setup_ms": 588.8017919999984,
+      "plan": [
+        {
+          "kind": "Button",
+          "label": "Stopwatch"
+        }
+      ],
+      "execution_started_ms": 61.336749999994936,
+      "actions": 1,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 368.6402919999964,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 57.69304199999897,
+      "elapsed_ms": 487.74725000000035,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.mobiletimer",
+        "selector": {
+          "kind": "Button",
+          "label": "Lap"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 61.13695800000278,
+          "runner_ms": 57,
+          "bytes": 4256,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 368.43695899999875,
+          "runner_ms": 363,
+          "bytes": 3233,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 274.1,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 57.552999999999884,
+          "runner_ms": 52,
+          "bytes": 3233,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "08-clock-stopwatch-single_tap",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 37629,
+            "requested_ms": -67.37754100000166,
+            "completed_ms": -1.124415999998746,
+            "capture_ms": 66.25312500000291
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 32065,
+            "requested_ms": 335.1977909999987,
+            "completed_ms": 393.58087499999965,
+            "capture_ms": 58.38308400000096
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 28150,
+            "requested_ms": 729.4537909999999,
+            "completed_ms": 780.5951249999998,
+            "capture_ms": 51.141333999999915
+          }
+        ],
+        "frame_count": 3
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "09-clock-world-clock-single_tap",
+      "task": "clock-world-clock",
+      "mode": "single_tap",
+      "ordinal": 17,
+      "started_at": "2026-11-11T23:49:11.757Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 60.96645799999533,
+          "op": "tap",
+          "target": {
+            "kind": "Button",
+            "label": "World Clock"
+          },
+          "ok": true,
+          "finished_ms": 438.93449999999575
+        }
+      ],
+      "setup_ms": 578.146166999999,
+      "plan": [
+        {
+          "kind": "Button",
+          "label": "World Clock"
+        }
+      ],
+      "execution_started_ms": 60.87879199999588,
+      "actions": 1,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 377.9895839999954,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 71.13499999999476,
+      "elapsed_ms": 510.0817919999972,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.mobiletimer",
+        "selector": {
+          "kind": "NavigationBar",
+          "label": "World Clock"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 60.67445800000132,
+          "runner_ms": 55,
+          "bytes": 3233,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 377.8002919999999,
+          "runner_ms": 372,
+          "bytes": 4256,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 277.7,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 70.93437500000437,
+          "runner_ms": 65,
+          "bytes": 4256,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "09-clock-world-clock-single_tap",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 28325,
+            "requested_ms": -50.959499999997206,
+            "completed_ms": -0.9882919999945443,
+            "capture_ms": 49.97120800000266
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 37808,
+            "requested_ms": 334.2738329999993,
+            "completed_ms": 392.68045799999527,
+            "capture_ms": 58.406624999995984
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 38087,
+            "requested_ms": 728.8028329999943,
+            "completed_ms": 797.6659169999984,
+            "capture_ms": 68.86308400000416
+          }
+        ],
+        "frame_count": 3
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "09-clock-world-clock-burst",
+      "task": "clock-world-clock",
+      "mode": "burst",
+      "ordinal": 18,
+      "started_at": "2026-11-11T23:49:13.194Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 62.30008299999463,
+          "op": "tap",
+          "target": {
+            "kind": "Button",
+            "label": "World Clock"
+          },
+          "ok": true,
+          "finished_ms": 431.7512080000015
+        }
+      ],
+      "setup_ms": 575.1131670000032,
+      "plan": [
+        {
+          "kind": "Button",
+          "label": "World Clock"
+        }
+      ],
+      "execution_started_ms": 62.217916999994486,
+      "actions": 1,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 369.49429199999577,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 62.08812500000204,
+      "elapsed_ms": 493.8581669999985,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.mobiletimer",
+        "selector": {
+          "kind": "NavigationBar",
+          "label": "World Clock"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 62.07066599999962,
+          "runner_ms": 57,
+          "bytes": 3233,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 369.23554100000183,
+          "runner_ms": 364,
+          "bytes": 4256,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 279.6,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 62.01774999999907,
+          "runner_ms": 58,
+          "bytes": 4256,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "09-clock-world-clock-burst",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 28076,
+            "requested_ms": -54.492082999997365,
+            "completed_ms": -1.0169580000001588,
+            "capture_ms": 53.475124999997206
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 38084,
+            "requested_ms": 334.4979579999999,
+            "completed_ms": 400.6580829999948,
+            "capture_ms": 66.16012499999488
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 38103,
+            "requested_ms": 736.1037499999948,
+            "completed_ms": 792.8165000000008,
+            "capture_ms": 56.712750000006054
+          }
+        ],
+        "frame_count": 3
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "10-settings-general-burst",
+      "task": "settings-general",
+      "mode": "burst",
+      "ordinal": 19,
+      "started_at": "2026-11-11T23:49:14.623Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 113.74445800000103,
+          "op": "tap",
+          "target": {
+            "kind": "Button",
+            "label": "General",
+            "identifier": "com.apple.settings.general"
+          },
+          "ok": true,
+          "finished_ms": 590.0049999999974
+        }
+      ],
+      "setup_ms": 2355.292959000006,
+      "plan": [
+        {
+          "kind": "Button",
+          "identifier": "com.apple.settings.general"
+        }
+      ],
+      "execution_started_ms": 113.68891599999915,
+      "actions": 1,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 476.30008400000224,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 151.37395899999683,
+      "elapsed_ms": 741.3927499999991,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.Preferences",
+        "selector": {
+          "kind": "NavigationBar",
+          "label": "General"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 113.5802079999994,
+          "runner_ms": 110,
+          "bytes": 15271,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 475.9425829999964,
+          "runner_ms": 471,
+          "bytes": 23869,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 278.4,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 151.1022079999966,
+          "runner_ms": 146,
+          "bytes": 22821,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "10-settings-general-burst",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 53685,
+            "requested_ms": -59.10083299999678,
+            "completed_ms": -0.5710419999959413,
+            "capture_ms": 58.52979100000084
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 65637,
+            "requested_ms": 334.9588750000039,
+            "completed_ms": 400.075499999999,
+            "capture_ms": 65.11662499999511
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 51278,
+            "requested_ms": 735.354250000004,
+            "completed_ms": 780.4720000000016,
+            "capture_ms": 45.11774999999761
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 50513,
+            "requested_ms": 781.5102909999987,
+            "completed_ms": 818.9198329999999,
+            "capture_ms": 37.40954200000124
+          }
+        ],
+        "frame_count": 4
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "10-settings-general-single_tap",
+      "task": "settings-general",
+      "mode": "single_tap",
+      "ordinal": 20,
+      "started_at": "2026-11-11T23:49:17.865Z",
+      "events": [
+        {
+          "kind": "dispatch",
+          "at_ms": 102.69233299999905,
+          "op": "tap",
+          "target": {
+            "kind": "Button",
+            "label": "General",
+            "identifier": "com.apple.settings.general"
+          },
+          "ok": true,
+          "finished_ms": 581.5362920000043
+        }
+      ],
+      "setup_ms": 1327.434874999999,
+      "plan": [
+        {
+          "kind": "Button",
+          "identifier": "com.apple.settings.general"
+        }
+      ],
+      "execution_started_ms": 102.61091700000543,
+      "actions": 1,
+      "execution_timings": [
+        {
+          "step": 0,
+          "op": "tap",
+          "ms": 478.872166000001,
+          "success": true
+        }
+      ],
+      "execution_ok": true,
+      "verified": true,
+      "verification_ms": 171.1163749999978,
+      "elapsed_ms": 752.6709580000024,
+      "ok": true,
+      "verification": {
+        "app": "com.apple.Preferences",
+        "selector": {
+          "kind": "NavigationBar",
+          "label": "General"
+        },
+        "matched": true
+      },
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 102.34858299999905,
+          "runner_ms": 97,
+          "bytes": 15271,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 478.48049999999785,
+          "runner_ms": 473,
+          "bytes": 23869,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 275.6,
+            "hold": 50,
+            "calls": 1
+          }
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 170.88529199999903,
+          "runner_ms": 166,
+          "bytes": 22821,
+          "status": 200
+        }
+      ],
+      "recording": {
+        "directory": "10-settings-general-single_tap",
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "bytes": 53110,
+            "requested_ms": -50.15245799999684,
+            "completed_ms": -0.7801249999974971,
+            "capture_ms": 49.372332999999344
+          },
+          {
+            "file": "0001.jpg",
+            "bytes": 64442,
+            "requested_ms": 334.62695800000074,
+            "completed_ms": 399.4784170000057,
+            "capture_ms": 64.85145900000498
+          },
+          {
+            "file": "0002.jpg",
+            "bytes": 51207,
+            "requested_ms": 735.208083000005,
+            "completed_ms": 780.0393330000006,
+            "capture_ms": 44.831249999995634
+          },
+          {
+            "file": "0003.jpg",
+            "bytes": 50929,
+            "requested_ms": 780.7083330000023,
+            "completed_ms": 820.9783749999988,
+            "capture_ms": 40.270041999996465
+          }
+        ],
+        "frame_count": 4
+      },
+      "audio_after": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    }
+  ],
+  "key_bursts_enabled": true,
+  "source_dirty": true,
+  "source_files_sha256": {
+    "src/driver.mjs": "f4c7b5d2ae72f0370d6e4fc1dd39f46eb77289f39e5828ef770d6f256230b7eb",
+    "src/jev.mjs": "3a8fa769b7d4d1bec5b11aac90e2021ec3f4c07d951c9b70d2897c161fb72416",
+    "src/cli.mjs": "18de60674e4b49ad88283b0354a879ea5aff124b5f22c8472d2fcf321fcd9ab2",
+    "vendor/iphone-use/runner/IPhoneUseRunner/IPhoneUseRunnerUITests/RunnerTests.swift": "517d3dbb80c03c83e8e1701243c2cc294f816631f71ba92bd7c774c7a4079f13",
+    "vendor/iphone-use/runner/IPhoneUseRunner/IPhoneUseRunnerUITests/IPURBridge.m": "52824337ffb36902dc14b7190c978da076eef1e7d8f1f9a6056cfbeb6de8e2d4"
+  },
+  "finished_at": "2026-11-11T23:49:20.072Z"
+}

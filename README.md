@@ -4,7 +4,9 @@
 
 Tiny, general iPhone control for coding agents. One signed XCTest runner, a USB relay, and **three MCP tools**. No saved routines, mandatory cloud service, video stream, npm packages, or extra model API. The optional JEV loop is off until configured and explicitly requested.
 
-**Measured on a physical iPhone:** the same warm Calculator task (`7 + 8 =15`) took **19.15 s with four separate agent/tool turns**, **1.47 s median in a local batch** (5/5), and **1.91 s median with live JEV decisions** (3/3). The interactive baseline is one sample; these are gains from removing agent round trips, not a raw touch-speed or all-app guarantee. [Evidence and limits](benchmarks/STATUS.md).
+**Ten matched real-phone tasks passed on both paths.** Operator took **7.46 s total**, versus **30.53 s** through ordinary Apple iPhone Mirroring/CUA (**4.09×**). The controlled native burst on/off comparison passed20/20 and made the seven calculations2.85× faster. Each result has a recording and an independent check. These are warm, known-plan tasks; setup is excluded and they do not establish human speed or all-app reliability. [Watch all ten comparisons](benchmarks/runs/2026-11-11-operator-vs-mirroring/comparison.html), [table and method](benchmarks/runs/2026-11-11-operator-vs-mirroring/comparison.md).
+
+**JEV is experimental:** the stricter ten-task physical run passed4/10 and handed back on six. It is useful for bounded navigation, but the current model/gates are unreliable for repeated arithmetic entry. The fast column above uses newly generated action plans, not JEV. [Findings and retained failures](docs/operator-performance.md).
 
 ## Why this can reduce overhead
 
@@ -12,6 +14,7 @@ Tiny, general iPhone control for coding agents. One signed XCTest runner, a USB 
 - Revalidate the chosen live element on the phone before tapping. Reject a different snapshot or foreground app.
 - Combine an action and its next observation in one USB request.
 - Execute newly generated short sequences locally, with exact postconditions. No learning or recording phase.
+- Group2–8 current numeric/operator keys in one native gesture submission. Validate every key before dispatch, stop on uncertain delivery, and check the displayed result. Transitions and nonnumeric controls remain separate.
 - Wait for the next required control, rather than waiting for global idle or taking two matching full-tree snapshots.
 - Keep all model reasoning in your existing agent. Screenshot fallback is available when accessibility is insufficient.
 
@@ -74,7 +77,7 @@ Ten physical iPhone Spotlight calculations/conversions passed, followed by a **1
 
 `node scripts/benchmark-suite.mjs` runs ten reversible tasks in alternating batch/JEV order, with a native 3 fps screen recording and timestamped input/decision logs for each run. It checks media volume before every run and verifies results with a separate fresh accessibility read. JEV credentials are required. Raw captures stay in ignored `benchmarks/private/`. See [suite method](docs/benchmark-suite.md).
 
-[New live chooser trials](benchmarks/runs/2026-11-11T21-17-39-491Z-decisions/comparison.md): 10/10 expected choices, 9/10 above the existing decision gate, 102 ms median. These synthetic-state tests do not prove phone task speed. The native recording attempt stopped during setup after disconnection. The later Mirroring phone recordings above provide separate real-device evidence.
+Use `node scripts/benchmark-suite.mjs --ab-bursts` for a paired burst on/off run without a JEV key. `--scoped-jev` tests a narrower task-specific candidate set and records that scope change. [Current results and failure audit](docs/operator-performance.md).
 
 Brand assets: [mark and wordmark](docs/brand/). Existing `sprint_*` tools and signing IDs remain compatible.
 
@@ -111,13 +114,13 @@ The user subsequently replaced publication acceptance with the Calculator benchm
 
 ## Runner screen
 
-The installed runner shows the official Libraries.dev **ThinkingOrb**, state `working`,64pt, centered on a dark gray `#121212` screen. It uses the library's native SwiftUI port and pauses while backgrounded or with Reduce Motion. No React/web runtime, external assets or network is involved. [Captured animation](docs/images/working-orb.gif), [verification](benchmarks/orb-ui.json).
+The installed runner shows the official Libraries.dev **ThinkingOrb**, state `working`,64pt, centered on a dark gray `#121212` screen. It uses the library's native SwiftUI port and pauses while backgrounded or with Reduce Motion. No React/web runtime, external assets or network is involved. [Actual installed screen](docs/images/operator-on-phone.png), [captured animation](docs/images/working-orb.gif), [verification](benchmarks/orb-ui.json).
 
 ## Optional JEV loop
 
 The largest measured saving here comes from fewer coding-agent round trips. `sprint_execute` also accepts a newly generated `local_goal` in place of `steps`. It selects among fresh permitted controls, performs one action, observes, and continues until an explicit visible predicate or a budget/handoff. This is general bounded navigation, not a saved app routine.
 
-Set `TYPESAFE_API_KEY` in the MCP environment, or save it in ignored `.state/jev-token` with mode0600. Never commit keys. Each goal must opt into sending its goal and selected UI labels to TypeSafe. No screenshots or editable field values are sent; selected control labels and bounded visible static text provide context. Live `jev-1.14.0` completed3/3 Calculator trials correctly; decision median90 ms. The actual configured Node24 stdio MCP also completed a live goal in1.93 s. This is a narrow hardware benchmark; local API-contract tests alone do not establish latency/accuracy. [Research and contract](docs/jev.md).
+Set `TYPESAFE_API_KEY` in the MCP environment, or save it in ignored `.state/jev-token` with mode0600. Never commit keys. Each goal must opt into sending its goal and selected UI labels to TypeSafe. No screenshots or editable field values are sent; selected control labels and bounded visible static text provide context. Earlier `jev-1.14.0` completed3/3 simple Calculator trials; the larger stricter physical suite completed4/10. Do not generalize from the earlier small sample. [Research and contract](docs/jev.md).
 
 ```json
 {
@@ -132,8 +135,8 @@ Set `TYPESAFE_API_KEY` in the MCP environment, or save it in ignored `.state/jev
 }
 ```
 
-The calling agent supplies a narrow authorized app/selector scope from the task. Protected-label filtering is an extra conservative English-language filter, not a substitute for authorization. Publication, money, authentication, consent and destructive actions stay with the calling agent. DONE from JEV never substitutes for the completion predicate; missing/ambiguous targets, uncertain delivery, no progress or exhausted budgets hand back. Choice gates are experimental and uncalibrated.
+The calling agent supplies a narrow authorized app/selector scope from the task. Protected-label filtering is an extra conservative English-language filter, not a substitute for authorization. Publication, money, authentication, consent and destructive actions stay with the calling agent. For entry tasks, add `until.after_action`, for example `{"kind":"Key","identifier":"Equals"}`, so an intermediate matching number cannot finish the goal. Both the last submitted action and the visible result must match. DONE from JEV never substitutes for the completion predicate; missing/ambiguous targets, uncertain delivery, no progress or exhausted budgets hand back. Choice gates are experimental and uncalibrated.
 
 ## AXe review
 
-The [pinned source review](docs/axe-review.md) covers the whole tracked path inventory and traces critical implementation areas. Sprint adopts native target identity/frame admission, snapshot expiry, input-delivery receipts, compact navigation views, and a bounded optional chooser. Full overlay ownership and native cancellation propagation remain open work. AXe's runner-free path was measured in isolation: AX reads worked; its screenshot/HID services were unavailable on this phone. No blanket replacement or performance claim follows from its simulator benchmarks.
+The [pinned source review](docs/axe-review.md) covers the whole tracked path inventory and traces critical implementation areas. Operator adopts native target identity/frame admission, snapshot expiry, input-delivery receipts, compact navigation views, and a bounded optional chooser. Full overlay ownership and native cancellation propagation remain open work. AXe's runner-free path was measured in isolation: AX reads worked; its screenshot/HID services were unavailable on this phone. No blanket replacement or performance claim follows from its simulator benchmarks.

@@ -1,0 +1,194 @@
+{
+  "note": "All retained app-suite attempts, including recorder/setup failures. Confirmed comparison selects all seven calculations from confirmed and all three navigation runs from confirmed-navigation-v2. Earlier attempts are not successful samples for the comparison.",
+  "attempts": [
+    {
+      "session": "confirmed",
+      "task": "01-add",
+      "reported_ok": true,
+      "valid_completion": true,
+      "elapsed_ms": 2684.109583001584,
+      "error": null,
+      "audit": null
+    },
+    {
+      "session": "confirmed",
+      "task": "02-subtract",
+      "reported_ok": true,
+      "valid_completion": true,
+      "elapsed_ms": 3792.1420419998467,
+      "error": null,
+      "audit": null
+    },
+    {
+      "session": "confirmed",
+      "task": "03-multiply",
+      "reported_ok": true,
+      "valid_completion": true,
+      "elapsed_ms": 2684.3936250004917,
+      "error": null,
+      "audit": null
+    },
+    {
+      "session": "confirmed",
+      "task": "04-divide",
+      "reported_ok": true,
+      "valid_completion": true,
+      "elapsed_ms": 3400.48041700013,
+      "error": null,
+      "audit": null
+    },
+    {
+      "session": "confirmed",
+      "task": "05-decimal",
+      "reported_ok": true,
+      "valid_completion": true,
+      "elapsed_ms": 5730.157708000392,
+      "error": null,
+      "audit": null
+    },
+    {
+      "session": "confirmed",
+      "task": "06-percent",
+      "reported_ok": true,
+      "valid_completion": true,
+      "elapsed_ms": 4531.653417000547,
+      "error": null,
+      "audit": null
+    },
+    {
+      "session": "confirmed",
+      "task": "07-chain",
+      "reported_ok": true,
+      "valid_completion": true,
+      "elapsed_ms": 5144.983374999836,
+      "error": null,
+      "audit": null
+    },
+    {
+      "session": "confirmed",
+      "task": "08-clock-stopwatch",
+      "reported_ok": false,
+      "valid_completion": false,
+      "elapsed_ms": null,
+      "error": "A unique live app result was not observed",
+      "audit": null
+    },
+    {
+      "session": "confirmed-navigation",
+      "task": "08-clock-stopwatch",
+      "reported_ok": false,
+      "valid_completion": false,
+      "elapsed_ms": 5855.290750000626,
+      "error": "Expected navigation result not observed",
+      "audit": null
+    },
+    {
+      "session": "confirmed-navigation",
+      "task": "09-clock-world-clock",
+      "reported_ok": true,
+      "valid_completion": false,
+      "elapsed_ms": 922.9483329989016,
+      "error": null,
+      "audit": "Starting Stopwatch tab was not independently verified; excluded despite reported success"
+    },
+    {
+      "session": "confirmed-navigation-v2",
+      "task": "08-clock-stopwatch",
+      "reported_ok": true,
+      "valid_completion": true,
+      "elapsed_ms": 903.539416000247,
+      "error": null,
+      "audit": null
+    },
+    {
+      "session": "confirmed-navigation-v2",
+      "task": "09-clock-world-clock",
+      "reported_ok": true,
+      "valid_completion": true,
+      "elapsed_ms": 811.0564580000937,
+      "error": null,
+      "audit": null
+    },
+    {
+      "session": "confirmed-navigation-v2",
+      "task": "10-settings-general",
+      "reported_ok": true,
+      "valid_completion": true,
+      "elapsed_ms": 842.8728749994189,
+      "error": null,
+      "audit": null
+    },
+    {
+      "session": "final",
+      "task": "01-add",
+      "reported_ok": false,
+      "valid_completion": false,
+      "elapsed_ms": null,
+      "error": "Calculator zero was not independently verified",
+      "audit": null
+    },
+    {
+      "session": "final-v2",
+      "task": "01-add",
+      "reported_ok": false,
+      "valid_completion": false,
+      "elapsed_ms": null,
+      "error": "Current Calculator keypad anchor missing: 9",
+      "audit": null
+    },
+    {
+      "session": "final-v3",
+      "task": "01-add",
+      "reported_ok": true,
+      "valid_completion": true,
+      "elapsed_ms": 3520.181541999802,
+      "error": null,
+      "audit": null
+    },
+    {
+      "session": "final-v3",
+      "task": "02-subtract",
+      "reported_ok": false,
+      "valid_completion": false,
+      "elapsed_ms": 221.8524580001831,
+      "error": "Sky Computer Use native pipe closed before response",
+      "audit": null
+    },
+    {
+      "session": "final-v3",
+      "task": "03-multiply",
+      "reported_ok": true,
+      "valid_completion": true,
+      "elapsed_ms": 2657.729915998876,
+      "error": null,
+      "audit": null
+    },
+    {
+      "session": "final-v3",
+      "task": "04-divide",
+      "reported_ok": false,
+      "valid_completion": false,
+      "elapsed_ms": 8072.289290999994,
+      "error": "Expected Calculator result not observed",
+      "audit": null
+    },
+    {
+      "session": "round-1",
+      "task": "01-add",
+      "reported_ok": false,
+      "valid_completion": false,
+      "elapsed_ms": null,
+      "error": "Expected the actual CUA PNG capture",
+      "audit": null
+    },
+    {
+      "session": "round-2",
+      "task": "01-add",
+      "reported_ok": false,
+      "valid_completion": false,
+      "elapsed_ms": null,
+      "error": "Mirroring connection/takeover; stopped",
+      "audit": null
+    }
+  ]
+}
