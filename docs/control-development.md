@@ -2,9 +2,9 @@
 
 The current change lets the controller enter an exact supplied string when the caller already names one observed field. It avoids a second model decision about that field. Other actions still use JEV.
 
-The shortcut requires native field-bound text support, a complete observation, a unique native target, an empty field, and the exact authorized string. Existing drafts, ambiguous fields, and additional submission conditions do not use the shortcut. Native snapshot, app, identity, and focus checks still apply. `direct_text:false` requires a JEV decision for every action. The default JEV gates remain at 0.9.
+The shortcut requires native field-bound text support, a complete observation, a unique native target, an empty field, and the exact authorized string. The goal must name the destination app, or permit only one app. Existing drafts, ambiguous fields or destination apps, and additional submission conditions do not use the shortcut. Native snapshot, app, identity, and focus checks still apply. `direct_text:false` requires a JEV decision for every action. The default JEV gates remain at 0.9.
 
-Nine archived phone observations reached the intended field through the production controller with zero JEV calls. This was a replay, not a physical trial or a speed measurement. All 58 host checks pass. The new physical comparison has not run because the Mac currently detects no USB phone.
+Nine archived phone observations reached the intended field through the production controller with zero JEV calls. This was a replay, not a physical trial or a speed measurement. All 60 host checks pass. The new physical comparison has not run because the Mac currently detects no USB phone.
 
 ## Next recorded run
 

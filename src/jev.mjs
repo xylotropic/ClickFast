@@ -81,6 +81,7 @@ function exactFieldAction(observation,options,candidates){
  if(options.direct_text===false||observation.bound_text!==1||observation.truncated)return null;
  const {until}=options,selector=until.selector;
  if(until.after_action||until.absent||(until.app&&until.app!==observation.app)||!selector||!fields.includes(selector.kind)||typeof selector.value!=='string'||!selector.value)return null;
+ if(!until.app&&new Set(options.apps).size!==1)return null;
  if(!Object.values(options.texts||{}).includes(selector.value))return null;
  const {value,...target}=selector,identities=new Map();
  for(const row of observation.elements)if(row.ref&&matches(row,target))identities.set(row.native_ref||row.ref,row);

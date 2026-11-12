@@ -110,3 +110,13 @@ test('an exact text shortcut requires the supplied literal and no unmet extra su
 test('JEV-only comparisons can explicitly disable direct text admission',async()=>{
  const c=exactEntryController();let calls=0;const result=await runLocalGoal(c,{...exactEntryOptions,direct_text:false},{chooser:{choose:async()=>{calls++;return {...decision,choice:'BLOCKED'};}}});assert.equal(result.ok,false);assert.equal(calls,1);assert.equal(c.steps.length,0);
 });
+test('an exact text shortcut cannot infer the destination from a field shared across permitted apps',async()=>{
+ const c=exactEntryController();let calls=0;
+ const result=await runLocalGoal(c,{...exactEntryOptions,apps:['test.app','another.app']},{chooser:{choose:async()=>{calls++;return {...decision,choice:'BLOCKED'};}}});
+ assert.equal(result.ok,false);assert.equal(calls,1);assert.equal(c.steps.length,0);
+});
+test('an explicit destination app permits exact text even when other apps are in scope',async()=>{
+ const c=exactEntryController();let calls=0;
+ const result=await runLocalGoal(c,{...exactEntryOptions,apps:['test.app','another.app'],until:{...exactEntryOptions.until,app:'test.app'}},{chooser:{choose:async()=>{calls++;return {...decision,choice:'BLOCKED'};}}});
+ assert.equal(result.ok,true);assert.equal(calls,0);assert.equal(c.steps.length,1);
+});
