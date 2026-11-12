@@ -23,6 +23,17 @@ test('an unavailable accessibility surface falls back to a fresh pixel context',
  const calls=[];const c=new Controller({call:async path=>{calls.push(path);if(path==='/sprint/observe')throw Error('Accessibility is unavailable for this screen; use a pixel observation');return {...screen(),elements:[],mode:'pixels'};}});
  const result=await c.observe();assert.equal(result.mode,'pixels');assert.deepEqual(calls,['/sprint/observe','/sprint/frame']);assert.match(result.ax_error,/unavailable/);
 });
+test('successful input followed by an unavailable AX read returns pixels without replaying input',async()=>{
+ const calls=[];const c=new Controller({call:async(path,body)=>{calls.push({path,body});if(path==='/sprint/observe')return screen();if(path==='/sprint/act')throw Object.assign(Error('Accessibility is unavailable for this screen; use a pixel observation'),{outcome:'applied'});return {...screen(),snapshot:'pixels-after-action',mode:'pixels',elements:[]};}});
+ await c.observe();const result=await c.execute([{op:'tap',selector:{label:'Search'}}]);
+ assert.equal(result.ok,true);assert.equal(result.observation.mode,'pixels');assert.equal(result.observation.snapshot,'pixels-after-action');
+ assert.equal(calls.filter(x=>x.path==='/sprint/act').length,1);assert.equal(calls.filter(x=>x.path==='/sprint/frame').length,1);
+});
+test('unknown input delivery cannot become success through the pixel fallback',async()=>{
+ const calls=[];const c=new Controller({call:async path=>{calls.push(path);if(path==='/sprint/observe')return screen();throw Object.assign(Error('Accessibility is unavailable for this screen; use a pixel observation'),{outcome:'unknown'});}});
+ await c.observe();const result=await c.execute([{op:'tap',selector:{label:'Search'}}]);
+ assert.equal(result.ok,false);assert.equal(result.outcome,'unknown');assert.ok(!calls.includes('/sprint/frame'));
+});
 
 test('HMAC matches the pinned native runner canonical format',()=>{
  const body=Buffer.from('{"x":3}');const hash=createHash('sha256').update(body).digest('hex');
@@ -57,6 +68,13 @@ test('runner transport signs real HTTP requests and does not replay ambiguous mu
 });
 test('unique selector refuses duplicate controls rather than choosing the first',()=>{
  const s=screen();s.elements.push({...s.elements[0],ref:'other'});
+ assert.throws(()=>select(s,{label:'Search'},{actionable:true}),/found 2/);
+});
+test('two AX projections of one registered native button are one actionable target',()=>{
+ const a={...screen().elements[0],ref:'s:0',native_ref:'one-native-button'};
+ const s={...screen(),elements:[a,{...a,ref:'s:1'}]};
+ assert.equal(select(s,{label:'Search'},{actionable:true}).native_ref,'one-native-button');
+ s.elements[1].native_ref='another-native-button';
  assert.throws(()=>select(s,{label:'Search'},{actionable:true}),/found 2/);
 });
 test('one observation supplies registered handle, avoiding a second full tree lookup',async()=>{

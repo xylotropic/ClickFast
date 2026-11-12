@@ -65,7 +65,13 @@ export function validateSelector(selector){
 export function matches(row,selector){return Object.entries(selector).every(([k,v])=>row[k]===v);}
 export function select(snapshot,selector,{actionable=false}={}){
   validateSelector(selector);
-  const rows=snapshot.elements.filter(row=>matches(row,selector)&&(!actionable || (row.ref&&row.enabled!==false)));
+  const identities=new Set();
+  const rows=snapshot.elements.filter(row=>{
+    if(!matches(row,selector)||actionable&&(!row.ref||row.enabled===false))return false;
+    const id=row.native_ref||row.ref;
+    if(id&&identities.has(id))return false;
+    if(id)identities.add(id);return true;
+  });
   if(rows.length!==1)throw new Error(`Selector requires one ${actionable?'actionable ':''}match; found ${rows.length}`);
   return rows[0];
 }
@@ -180,7 +186,14 @@ export class Controller {
       default:throw new Error(`Unsupported operation ${step.op}`);
     }
     this.current=null;
-    const result=await this.runner.call('/sprint/act',{path,body,snapshot,observe:!required&&step.observe!==false},{signal});
+    let result;
+    try{result=await this.runner.call('/sprint/act',{path,body,snapshot,observe:!required&&step.observe!==false},{signal});}
+    catch(error){
+      if(error.outcome!=='applied'||error.message!=='Accessibility is unavailable for this screen; use a pixel observation')throw error;
+      // Input succeeded. Replace only its failed AX read; never dispatch the action again.
+      try{result={...await this.runner.call('/sprint/frame',undefined,{signal}),ax_error:error.message};}
+      catch(readError){readError.outcome='applied';throw readError;}
+    }
     if(result?.snapshot)this.adopt(result);
     if(required)return await this.wait(required,{signal,timeout:step.timeout_ms??5000});
     return this.current || {applied:true,observation:'not_requested'};

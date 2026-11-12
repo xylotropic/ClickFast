@@ -130,6 +130,14 @@ export async function runLocalGoal(controller,options,{chooser,signal,onBeforeAc
     if(done(observation))return result(true,'Completion predicate observed','verified');
     if(observation.mode==='pixels')return result(false,'Accessibility unavailable; caller must inspect the fresh screenshot','needs_vision');
    }
+   const loadingWithoutControls=s=>s.elements.some(r=>r.kind==='ActivityIndicator')&&!s.elements.some(r=>r.ref&&tappable.includes(r.kind)&&r.enabled!==false);
+   if(loadingWithoutControls(observation)){
+    const deadline=performance.now()+1000;
+    do{await new Promise(r=>setTimeout(r,25));observation=await controller.observe({signal:stop});}while(loadingWithoutControls(observation)&&performance.now()<deadline);
+    if(!apps.includes(observation.app))return result(false,'App scope changed');
+    if(done(observation))return result(true,'Completion predicate observed','verified');
+    if(loadingWithoutControls(observation))return result(false,'App is still loading; no navigation action sent','needs_observation');
+   }
    if(i===max)return result(false,'Action budget reached');
    const candidates=actionCandidates(observation,options);
    if(!candidates.length)return result(false,'No permitted action');

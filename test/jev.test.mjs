@@ -23,6 +23,11 @@ test('one bounded chooser action succeeds only after its independent predicate a
  const c=fakeController();const result=await runLocalGoal(c,options,{chooser:{choose:async()=>decision}});
  assert.equal(result.ok,true);assert.equal(result.chooser_calls,1);assert.equal(c.inputs,1);assert.equal(result.outcome,'verified');
 });
+test('a loading screen with no controls is observed again before asking for a decision',async()=>{
+ let reads=0;const c=fakeController();c.observe=async function(){reads++;return this.current=reads===1?{...screen(),elements:[{kind:'ActivityIndicator',label:'Loading'}]}:screen();};
+ const result=await runLocalGoal(c,options,{chooser:{choose:async({observation})=>{assert.ok(observation.elements.some(x=>x.ref));return decision;}}});
+ assert.equal(result.ok,true);assert.equal(result.chooser_calls,1);assert.equal(reads,2);assert.equal(c.inputs,1);
+});
 test('JEV DONE cannot substitute for a visible result',async()=>{
  const c=fakeController();const result=await runLocalGoal(c,options,{chooser:{choose:async()=>({...decision,choice:'DONE'})}});assert.equal(result.ok,false);assert.equal(c.inputs,0);
 });
