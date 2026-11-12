@@ -92,6 +92,9 @@ final class RunnerTests: XCTestCase {
   func testServe() throws {
     let patched = IPURBridge.installQuiescenceBypass()
     NSLog("ipu-runner: quiescence bypass installed on %@", patched.joined(separator: ", "))
+    if let failure = IPURBridge.limitAccessibilityTimeout(2) {
+      NSLog("ipu-runner: AX timeout configuration: %@", failure)
+    }
     NSLog("ipu-runner: private AX client %@, event synthesis %@",
           IPURBridge.axClient() == nil ? "MISSING" : "available",
           IPURBridge.eventSynthesisAvailable() ? "available" : "MISSING")
