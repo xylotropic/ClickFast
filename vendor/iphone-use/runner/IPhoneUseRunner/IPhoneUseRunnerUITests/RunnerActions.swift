@@ -4,6 +4,28 @@
 import CoreGraphics
 import Foundation
 
+/// Choose a backend before input. A failed dispatch may already have acted;
+/// trying another backend after that failure would repeat the user's action.
+enum InputDispatch {
+  enum Backend { case synthesized, fallback }
+
+  static func once(
+    _ name: String, synthesisAvailable: Bool,
+    synthesized: () -> String?, fallback: () -> String?
+  ) throws -> Backend {
+    if synthesisAvailable {
+      if let failure = synthesized() {
+        throw RunnerError.failed("\(name) delivery is uncertain: \(failure)")
+      }
+      return .synthesized
+    }
+    if let failure = fallback() {
+      throw RunnerError.failed("\(name) delivery is uncertain: \(failure)")
+    }
+    return .fallback
+  }
+}
+
 enum W3CActions {
   static func number(_ object: [String: Any], _ key: String) -> Double? {
     if let value = object[key] as? NSNumber { return value.doubleValue }

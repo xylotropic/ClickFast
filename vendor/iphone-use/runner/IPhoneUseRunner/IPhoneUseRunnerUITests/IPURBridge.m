@@ -169,6 +169,20 @@ static void IPURNoopVoidMethod(Class cls, NSString *selectorName, NSMutableArray
   return IPURObject(XCUIDevice.sharedDevice, @"accessibilityInterface");
 }
 
++ (nullable NSString *)limitAccessibilityTimeout:(double)seconds
+{
+  id client = [self axClient];
+  SEL selector = NSSelectorFromString(@"_setAXTimeout:error:");
+  if (client == nil || ![client respondsToSelector:selector]) return @"AX timeout control unavailable";
+  @try {
+    NSError *error = nil;
+    BOOL ok = ((BOOL (*)(id, SEL, double, NSError **))objc_msgSend)(client, selector, MAX(0.25, MIN(3.0, seconds)), &error);
+    return ok ? nil : (error.localizedDescription ?: @"AX timeout was not accepted");
+  } @catch (NSException *exception) {
+    return [NSString stringWithFormat:@"%@: %@", exception.name, exception.reason];
+  }
+}
+
 + (int)pidForAXElement:(id)element
 {
   return IPURInt(element, @"processIdentifier");
@@ -741,6 +755,11 @@ static NSMutableDictionary<NSString *, NSNumber *> *IPURAcceptedDepths(void)
     }
     lastError = error ?: lastError;
     NSLog(@"ipu-runner: ax snapshot rejected at depth %ld: %@", (long)depth.integerValue, lastError);
+    // Lower depth cannot repair an absent server or a timed-out request. Repeating
+    // those errors used to occupy the input queue for five consecutive deadlines.
+    NSString *lowerError = lastError.lowercaseString;
+    if ([lowerError containsString:@"timeout"] || [lowerError containsString:@"timed out"] ||
+        [lowerError containsString:@"servernotfound"]) break;
   }
   if (root == nil) {
     return @{IPURTreeOkKey: @NO, IPURTreeErrorKey: lastError};
@@ -840,6 +859,18 @@ static NSMutableDictionary<NSString *, NSNumber *> *IPURAcceptedDepths(void)
     && [pathClass instancesRespondToSelector:NSSelectorFromString(@"liftUpAtOffset:")]
     && ([recordClass instancesRespondToSelector:NSSelectorFromString(@"initWithName:displayID:interfaceOrientation:")]
         || [recordClass instancesRespondToSelector:NSSelectorFromString(@"initWithName:interfaceOrientation:")]);
+}
+
++ (BOOL)textSynthesisAvailable
+{
+  Class recordClass = NSClassFromString(@"XCSynthesizedEventRecord");
+  Class pathClass = NSClassFromString(@"XCPointerEventPath");
+  return recordClass != Nil && pathClass != Nil
+    && [recordClass instancesRespondToSelector:NSSelectorFromString(@"initWithName:")]
+    && [recordClass instancesRespondToSelector:NSSelectorFromString(@"synthesizeWithError:")]
+    && [recordClass instancesRespondToSelector:NSSelectorFromString(@"addPointerEventPath:")]
+    && [pathClass instancesRespondToSelector:NSSelectorFromString(@"initForTextInput")]
+    && [pathClass instancesRespondToSelector:NSSelectorFromString(@"typeText:atOffset:typingSpeed:shouldRedact:")];
 }
 
 /// UIInterfaceOrientation the touch points are given in: the interface orientation on screen, not
@@ -1066,8 +1097,7 @@ static NSString *IPURSynthesize(id record, id path)
     SEL initRecord = NSSelectorFromString(@"initWithName:");
     SEL initPath = NSSelectorFromString(@"initForTextInput");
     SEL typeText = NSSelectorFromString(@"typeText:atOffset:typingSpeed:shouldRedact:");
-    if (recordClass == Nil || pathClass == Nil || ![recordClass instancesRespondToSelector:initRecord]
-        || ![pathClass instancesRespondToSelector:initPath] || ![pathClass instancesRespondToSelector:typeText]) {
+    if (![self textSynthesisAvailable]) {
       return @"private XCTest text synthesis unavailable";
     }
     id record = ((IPURMsgSendInitRecordName)objc_msgSend)([recordClass alloc], initRecord, @"ipu-type");

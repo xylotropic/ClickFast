@@ -982,5 +982,43 @@ do {
   check(!SprintTargetAdmission.emptyEditor(editor(type: "TextView", value: "Search")), "A document label is not a TextView placeholder")
 }
 
+// Input backend failures must not repeat an action that may already have acted.
+do {
+  var primary = 0, fallback = 0
+  let backend = try InputDispatch.once("tap", synthesisAvailable: true,
+    synthesized: { primary += 1; return nil }, fallback: { fallback += 1; return nil })
+  check(backend == .synthesized && primary == 1 && fallback == 0,
+        "Available synthesis dispatches once without the fallback")
+
+  for failure in ["receipt lost after dispatch", "private synthesis unavailable", "partial text delivered"] {
+    primary = 0; fallback = 0
+    do {
+      _ = try InputDispatch.once("input", synthesisAvailable: true,
+        synthesized: { primary += 1; return failure }, fallback: { fallback += 1; return nil })
+      check(false, "Uncertain synthesis must throw")
+    } catch {
+      check(primary == 1 && fallback == 0 && String(describing: error).contains("uncertain"),
+            "A synthesis failure never selects another backend: \(failure)")
+    }
+  }
+
+  primary = 0; fallback = 0
+  let compatible = try InputDispatch.once("text", synthesisAvailable: false,
+    synthesized: { primary += 1; return nil }, fallback: { fallback += 1; return nil })
+  check(compatible == .fallback && primary == 0 && fallback == 1,
+        "Missing synthesis capability selects fallback before input")
+
+  primary = 0; fallback = 0
+  do {
+    _ = try InputDispatch.once("text", synthesisAvailable: false,
+      synthesized: { primary += 1; return nil }, fallback: { fallback += 1; return "lost receipt" })
+    check(false, "Uncertain fallback must throw")
+  } catch {
+    check(primary == 0 && fallback == 1, "Failed fallback is not retried through synthesis")
+  }
+} catch {
+  check(false, "Unexpected input dispatch test error: \(error)")
+}
+
 print(failures == 0 ? "unit check: \(checks) checks passed" : "unit check: \(failures) of \(checks) checks FAILED")
 exit(failures == 0 ? 0 : 1)

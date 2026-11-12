@@ -26,16 +26,19 @@ You can also let JEV choose the next action from the current screen controls. Th
 
 ## Results
 
-Ten recorded Calculator and navigation tasks took **7.46 seconds with ClickFast** and **30.53 seconds through iPhone Mirroring**. Both completed all ten using known action plans. The timings include actions and result checks, but exclude setup and app launch. [Watch the comparisons](benchmarks/runs/2026-11-11-operator-vs-mirroring/comparison.md).
+We ran twenty tasks across folders and fourteen apps on a real iPhone. ClickFast verified **16/20**; the agent using iPhone Mirroring verified **14/20**. In the twelve tasks both completed, median time was **2.04 seconds with ClickFast** and **16.55 seconds with Mirroring**.
 
-JEV completed **7 of 12** tasks in a separate test across more apps. General control still needs work. The [full results](docs/general-control-results.md) include the failed attempts.
+This compares the two complete workflows, including decisions and result checks. ClickFast delegates short tasks locally to JEV; Mirroring uses the coding agent between actions. App state and gesture paths differ, so these numbers do not isolate transport speed. Books, TikTok and X still exposed failures. [See every outcome and the method](benchmarks/runs/2026-11-12-general-v10-vs-mirroring/comparison.md).
 
 ClickFast sets media volume to zero before control. Apple still shows its system “Automation Running” screen during XCTest control.
 
 ## Docs
 
 - [Setup, commands, and current limits](docs/control-reference.md)
-- [Phone test results](docs/operator-performance.md)
+- [General phone tests and remaining failures](docs/control-development.md)
+- [Latency research and measured experiments](docs/latency-research.md)
+- [iPhone compatibility](docs/compatibility.md)
+- [Earlier phone test results](docs/operator-performance.md)
 - [Wireless control](docs/wireless.md)
 - [JEV setup and notes](docs/jev.md)
 - [Logo files](docs/brand/)

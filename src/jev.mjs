@@ -1,11 +1,14 @@
 // Optional local intent execution. The caller supplies scope, literals and a verifiable result.
 import {performance} from 'node:perf_hooks';
 import {matches,validateSelector} from './driver.mjs';
+import {runVisualGoal,wantsVisualGoal} from './visual-goal.mjs';
+export {wantsVisualGoal} from './visual-goal.mjs';
 const probability=n=>typeof n==='number'&&Number.isFinite(n)&&n>=0&&n<=1;
 const protectedLabel=/\b(post|publish|share|send|pay|buy|purchase|subscribe|delete|remove|accept|agree|allow|password|sign.?in|log.?in|confirm|order|book)\b/i;
 const fields=['TextField','SearchField','TextView'];
 const tappable=['Button','Cell','Link','Key','Tab','Icon','MenuItem','SegmentedControl',...fields];
 const fieldSelector=row=>row.identifier?{kind:row.kind,identifier:row.identifier}:{kind:row.kind,label:row.label};
+const isBackControl=row=>/^Back$/i.test(row.label||'')||/^BackButton$/i.test(row.identifier||'')||/(^|[._-])(?:back(?:[._-]button)?|go[._-]?back)([._-]|$)/i.test(row.identifier||'');
 
 export class JevChooser {
  constructor({apiKey,model='jev-latest',fetchImpl=globalThis.fetch}={}){
@@ -17,7 +20,7 @@ export class JevChooser {
   // Choice contains executable options only. Completion is checked by the runtime;
   // the independent presence question owns abstention, without competing sentinel options.
   const controls=Object.fromEntries(candidates.map((row,i)=>['a'+i,{
-   operation:row.operation||'tap',kind:row.kind,label:row.operation==='home'&&folderOpen?'Close the open folder and return to the Home Screen':fields.includes(row.kind)&&(row.label===row.identifier||row.value&&row.label===row.value)?(row.placeholder||'Editable field'):row.label,identifier:row.identifier,focused:row.focused===true,
+   operation:row.operation||'tap',kind:row.kind,label:row.operation==='home'&&folderOpen?'Close the open folder and return to the Home Screen':isBackControl(row)&&!/^back\b/i.test(row.label||'')?'Back to '+row.label:fields.includes(row.kind)&&(row.label===row.identifier||row.value&&row.label===row.value)?(row.placeholder||'Editable field'):row.label,identifier:row.identifier,focused:row.focused===true,
    ...(row.operation==='text'?{literal_id:row.literal_id,provided_text:row.text}:{}),
    ...(row.direction?{direction:row.direction}:{}),...(row.bundle?{bundle:row.bundle}:{})
   }]));
@@ -55,6 +58,7 @@ export function actionCandidates(observation,options){
  }else selected.push(...unique.filter(r=>r.ref&&r.enabled!==false));
  for(const row of selected){
   if(!tappable.includes(row.kind)||protectedLabel.test(row.label+' '+(row.identifier||'')))continue;
+  if(!fields.includes(row.kind)&&!String(row.label||'').trim()&&!String(row.identifier||'').trim())continue;
   const box=row.rect;
   if(box&&observation.width&&observation.height&&(box.x<0||box.y<0||box.x+box.width>observation.width||box.y+box.height>observation.height))continue;
   // With visible-control scope, type whole supplied strings instead of offering
@@ -77,8 +81,37 @@ export function actionCandidates(observation,options){
  return candidates;
 }
 
-export async function runLocalGoal(controller,options,{chooser,signal}={}){
+function exactFieldAction(observation,options,candidates){
+ if(options.direct_text===false||observation.bound_text!==1||observation.truncated)return null;
+ const {until}=options,selector=until.selector;
+ if(until.after_action||until.absent||(until.app&&until.app!==observation.app)||!selector||!fields.includes(selector.kind)||typeof selector.value!=='string'||!selector.value)return null;
+ if(!until.app&&new Set(options.apps).size!==1)return null;
+ if(!Object.values(options.texts||{}).includes(selector.value))return null;
+ const {value,...target}=selector,identities=new Map();
+ for(const row of observation.elements)if(row.ref&&matches(row,target))identities.set(row.native_ref||row.ref,row);
+ if(identities.size!==1)return null;
+ const id=identities.keys().next().value;
+ const eligible=candidates.filter(row=>row.operation==='text'&&(row.native_ref||row.ref)===id&&row.text===value);
+ return eligible.length===1?eligible[0]:null;
+}
+
+// JEV chooses the next control. Keep a search prerequisite separate from the
+// caller's full launch/type task, without adding app-specific navigation plans.
+function nextDecisionGoal(goal,observation,options,candidates){
+ const selector=options.until?.selector;
+ if(selector?.kind!=='SearchField')return goal;
+ const {value,...field}=selector;
+ if(observation.elements.some(row=>matches(row,field)))return goal;
+ const search=candidates.filter(row=>row.operation==='tap'&&/^search$/i.test(row.label||''));
+ if(search.length===1)return 'Open search in the current app.';
+ const back=candidates.filter(row=>row.operation==='tap'&&row.kind==='Button'&&isBackControl(row));
+ if(back.length===1)return `Use the navigation Back button${back[0].label&&back[0].label!=='Back'?' to '+back[0].label:''} to leave this detail view and reach search.`;
+ return goal;
+}
+
+export async function runLocalGoal(controller,options,{chooser,signal,onBeforeAction,vision}={}){
  if(options?.external_ui_opt_in!==true)throw new Error('JEV requires explicit external_ui_opt_in: selected UI labels, supplied literals and the intent are sent to TypeSafe');
+ if(wantsVisualGoal(options))return runVisualGoal(controller,options,{chooser,signal,onBeforeAction,vision});
  const {goal,apps,allowed_selectors,until}=options;
  if(typeof goal!=='string'||goal.length<1||goal.length>2000||!Array.isArray(apps)||!apps.length||apps.length>16||apps.some(x=>typeof x!=='string'||!/^[\w.-]+$/.test(x)))throw new Error('A bounded intent and explicit app scope are required');
  if(!Array.isArray(allowed_selectors)&&options.visible_controls!==true)throw new Error('Specify allowed_selectors or visible_controls:true');
@@ -91,31 +124,60 @@ export async function runLocalGoal(controller,options,{chooser,signal}={}){
  if(options.swipe_directions&&(!Array.isArray(options.swipe_directions)||options.swipe_directions.length>4||options.swipe_directions.some(x=>!['up','down','left','right'].includes(x))))throw new Error('Invalid swipe direction scope');
  if(options.launch_apps&&(!Array.isArray(options.launch_apps)||options.launch_apps.length>16||options.launch_apps.some(x=>!apps.includes(x.bundle)||typeof x.label!=='string'||!x.label.length||x.label.length>100)))throw new Error('Launch candidates must belong to the explicit app scope');
  if(options.allow_home!==undefined&&typeof options.allow_home!=='boolean')throw new Error('allow_home must be boolean');
+ if(options.direct_text!==undefined&&typeof options.direct_text!=='boolean')throw new Error('direct_text must be boolean');
+ if(options.direct_launch!==undefined&&typeof options.direct_launch!=='boolean')throw new Error('direct_launch must be boolean');
  if(options.allow_home&&!apps.includes('com.apple.springboard'))throw new Error('Home requires Springboard in the app scope');
  const max=options.max_actions??8,timeout=options.timeout_ms??30000;
  if(!Number.isInteger(max)||max<1||max>12||!Number.isInteger(timeout)||timeout<1||timeout>60000)throw new Error('Invalid local goal budget');
  const min=options.min_probability??0.9;if(!probability(min)||min<0.8)throw new Error('Invalid decision gate');
  if(!chooser)throw new Error('JEV chooser is not configured');
  const stop=signal?AbortSignal.any([signal,AbortSignal.timeout(timeout)]):AbortSignal.timeout(timeout);
- const events=[],history=[];let calls=0,lastAction=null;const start=performance.now();
- const done=s=>(!until.app||s.app===until.app)&&(!until.selector||s.elements.some(r=>matches(r,until.selector)))&&(!until.absent||!s.elements.some(r=>matches(r,until.absent)))&&(!until.after_action||(lastAction&&matches(lastAction,until.after_action)));
+ const events=[],history=[];let calls=0,lastAction=null,staleRecoveries=0;const start=performance.now();
+ const done=s=>(!(until.selector||until.absent)||s.mode!=='pixels'&&!s.truncated)&&(!until.app||s.app===until.app)&&(!until.selector||s.elements.some(r=>matches(r,until.selector)))&&(!until.absent||s.elements.length>0&&!s.elements.some(r=>matches(r,until.absent)))&&(!until.after_action||(lastAction&&matches(lastAction,until.after_action)));
  const fingerprint=s=>JSON.stringify([s.app,s.elements.map(r=>[r.kind,r.label,r.identifier,r.value,r.rect])]);
  const result=(ok,reason,outcome='stopped')=>({ok,reason,outcome,actions:events.filter(x=>x.kind==='action').length,chooser_calls:calls,events,observation:controller.current,elapsed_ms:performance.now()-start});
  try{
-  let observation=await controller.observe({signal:stop});
+  const explicitDestination=options.direct_launch!==false&&options.launch_apps?.length===1&&until.app===options.launch_apps[0].bundle?until.app:null;
+  let observation=await controller.observe({signal:stop,pixelsOnly:Boolean(explicitDestination)});
   for(let i=0;i<=max;i++){
    stop.throwIfAborted();if(!apps.includes(observation.app))return result(false,'App scope changed');
+   // A foreground PID can precede the end of iOS's opening transition. A fast
+   // exact-field path otherwise taps the previous keyboard layout's coordinates.
+   const remaining=(until.selector||until.absent)&&!observation.elements.some(r=>fields.includes(r.kind)&&r.focused)?350-(performance.now()-(controller.lastLaunchAt??-Infinity)):0;
+   if(remaining>0){await new Promise(resolve=>setTimeout(resolve,remaining));stop.throwIfAborted();observation=await controller.observe({signal:stop});if(!apps.includes(observation.app))return result(false,'App scope changed');}
    if(done(observation))return result(true,'Completion predicate observed','verified');
+   if(observation.mode==='pixels'&&(!explicitDestination||observation.app===explicitDestination)){
+    const deadline=performance.now()+700;
+    do{await new Promise(r=>setTimeout(r,25));stop.throwIfAborted();observation=await controller.observe({signal:stop});}while(observation.mode==='pixels'&&performance.now()<deadline);
+    if(!apps.includes(observation.app))return result(false,'App scope changed');
+    if(done(observation))return result(true,'Completion predicate observed','verified');
+    if(observation.mode==='pixels')return result(false,'Accessibility unavailable; caller must inspect the fresh screenshot','needs_vision');
+   }
+   const loadingWithoutControls=s=>(s.elements.length===0||s.elements.some(r=>r.kind==='ActivityIndicator'))&&!s.elements.some(r=>r.ref&&tappable.includes(r.kind)&&r.enabled!==false);
+   if(loadingWithoutControls(observation)){
+    const deadline=performance.now()+1000;
+    do{await new Promise(r=>setTimeout(r,25));observation=await controller.observe({signal:stop});}while(loadingWithoutControls(observation)&&performance.now()<deadline);
+    if(!apps.includes(observation.app))return result(false,'App scope changed');
+    if(done(observation))return result(true,'Completion predicate observed','verified');
+    if(loadingWithoutControls(observation))return result(false,'App is still loading; no navigation action sent','needs_observation');
+   }
    if(i===max)return result(false,'Action budget reached');
    const candidates=actionCandidates(observation,options);
    if(!candidates.length)return result(false,'No permitted action');
+   const launches=candidates.filter(row=>row.operation==='launch');
+   let target=options.direct_launch!==false&&launches.length===1&&until.app===launches[0].bundle?launches[0]:exactFieldAction(observation,options,candidates);
+   if(target)events.push({kind:'decision',source:target.operation==='launch'?'exact_app':'exact_field',operation:target.operation});
+   else {
    const chooseStart=performance.now();calls++;
-   const choice=await chooser.choose({goal,observation,candidates,history,signal:stop});
+   const choice=await chooser.choose({goal:nextDecisionGoal(goal,observation,options,candidates),observation,candidates,history,signal:stop});
    events.push({kind:'choice',ms:performance.now()-chooseStart,model:choice.model,usage:choice.usage,confidence:choice.confidence,selected_probability:choice.selected_probability,available:choice.available,choice:choice.choice,candidate_count:candidates.length});
    if(choice.choice==='DONE')return result(false,'Chooser reported DONE without the required visible predicate');
    if(choice.choice==='BLOCKED'||!probability(choice.confidence)||!probability(choice.selected_probability)||!probability(choice.available)||Math.min(choice.confidence,choice.selected_probability,choice.available)<min)return result(false,'Chooser handed back or failed decision gates');
    if(!/^a\d+$/.test(choice.choice)||!candidates[Number(choice.choice.slice(1))])return result(false,'Chooser returned an unknown action');
-   const target=candidates[Number(choice.choice.slice(1))],before=fingerprint(observation),actionStart=performance.now();
+   target=candidates[Number(choice.choice.slice(1))];
+   }
+   const before=fingerprint(observation),actionStart=performance.now();
+   if(onBeforeAction)await onBeforeAction({target,observation});
    const execute=steps=>controller.execute(steps,{signal:stop,timeout:Math.max(1,timeout-(performance.now()-start))});
    let applied;
    switch(target.operation){
@@ -133,10 +195,22 @@ export async function runLocalGoal(controller,options,{chooser,signal}={}){
     default:throw new Error('Unsupported executable action');
    }
    events.push({kind:'action',operation:target.operation,ms:performance.now()-actionStart,ok:applied.ok,outcome:applied.outcome});
+   if(!applied.ok&&applied.outcome==='not_sent'&&['Screen snapshot is stale; no input dispatched','Target moved; observe again','Target changed; observe again'].includes(applied.error)&&staleRecoveries<1){
+    staleRecoveries++;events.push({kind:'recovery',reason:'Native refused a stale snapshot or changed target before input; observe and choose again'});
+    observation=await controller.observe({signal:stop});continue;
+   }
    if(!applied.ok)return {...result(false,applied.error,applied.outcome),observation:applied.observation};
    lastAction=target;
    history.push({step:i,operation:target.operation,label:target.label,identifier:target.identifier,literal_id:target.literal_id,direction:target.direction,observed_app:controller.current?.app,delivery:applied.outcome||'applied'});
    observation=controller.current;
+   if(target.operation==='tap'&&fields.includes(until.selector?.kind)){
+    const {value,...field}=until.selector;
+    const deadline=performance.now()+2000;
+    while(!observation.elements.some(r=>matches(r,field))&&performance.now()<deadline){
+     await new Promise(resolve=>setTimeout(resolve,25));stop.throwIfAborted();observation=await controller.observe({signal:stop});
+     if(!apps.includes(observation.app))return result(false,'App scope changed');
+    }
+   }
    const progressDeadline=performance.now()+1000;
    while(before===fingerprint(observation)&&performance.now()<progressDeadline){
     await new Promise(r=>setTimeout(r,50));stop.throwIfAborted();observation=await controller.observe({signal:stop});

@@ -35,6 +35,7 @@ FOUNDATION_EXPORT NSString *const IPURNodeAXElementKey;
 /// waitForQuiescenceOnAllForegroundApplicationsAsPreEvent:, XCUIApplication _waitForQuiescence…).
 /// Returns the selectors that were patched, for the startup log.
 + (NSArray<NSString *> *)installQuiescenceBypass;
++ (nullable NSString *)limitAccessibilityTimeout:(double)seconds;
 
 /// Runs `block` inside XCUIApplication `_performWithInteractionOptions:block:` with both the
 /// pre-event and post-event quiescence skip bits set, when the selector exists; otherwise runs it
@@ -136,6 +137,8 @@ FOUNDATION_EXPORT NSString *const IPURNodeAXElementKey;
 
 /// Whether the private event-synthesis classes and selectors are present.
 + (BOOL)eventSynthesisAvailable;
+/// Whether the private text-input record and path selectors are present.
++ (BOOL)textSynthesisAvailable;
 
 + (nullable NSString *)synthesizeTapAt:(CGPoint)point pid:(int)pid;
 + (nullable NSString *)synthesizeLongPressAt:(CGPoint)point duration:(NSTimeInterval)duration pid:(int)pid;

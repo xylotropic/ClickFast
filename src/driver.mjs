@@ -65,12 +65,18 @@ export function validateSelector(selector){
 export function matches(row,selector){return Object.entries(selector).every(([k,v])=>row[k]===v);}
 export function select(snapshot,selector,{actionable=false}={}){
   validateSelector(selector);
-  const rows=snapshot.elements.filter(row=>matches(row,selector)&&(!actionable || (row.ref&&row.enabled!==false)));
+  const identities=new Set();
+  const rows=snapshot.elements.filter(row=>{
+    if(!matches(row,selector)||actionable&&(!row.ref||row.enabled===false))return false;
+    const id=row.native_ref||row.ref;
+    if(id&&identities.has(id))return false;
+    if(id)identities.add(id);return true;
+  });
   if(rows.length!==1)throw new Error(`Selector requires one ${actionable?'actionable ':''}match; found ${rows.length}`);
   return rows[0];
 }
 export class Controller {
-  constructor(runner,{keyBursts=true}={}){this.runner=runner;this.current=null;this.keyBursts=keyBursts;}
+  constructor(runner,{keyBursts=true,deviceLaunch}={}){this.runner=runner;this.current=null;this.keyBursts=keyBursts;this.deviceLaunch=deviceLaunch;}
   numericGroup(steps,index){
     if(!this.keyBursts||this.current?.key_burst!==1||this.current.elements.some(r=>r.kind==='SecureTextField'))return [];
     const targets=[];
@@ -94,17 +100,22 @@ export class Controller {
     // A timed-out device read can still finish and replace the native snapshot. Never
     // leave older handles usable while that request has an uncertain completion.
     this.current=null;
-    return this.adopt(await this.runner.call(pixelsOnly?'/sprint/frame':'/sprint/observe',undefined,requestOptions));
+    try{return this.adopt(await this.runner.call(pixelsOnly?'/sprint/frame':'/sprint/observe',undefined,requestOptions));}
+    catch(error){
+      if(pixelsOnly||error.message!=='Accessibility is unavailable for this screen; use a pixel observation')throw error;
+      return this.adopt({...await this.runner.call('/sprint/frame',undefined,requestOptions),ax_error:error.message});
+    }
   }
-  async wait(expect,{signal,timeout=5000}={}) {
+  async wait(expect,{signal,timeout=5000,pixelsOnly=false}={}) {
     if(!expect||(!expect.app&&!expect.selector&&!expect.absent))throw new Error('Wait requires app or selector');
+    if(pixelsOnly&&(!expect.app||expect.selector||expect.absent))throw new Error('A frame can verify only an app postcondition');
     if(expect.selector)validateSelector(expect.selector);
     if(expect.absent)validateSelector(expect.absent);
     const until=performance.now()+timeout;let last;
     do {
       signal?.throwIfAborted();
-      last=await this.observe({signal,timeout:Math.max(1,until-performance.now())});
-      if((!expect.app||last.app===expect.app)&&(!expect.selector||last.elements.some(row=>matches(row,expect.selector)))&&(!expect.absent||!last.elements.some(row=>matches(row,expect.absent))))return last;
+      last=await this.observe({signal,pixelsOnly,timeout:Math.max(1,until-performance.now())});
+      if((!expect.app||last.app===expect.app)&&(!expect.selector||last.elements.some(row=>matches(row,expect.selector)))&&(!expect.absent||last.mode!=='pixels'&&!last.truncated&&last.elements.length>0&&!last.elements.some(row=>matches(row,expect.absent))))return last;
       if(performance.now()<until)await new Promise(r=>setTimeout(r,25));
     }while(performance.now()<until);
     this.current=null;
@@ -113,6 +124,10 @@ export class Controller {
   async act(step,{signal}={}) {
     let path,body={},snapshot;
     const required=step.expect||(step.op==='launch'?{app:step.bundle}:step.op==='home'?{app:'com.apple.springboard'}:null);
+    // App switching needs the foreground bundle, not every control in the app.
+    // An explicit observe:false skips AX only for this exact predicate. The next
+    // selector action still obtains a fresh tree; pixels never prove absence.
+    const pixelsOnly=step.observe===false&&required?.app&&!required.selector&&!required.absent;
     switch(step.op){
       case 'tap': {
         const current=this.current || await this.observe({signal});
@@ -138,6 +153,13 @@ export class Controller {
       }
       case 'launch':
         if(typeof step.bundle!=='string'||!/^[\w.-]+$/.test(step.bundle))throw new Error('Invalid app bundle');
+        if(this.deviceLaunch){
+          if(await this.runner.call('/wda/locked',undefined,{signal})!==false)throw Object.assign(new Error('Device is locked; no app launched'),{outcome:'not_sent'});
+          this.current=null;
+          await this.deviceLaunch(step.bundle,{signal});
+          this.lastLaunchAt=performance.now();
+          return await this.wait(required,{signal,pixelsOnly,timeout:step.timeout_ms??5000});
+        }
         path='/launch';body={bundle:step.bundle};break;
       case 'home':path='/home';break;
       case 'text': {
@@ -162,17 +184,28 @@ export class Controller {
         if(!this.current)await this.observe({signal});
         path='/wda/keys';body={value:[step.key]};snapshot=this.current.snapshot;break;
       case 'swipe':
+      case 'scroll':
         for(const k of ['x1','y1','x2','y2'])if(!Number.isFinite(step[k]))throw new Error('Invalid swipe');
+        if(step.op==='scroll'&&step.duration_ms!==undefined&&step.duration_ms!==470)throw new Error('Precise scroll uses 470 ms; use swipe for custom timing');
         if(!this.current)await this.observe({signal});
+        if(step.snapshot&&step.snapshot!==this.current.snapshot)throw new Error('Stale snapshot; observe before scrolling');
         for(const k of ['x1','x2'])if(step[k]<0||step[k]>=this.current.width)throw new Error('Swipe outside screen');
         for(const k of ['y1','y2'])if(step[k]<0||step[k]>=this.current.height)throw new Error('Swipe outside screen');
-        path='/swipe';body=Object.fromEntries(['x1','y1','x2','y2'].map(k=>[k,step[k]]));body.duration_ms=step.duration_ms??150;snapshot=this.current.snapshot;break;
+        path=step.op==='scroll'?'/scroll':'/swipe';body=Object.fromEntries(['x1','y1','x2','y2'].map(k=>[k,step[k]]));
+        if(step.op==='swipe')body.duration_ms=step.duration_ms??150;snapshot=this.current.snapshot;break;
       default:throw new Error(`Unsupported operation ${step.op}`);
     }
     this.current=null;
-    const result=await this.runner.call('/sprint/act',{path,body,snapshot,observe:!required&&step.observe!==false},{signal});
+    let result;
+    try{result=await this.runner.call('/sprint/act',{path,body,snapshot,observe:!required&&step.observe!==false},{signal});}
+    catch(error){
+      if(error.outcome!=='applied'||error.message!=='Accessibility is unavailable for this screen; use a pixel observation')throw error;
+      // Input succeeded. Replace only its failed AX read; never dispatch the action again.
+      try{result={...await this.runner.call('/sprint/frame',undefined,{signal}),ax_error:error.message};}
+      catch(readError){readError.outcome='applied';throw readError;}
+    }
     if(result?.snapshot)this.adopt(result);
-    if(required)return await this.wait(required,{signal,timeout:step.timeout_ms??5000});
+    if(required)return await this.wait(required,{signal,pixelsOnly,timeout:step.timeout_ms??5000});
     return this.current || {applied:true,observation:'not_requested'};
   }
   async execute(steps,{signal,timeout=30000}={}) {
@@ -180,7 +213,7 @@ export class Controller {
     timeout=Math.max(1,Math.min(60000,Math.ceil(timeout)));
     if(!Array.isArray(steps)||steps.length<1||steps.length>24)throw new Error('Execute requires 1–24 steps');
     for(const step of steps){
-      if(!step||!['tap','tap_point','launch','home','text','key','swipe','wait','observe'].includes(step.op))throw new Error('Invalid operation in batch');
+      if(!step||!['tap','tap_point','launch','home','text','key','swipe','scroll','wait','observe'].includes(step.op))throw new Error('Invalid operation in batch');
       if(step.selector)validateSelector(step.selector);
       if(step.expect?.selector)validateSelector(step.expect.selector);
       if(step.expect?.absent)validateSelector(step.expect.absent);

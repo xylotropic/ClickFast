@@ -26,3 +26,4 @@ if [ "${1:-}" = "--bench" ]; then
     export IPU_BENCH_IMAGES
 fi
 "$OUT/unit-check"
+python3 "$SCRIPT_DIR/unit-check/input-dispatch-replay.py" "$SOURCES"

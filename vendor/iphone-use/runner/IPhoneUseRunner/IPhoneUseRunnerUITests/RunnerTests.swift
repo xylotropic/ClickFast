@@ -92,6 +92,9 @@ final class RunnerTests: XCTestCase {
   func testServe() throws {
     let patched = IPURBridge.installQuiescenceBypass()
     NSLog("ipu-runner: quiescence bypass installed on %@", patched.joined(separator: ", "))
+    if let failure = IPURBridge.limitAccessibilityTimeout(2) {
+      NSLog("ipu-runner: AX timeout configuration: %@", failure)
+    }
     NSLog("ipu-runner: private AX client %@, event synthesis %@",
           IPURBridge.axClient() == nil ? "MISSING" : "available",
           IPURBridge.eventSynthesisAvailable() ? "available" : "MISSING")
@@ -259,7 +262,7 @@ final class RunnerTests: XCTestCase {
     let synthesis = IPURBridge.eventSynthesisAvailable()
     var value: [String: Any] = [
       "ready": axClient,
-      "capabilities": ["axClient": axClient, "eventSynthesis": synthesis, "sprintProtocol": 1],
+      "capabilities": ["axClient": axClient, "eventSynthesis": synthesis, "sprintProtocol": 1, "preciseScroll": true],
       "message": axClient
         ? "iphone-use native runner is ready to accept commands"
         : "iphone-use native runner is up but cannot read the screen (accessibility client unavailable)",
@@ -346,6 +349,7 @@ final class RunnerTests: XCTestCase {
     case ("GET", "/source"): return try source(request)
     case ("POST", "/tap"): return try tap(request)
     case ("POST", "/swipe"): return try swipe(request)
+    case ("POST", "/scroll"): return try preciseScroll(request)
     case ("POST", "/longpress"): return try longPress(request)
     case ("POST", "/type"): return try typeText(request)
     case ("POST", "/home"): return try home()
@@ -584,15 +588,16 @@ final class RunnerTests: XCTestCase {
 
   // MARK: - Gestures
 
-  /// Runs a synthesized gesture; when the private path is missing or fails, runs `fallback`
-  /// (public XCUICoordinate API, quiescence skipped) and reports which path acted.
+  /// Selects synthesis or the public coordinate API before dispatch. A failure
+  /// after dispatch stops; it never authorizes a second backend to repeat input.
   func gesture(
     _ name: String,
     synthesized: () -> String?,
     fallback: (XCUIApplication) -> Void
   ) throws -> HTTPResponse {
-    if let error = timed("Synthesize", synthesized) {
-      NSLog("ipu-runner: %@ synthesis failed, using XCUICoordinate: %@", name, error)
+    let backend = try InputDispatch.once(name,
+      synthesisAvailable: IPURBridge.eventSynthesisAvailable(),
+      synthesized: { timed("Synthesize", synthesized) }, fallback: {
       let application = foreground().application
       let issuesBefore = recordedIssues.count
       var exception: String?
@@ -601,14 +606,14 @@ final class RunnerTests: XCTestCase {
         IPURBridge.invalidateRequestCache()
       }
       if let exception {
-        throw RunnerError.failed("\(name) failed (synthesis: \(error); coordinate: \(exception))")
+        return exception
       }
       if recordedIssues.count > issuesBefore {
-        throw RunnerError.failed("\(name) failed (synthesis: \(error); coordinate: \(recordedIssues.last!))")
+        return recordedIssues.last
       }
-      return .value(NSNull(), headers: ["X-IPU-Gesture": "xcui-coordinate"])
-    }
-    return .value(NSNull(), headers: ["X-IPU-Gesture": "synthesized"])
+      return nil
+    })
+    return .value(NSNull(), headers: ["X-IPU-Gesture": backend == .synthesized ? "synthesized" : "xcui-coordinate"])
   }
 
   func coordinate(_ application: XCUIApplication, _ point: CGPoint) -> XCUICoordinate {
@@ -647,6 +652,26 @@ final class RunnerTests: XCTestCase {
     }
   }
 
+  /// A short drag with a slow release, for moving a list without a long fling.
+  /// Use the same current-app admission as other Sprint touch input. Never fall
+  /// back to a second gesture after an uncertain delivery.
+  func preciseScroll(_ request: HTTPRequest) throws -> HTTPResponse {
+    let body = try request.jsonObject()
+    let start = CGPoint(x: try requiredNumber(body, "x1"), y: try requiredNumber(body, "y1"))
+    let end = CGPoint(x: try requiredNumber(body, "x2"), y: try requiredNumber(body, "y2"))
+    let screen = windowSizePoints()
+    let bounds = CGRect(origin: .zero, size: screen)
+    guard bounds.contains(start), bounds.contains(end) else {
+      throw RunnerError.invalidArgument("scroll points must be inside the current screen")
+    }
+    let paths = try W3CActions.pointerPaths(ScrollDrag.actions(from: start, to: end)) { _ in .zero }
+    if let error = timed("Synthesize", { IPURBridge.synthesizeTouchPaths(paths, name: "ipu-scroll") }) {
+      throw RunnerError.failed("scroll delivery is uncertain: \(error)")
+    }
+    IPURBridge.invalidateRequestCache()
+    return .value(NSNull(), headers: ["X-IPU-Gesture": "synthesized-precise-scroll"])
+  }
+
   // MARK: - Text, buttons, apps
 
   func typeText(_ request: HTTPRequest) throws -> HTTPResponse {
@@ -656,8 +681,15 @@ final class RunnerTests: XCTestCase {
     }
     if text.isEmpty { return .value(NSNull()) }
     let frequency = UInt(max(1, min(1000, number(body, "frequency") ?? 60)))
-    if let error = IPURBridge.synthesizeText(text, charactersPerSecond: frequency, pid: 0) {
-      NSLog("ipu-runner: text synthesis failed, using XCUIApplication.typeText: %@", error)
+    return .value(NSNull(), headers: ["X-IPU-Gesture": try dispatchText(text, frequency: frequency)])
+  }
+
+  /// Shared by raw text and WebDriver keys. Fallback is chosen only when the
+  /// synthesis selectors are absent, before either backend receives text.
+  func dispatchText(_ text: String, frequency: UInt) throws -> String {
+    let backend = try InputDispatch.once("text",
+      synthesisAvailable: IPURBridge.textSynthesisAvailable(),
+      synthesized: { IPURBridge.synthesizeText(text, charactersPerSecond: frequency, pid: 0) }, fallback: {
       let application = foreground().application
       let issuesBefore = recordedIssues.count
       var exception: String?
@@ -665,11 +697,11 @@ final class RunnerTests: XCTestCase {
         exception = IPURBridge.catchException { application.typeText(text) }
       }
       if let failure = exception ?? (recordedIssues.count > issuesBefore ? recordedIssues.last : nil) {
-        throw RunnerError.failed("type failed (synthesis: \(error); typeText: \(failure))")
+        return failure
       }
-      return .value(NSNull(), headers: ["X-IPU-Gesture": "xcui-typetext"])
-    }
-    return .value(NSNull(), headers: ["X-IPU-Gesture": "synthesized"])
+      return nil
+    })
+    return backend == .synthesized ? "synthesized" : "xcui-typetext"
   }
 
   func home() throws -> HTTPResponse {
@@ -915,7 +947,7 @@ final class KeepAwake {
   /// themselves. A tree read, a screenshot or an app launch does not.
   static func isInput(_ path: String) -> Bool {
     let inputSuffixes = [
-      "/tap", "/swipe", "/longpress", "/type", "/home", "/actions", "/click", "/value", "/clear",
+      "/tap", "/swipe", "/scroll", "/longpress", "/type", "/home", "/actions", "/click", "/value", "/clear",
       "/wda/pressButton", "/wda/homescreen", "/wda/keys", "/wda/unlock", "/alert", "/alert/accept",
       "/alert/dismiss", "/wda/keyboard/dismiss",
     ]
@@ -1126,7 +1158,7 @@ extension RunnerTests {
     guard lockedOnMain() == false else { throw RunnerError.failed("Device is locked or lock state is unknown; no input dispatched") }
     let body = try request.jsonObject()
     let path = try requiredString(body, "path")
-    let allowed: Set<String> = ["/tap", "/type", "/swipe", "/longpress", "/home",
+    let allowed: Set<String> = ["/tap", "/type", "/swipe", "/scroll", "/longpress", "/home",
       "/launch", "/wda/keys", "/wda/keyboard/dismiss", "/alert", "/sprint/key-burst", "/sprint/enter-text"]
     let elementClick = path.hasPrefix("/element/") && path.hasSuffix("/click")
     guard allowed.contains(path) || elementClick else {

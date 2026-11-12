@@ -12,6 +12,8 @@
 
 An immediate observation is a first-frame observation, not proof that a transition completed. Put `expect` on transitions and verify the task result. Service/network latency and agent reasoning remain real costs.
 
+Input backends are selected before dispatch. If synthesis reports a failure, the runner stops with an uncertain outcome; it does not try a public API that could repeat the action. Taps and focused text can use a compatible backend when the required private selectors are known to be missing before input. [Failure-injection evidence and current installation status](control-development.md#stop-uncertain-input-before-a-second-backend).
+
 ## Install
 
 Requirements: a Mac with full Xcode and a configured Apple development team, Node 22+, and an iPhone with Developer Mode enabled. Provisioning must include the phone. Your first launch may require Trust and an on-phone UI Automation/passcode approval.
@@ -55,7 +57,11 @@ Read the screen, choose current refs or unique selectors, then execute a short s
 }
 ```
 
-This is an example request, not a stored workflow. A click can use `selector:{"kind":"Button","label":"7"}` or `ref` plus its matching `snapshot`. Supported operations are `observe`, `wait`, `launch`, `home`, `tap`, `tap_point`, `text`, `key`, and `swipe`. Text requires a freshly observed focused nonsecure editable field. Point coordinates are screen points; scale screenshot pixels using the observation's screen dimensions.
+This is an example request, not a stored workflow. A click can use `selector:{"kind":"Button","label":"7"}` or `ref` plus its matching `snapshot`. Supported operations are `observe`, `wait`, `launch`, `home`, `tap`, `tap_point`, `text`, `key`, `swipe`, and `scroll`. Text requires a freshly observed focused nonsecure editable field. Point coordinates are screen points; scale screenshot pixels using the observation's screen dimensions.
+
+Use `swipe` for a flick. Use `scroll` with `x1`, `y1`, `x2`, `y2` for a 470 ms drag that slows before release, reducing the extra distance from momentum. The controller checks the current snapshot and screen bounds. This is a gesture delivery receipt; verify that the requested content moved afterward. `scroll` has fixed timing; use `swipe` for custom timing.
+
+For `launch` or `home`, `observe:false` checks the foreground bundle without traversing all controls. This proves which app is in front, not that its content has loaded. A selector or absence predicate still needs AX; the next element action reads a fresh tree. Pixel observations and incomplete trees cannot prove a control is absent.
 
 Native snapshots expire after30seconds. A click re-reads the same registered element and rejects changed meaning, moved frames, disabled controls or partial off-screen bounds; it does not silently scroll. Full overlay/hit ownership remains a separate limitation. A missing target can wait locally; multiple matching targets stop. Unknown mutation outcomes stop without replay. A timeout is not evidence that a tap failed. Read the screen and resolve the outcome before continuing. Batch only actions authorized by the current user task. Stop for user takeover, authentication, unexpected sensitive screens, or ambiguous destructive actions.
 
@@ -83,6 +89,8 @@ xcodebuild build-for-testing \
   -scheme IPhoneUseRunner -destination generic/platform=iOS \
   -derivedDataPath .state/unsigned CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO
 ```
+
+After changing host code, reconnect the MCP server so its process loads the new code and tool schema. A running server keeps its existing imports.
 
 After changing native code, run setup again with `--restart` to shut down the authenticated old runner and load the new one. Do not launch another test process while the first is still alive.
 
@@ -134,3 +142,41 @@ The calling agent supplies an authorized app and control scope. Protected-label 
 ## AXe review
 
 The [pinned source review](axe-review.md) covers the whole tracked path inventory and traces critical implementation areas. ClickFast adopts native target identity/frame admission, snapshot expiry, input-delivery receipts, compact navigation views, and a bounded optional chooser. Full overlay ownership and native cancellation propagation remain open work. AXe's runner-free path was measured in isolation: AX reads worked; its screenshot/HID services were unavailable on this phone. No blanket replacement or performance claim follows from its simulator benchmarks.
+
+## Local visual navigation (experimental)
+
+When AX is unavailable, a caller can select a local OCR path for the next intent. This uses Apple Vision on the Mac and the existing signed phone runner. Normal AX control starts no OCR worker. Build the optional helper once:
+
+```sh
+node scripts/setup-vision.mjs
+```
+
+The MCP interface still has three tools. `sprint_execute.local_goal` accepts `visual_labels` and an app-scoped `until.visual` predicate. Labels are exact words or phrases; word boxes separate adjoining dropdown glyphs. Only unique matching supplied labels and supplied result/readiness markers are sent to JEV. Screenshots and unrelated recognized text stay local. The worker deletes its temporary image after each read and closes with the client.
+
+For example, after inspecting an app's feed, the caller can request a newly generated scroll:
+
+```json
+{
+  "local_goal": {
+    "external_ui_opt_in": true,
+    "goal": "Scroll up once in the current feed.",
+    "apps": ["com.atebits.Tweetie2"],
+    "visual_labels": [],
+    "visual_ready": {"all": ["For You", "Following"]},
+    "scroll_directions": ["up"],
+    "until": {
+      "app": "com.atebits.Tweetie2",
+      "visual": {"all": ["For You", "Following"], "moved": true}
+    },
+    "max_actions": 1
+  }
+}
+```
+
+`visual_ready` waits for starting markers before inference and checks them again before input. Its local wait defaults to two seconds; `readiness_timeout_ms` can set 0–10,000 ms within the overall intent deadline. Waiting remains inside task timing. `until.visual.all` must appear in a fresh final image; optional `none` markers block completion. `moved:true` additionally requires coherent movement of at least two readable body-text anchors. A full-feed replacement without common anchors hands back. Callers must choose markers that prove their task: unchanged tab labels alone cannot prove a tab became selected. A new image after the model choice must retain the same app, geometry and unique target within two screen points. Native snapshot/app admission still runs before the touch.
+
+The mode does not type into fields or guess unlabeled icons. It refuses ambiguous/protected labels and keeps the same 0.9 JEV gates. Changing video text cannot authorize repeating an unchanged tap. Unknown input stops without replay. English is the current recognition language; other languages and full overlay ownership remain unverified. Word boxes are approximate, so this is not a substitute for app semantics or a guarantee that every visible label is tappable.
+
+The first measurements are **offline**, not a new phone score. On ten different saved phone images, keeping OCR running reduced median recognition time from 267 ms to 79 ms, with matching text and rounded word geometry. A repeat on the same ten images measured 234 ms versus 77 ms. Two live JEV decisions on a saved X frame passed their gates; neither dispatched phone input. The phone disconnected before live visual-mode testing. The older twenty-task score remains 16/20. See [OCR records](../benchmarks/runs/2026-11-12T07-48-48-509Z-offline-ocr/results.json) and [repeat](../benchmarks/runs/2026-11-12T07-56-52-065Z-offline-ocr/results.json), and [decision replay](../benchmarks/runs/2026-11-12-replayed-visual-decisions/results.json).
+
+Run `node scripts/benchmark-visual-goals.mjs TASKS.json` after reconnecting the phone. Each task supplies an `id`, `local_goal`, and optional `min_actions`. The harness records real frames, decisions, mute state, independent result checks, setup and cleanup. These visual predicates form a separate task set; they must not silently replace an older AX predicate to improve its score.

@@ -1,0 +1,350 @@
+{
+  "schema": 2,
+  "tasks": [
+    {
+      "id": "contacts-text",
+      "description": "Type a controlled multiword search in Contacts, without creating or editing a contact",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open Contacts from the Home Screen, then enter \"Operator Jane Doe 27\" into the Search search field. Open search first if the field is not visible.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.MobileAddressBook"
+          ],
+          "texts": {
+            "query": "Operator Jane Doe 27"
+          },
+          "until": {
+            "app": "com.apple.MobileAddressBook",
+            "selector": {
+              "kind": "SearchField",
+              "value": "Operator Jane Doe 27"
+            }
+          },
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.apple.MobileAddressBook",
+              "label": "Contacts"
+            }
+          ],
+          "swipe_directions": [
+            "up",
+            "down"
+          ]
+        }
+      ],
+      "verify": {
+        "app": "com.apple.MobileAddressBook",
+        "selector": {
+          "kind": "SearchField",
+          "value": "Operator Jane Doe 27"
+        }
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ],
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField"
+        },
+        "owned_values": [
+          "Operator Jane Doe 27"
+        ],
+        "when_present": true
+      },
+      "min_actions": 2
+    },
+    {
+      "id": "files-document-find",
+      "description": "Enter the exact supplied query, including its punctuation, into the observed search field",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Close the current document preview.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.DocumentsApp"
+          ],
+          "until": {
+            "app": "com.apple.DocumentsApp",
+            "absent": {
+              "kind": "Button",
+              "identifier": "QLOverlayDoneButtonAccessibilityIdentifier"
+            }
+          },
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.apple.DocumentsApp",
+              "label": "Files"
+            }
+          ],
+          "swipe_directions": [
+            "up",
+            "down"
+          ]
+        },
+        {
+          "goal": "Enter \"Operator_draft-27.txt\" in the visible Search field.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.DocumentsApp"
+          ],
+          "texts": {
+            "query": "Operator_draft-27.txt"
+          },
+          "until": {
+            "app": "com.apple.DocumentsApp",
+            "selector": {
+              "kind": "SearchField",
+              "label": "Search",
+              "value": "Operator_draft-27.txt"
+            }
+          },
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.apple.DocumentsApp",
+              "label": "Files"
+            }
+          ],
+          "swipe_directions": [
+            "up",
+            "down"
+          ]
+        }
+      ],
+      "verify": {
+        "app": "com.apple.DocumentsApp",
+        "selector": {
+          "kind": "SearchField",
+          "label": "Search",
+          "value": "Operator_draft-27.txt"
+        }
+      },
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField",
+          "label": "Search"
+        },
+        "owned_values": [
+          "Operator_draft-27.txt"
+        ],
+        "when_present": true
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ],
+      "min_actions": 2
+    },
+    {
+      "id": "books-title-query",
+      "description": "Enter the exact supplied query, including its punctuation, into the observed search field",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open Books from the Home Screen, then enter \"The Little Prince\" into the Apple Books search field. Open search first if the field is not visible.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.iBooks"
+          ],
+          "texts": {
+            "query": "The Little Prince"
+          },
+          "until": {
+            "app": "com.apple.iBooks",
+            "selector": {
+              "kind": "SearchField",
+              "value": "The Little Prince"
+            }
+          },
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.apple.iBooks",
+              "label": "Books"
+            }
+          ],
+          "swipe_directions": [
+            "up",
+            "down"
+          ]
+        }
+      ],
+      "verify": {
+        "app": "com.apple.iBooks",
+        "selector": {
+          "kind": "SearchField",
+          "value": "The Little Prince"
+        }
+      },
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField"
+        },
+        "owned_values": [
+          "The Little Prince"
+        ],
+        "when_present": true
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ],
+      "min_actions": 2
+    },
+    {
+      "id": "x-open",
+      "description": "Home to X, app launch and visible result included",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open X from the Home Screen.",
+          "apps": [
+            "com.apple.springboard",
+            "com.atebits.Tweetie2"
+          ],
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "label": "X",
+              "bundle": "com.atebits.Tweetie2"
+            }
+          ],
+          "until": {
+            "app": "com.atebits.Tweetie2",
+            "selector": {
+              "kind": "Button",
+              "identifier": "FabComposeButton"
+            }
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.atebits.Tweetie2",
+        "selector": {
+          "kind": "Button",
+          "identifier": "FabComposeButton"
+        }
+      },
+      "min_actions": 1,
+      "require_controls": true,
+      "verify_ocr": {
+        "min_lines": 5,
+        "all": []
+      }
+    },
+    {
+      "id": "x-scroll",
+      "description": "Home to X and scroll once; independently check changed feed content",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open X from the Home Screen.",
+          "apps": [
+            "com.apple.springboard",
+            "com.atebits.Tweetie2"
+          ],
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "label": "X",
+              "bundle": "com.atebits.Tweetie2"
+            }
+          ],
+          "until": {
+            "app": "com.atebits.Tweetie2",
+            "selector": {
+              "kind": "Button",
+              "identifier": "FabComposeButton"
+            }
+          }
+        },
+        {
+          "goal": "Scroll up once in the observed feed.",
+          "apps": [
+            "com.atebits.Tweetie2"
+          ],
+          "until": {
+            "app": "com.atebits.Tweetie2",
+            "after_action": {
+              "kind": "SystemAction",
+              "label": "Swipe up"
+            }
+          },
+          "action": {
+            "op": "swipe",
+            "direction": "up",
+            "duration_ms": 300,
+            "x_fraction": 0.08
+          },
+          "precondition_ocr": {
+            "min_lines": 5,
+            "all": [
+              [
+                "For You"
+              ],
+              [
+                "Following"
+              ]
+            ]
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.atebits.Tweetie2"
+      },
+      "verify_change": {
+        "phase": 1
+      },
+      "min_actions": 2,
+      "require_controls": true,
+      "verify_ocr": {
+        "min_lines": 4,
+        "all": []
+      }
+    }
+  ],
+  "note": "Twenty distinct tasks across folders and installed apps. Every app launch, navigation, decision and readiness check is timed. X readiness uses its observed Compose control and readable body content because the header hides while scrolling; no post is composed. The X gesture uses the visible feed gutter.",
+  "method": "Full Home-to-result tasks; setup resets to Home only. No per-app preparation or task navigation is excluded from elapsed time.",
+  "name": "General Home-to-result tasks with atomic JEV navigation and visual checks"
+}

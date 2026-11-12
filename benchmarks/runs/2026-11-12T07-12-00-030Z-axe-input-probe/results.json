@@ -1,0 +1,11 @@
+{
+  "id": "2026-11-12T07-12-00-030Z-axe-input-probe",
+  "kind": "One harmless AXe HID Home probe on real phone; no backend adoption",
+  "runs": [
+    {
+      "error": "deviceOperationFailed: com.apple.coredevice.hid.indigo is not advertised",
+      "ms": 489.016791
+    }
+  ],
+  "finding": "deviceOperationFailed: device does not advertise com.apple.coredevice.hid.indigo; no successful input claim"
+}

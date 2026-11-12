@@ -1,0 +1,347 @@
+{
+  "id": "2026-11-12T06-59-39-471Z-app-switch",
+  "kind": "Physical foreground-app predicate A/B; not a content-ready or general-task benchmark",
+  "method": "Alternating AX and frame-only postcondition checks on the same app launch and return Home. Both verify exact foreground bundles; neither claims the app content has finished loading. Every run starts on verified Home. Full elapsed time includes input and condition reads. Silent timestamped screenshots captured separately.",
+  "runs": [
+    {
+      "repeat": 0,
+      "bundle": "com.apple.Preferences",
+      "mode": "ax",
+      "ok": true,
+      "elapsed_ms": 1287.630792,
+      "timings": [
+        {
+          "step": 0,
+          "op": "launch",
+          "ms": 303.317625,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "home",
+          "ms": 984.2227089999999,
+          "success": true
+        }
+      ]
+    },
+    {
+      "repeat": 0,
+      "bundle": "com.apple.Preferences",
+      "mode": "frame",
+      "ok": true,
+      "elapsed_ms": 1073.8930419999997,
+      "timings": [
+        {
+          "step": 0,
+          "op": "launch",
+          "ms": 172.87208299999975,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "home",
+          "ms": 900.958208,
+          "success": true
+        }
+      ]
+    },
+    {
+      "repeat": 0,
+      "bundle": "com.apple.iBooks",
+      "mode": "ax",
+      "ok": true,
+      "elapsed_ms": 1412.9932910000002,
+      "timings": [
+        {
+          "step": 0,
+          "op": "launch",
+          "ms": 273.6512090000001,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "home",
+          "ms": 1139.267166,
+          "success": true
+        }
+      ]
+    },
+    {
+      "repeat": 0,
+      "bundle": "com.apple.iBooks",
+      "mode": "frame",
+      "ok": true,
+      "elapsed_ms": 1300.585916,
+      "timings": [
+        {
+          "step": 0,
+          "op": "launch",
+          "ms": 362.70195799999965,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "home",
+          "ms": 937.8316669999995,
+          "success": true
+        }
+      ]
+    },
+    {
+      "repeat": 0,
+      "bundle": "com.atebits.Tweetie2",
+      "mode": "ax",
+      "ok": true,
+      "elapsed_ms": 4955.646375,
+      "timings": [
+        {
+          "step": 0,
+          "op": "launch",
+          "ms": 512.2197500000002,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "home",
+          "ms": 4443.363834000001,
+          "success": true
+        }
+      ]
+    },
+    {
+      "repeat": 0,
+      "bundle": "com.atebits.Tweetie2",
+      "mode": "frame",
+      "ok": true,
+      "elapsed_ms": 1106.3444160000017,
+      "timings": [
+        {
+          "step": 0,
+          "op": "launch",
+          "ms": 240.65845900000022,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "home",
+          "ms": 865.6369579999991,
+          "success": true
+        }
+      ]
+    },
+    {
+      "repeat": 0,
+      "bundle": "com.apple.mobiletimer",
+      "mode": "ax",
+      "ok": true,
+      "elapsed_ms": 1352.7922500000004,
+      "timings": [
+        {
+          "step": 0,
+          "op": "launch",
+          "ms": 228.91020899999967,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "home",
+          "ms": 1123.841708,
+          "success": true
+        }
+      ]
+    },
+    {
+      "repeat": 0,
+      "bundle": "com.apple.mobiletimer",
+      "mode": "frame",
+      "ok": true,
+      "elapsed_ms": 1067.1442079999997,
+      "timings": [
+        {
+          "step": 0,
+          "op": "launch",
+          "ms": 187.1309170000004,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "home",
+          "ms": 879.9440419999992,
+          "success": true
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "bundle": "com.apple.Preferences",
+      "mode": "frame",
+      "ok": true,
+      "elapsed_ms": 1056.498458,
+      "timings": [
+        {
+          "step": 0,
+          "op": "launch",
+          "ms": 184.288958000001,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "home",
+          "ms": 872.1437919999989,
+          "success": true
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "bundle": "com.apple.Preferences",
+      "mode": "ax",
+      "ok": true,
+      "elapsed_ms": 1961.8060420000002,
+      "timings": [
+        {
+          "step": 0,
+          "op": "launch",
+          "ms": 362.820291,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "home",
+          "ms": 1598.9235000000008,
+          "success": true
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "bundle": "com.apple.iBooks",
+      "mode": "frame",
+      "ok": true,
+      "elapsed_ms": 1537.7227500000008,
+      "timings": [
+        {
+          "step": 0,
+          "op": "launch",
+          "ms": 415.70850000000064,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "home",
+          "ms": 1121.9386249999989,
+          "success": true
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "bundle": "com.apple.iBooks",
+      "mode": "ax",
+      "ok": true,
+      "elapsed_ms": 3093.684250000002,
+      "timings": [
+        {
+          "step": 0,
+          "op": "launch",
+          "ms": 1360.2325839999976,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "home",
+          "ms": 1733.3899579999998,
+          "success": true
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "bundle": "com.atebits.Tweetie2",
+      "mode": "frame",
+      "ok": true,
+      "elapsed_ms": 1344.3032500000008,
+      "timings": [
+        {
+          "step": 0,
+          "op": "launch",
+          "ms": 257.9295420000017,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "home",
+          "ms": 1086.3137500000012,
+          "success": true
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "bundle": "com.atebits.Tweetie2",
+      "mode": "ax",
+      "ok": true,
+      "elapsed_ms": 7391.705459000001,
+      "timings": [
+        {
+          "step": 0,
+          "op": "launch",
+          "ms": 3592.948790999999,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "home",
+          "ms": 3798.6730830000015,
+          "success": true
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "bundle": "com.apple.mobiletimer",
+      "mode": "frame",
+      "ok": true,
+      "elapsed_ms": 1137.023541999999,
+      "timings": [
+        {
+          "step": 0,
+          "op": "launch",
+          "ms": 241.36008299999958,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "home",
+          "ms": 895.6109580000011,
+          "success": true
+        }
+      ]
+    },
+    {
+      "repeat": 1,
+      "bundle": "com.apple.mobiletimer",
+      "mode": "ax",
+      "ok": true,
+      "elapsed_ms": 1371.638500000001,
+      "timings": [
+        {
+          "step": 0,
+          "op": "launch",
+          "ms": 249.66554199999518,
+          "success": true
+        },
+        {
+          "step": 1,
+          "op": "home",
+          "ms": 1121.9345829999947,
+          "success": true
+        }
+      ]
+    }
+  ],
+  "audio": {
+    "media_volume": 0,
+    "source": "system_media_category"
+  }
+}

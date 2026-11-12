@@ -319,7 +319,7 @@ extension RunnerTests {
 
   // MARK: - Element actions
 
-  /// Taps a point through synthesis, falling back to XCUICoordinate.
+  /// Chooses synthesis or XCUICoordinate before sending the tap.
   func tapPoint(_ point: CGPoint) throws {
     let screen = windowSizePoints()
     guard screen.width <= 0 || TapBounds.onScreen(point, screen) else {
@@ -411,20 +411,7 @@ extension RunnerTests {
   func typeIntoFocus(_ text: String, frequency: UInt = 60) throws -> String {
     let mapped = Self.mapWebDriverKeys(text)
     if mapped.isEmpty { return "none" }
-    if let error = IPURBridge.synthesizeText(mapped, charactersPerSecond: frequency, pid: 0) {
-      NSLog("ipu-runner: text synthesis failed, using XCUIApplication.typeText: %@", error)
-      let application = foreground().application
-      let issuesBefore = recordedIssues.count
-      var exception: String?
-      IPURBridge.performWithoutQuiescence(application) {
-        exception = IPURBridge.catchException { application.typeText(mapped) }
-      }
-      if let failure = exception ?? (recordedIssues.count > issuesBefore ? recordedIssues.last : nil) {
-        throw RunnerError.failed("typing failed (synthesis: \(error); typeText: \(failure))")
-      }
-      return "xcui-typetext"
-    }
-    return "synthesized"
+    return try dispatchText(mapped, frequency: frequency)
   }
 
   /// WebDriver encodes special keys as private-use code points (U+E000…); XCTest typing wants
@@ -765,16 +752,16 @@ extension RunnerTests {
         "action point (\(Int(off.x)), \(Int(off.y))) is outside the \(Int(screen.width))x\(Int(screen.height)) screen; nothing was sent")
     }
     if !paths.isEmpty {
-      if let error = timed("Synthesize", { IPURBridge.synthesizeTouchPaths(paths, name: "ipu-w3c-actions") }) {
-        // A single tap can still go through the public coordinate API.
-        if paths.count == 1, let down = paths[0].first, paths[0].count == 2,
+      if !IPURBridge.eventSynthesisAvailable(), paths.count == 1,
+           let down = paths[0].first, paths[0].count == 2,
            let x = (down["x"] as? NSNumber)?.doubleValue, let y = (down["y"] as? NSNumber)?.doubleValue {
-          try tapPoint(CGPoint(x: x, y: y))
-          used.append("xcui-coordinate")
-        } else {
-          throw RunnerError.failed("actions failed: \(error)")
-        }
+        // Known missing capability: choose a tap backend before any input.
+        try tapPoint(CGPoint(x: x, y: y))
+        used.append("xcui-coordinate")
       } else {
+        if let error = timed("Synthesize", { IPURBridge.synthesizeTouchPaths(paths, name: "ipu-w3c-actions") }) {
+          throw RunnerError.failed("actions delivery is uncertain: \(error)")
+        }
         used.append("synthesized")
       }
     }
