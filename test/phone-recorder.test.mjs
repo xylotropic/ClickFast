@@ -27,3 +27,7 @@ test('recorder keeps timestamps and saves final footage without waiting for the 
  assert.ok(result.frames.every(x=>x.requested_ms>=0&&x.completed_ms>=x.requested_ms));
  assert.deepEqual(JSON.parse(await readFile(join(f.directory,'frames.json'),'utf8')),result.frames);assert.ok(start>0);
 });
+test('a checkpoint records the verified result before a later cleanup can remove it',async t=>{
+ const f=await fixture(t,[]);await f.recorder.start();const frame=await f.recorder.checkpoint();
+ assert.equal(frame.file,'0001.jpg');assert.equal(f.shots(),2);const result=await f.recorder.end();assert.equal(result.frames.length,3);
+});

@@ -1,19 +1,34 @@
-# Pending phone validation
+# General control: current work
 
-The current change lets the controller enter an exact supplied string when the caller already names one observed field. It avoids a second model decision about that field. Other actions still use JEV.
+ClickFast does not yet have a verified speed advantage for general phone tasks. The older Mirroring comparison covers mostly Calculator and a few navigation tasks. It does not establish general control.
 
-The shortcut requires native field-bound text support, a complete observation, a unique native target, an empty field, and the exact authorized string. The goal must name the destination app, or permit only one app. Existing drafts, ambiguous fields or destination apps, and additional submission conditions do not use the shortcut. Native snapshot, app, identity, and focus checks still apply. `direct_text:false` requires a JEV decision for every action. The default JEV gates remain at 0.9.
+## Recorded phone results
 
-Nine archived phone observations reached the intended field through the production controller with zero JEV calls. This was a replay, not a physical trial or a speed measurement. All 60 host checks pass. The new physical comparison has not run because the Mac currently detects no USB phone.
+The physical run `2026-11-12T04-20-02-130Z-general` completed 24 attempts across 12 tasks. The hybrid controller passed 9/12; JEV-only passed 10/12. Those tasks include folders, several search fields, and Shortcuts tabs. Most app launches were outside the task timer. There is no matched Mirroring run for these tasks.
 
-## Next recorded run
+The Home-to-result run `2026-11-12T04-32-14-593Z-general` exposed additional failures. Three of its 16 completed attempts passed before the run was stopped. A YouTube accessibility request blocked the native input queue. The runner retried the read at several depths, each capable of waiting 60 seconds. Later attempts could not capture or control the phone. The incomplete run and its failures are retained.
+
+## Changes awaiting the next phone run
+
+- Use CoreDevice to launch an explicitly named app. A real X launch took about 0.1 seconds through this path after the XCTest launch path timed out. The controller still checks the foreground app. A failed launch is never replayed automatically.
+- Enter a caller-supplied string directly when one native, empty, nonsecure field matches the destination and completion predicate. Native app, snapshot, identity and focus checks remain in force.
+- Re-observe and ask JEV again after one native stale-snapshot refusal that explicitly confirms no input was sent. Unknown delivery still stops immediately.
+- Ask for a fresh accessibility observation when a newly opened app initially exposes only a pixel frame. If accessibility remains unavailable, return a screenshot for the caller to inspect.
+- Request a two-second native AX timeout and stop depth retries after a timeout or missing-server error. The timeout control exists in the installed XCTest framework and the signed build succeeds. Its effect on the physical stall still needs verification.
+- Capture the result before cleanup, including that screenshot in elapsed task time. Recording stops on lock. Cleanup clears only a known benchmark string in a unique field.
+
+The JEV probability gates remain at 0.9. `direct_text:false` and `direct_launch:false` require JEV choices for those operations. The app launch command uses Xcode's existing `devicectl`; no package or service was added.
+
+The current branch passes 70 host checks and 264 native guard checks. These checks are not physical speed measurements.
+
+## Next run
 
 ```sh
-node scripts/benchmark-general.mjs benchmarks/fixtures/general-v3.json 1 paired
+node scripts/benchmark-general.mjs benchmarks/fixtures/general-v4.json 1 hybrid
 ```
 
-The manifest contains 12 tasks across Home Screen folders, Clock, YouTube, Contacts, Shortcuts, Calendar, Files, App Store, Reminders, Weather, Books, and Settings. Each task runs once with direct field selection and once with JEV-only selection. The order alternates by task. This compares two decision paths in ClickFast. A separate run through ordinary iPhone Mirroring is still required.
+The manifest contains 20 distinct tasks, starting at Home. It includes app and folder navigation, varied text, TikTok, Instagram, X, YouTube, and scrolling. App launch, navigation, decisions and independent result checks are inside the timer. Scrolling also requires changed visible content; an input acknowledgment alone does not pass.
 
-Recording starts before setup and includes cleanup. Warm timing includes fresh observation, decisions, input, and an independent result check. Setup and cleanup have separate times. The recorder stores capture intervals and the warm timer's offset. It stops permanently on a phone lock and discards a frame if the phone locks during capture.
+After these work, add opening a known test file and sending a test message and file to the verified self contact. Then run the same tasks through ordinary iPhone Mirroring. The native runner and Mirroring must run separately. Keep setup, failures, recoveries and recording costs in the report. Do not describe the result as a human or market-wide speed comparison.
 
-Cleanup clears only a known benchmark string in a unique fresh field. It preserves other text and verifies that the field became empty. A failed cleanup remains in the result. Capture and model traces remain private. No failed mutation is replayed.
+The updated signed runner is installed. Apple currently requires its separate “Enter iPhone Passcode for XCTest” authorization. No recording runs during passcode entry.

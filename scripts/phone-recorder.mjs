@@ -3,13 +3,13 @@ import {join} from 'node:path';
 import {performance} from 'node:perf_hooks';
 
 export function phoneRecorder(camera,directory,{interval=200}={}){
- let epoch,stop=false,locked=false,loop,timer,wake;
+ let epoch,stop=false,locked=false,loop,timer,wake,pending=Promise.resolve();
  const frames=[];
  const stopLocked=start=>{
   locked=true;stop=true;
   frames.push({event:'recording_stopped_locked',requested_ms:start-epoch,completed_ms:performance.now()-epoch});
  };
- async function capture(){
+ async function captureOne(){
   if(locked)return;
   const start=performance.now();
   try{
@@ -22,6 +22,7 @@ export function phoneRecorder(camera,directory,{interval=200}={}){
    frames.push({file,requested_ms:start-epoch,completed_ms:performance.now()-epoch});
   }catch(error){frames.push({error:error.message,requested_ms:start-epoch,completed_ms:performance.now()-epoch});}
  }
+ function capture(){pending=pending.then(captureOne);return pending;}
  return {
   async start(){
    await mkdir(directory,{recursive:true,mode:0o700});epoch=performance.now();
@@ -29,6 +30,10 @@ export function phoneRecorder(camera,directory,{interval=200}={}){
    if(!frames[0]?.file)throw Error('Initial screen capture failed or phone locked');
    loop=(async()=>{while(!stop){await new Promise(resolve=>{wake=resolve;timer=setTimeout(resolve,interval);});if(!stop)await capture();}})();
    return epoch;
+  },
+  async checkpoint(){
+   if(stop||locked)throw Error('Recorder has stopped');
+   await capture();const last=frames.at(-1);if(!last?.file)throw Error('Recording checkpoint failed or phone locked');return last;
   },
   async end(){
    stop=true;clearTimeout(timer);wake?.();await loop;
