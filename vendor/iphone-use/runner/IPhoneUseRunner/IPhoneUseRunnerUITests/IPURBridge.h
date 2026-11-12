@@ -137,6 +137,8 @@ FOUNDATION_EXPORT NSString *const IPURNodeAXElementKey;
 
 /// Whether the private event-synthesis classes and selectors are present.
 + (BOOL)eventSynthesisAvailable;
+/// Whether the private text-input record and path selectors are present.
++ (BOOL)textSynthesisAvailable;
 
 + (nullable NSString *)synthesizeTapAt:(CGPoint)point pid:(int)pid;
 + (nullable NSString *)synthesizeLongPressAt:(CGPoint)point duration:(NSTimeInterval)duration pid:(int)pid;

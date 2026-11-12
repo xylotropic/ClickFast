@@ -861,6 +861,18 @@ static NSMutableDictionary<NSString *, NSNumber *> *IPURAcceptedDepths(void)
         || [recordClass instancesRespondToSelector:NSSelectorFromString(@"initWithName:interfaceOrientation:")]);
 }
 
++ (BOOL)textSynthesisAvailable
+{
+  Class recordClass = NSClassFromString(@"XCSynthesizedEventRecord");
+  Class pathClass = NSClassFromString(@"XCPointerEventPath");
+  return recordClass != Nil && pathClass != Nil
+    && [recordClass instancesRespondToSelector:NSSelectorFromString(@"initWithName:")]
+    && [recordClass instancesRespondToSelector:NSSelectorFromString(@"synthesizeWithError:")]
+    && [recordClass instancesRespondToSelector:NSSelectorFromString(@"addPointerEventPath:")]
+    && [pathClass instancesRespondToSelector:NSSelectorFromString(@"initForTextInput")]
+    && [pathClass instancesRespondToSelector:NSSelectorFromString(@"typeText:atOffset:typingSpeed:shouldRedact:")];
+}
+
 /// UIInterfaceOrientation the touch points are given in: the interface orientation on screen, not
 /// the physical device orientation (a phone lying on its side reads landscape while its UI stays
 /// portrait); unknown falls back to portrait.
@@ -1085,8 +1097,7 @@ static NSString *IPURSynthesize(id record, id path)
     SEL initRecord = NSSelectorFromString(@"initWithName:");
     SEL initPath = NSSelectorFromString(@"initForTextInput");
     SEL typeText = NSSelectorFromString(@"typeText:atOffset:typingSpeed:shouldRedact:");
-    if (recordClass == Nil || pathClass == Nil || ![recordClass instancesRespondToSelector:initRecord]
-        || ![pathClass instancesRespondToSelector:initPath] || ![pathClass instancesRespondToSelector:typeText]) {
+    if (![self textSynthesisAvailable]) {
       return @"private XCTest text synthesis unavailable";
     }
     id record = ((IPURMsgSendInitRecordName)objc_msgSend)([recordClass alloc], initRecord, @"ipu-type");

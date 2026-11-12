@@ -32,6 +32,10 @@ What makes it faster than WDA:
   `_performWithInteractionOptions:` with the pre-event and post-event skip bits set.
 - **Direct event synthesis.** Taps, W3C actions, element gestures and typing are built as
   `XCSynthesizedEventRecord` + `XCPointerEventPath`. No element query or snapshot happens first.
+  Tap/text compatibility paths are chosen from capability probes before input. A synthesis
+  error stops delivery; another backend must not repeat an action that may already have acted.
+  `unit-check.sh` includes failure injection into the real dispatch wrapper bodies. These checks
+  use simulated bridge callbacks on the Mac and do not establish physical-device behavior.
 
 ## Layout
 

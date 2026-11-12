@@ -89,3 +89,13 @@ The developer connection disappeared at 07:36 UTC after the completed phone test
 An explicit local OCR/JEV mode is implemented for screens whose AX tree is unavailable. It rechecks app, geometry, readiness and target text after the decision, then uses the native guarded point/scroll path. Its host checks cover ambiguity, moving targets, low confidence, cancellation, stale worker replies and Unicode IPC. A ten-image OCR ablation and two model decisions use the original recorded phone frames; these are offline evidence and do not count as live phone successes. The physical visual-mode suite is still unrun. [Interface and limits](control-reference.md#local-visual-navigation-experimental).
 
 The existing wireless Mirroring route briefly reconnected during a read-only check. It then reported “iPhone in Use” after owner takeover, and Mirroring was closed. No new live visual-task result follows from that connection check. Mac output mute was verified before the check. The host suite now passes 120 checks; the twenty-task physical score remains unchanged.
+
+## Stop uncertain input before a second backend
+
+Fault injection into the real native wrapper bodies reproduced a replay risk: a synthesis error caused tap, raw text, WebDriver keys and single-tap W3C actions to invoke a fallback. An error after dispatch does not prove the first input failed to act. This was a local reproduction; no duplicated phone action is claimed.
+
+Backend selection now happens before input. Touch and text have separate selector-capability probes; a known missing capability can choose the compatible backend. Once a backend is called, its failure stops the operation. Raw text and WebDriver keys share one dispatch method. Existing Sprint delivery receipts continue to report uncertain input as unknown.
+
+The original failing wrapper reproductions now pass. The native guard suite passes 270 checks, and twelve wrapper fault/control cases cover uncertain delivery, success, and known missing capability across four entry points. The unsigned iOS test build also succeeds. These checks are independent of phone-task timing: the updated runner has not been installed or physically tested because the developer tunnel remains unavailable. The physical task score stays 16/20.
+
+The [failure-injection record](../benchmarks/runs/2026-11-12-native-dispatch-fault-injection/results.json) includes before/after callback sequences, source hashes and reproduction commands. It is a native-code regression test, not a phone benchmark.

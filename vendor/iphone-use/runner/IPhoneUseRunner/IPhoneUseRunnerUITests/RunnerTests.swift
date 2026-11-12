@@ -588,15 +588,16 @@ final class RunnerTests: XCTestCase {
 
   // MARK: - Gestures
 
-  /// Runs a synthesized gesture; when the private path is missing or fails, runs `fallback`
-  /// (public XCUICoordinate API, quiescence skipped) and reports which path acted.
+  /// Selects synthesis or the public coordinate API before dispatch. A failure
+  /// after dispatch stops; it never authorizes a second backend to repeat input.
   func gesture(
     _ name: String,
     synthesized: () -> String?,
     fallback: (XCUIApplication) -> Void
   ) throws -> HTTPResponse {
-    if let error = timed("Synthesize", synthesized) {
-      NSLog("ipu-runner: %@ synthesis failed, using XCUICoordinate: %@", name, error)
+    let backend = try InputDispatch.once(name,
+      synthesisAvailable: IPURBridge.eventSynthesisAvailable(),
+      synthesized: { timed("Synthesize", synthesized) }, fallback: {
       let application = foreground().application
       let issuesBefore = recordedIssues.count
       var exception: String?
@@ -605,14 +606,14 @@ final class RunnerTests: XCTestCase {
         IPURBridge.invalidateRequestCache()
       }
       if let exception {
-        throw RunnerError.failed("\(name) failed (synthesis: \(error); coordinate: \(exception))")
+        return exception
       }
       if recordedIssues.count > issuesBefore {
-        throw RunnerError.failed("\(name) failed (synthesis: \(error); coordinate: \(recordedIssues.last!))")
+        return recordedIssues.last
       }
-      return .value(NSNull(), headers: ["X-IPU-Gesture": "xcui-coordinate"])
-    }
-    return .value(NSNull(), headers: ["X-IPU-Gesture": "synthesized"])
+      return nil
+    })
+    return .value(NSNull(), headers: ["X-IPU-Gesture": backend == .synthesized ? "synthesized" : "xcui-coordinate"])
   }
 
   func coordinate(_ application: XCUIApplication, _ point: CGPoint) -> XCUICoordinate {
@@ -680,8 +681,15 @@ final class RunnerTests: XCTestCase {
     }
     if text.isEmpty { return .value(NSNull()) }
     let frequency = UInt(max(1, min(1000, number(body, "frequency") ?? 60)))
-    if let error = IPURBridge.synthesizeText(text, charactersPerSecond: frequency, pid: 0) {
-      NSLog("ipu-runner: text synthesis failed, using XCUIApplication.typeText: %@", error)
+    return .value(NSNull(), headers: ["X-IPU-Gesture": try dispatchText(text, frequency: frequency)])
+  }
+
+  /// Shared by raw text and WebDriver keys. Fallback is chosen only when the
+  /// synthesis selectors are absent, before either backend receives text.
+  func dispatchText(_ text: String, frequency: UInt) throws -> String {
+    let backend = try InputDispatch.once("text",
+      synthesisAvailable: IPURBridge.textSynthesisAvailable(),
+      synthesized: { IPURBridge.synthesizeText(text, charactersPerSecond: frequency, pid: 0) }, fallback: {
       let application = foreground().application
       let issuesBefore = recordedIssues.count
       var exception: String?
@@ -689,11 +697,11 @@ final class RunnerTests: XCTestCase {
         exception = IPURBridge.catchException { application.typeText(text) }
       }
       if let failure = exception ?? (recordedIssues.count > issuesBefore ? recordedIssues.last : nil) {
-        throw RunnerError.failed("type failed (synthesis: \(error); typeText: \(failure))")
+        return failure
       }
-      return .value(NSNull(), headers: ["X-IPU-Gesture": "xcui-typetext"])
-    }
-    return .value(NSNull(), headers: ["X-IPU-Gesture": "synthesized"])
+      return nil
+    })
+    return backend == .synthesized ? "synthesized" : "xcui-typetext"
   }
 
   func home() throws -> HTTPResponse {

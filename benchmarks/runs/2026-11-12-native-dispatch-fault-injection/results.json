@@ -1,0 +1,253 @@
+{
+  "kind": "macOS dispatch failure injection; no phone input",
+  "baseline_revision": "a968f8b2d68bb99124803658785d0f6e6316718f",
+  "method": "Compile real production Swift wrapper bodies with simulated bridge and coordinate callbacks. Callback counts establish backend selection and replay behavior only; they do not establish physical delivery, compatibility, task success or speed. A missing-capability case checks preselection, not whether an unavailable native method delivered any input.",
+  "reproduction": {
+    "before": "python3 vendor/iphone-use/runner/unit-check/input-dispatch-replay.py --revision a968f8b",
+    "after": "python3 vendor/iphone-use/runner/unit-check/input-dispatch-replay.py",
+    "guard_suite": "bash vendor/iphone-use/runner/unit-check.sh"
+  },
+  "source_sha256": {
+    "vendor/iphone-use/runner/IPhoneUseRunner/IPhoneUseRunnerUITests/IPURBridge.h": "893242ee6acd1486b3e0643a544ac96b1ade4c498ebca7151ebedad8b1568c98",
+    "vendor/iphone-use/runner/IPhoneUseRunner/IPhoneUseRunnerUITests/IPURBridge.m": "2315a6c0175d86ea563f6d42ba97c7c2afd4b9e1344b6f3559995b983b60ff61",
+    "vendor/iphone-use/runner/IPhoneUseRunner/IPhoneUseRunnerUITests/RunnerActions.swift": "b1e6db9284fd9050f078b45503dd882939a38128a9ed1a5f8eee750090c335df",
+    "vendor/iphone-use/runner/IPhoneUseRunner/IPhoneUseRunnerUITests/RunnerTests.swift": "3fc2e0f4c548904199a258b968075355fca847203bd8fe6b2f37322573c6b152",
+    "vendor/iphone-use/runner/IPhoneUseRunner/IPhoneUseRunnerUITests/RunnerWDA.swift": "c540f1a916468d12359bf2bef1da533b3aef961716ebce49992390147339cc7e",
+    "vendor/iphone-use/runner/unit-check/input-dispatch-replay.py": "34ab6fd81412cc18c98d23592c63575e4493be758d17e0c0de9ccb69d2e84412",
+    "vendor/iphone-use/runner/unit-check/main.swift": "a8bebd9d57c1aaef3468f2ad15706ddb808afc5ad4f0e97a15ceddcfc8289dc7",
+    "vendor/iphone-use/runner/unit-check.sh": "cd94346ad307decb678656b2387ccd0116080fdf64a447f8b045a86c2d7ed0b2"
+  },
+  "before": [
+    {
+      "passed": false,
+      "entry": "tap",
+      "mode": "uncertain",
+      "backend_calls": [
+        "synthesize",
+        "fallback"
+      ],
+      "raised": false
+    },
+    {
+      "passed": false,
+      "entry": "text",
+      "mode": "uncertain",
+      "backend_calls": [
+        "synthesize",
+        "fallback"
+      ],
+      "raised": false
+    },
+    {
+      "passed": false,
+      "entry": "keys",
+      "mode": "uncertain",
+      "backend_calls": [
+        "synthesize",
+        "fallback"
+      ],
+      "raised": false
+    },
+    {
+      "passed": false,
+      "entry": "actions",
+      "mode": "uncertain",
+      "backend_calls": [
+        "synthesize",
+        "fallback"
+      ],
+      "raised": false
+    },
+    {
+      "passed": true,
+      "entry": "tap",
+      "mode": "success",
+      "backend_calls": [
+        "synthesize"
+      ],
+      "raised": false
+    },
+    {
+      "passed": true,
+      "entry": "text",
+      "mode": "success",
+      "backend_calls": [
+        "synthesize"
+      ],
+      "raised": false
+    },
+    {
+      "passed": true,
+      "entry": "keys",
+      "mode": "success",
+      "backend_calls": [
+        "synthesize"
+      ],
+      "raised": false
+    },
+    {
+      "passed": true,
+      "entry": "actions",
+      "mode": "success",
+      "backend_calls": [
+        "synthesize"
+      ],
+      "raised": false
+    },
+    {
+      "passed": false,
+      "entry": "tap",
+      "mode": "unavailable",
+      "backend_calls": [
+        "synthesize",
+        "fallback"
+      ],
+      "raised": false
+    },
+    {
+      "passed": false,
+      "entry": "text",
+      "mode": "unavailable",
+      "backend_calls": [
+        "synthesize",
+        "fallback"
+      ],
+      "raised": false
+    },
+    {
+      "passed": false,
+      "entry": "keys",
+      "mode": "unavailable",
+      "backend_calls": [
+        "synthesize",
+        "fallback"
+      ],
+      "raised": false
+    },
+    {
+      "passed": false,
+      "entry": "actions",
+      "mode": "unavailable",
+      "backend_calls": [
+        "synthesize",
+        "fallback"
+      ],
+      "raised": false
+    }
+  ],
+  "after": [
+    {
+      "passed": true,
+      "entry": "tap",
+      "mode": "uncertain",
+      "backend_calls": [
+        "synthesize"
+      ],
+      "raised": true
+    },
+    {
+      "passed": true,
+      "entry": "text",
+      "mode": "uncertain",
+      "backend_calls": [
+        "synthesize"
+      ],
+      "raised": true
+    },
+    {
+      "passed": true,
+      "entry": "keys",
+      "mode": "uncertain",
+      "backend_calls": [
+        "synthesize"
+      ],
+      "raised": true
+    },
+    {
+      "passed": true,
+      "entry": "actions",
+      "mode": "uncertain",
+      "backend_calls": [
+        "synthesize"
+      ],
+      "raised": true
+    },
+    {
+      "passed": true,
+      "entry": "tap",
+      "mode": "success",
+      "backend_calls": [
+        "synthesize"
+      ],
+      "raised": false
+    },
+    {
+      "passed": true,
+      "entry": "text",
+      "mode": "success",
+      "backend_calls": [
+        "synthesize"
+      ],
+      "raised": false
+    },
+    {
+      "passed": true,
+      "entry": "keys",
+      "mode": "success",
+      "backend_calls": [
+        "synthesize"
+      ],
+      "raised": false
+    },
+    {
+      "passed": true,
+      "entry": "actions",
+      "mode": "success",
+      "backend_calls": [
+        "synthesize"
+      ],
+      "raised": false
+    },
+    {
+      "passed": true,
+      "entry": "tap",
+      "mode": "unavailable",
+      "backend_calls": [
+        "fallback"
+      ],
+      "raised": false
+    },
+    {
+      "passed": true,
+      "entry": "text",
+      "mode": "unavailable",
+      "backend_calls": [
+        "fallback"
+      ],
+      "raised": false
+    },
+    {
+      "passed": true,
+      "entry": "keys",
+      "mode": "unavailable",
+      "backend_calls": [
+        "fallback"
+      ],
+      "raised": false
+    },
+    {
+      "passed": true,
+      "entry": "actions",
+      "mode": "unavailable",
+      "backend_calls": [
+        "fallback"
+      ],
+      "raised": false
+    }
+  ],
+  "native_guard_checks": 270,
+  "wrapper_cases": 12,
+  "unsigned_ios_test_build": "succeeded",
+  "physical_retest": "not run; developer tunnel unavailable",
+  "physical_full_suite_score_unchanged": "16/20"
+}

@@ -12,6 +12,8 @@
 
 An immediate observation is a first-frame observation, not proof that a transition completed. Put `expect` on transitions and verify the task result. Service/network latency and agent reasoning remain real costs.
 
+Input backends are selected before dispatch. If synthesis reports a failure, the runner stops with an uncertain outcome; it does not try a public API that could repeat the action. Taps and focused text can use a compatible backend when the required private selectors are known to be missing before input. [Failure-injection evidence and current installation status](control-development.md#stop-uncertain-input-before-a-second-backend).
+
 ## Install
 
 Requirements: a Mac with full Xcode and a configured Apple development team, Node 22+, and an iPhone with Developer Mode enabled. Provisioning must include the phone. Your first launch may require Trust and an on-phone UI Automation/passcode approval.
