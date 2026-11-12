@@ -80,3 +80,33 @@ test('an open folder is not a completed Home Screen goal; Home waits for dismiss
  const result=await runLocalGoal(c,{external_ui_opt_in:true,goal:'Close the folder',apps:['com.apple.springboard'],visible_controls:true,allow_home:true,until:{app:'com.apple.springboard',absent:folder}},{chooser:{choose:async()=>decision}});
  assert.equal(result.ok,true);assert.equal(c.inputs,1);assert.equal(result.chooser_calls,1);
 });
+
+const exactEntryOptions={external_ui_opt_in:true,goal:'Enter the exact query in Find',apps:['test.app'],visible_controls:true,texts:{query:'ClickFast café — 27!'},until:{selector:{kind:'SearchField',label:'Find',value:'ClickFast café — 27!'}}};
+function exactEntryController(extra={}){
+ const field={ref:'s1:field',native_ref:'native-field',kind:'SearchField',label:'Find',value:'',focused:false,enabled:true,rect:{x:0,y:0,width:200,height:50}};
+ return {current:null,steps:[],async observe(){return this.current={app:'test.app',snapshot:'s1',width:440,height:956,bound_text:1,elements:[{ref:'s1:button',kind:'Button',label:'Search',enabled:true},field],...extra};},async execute(steps){this.steps.push(...steps);this.current={...this.current,elements:this.current.elements.map(x=>x.ref===field.ref?{...x,value:steps[0].text,focused:true}:x)};return {ok:true};}};
+}
+test('an exact field and literal use native admission without a speculative prerequisite',async()=>{
+ const c=exactEntryController();let calls=0;const result=await runLocalGoal(c,exactEntryOptions,{chooser:{choose:async()=>{calls++;throw Error('A known field does not need a model decision');}}});
+ assert.equal(result.ok,true);assert.equal(calls,0);assert.equal(result.chooser_calls,0);assert.deepEqual(c.steps,[{op:'text',ref:'s1:field',snapshot:'s1',text:exactEntryOptions.texts.query,app:'test.app'}]);
+ assert.equal(result.events.find(x=>x.kind==='decision')?.source,'exact_field');
+});
+test('an exact text shortcut requires the native capability and a complete observation',async()=>{
+ for(const extra of [{bound_text:0},{truncated:true}]){
+  const c=exactEntryController(extra);let calls=0;const result=await runLocalGoal(c,exactEntryOptions,{chooser:{choose:async()=>{calls++;return {...decision,choice:'BLOCKED'};}}});
+  assert.equal(result.ok,false);assert.equal(calls,1);assert.equal(c.steps.length,0);
+ }
+});
+test('an exact text shortcut cannot choose an empty field beside an ambiguous draft',async()=>{
+ const c=exactEntryController();const observe=c.observe.bind(c);c.observe=async function(){const s=await observe();s.elements.push({...s.elements[1],ref:'s1:other',native_ref:'another-field',value:'An existing draft'});return s;};
+ const result=await runLocalGoal(c,exactEntryOptions,{chooser:{choose:async()=>({...decision,choice:'BLOCKED'})}});
+ assert.equal(result.ok,false);assert.equal(c.steps.length,0);
+});
+test('an exact text shortcut requires the supplied literal and no unmet extra submit condition',async()=>{
+ for(const opt of [{texts:{query:'A different literal'}},{until:{...exactEntryOptions.until,after_action:{kind:'Button',label:'Search'}}},{until:{...exactEntryOptions.until,absent:{kind:'Keyboard'}}}]){
+  const c=exactEntryController();let calls=0;const result=await runLocalGoal(c,{...exactEntryOptions,...opt},{chooser:{choose:async()=>{calls++;return {...decision,choice:'BLOCKED'};}}});assert.equal(result.ok,false);assert.equal(calls,1);assert.equal(c.steps.length,0);
+ }
+});
+test('JEV-only comparisons can explicitly disable direct text admission',async()=>{
+ const c=exactEntryController();let calls=0;const result=await runLocalGoal(c,{...exactEntryOptions,direct_text:false},{chooser:{choose:async()=>{calls++;return {...decision,choice:'BLOCKED'};}}});assert.equal(result.ok,false);assert.equal(calls,1);assert.equal(c.steps.length,0);
+});

@@ -77,6 +77,19 @@ export function actionCandidates(observation,options){
  return candidates;
 }
 
+function exactFieldAction(observation,options,candidates){
+ if(options.direct_text===false||observation.bound_text!==1||observation.truncated)return null;
+ const {until}=options,selector=until.selector;
+ if(until.after_action||until.absent||(until.app&&until.app!==observation.app)||!selector||!fields.includes(selector.kind)||typeof selector.value!=='string'||!selector.value)return null;
+ if(!Object.values(options.texts||{}).includes(selector.value))return null;
+ const {value,...target}=selector,identities=new Map();
+ for(const row of observation.elements)if(row.ref&&matches(row,target))identities.set(row.native_ref||row.ref,row);
+ if(identities.size!==1)return null;
+ const id=identities.keys().next().value;
+ const eligible=candidates.filter(row=>row.operation==='text'&&(row.native_ref||row.ref)===id&&row.text===value);
+ return eligible.length===1?eligible[0]:null;
+}
+
 export async function runLocalGoal(controller,options,{chooser,signal}={}){
  if(options?.external_ui_opt_in!==true)throw new Error('JEV requires explicit external_ui_opt_in: selected UI labels, supplied literals and the intent are sent to TypeSafe');
  const {goal,apps,allowed_selectors,until}=options;
@@ -91,6 +104,7 @@ export async function runLocalGoal(controller,options,{chooser,signal}={}){
  if(options.swipe_directions&&(!Array.isArray(options.swipe_directions)||options.swipe_directions.length>4||options.swipe_directions.some(x=>!['up','down','left','right'].includes(x))))throw new Error('Invalid swipe direction scope');
  if(options.launch_apps&&(!Array.isArray(options.launch_apps)||options.launch_apps.length>16||options.launch_apps.some(x=>!apps.includes(x.bundle)||typeof x.label!=='string'||!x.label.length||x.label.length>100)))throw new Error('Launch candidates must belong to the explicit app scope');
  if(options.allow_home!==undefined&&typeof options.allow_home!=='boolean')throw new Error('allow_home must be boolean');
+ if(options.direct_text!==undefined&&typeof options.direct_text!=='boolean')throw new Error('direct_text must be boolean');
  if(options.allow_home&&!apps.includes('com.apple.springboard'))throw new Error('Home requires Springboard in the app scope');
  const max=options.max_actions??8,timeout=options.timeout_ms??30000;
  if(!Number.isInteger(max)||max<1||max>12||!Number.isInteger(timeout)||timeout<1||timeout>60000)throw new Error('Invalid local goal budget');
@@ -109,13 +123,18 @@ export async function runLocalGoal(controller,options,{chooser,signal}={}){
    if(i===max)return result(false,'Action budget reached');
    const candidates=actionCandidates(observation,options);
    if(!candidates.length)return result(false,'No permitted action');
+   let target=exactFieldAction(observation,options,candidates);
+   if(target)events.push({kind:'decision',source:'exact_field',operation:'text'});
+   else {
    const chooseStart=performance.now();calls++;
    const choice=await chooser.choose({goal,observation,candidates,history,signal:stop});
    events.push({kind:'choice',ms:performance.now()-chooseStart,model:choice.model,usage:choice.usage,confidence:choice.confidence,selected_probability:choice.selected_probability,available:choice.available,choice:choice.choice,candidate_count:candidates.length});
    if(choice.choice==='DONE')return result(false,'Chooser reported DONE without the required visible predicate');
    if(choice.choice==='BLOCKED'||!probability(choice.confidence)||!probability(choice.selected_probability)||!probability(choice.available)||Math.min(choice.confidence,choice.selected_probability,choice.available)<min)return result(false,'Chooser handed back or failed decision gates');
    if(!/^a\d+$/.test(choice.choice)||!candidates[Number(choice.choice.slice(1))])return result(false,'Chooser returned an unknown action');
-   const target=candidates[Number(choice.choice.slice(1))],before=fingerprint(observation),actionStart=performance.now();
+   target=candidates[Number(choice.choice.slice(1))];
+   }
+   const before=fingerprint(observation),actionStart=performance.now();
    const execute=steps=>controller.execute(steps,{signal:stop,timeout:Math.max(1,timeout-(performance.now()-start))});
    let applied;
    switch(target.operation){
