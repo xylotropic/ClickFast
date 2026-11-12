@@ -1,0 +1,74 @@
+{
+  "schema": 2,
+  "tasks": [
+    {
+      "id": "x-scroll",
+      "description": "Home to X and scroll once; independently check changed feed content",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open X from the Home Screen.",
+          "apps": [
+            "com.apple.springboard",
+            "com.atebits.Tweetie2"
+          ],
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "label": "X",
+              "bundle": "com.atebits.Tweetie2"
+            }
+          ],
+          "until": {
+            "app": "com.atebits.Tweetie2"
+          }
+        },
+        {
+          "goal": "Scroll up once in the observed feed.",
+          "apps": [
+            "com.atebits.Tweetie2"
+          ],
+          "until": {
+            "app": "com.atebits.Tweetie2",
+            "after_action": {
+              "kind": "SystemAction",
+              "label": "Swipe up"
+            }
+          },
+          "action": {
+            "op": "swipe",
+            "direction": "up",
+            "duration_ms": 300
+          },
+          "precondition_ocr": {
+            "min_lines": 5,
+            "all": [
+              [
+                "For You"
+              ],
+              [
+                "Following"
+              ]
+            ]
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.atebits.Tweetie2"
+      },
+      "verify_change": {
+        "phase": 1
+      },
+      "min_actions": 2,
+      "require_controls": true,
+      "verify_ocr": {
+        "min_lines": 4,
+        "all": []
+      }
+    }
+  ]
+}

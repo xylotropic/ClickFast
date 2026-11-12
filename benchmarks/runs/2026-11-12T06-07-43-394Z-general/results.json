@@ -1,0 +1,846 @@
+{
+  "schema": 2,
+  "id": "2026-11-12T06-07-43-394Z-general",
+  "kind": "Physical iPhone bounded intents",
+  "source_commit": "ea58974bd062ffbffb9f41c7b1ab43e029c1acd0",
+  "source_dirty": true,
+  "source_sha256": {
+    "src/jev.mjs": "f6ef4518a3d250898a2e297bc31e325228fe32cce24c0a85987fd902a6087d92",
+    "src/driver.mjs": "d6792217d4042391a0f11c2d4749ad5033855e751a8bb39dbf1358146327835f",
+    "src/device-launch.mjs": "e7d16e2aab71eb3fb688110002772a8d51611de24abaf8ea54555d6b2991f904",
+    "scripts/benchmark-general.mjs": "bbc35611f0581517d7d846be95220d1399a8aa40794c2c9b91d4f3106a578b7c",
+    "scripts/benchmark-general-support.mjs": "3ecc85124a11f6ae84a3faaf4281421178b8bfe32a598a495b06f95ee154d704",
+    "scripts/benchmark-visual.mjs": "13d81740afb28e7eec6213ef1e1bb72cc62a362f34fd91269eb3791f66deefc9",
+    "scripts/mirror-ocr.swift": "2b731094cf6d72300d0a2b69e34a111a03321a0b5808d6daa5d25b87e37bbd4e",
+    "scripts/phone-recorder.mjs": "d9da40087023133774d2087c30166c1b02274b96683fd995b3a60f7b66b30b7b",
+    "vendor/iphone-use/runner/IPhoneUseRunner/IPhoneUseRunnerUITests/RunnerTests.swift": "ae36fca5c88089e3dbac4c637a5c338fcc5e716fb97b9c49bafb529680e83d45",
+    "vendor/iphone-use/runner/IPhoneUseRunner/IPhoneUseRunnerUITests/IPURBridge.m": "c71fdb095851e5c5c4ef1f628b0a65b9bd81426291664f23adf7585786a27d33",
+    "vendor/iphone-use/runner/IPhoneUseRunner/IPhoneUseRunnerUITests/RunnerElements.swift": "5b2bf3f785b387cab763141e3e972f47f0c758eb05b54f4dcae189fd5aa67883",
+    "benchmarks/fixtures/x-scroll-300-diagnostic.json": "6ddd94f6c5fba3a51e83d364e8d6d84f442439a375be30b1b5f445b07407331e"
+  },
+  "device": "iPhone16ProMax / iOS26.5 / USB",
+  "repeats": 3,
+  "tasks": [
+    {
+      "id": "x-scroll",
+      "description": "Home to X and scroll once; independently check changed feed content",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open X from the Home Screen.",
+          "apps": [
+            "com.apple.springboard",
+            "com.atebits.Tweetie2"
+          ],
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "label": "X",
+              "bundle": "com.atebits.Tweetie2"
+            }
+          ],
+          "until": {
+            "app": "com.atebits.Tweetie2"
+          }
+        },
+        {
+          "goal": "Scroll up once in the observed feed.",
+          "apps": [
+            "com.atebits.Tweetie2"
+          ],
+          "until": {
+            "app": "com.atebits.Tweetie2",
+            "after_action": {
+              "kind": "SystemAction",
+              "label": "Swipe up"
+            }
+          },
+          "action": {
+            "op": "swipe",
+            "direction": "up",
+            "duration_ms": 300
+          },
+          "precondition_ocr": {
+            "min_lines": 5,
+            "all": [
+              [
+                "For You"
+              ],
+              [
+                "Following"
+              ]
+            ]
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.atebits.Tweetie2"
+      },
+      "verify_change": {
+        "phase": 1
+      },
+      "min_actions": 2,
+      "require_controls": true,
+      "verify_ocr": {
+        "min_lines": 4,
+        "all": []
+      }
+    }
+  ],
+  "method": "Real Home-to-result phone tasks, unchanged0.9 JEV gates. Hybrid admits exact caller-provided app, empty field/literal and swipe primitives directly, and uses JEV for navigation choices. A provided swipe is a test action through the general controller, not a saved product routine or a JEV decision. App launches use CoreDevice. Setup and cleanup are recorded separately. All task navigation, model choices, input, independent AX or specified screenshot/OCR checks and result captures are timed. Scroll checks compare text and positions in actual before/after frames. Capture stops on lock. All failures are retained; unknown input is never replayed. Match the same predicates and start states in Mirroring before comparing speed.",
+  "runs": [
+    {
+      "name": "01-x-scroll-hybrid",
+      "task": "x-scroll",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:07:43.499Z",
+      "phases": [
+        {
+          "goal": "Open X from the Home Screen.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 2545.403459,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 2551.482417,
+          "outcome": "verified"
+        },
+        {
+          "goal": "Scroll up once in the observed feed.",
+          "source": "caller_provided_swipe",
+          "ok": true,
+          "reason": "Provided input delivered; independent visual check follows",
+          "actions": 1,
+          "chooser_calls": 0,
+          "elapsed_ms": 552.0472499999996,
+          "events": [
+            {
+              "kind": "action",
+              "operation": "swipe",
+              "outcome": "applied"
+            }
+          ]
+        }
+      ],
+      "setup_ms": 718.089208,
+      "recording_warm_start_ms": 814.376042,
+      "result_frame": {
+        "file": "0013.jpg",
+        "requested_ms": 5834.3850840000005,
+        "completed_ms": 5894.411667
+      },
+      "visual_verification": {
+        "frame": "0009.jpg",
+        "predicate": {
+          "min_lines": 4,
+          "all": []
+        },
+        "verified": true
+      },
+      "content_change": {
+        "before_rows": 32,
+        "after_rows": 31,
+        "verified": true,
+        "method": "Actual before/after screenshot text and positions; waits for app rendering without repeating input",
+        "before_frame": "0005.jpg",
+        "after_frame": "0011.jpg"
+      },
+      "verification_ms": 1257.2837500000005,
+      "verified": true,
+      "actions": 2,
+      "ok": true,
+      "elapsed_ms": 5080.044417,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 5.264709000000039,
+          "runner_ms": 2,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 2.2392919999999776,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 2362.737083,
+          "runner_ms": 2334,
+          "bytes": 117,
+          "status": 500
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 11.690792000000329,
+          "runner_ms": 8,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 15.181250000000091,
+          "runner_ms": 10,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 14.174416999999721,
+          "runner_ms": 10,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 544.0174999999999,
+          "runner_ms": 541,
+          "bytes": 14,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 533.3,
+            "hold": 300,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 7.500417000000198,
+          "runner_ms": 4,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 6.782999999999447,
+          "runner_ms": 3,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 14.32891699999982,
+          "runner_ms": 10,
+          "bytes": 145,
+          "status": 200
+        }
+      ],
+      "native_inputs": 1,
+      "task_ok": true,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.047624999999982265,
+            "completed_ms": 92.066125
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 293.310292,
+            "completed_ms": 370.731625
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 572.0461250000001,
+            "completed_ms": 768.15
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 969.1590000000001,
+            "completed_ms": 1160.1457090000001
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1361.279792,
+            "completed_ms": 3501.970125
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 3501.994875,
+            "completed_ms": 3555.8637089999997
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 3940.5832499999997,
+            "completed_ms": 3995.3892089999995
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 4196.528625,
+            "completed_ms": 4260.435375
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 4461.114917,
+            "completed_ms": 4515.510167
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 4515.536375000001,
+            "completed_ms": 4563.876167
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 4931.693125000001,
+            "completed_ms": 5329.099042
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 5329.120834,
+            "completed_ms": 5395.418917
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 5762.888834,
+            "completed_ms": 5834.365625
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 5834.3850840000005,
+            "completed_ms": 5894.411667
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 5894.804792,
+            "completed_ms": 5960.5085
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "02-x-scroll-hybrid",
+      "task": "x-scroll",
+      "mode": "hybrid",
+      "repeat": 2,
+      "started_at": "2026-11-12T06:07:49.496Z",
+      "phases": [
+        {
+          "goal": "Open X from the Home Screen.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 3770.0178749999995,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 3775.7753330000014,
+          "outcome": "verified"
+        },
+        {
+          "goal": "Scroll up once in the observed feed.",
+          "source": "caller_provided_swipe",
+          "ok": true,
+          "reason": "Provided input delivered; independent visual check follows",
+          "actions": 1,
+          "chooser_calls": 0,
+          "elapsed_ms": 556.2757089999996,
+          "events": [
+            {
+              "kind": "action",
+              "operation": "swipe",
+              "outcome": "applied"
+            }
+          ]
+        }
+      ],
+      "setup_ms": 2555.230625,
+      "recording_warm_start_ms": 2675.733000000001,
+      "result_frame": {
+        "file": "0017.jpg",
+        "requested_ms": 9356.6145,
+        "completed_ms": 9421.569749999999
+      },
+      "visual_verification": {
+        "frame": "0010.jpg",
+        "predicate": {
+          "min_lines": 4,
+          "all": []
+        },
+        "verified": true
+      },
+      "content_change": {
+        "before_rows": 9,
+        "after_rows": 15,
+        "verified": true,
+        "method": "Actual before/after screenshot text and positions; waits for app rendering without repeating input",
+        "before_frame": "0006.jpg",
+        "after_frame": "0015.jpg"
+      },
+      "verification_ms": 1834.5268749999996,
+      "verified": true,
+      "actions": 2,
+      "ok": true,
+      "elapsed_ms": 6745.85075,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 5.637249999999767,
+          "runner_ms": 3,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 2.2807919999995647,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 3599.734625000001,
+          "runner_ms": 3583,
+          "bytes": 117,
+          "status": 500
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 20.296583000001192,
+          "runner_ms": 16,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 8.620958000001337,
+          "runner_ms": 5,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 12.519917000001442,
+          "runner_ms": 9,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 546.4298749999998,
+          "runner_ms": 543,
+          "bytes": 14,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 535.8,
+            "hold": 300,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 9.487999999999374,
+          "runner_ms": 5,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 8.387582999999722,
+          "runner_ms": 5,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 13.603125000001455,
+          "runner_ms": 9,
+          "bytes": 145,
+          "status": 200
+        }
+      ],
+      "native_inputs": 1,
+      "task_ok": true,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.001291999999921245,
+            "completed_ms": 50.47583300000042
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 251.60783300000003,
+            "completed_ms": 364.39950000000044
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 565.1070830000008,
+            "completed_ms": 2624.2511669999994
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 2825.218917000001,
+            "completed_ms": 2937.887833
+          },
+          {
+            "error": "The operation was aborted",
+            "requested_ms": 3138.395667,
+            "completed_ms": 5643.713583
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 5844.920333000001,
+            "completed_ms": 6558.191208000001
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 6558.212708,
+            "completed_ms": 6606.69
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 6895.103250000001,
+            "completed_ms": 6950.220833
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 7151.312083,
+            "completed_ms": 7205.2445
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 7406.365833000001,
+            "completed_ms": 7460.4214170000005
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 7472.175250000001,
+            "completed_ms": 7519.221500000001
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 7801.874958000001,
+            "completed_ms": 8106.2085
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 8106.222875,
+            "completed_ms": 8160.0710420000005
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 8449.268791999999,
+            "completed_ms": 8521.369042000002
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 8521.376042,
+            "completed_ms": 8866.464791999999
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 8866.47925,
+            "completed_ms": 8966.455333000002
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 9296.638667,
+            "completed_ms": 9356.601958
+          },
+          {
+            "file": "0017.jpg",
+            "requested_ms": 9356.6145,
+            "completed_ms": 9421.569749999999
+          },
+          {
+            "file": "0018.jpg",
+            "requested_ms": 9421.835292,
+            "completed_ms": 9498.871041999999
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "03-x-scroll-hybrid",
+      "task": "x-scroll",
+      "mode": "hybrid",
+      "repeat": 3,
+      "started_at": "2026-11-12T06:07:59.032Z",
+      "phases": [
+        {
+          "goal": "Open X from the Home Screen.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 3943.9896670000016,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 3951.141625,
+          "outcome": "verified"
+        },
+        {
+          "goal": "Scroll up once in the observed feed.",
+          "source": "caller_provided_swipe",
+          "ok": true,
+          "reason": "Provided input delivered; independent visual check follows",
+          "actions": 1,
+          "chooser_calls": 0,
+          "elapsed_ms": 561.4435830000002,
+          "events": [
+            {
+              "kind": "action",
+              "operation": "swipe",
+              "outcome": "applied"
+            }
+          ]
+        }
+      ],
+      "setup_ms": 2775.4746250000007,
+      "recording_warm_start_ms": 2896.2377910000014,
+      "result_frame": {
+        "file": "0013.jpg",
+        "requested_ms": 8898.396541,
+        "completed_ms": 8965.240124999998
+      },
+      "visual_verification": {
+        "frame": "0009.jpg",
+        "predicate": {
+          "min_lines": 4,
+          "all": []
+        },
+        "verified": true
+      },
+      "content_change": {
+        "before_rows": 9,
+        "after_rows": 9,
+        "verified": true,
+        "method": "Actual before/after screenshot text and positions; waits for app rendering without repeating input",
+        "before_frame": "0005.jpg",
+        "after_frame": "0011.jpg"
+      },
+      "verification_ms": 960.3952920000011,
+      "verified": true,
+      "actions": 2,
+      "ok": true,
+      "elapsed_ms": 6069.010249999999,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 7.009165999999823,
+          "runner_ms": 3,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 2.3054169999995793,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 3773.5711249999986,
+          "runner_ms": 3768,
+          "bytes": 117,
+          "status": 500
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 13.432333000000654,
+          "runner_ms": 9,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 12.0625,
+          "runner_ms": 8,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 11.26024999999936,
+          "runner_ms": 7,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 549.4787919999981,
+          "runner_ms": 544,
+          "bytes": 14,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 536.5,
+            "hold": 300,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 11.786207999997714,
+          "runner_ms": 8,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 8.376834000002418,
+          "runner_ms": 5,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 13.07654199999888,
+          "runner_ms": 8,
+          "bytes": 145,
+          "status": 200
+        }
+      ],
+      "native_inputs": 1,
+      "task_ok": true,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.0016250000007858034,
+            "completed_ms": 80.00120799999968
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 281.73629099999926,
+            "completed_ms": 464.84566599999926
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 665.7423749999998,
+            "completed_ms": 2903.1202079999985
+          },
+          {
+            "error": "The operation was aborted",
+            "requested_ms": 3104.7350830000014,
+            "completed_ms": 5608.696000000002
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 5809.862875000001,
+            "completed_ms": 6946.2920829999985
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 6946.316041,
+            "completed_ms": 7008.7155
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 7292.853291000001,
+            "completed_ms": 7342.463166
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 7543.561790999998,
+            "completed_ms": 7597.563040999999
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 7798.852000000001,
+            "completed_ms": 7856.282791
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 7873.685707999999,
+            "completed_ms": 7921.064124999999
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 8199.827415999998,
+            "completed_ms": 8504.070208
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 8504.08575,
+            "completed_ms": 8559.165625
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 8824.900541,
+            "completed_ms": 8898.38325
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 8898.396541,
+            "completed_ms": 8965.240124999998
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 8965.503665999999,
+            "completed_ms": 9063.875000000002
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    }
+  ],
+  "launch_wait_experiment_ms": 0,
+  "controller_mode": "hybrid",
+  "finished_at": "2026-11-12T06:08:08.105Z"
+}

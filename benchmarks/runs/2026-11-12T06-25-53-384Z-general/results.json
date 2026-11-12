@@ -1,0 +1,6411 @@
+{
+  "schema": 2,
+  "id": "2026-11-12T06-25-53-384Z-general",
+  "kind": "Physical iPhone bounded intents",
+  "source_commit": "ea58974bd062ffbffb9f41c7b1ab43e029c1acd0",
+  "source_dirty": true,
+  "source_sha256": {
+    "src/jev.mjs": "5b205b8ed9689aafe064332ebb7d70de8588536678344b0317fd169a103d2fee",
+    "src/driver.mjs": "d6792217d4042391a0f11c2d4749ad5033855e751a8bb39dbf1358146327835f",
+    "src/device-launch.mjs": "e7d16e2aab71eb3fb688110002772a8d51611de24abaf8ea54555d6b2991f904",
+    "scripts/benchmark-general.mjs": "f48760db84441e5bc8d70e0ab6d87ac410094d12222ea1031048c1202afa298b",
+    "scripts/benchmark-general-support.mjs": "3ecc85124a11f6ae84a3faaf4281421178b8bfe32a598a495b06f95ee154d704",
+    "scripts/benchmark-visual.mjs": "13d81740afb28e7eec6213ef1e1bb72cc62a362f34fd91269eb3791f66deefc9",
+    "scripts/mirror-ocr.swift": "2b731094cf6d72300d0a2b69e34a111a03321a0b5808d6daa5d25b87e37bbd4e",
+    "scripts/phone-recorder.mjs": "d9da40087023133774d2087c30166c1b02274b96683fd995b3a60f7b66b30b7b",
+    "vendor/iphone-use/runner/IPhoneUseRunner/IPhoneUseRunnerUITests/RunnerTests.swift": "ae36fca5c88089e3dbac4c637a5c338fcc5e716fb97b9c49bafb529680e83d45",
+    "vendor/iphone-use/runner/IPhoneUseRunner/IPhoneUseRunnerUITests/IPURBridge.m": "c71fdb095851e5c5c4ef1f628b0a65b9bd81426291664f23adf7585786a27d33",
+    "vendor/iphone-use/runner/IPhoneUseRunner/IPhoneUseRunnerUITests/RunnerElements.swift": "5b2bf3f785b387cab763141e3e972f47f0c758eb05b54f4dcae189fd5aa67883",
+    "benchmarks/fixtures/general-v9.json": "f41f6a6098637f6d5f5b3a0eed502bc2ab4ef51c33c6642fdd84e59e1c4e4556"
+  },
+  "device": "iPhone16ProMax / iOS26.5 / USB",
+  "repeats": 1,
+  "tasks": [
+    {
+      "id": "folder-clock-home",
+      "description": "Open productivity folder, enter Clock, return and close folder",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "ready": {
+        "app": "com.apple.springboard",
+        "selector": {
+          "kind": "Icon",
+          "label": "productivity folder"
+        }
+      },
+      "phases": [
+        {
+          "goal": "Open the productivity folder, then open Clock inside it.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.mobiletimer"
+          ],
+          "until": {
+            "app": "com.apple.mobiletimer"
+          }
+        },
+        {
+          "goal": "Press Home to exit the current app and return to the Home Screen.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.mobiletimer"
+          ],
+          "allow_home": true,
+          "until": {
+            "app": "com.apple.springboard"
+          }
+        },
+        {
+          "goal": "Close the currently open folder.",
+          "apps": [
+            "com.apple.springboard"
+          ],
+          "allow_home": true,
+          "until": {
+            "app": "com.apple.springboard",
+            "absent": {
+              "kind": "TextField",
+              "label": "productivity, Folder name"
+            }
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.apple.springboard",
+        "absent": {
+          "kind": "TextField",
+          "label": "productivity, Folder name"
+        }
+      }
+    },
+    {
+      "id": "folder-media-youtube-home",
+      "description": "Open media folder, enter YouTube, return and close folder",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "ready": {
+        "app": "com.apple.springboard",
+        "selector": {
+          "kind": "Icon",
+          "label": "media folder"
+        }
+      },
+      "phases": [
+        {
+          "goal": "Open the media folder.",
+          "apps": [
+            "com.apple.springboard"
+          ],
+          "until": {
+            "app": "com.apple.springboard",
+            "selector": {
+              "kind": "TextField",
+              "label": "media, Folder name"
+            }
+          }
+        },
+        {
+          "goal": "Open YouTube inside the current folder.",
+          "apps": [
+            "com.apple.springboard",
+            "com.google.ios.youtube"
+          ],
+          "until": {
+            "app": "com.google.ios.youtube"
+          }
+        },
+        {
+          "goal": "Press Home to exit the current app and return to the Home Screen.",
+          "apps": [
+            "com.apple.springboard",
+            "com.google.ios.youtube"
+          ],
+          "allow_home": true,
+          "until": {
+            "app": "com.apple.springboard"
+          }
+        },
+        {
+          "goal": "Close the currently open folder.",
+          "apps": [
+            "com.apple.springboard"
+          ],
+          "allow_home": true,
+          "until": {
+            "app": "com.apple.springboard",
+            "absent": {
+              "kind": "TextField",
+              "label": "media, Folder name"
+            }
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.apple.springboard",
+        "absent": {
+          "kind": "TextField",
+          "label": "media, Folder name"
+        }
+      },
+      "min_actions": 4
+    },
+    {
+      "id": "contacts-text",
+      "description": "Type a controlled multiword search in Contacts, without creating or editing a contact",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open Contacts from the Home Screen, then enter \"Operator Jane Doe 27\" into the Search search field. Open search first if the field is not visible.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.MobileAddressBook"
+          ],
+          "texts": {
+            "query": "Operator Jane Doe 27"
+          },
+          "until": {
+            "app": "com.apple.MobileAddressBook",
+            "selector": {
+              "kind": "SearchField",
+              "value": "Operator Jane Doe 27"
+            }
+          },
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.apple.MobileAddressBook",
+              "label": "Contacts"
+            }
+          ],
+          "swipe_directions": [
+            "up",
+            "down"
+          ]
+        }
+      ],
+      "verify": {
+        "app": "com.apple.MobileAddressBook",
+        "selector": {
+          "kind": "SearchField",
+          "value": "Operator Jane Doe 27"
+        }
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ],
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField"
+        },
+        "owned_values": [
+          "Operator Jane Doe 27"
+        ],
+        "when_present": true
+      },
+      "min_actions": 2
+    },
+    {
+      "id": "shortcuts-gallery",
+      "description": "Navigate to Gallery in Shortcuts without running any shortcut",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open Shortcuts from the Home Screen and open Library (All Shortcuts). Do not run a shortcut.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.shortcuts"
+          ],
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.apple.shortcuts",
+              "label": "Shortcuts"
+            }
+          ],
+          "until": {
+            "app": "com.apple.shortcuts",
+            "selector": {
+              "kind": "NavigationBar",
+              "label": "All Shortcuts"
+            }
+          }
+        },
+        {
+          "goal": "Open Gallery in Shortcuts. Do not run or add a shortcut.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.shortcuts"
+          ],
+          "until": {
+            "app": "com.apple.shortcuts",
+            "selector": {
+              "kind": "NavigationBar",
+              "label": "Gallery"
+            }
+          },
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.apple.shortcuts",
+              "label": "Shortcuts"
+            }
+          ],
+          "swipe_directions": [
+            "up",
+            "down"
+          ]
+        }
+      ],
+      "verify": {
+        "app": "com.apple.shortcuts",
+        "selector": {
+          "kind": "NavigationBar",
+          "label": "Gallery"
+        }
+      },
+      "min_actions": 2
+    },
+    {
+      "id": "calendar-date-text",
+      "description": "Enter the exact supplied query, including its punctuation, into the observed search field",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open Calendar from the Home Screen, then enter \"Operator coffee — 11/11, 8:30 pm\" into the Search search field. Open search first if the field is not visible.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.mobilecal"
+          ],
+          "texts": {
+            "query": "Operator coffee — 11/11, 8:30 pm"
+          },
+          "until": {
+            "app": "com.apple.mobilecal",
+            "selector": {
+              "kind": "SearchField",
+              "label": "Search",
+              "value": "Operator coffee — 11/11, 8:30 pm"
+            }
+          },
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.apple.mobilecal",
+              "label": "Calendar"
+            }
+          ],
+          "swipe_directions": [
+            "up",
+            "down"
+          ]
+        }
+      ],
+      "verify": {
+        "app": "com.apple.mobilecal",
+        "selector": {
+          "kind": "SearchField",
+          "label": "Search",
+          "value": "Operator coffee — 11/11, 8:30 pm"
+        }
+      },
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField",
+          "label": "Search"
+        },
+        "owned_values": [
+          "Operator coffee — 11/11, 8:30 pm"
+        ],
+        "when_present": true
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ],
+      "min_actions": 2
+    },
+    {
+      "id": "files-document-find",
+      "description": "Enter the exact supplied query, including its punctuation, into the observed search field",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Close the current document preview.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.DocumentsApp"
+          ],
+          "until": {
+            "app": "com.apple.DocumentsApp",
+            "absent": {
+              "kind": "Button",
+              "identifier": "QLOverlayDoneButtonAccessibilityIdentifier"
+            }
+          },
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.apple.DocumentsApp",
+              "label": "Files"
+            }
+          ],
+          "swipe_directions": [
+            "up",
+            "down"
+          ]
+        },
+        {
+          "goal": "Enter \"Operator_draft-27.txt\" in the visible Search field.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.DocumentsApp"
+          ],
+          "texts": {
+            "query": "Operator_draft-27.txt"
+          },
+          "until": {
+            "app": "com.apple.DocumentsApp",
+            "selector": {
+              "kind": "SearchField",
+              "label": "Search",
+              "value": "Operator_draft-27.txt"
+            }
+          },
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.apple.DocumentsApp",
+              "label": "Files"
+            }
+          ],
+          "swipe_directions": [
+            "up",
+            "down"
+          ]
+        }
+      ],
+      "verify": {
+        "app": "com.apple.DocumentsApp",
+        "selector": {
+          "kind": "SearchField",
+          "label": "Search",
+          "value": "Operator_draft-27.txt"
+        }
+      },
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField",
+          "label": "Search"
+        },
+        "owned_values": [
+          "Operator_draft-27.txt"
+        ],
+        "when_present": true
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ],
+      "min_actions": 2
+    },
+    {
+      "id": "app-store-multiword",
+      "description": "Enter the exact supplied query, including its punctuation, into the observed search field",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open App Store from the Home Screen, then enter \"focus timer\" into the Games, Apps, Stories, and More search field. Open search first if the field is not visible.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.AppStore"
+          ],
+          "texts": {
+            "query": "focus timer"
+          },
+          "until": {
+            "app": "com.apple.AppStore",
+            "selector": {
+              "kind": "SearchField",
+              "identifier": "AppStore.searchField",
+              "value": "focus timer"
+            }
+          },
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.apple.AppStore",
+              "label": "App Store"
+            }
+          ],
+          "swipe_directions": [
+            "up",
+            "down"
+          ]
+        }
+      ],
+      "verify": {
+        "app": "com.apple.AppStore",
+        "selector": {
+          "kind": "SearchField",
+          "identifier": "AppStore.searchField",
+          "value": "focus timer"
+        }
+      },
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField",
+          "identifier": "AppStore.searchField"
+        },
+        "owned_values": [
+          "focus timer"
+        ],
+        "when_present": true
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ],
+      "min_actions": 2
+    },
+    {
+      "id": "reminders-punctuation",
+      "description": "Enter the exact supplied query, including its punctuation, into the observed search field",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open Reminders from the Home Screen, then enter \"Operator groceries: tea & oat milk\" into the Search search field. Open search first if the field is not visible.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.reminders"
+          ],
+          "texts": {
+            "query": "Operator groceries: tea & oat milk"
+          },
+          "until": {
+            "app": "com.apple.reminders",
+            "selector": {
+              "kind": "SearchField",
+              "value": "Operator groceries: tea & oat milk"
+            }
+          },
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.apple.reminders",
+              "label": "Reminders"
+            }
+          ],
+          "swipe_directions": [
+            "up",
+            "down"
+          ]
+        }
+      ],
+      "verify": {
+        "app": "com.apple.reminders",
+        "selector": {
+          "kind": "SearchField",
+          "value": "Operator groceries: tea & oat milk"
+        }
+      },
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField"
+        },
+        "owned_values": [
+          "Operator groceries: tea & oat milk"
+        ],
+        "when_present": true
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ],
+      "min_actions": 2
+    },
+    {
+      "id": "weather-city-unicode",
+      "description": "Enter the exact supplied query, including its punctuation, into the observed search field",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open Location List.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.weather"
+          ],
+          "until": {
+            "app": "com.apple.weather",
+            "selector": {
+              "kind": "SearchField",
+              "label": "Search for a city or airport"
+            }
+          },
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.apple.weather",
+              "label": "Weather"
+            }
+          ],
+          "swipe_directions": [
+            "up",
+            "down"
+          ]
+        },
+        {
+          "goal": "Open Weather. If a city forecast is showing, open Location List first. Then enter the supplied city São Paulo in the city search field. Do not add a city.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.weather"
+          ],
+          "texts": {
+            "query": "São Paulo"
+          },
+          "until": {
+            "app": "com.apple.weather",
+            "selector": {
+              "kind": "SearchField",
+              "label": "Search for a city or airport",
+              "value": "São Paulo"
+            }
+          },
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.apple.weather",
+              "label": "Weather"
+            }
+          ],
+          "swipe_directions": [
+            "up",
+            "down"
+          ]
+        }
+      ],
+      "verify": {
+        "app": "com.apple.weather",
+        "selector": {
+          "kind": "SearchField",
+          "label": "Search for a city or airport",
+          "value": "São Paulo"
+        }
+      },
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField",
+          "label": "Search for a city or airport"
+        },
+        "owned_values": [
+          "São Paulo"
+        ],
+        "when_present": true
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ],
+      "min_actions": 2
+    },
+    {
+      "id": "books-title-query",
+      "description": "Enter the exact supplied query, including its punctuation, into the observed search field",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open Books from the Home Screen, then enter \"The Little Prince\" into the Apple Books search field. Open search first if the field is not visible.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.iBooks"
+          ],
+          "texts": {
+            "query": "The Little Prince"
+          },
+          "until": {
+            "app": "com.apple.iBooks",
+            "selector": {
+              "kind": "SearchField",
+              "value": "The Little Prince"
+            }
+          },
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.apple.iBooks",
+              "label": "Books"
+            }
+          ],
+          "swipe_directions": [
+            "up",
+            "down"
+          ]
+        }
+      ],
+      "verify": {
+        "app": "com.apple.iBooks",
+        "selector": {
+          "kind": "SearchField",
+          "value": "The Little Prince"
+        }
+      },
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField"
+        },
+        "owned_values": [
+          "The Little Prince"
+        ],
+        "when_present": true
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ],
+      "min_actions": 2
+    },
+    {
+      "id": "settings-search",
+      "description": "Enter the exact supplied query, including its punctuation, into the observed search field",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open Settings from the Home Screen, then enter \"Reduce Motion\" into the Search search field. Open search first if the field is not visible.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.Preferences"
+          ],
+          "texts": {
+            "query": "Reduce Motion"
+          },
+          "until": {
+            "app": "com.apple.Preferences",
+            "selector": {
+              "kind": "SearchField",
+              "label": "Search",
+              "value": "Reduce Motion"
+            }
+          },
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.apple.Preferences",
+              "label": "Settings"
+            }
+          ],
+          "swipe_directions": [
+            "up",
+            "down"
+          ]
+        }
+      ],
+      "verify": {
+        "app": "com.apple.Preferences",
+        "selector": {
+          "kind": "SearchField",
+          "label": "Search",
+          "value": "Reduce Motion"
+        }
+      },
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField",
+          "label": "Search"
+        },
+        "owned_values": [
+          "Reduce Motion"
+        ],
+        "when_present": true
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ],
+      "min_actions": 2
+    },
+    {
+      "id": "youtube-query",
+      "description": "Enter the exact supplied query, including its punctuation, into the observed search field",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open YouTube from the Home Screen, then enter \"quiet keyboard ASMR\" into the Search YouTube search field. Open search first if the field is not visible.",
+          "apps": [
+            "com.apple.springboard",
+            "com.google.ios.youtube"
+          ],
+          "texts": {
+            "query": "quiet keyboard ASMR"
+          },
+          "until": {
+            "app": "com.google.ios.youtube",
+            "selector": {
+              "kind": "SearchField",
+              "identifier": "id.navigation.search.text_field",
+              "value": "quiet keyboard ASMR"
+            }
+          },
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.google.ios.youtube",
+              "label": "YouTube"
+            }
+          ],
+          "swipe_directions": [
+            "up",
+            "down"
+          ]
+        }
+      ],
+      "verify": {
+        "app": "com.google.ios.youtube",
+        "selector": {
+          "kind": "SearchField",
+          "identifier": "id.navigation.search.text_field",
+          "value": "quiet keyboard ASMR"
+        }
+      },
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField",
+          "identifier": "id.navigation.search.text_field"
+        },
+        "owned_values": [
+          "quiet keyboard ASMR"
+        ],
+        "when_present": true,
+        "clear_selector": {
+          "kind": "Button",
+          "identifier": "id.search.cleartext.button"
+        }
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "identifier": "id.search.cleartext.button"
+          }
+        }
+      ],
+      "min_actions": 2
+    },
+    {
+      "id": "tiktok-open",
+      "description": "Home to TikTok, app launch and visible result included",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open TikTok from the Home Screen.",
+          "apps": [
+            "com.apple.springboard",
+            "com.zhiliaoapp.musically"
+          ],
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "label": "TikTok",
+              "bundle": "com.zhiliaoapp.musically"
+            }
+          ],
+          "until": {
+            "app": "com.zhiliaoapp.musically"
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.zhiliaoapp.musically"
+      },
+      "min_actions": 1,
+      "require_controls": true,
+      "verify_ocr": {
+        "any": [
+          {
+            "min_lines": 5,
+            "all": [
+              [
+                "For You"
+              ],
+              [
+                "Following"
+              ],
+              [
+                "Profile"
+              ]
+            ]
+          },
+          {
+            "min_lines": 3,
+            "all": [
+              [
+                "TikTok"
+              ],
+              [
+                "Skip ad"
+              ]
+            ]
+          }
+        ]
+      },
+      "verify_timeout_ms": 8000
+    },
+    {
+      "id": "tiktok-scroll",
+      "description": "Home to TikTok and scroll once; independently check changed feed content",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open TikTok from the Home Screen.",
+          "apps": [
+            "com.apple.springboard",
+            "com.zhiliaoapp.musically"
+          ],
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "label": "TikTok",
+              "bundle": "com.zhiliaoapp.musically"
+            }
+          ],
+          "until": {
+            "app": "com.zhiliaoapp.musically"
+          }
+        },
+        {
+          "goal": "Tap Skip ad.",
+          "apps": [
+            "com.zhiliaoapp.musically"
+          ],
+          "visual_target": {
+            "text": "Skip ad",
+            "if_present": true
+          },
+          "external_ui_opt_in": true
+        },
+        {
+          "goal": "Tap Home.",
+          "apps": [
+            "com.zhiliaoapp.musically"
+          ],
+          "visual_target": {
+            "text": "Home",
+            "bottom": true
+          },
+          "until_ocr": {
+            "min_lines": 5,
+            "all": [
+              [
+                "For You"
+              ],
+              [
+                "Following"
+              ],
+              [
+                "Profile"
+              ]
+            ]
+          },
+          "external_ui_opt_in": true
+        },
+        {
+          "goal": "Scroll up once in the observed feed.",
+          "apps": [
+            "com.zhiliaoapp.musically"
+          ],
+          "until": {
+            "app": "com.zhiliaoapp.musically",
+            "after_action": {
+              "kind": "SystemAction",
+              "label": "Swipe up"
+            }
+          },
+          "action": {
+            "op": "swipe",
+            "direction": "up"
+          },
+          "precondition_ocr": {
+            "min_lines": 5,
+            "all": [
+              [
+                "For You"
+              ],
+              [
+                "Following"
+              ]
+            ]
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.zhiliaoapp.musically"
+      },
+      "verify_change": {
+        "phase": 3
+      },
+      "min_actions": 2,
+      "require_controls": true,
+      "verify_ocr": {
+        "min_lines": 5,
+        "all": [
+          [
+            "Profile"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "instagram-open",
+      "description": "Home to Instagram, app launch and visible result included",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open Instagram from the Home Screen.",
+          "apps": [
+            "com.apple.springboard",
+            "com.burbn.instagram"
+          ],
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "label": "Instagram",
+              "bundle": "com.burbn.instagram"
+            }
+          ],
+          "until": {
+            "app": "com.burbn.instagram"
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.burbn.instagram"
+      },
+      "min_actions": 1,
+      "require_controls": true
+    },
+    {
+      "id": "instagram-scroll",
+      "description": "Home to Instagram and scroll once; independently check changed feed content",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open Instagram from the Home Screen.",
+          "apps": [
+            "com.apple.springboard",
+            "com.burbn.instagram"
+          ],
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "label": "Instagram",
+              "bundle": "com.burbn.instagram"
+            }
+          ],
+          "until": {
+            "app": "com.burbn.instagram"
+          }
+        },
+        {
+          "goal": "Open the Main feed tab.",
+          "apps": [
+            "com.burbn.instagram"
+          ],
+          "allowed_selectors": [
+            {
+              "kind": "Button",
+              "identifier": "mainfeed-tab"
+            },
+            {
+              "kind": "Button",
+              "label": "Back"
+            }
+          ],
+          "until": {
+            "app": "com.burbn.instagram",
+            "selector": {
+              "kind": "Button",
+              "identifier": "main-feed-logo"
+            }
+          }
+        },
+        {
+          "goal": "Scroll up once in the observed feed.",
+          "apps": [
+            "com.burbn.instagram"
+          ],
+          "until": {
+            "app": "com.burbn.instagram",
+            "after_action": {
+              "kind": "SystemAction",
+              "label": "Swipe up"
+            }
+          },
+          "action": {
+            "op": "swipe",
+            "direction": "up"
+          },
+          "precondition_ocr": {
+            "min_lines": 5,
+            "all": [
+              [
+                "Instagram"
+              ]
+            ]
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.burbn.instagram"
+      },
+      "verify_change": {
+        "phase": 2
+      },
+      "min_actions": 2,
+      "require_controls": true,
+      "verify_ocr": {
+        "min_lines": 4,
+        "all": []
+      }
+    },
+    {
+      "id": "x-open",
+      "description": "Home to X, app launch and visible result included",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open X from the Home Screen.",
+          "apps": [
+            "com.apple.springboard",
+            "com.atebits.Tweetie2"
+          ],
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "label": "X",
+              "bundle": "com.atebits.Tweetie2"
+            }
+          ],
+          "until": {
+            "app": "com.atebits.Tweetie2",
+            "selector": {
+              "kind": "Button",
+              "identifier": "FabComposeButton"
+            }
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.atebits.Tweetie2",
+        "selector": {
+          "kind": "Button",
+          "identifier": "FabComposeButton"
+        }
+      },
+      "min_actions": 1,
+      "require_controls": true,
+      "verify_ocr": {
+        "min_lines": 5,
+        "all": []
+      }
+    },
+    {
+      "id": "x-scroll",
+      "description": "Home to X and scroll once; independently check changed feed content",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open X from the Home Screen.",
+          "apps": [
+            "com.apple.springboard",
+            "com.atebits.Tweetie2"
+          ],
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "label": "X",
+              "bundle": "com.atebits.Tweetie2"
+            }
+          ],
+          "until": {
+            "app": "com.atebits.Tweetie2",
+            "selector": {
+              "kind": "Button",
+              "identifier": "FabComposeButton"
+            }
+          }
+        },
+        {
+          "goal": "Scroll up once in the observed feed.",
+          "apps": [
+            "com.atebits.Tweetie2"
+          ],
+          "until": {
+            "app": "com.atebits.Tweetie2",
+            "after_action": {
+              "kind": "SystemAction",
+              "label": "Swipe up"
+            }
+          },
+          "action": {
+            "op": "swipe",
+            "direction": "up",
+            "duration_ms": 300,
+            "x_fraction": 0.08
+          },
+          "precondition_ocr": {
+            "min_lines": 5,
+            "all": [
+              [
+                "For You"
+              ],
+              [
+                "Following"
+              ]
+            ]
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.atebits.Tweetie2"
+      },
+      "verify_change": {
+        "phase": 1
+      },
+      "min_actions": 2,
+      "require_controls": true,
+      "verify_ocr": {
+        "min_lines": 4,
+        "all": []
+      }
+    },
+    {
+      "id": "youtube-open",
+      "description": "Home to YouTube, app launch and visible result included",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open YouTube from the Home Screen.",
+          "apps": [
+            "com.apple.springboard",
+            "com.google.ios.youtube"
+          ],
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "label": "YouTube",
+              "bundle": "com.google.ios.youtube"
+            }
+          ],
+          "until": {
+            "app": "com.google.ios.youtube"
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.google.ios.youtube"
+      },
+      "min_actions": 1,
+      "require_controls": true
+    },
+    {
+      "id": "youtube-scroll",
+      "description": "Home to YouTube recommendations and scroll once; verify actual body content moves even when the bottom bar is hidden",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open YouTube from the Home Screen.",
+          "apps": [
+            "com.apple.springboard",
+            "com.google.ios.youtube"
+          ],
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "label": "YouTube",
+              "bundle": "com.google.ios.youtube"
+            }
+          ],
+          "until": {
+            "app": "com.google.ios.youtube"
+          }
+        },
+        {
+          "goal": "Tap Back.",
+          "apps": [
+            "com.google.ios.youtube"
+          ],
+          "allowed_selectors": [
+            {
+              "kind": "Button",
+              "label": "Back"
+            },
+            {
+              "kind": "Button",
+              "label": "Home"
+            }
+          ],
+          "until": {
+            "app": "com.google.ios.youtube",
+            "selector": {
+              "kind": "Button",
+              "label": "Home"
+            }
+          }
+        },
+        {
+          "goal": "Scroll up once in the observed feed.",
+          "apps": [
+            "com.google.ios.youtube"
+          ],
+          "until": {
+            "app": "com.google.ios.youtube",
+            "after_action": {
+              "kind": "SystemAction",
+              "label": "Swipe up"
+            }
+          },
+          "action": {
+            "op": "swipe",
+            "direction": "up"
+          },
+          "precondition_ocr": {
+            "min_lines": 5,
+            "all": [
+              [
+                "Premium",
+                "YouTube"
+              ]
+            ]
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.google.ios.youtube"
+      },
+      "verify_change": {
+        "phase": 2
+      },
+      "min_actions": 2,
+      "require_controls": true,
+      "verify_ocr": {
+        "min_lines": 4,
+        "all": []
+      }
+    }
+  ],
+  "method": "Real Home-to-result phone tasks, unchanged0.9 JEV gates. Hybrid admits exact caller-provided app, empty field/literal and swipe primitives directly, and uses JEV for navigation choices. A provided swipe is a test action through the general controller, not a saved product routine or a JEV decision. App launches use CoreDevice. Setup and cleanup are recorded separately. All task navigation, model choices, input, independent AX or specified screenshot/OCR checks and result captures are timed. Scroll checks compare text and positions in actual before/after frames. Capture stops on lock. All failures are retained; unknown input is never replayed. Match the same predicates and start states in Mirroring before comparing speed.",
+  "runs": [
+    {
+      "name": "01-folder-clock-home-hybrid",
+      "task": "folder-clock-home",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:25:53.513Z",
+      "phases": [
+        {
+          "goal": "Open the productivity folder, then open Clock inside it.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 2,
+          "chooser_calls": 2,
+          "events": [
+            {
+              "kind": "choice",
+              "ms": 105.64595899999995,
+              "model": "jev-1.14.0",
+              "usage": {
+                "input_tokens": 1835,
+                "output_tokens": 205
+              },
+              "confidence": 1,
+              "selected_probability": 1,
+              "available": 0.99,
+              "choice": "a0",
+              "candidate_count": 20
+            },
+            {
+              "kind": "action",
+              "operation": "tap",
+              "ms": 365.7085840000002,
+              "ok": true
+            },
+            {
+              "kind": "choice",
+              "ms": 80.9878749999998,
+              "model": "jev-1.14.0",
+              "usage": {
+                "input_tokens": 931,
+                "output_tokens": 75
+              },
+              "confidence": 1,
+              "selected_probability": 1,
+              "available": 0.99,
+              "choice": "a3",
+              "candidate_count": 5
+            },
+            {
+              "kind": "action",
+              "operation": "tap",
+              "ms": 348.8522079999998,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 976.4961249999999,
+          "outcome": "verified"
+        },
+        {
+          "goal": "Press Home to exit the current app and return to the Home Screen.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 1,
+          "events": [
+            {
+              "kind": "choice",
+              "ms": 101.89200000000028,
+              "model": "jev-1.14.0",
+              "usage": {
+                "input_tokens": 1142,
+                "output_tokens": 107
+              },
+              "confidence": 1,
+              "selected_probability": 1,
+              "available": 0.99,
+              "choice": "a8",
+              "candidate_count": 9
+            },
+            {
+              "kind": "action",
+              "operation": "home",
+              "ms": 996.269417,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 1155.309792,
+          "outcome": "verified"
+        },
+        {
+          "goal": "Close the currently open folder.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 1,
+          "events": [
+            {
+              "kind": "choice",
+              "ms": 76.62958299999991,
+              "model": "jev-1.14.0",
+              "usage": {
+                "input_tokens": 882,
+                "output_tokens": 75
+              },
+              "confidence": 1,
+              "selected_probability": 1,
+              "available": 0.99,
+              "choice": "a4",
+              "candidate_count": 5
+            },
+            {
+              "kind": "action",
+              "operation": "home",
+              "ms": 714.4890000000005,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 825.3147079999994,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 1194.233917,
+      "recording_warm_start_ms": 1257.400083,
+      "result_frame": {
+        "file": "0017.jpg",
+        "requested_ms": 4455.559625,
+        "completed_ms": 4503.131125
+      },
+      "verification_ms": 176.40983400000005,
+      "verified": true,
+      "actions": 4,
+      "ok": true,
+      "elapsed_ms": 3245.753625,
+      "chooser_calls": 4,
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 74.14504099999999,
+          "runner_ms": 71,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 365.4268749999999,
+          "runner_ms": 361,
+          "bytes": 4518,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 279.2,
+            "hold": 50,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 348.6914999999999,
+          "runner_ms": 344,
+          "bytes": 4221,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 269.4,
+            "hold": 50,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 56.77508399999988,
+          "runner_ms": 53,
+          "bytes": 4221,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 467.02145800000017,
+          "runner_ms": 463,
+          "bytes": 14,
+          "status": 200,
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 82.04658299999983,
+          "runner_ms": 78,
+          "bytes": 4221,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 66.09154100000023,
+          "runner_ms": 61,
+          "bytes": 4221,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 53.81399999999985,
+          "runner_ms": 50,
+          "bytes": 4221,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 64.34537499999988,
+          "runner_ms": 60,
+          "bytes": 4221,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 63.92983400000003,
+          "runner_ms": 60,
+          "bytes": 4221,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 64.39058399999976,
+          "runner_ms": 50,
+          "bytes": 2490,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 33.741583999999875,
+          "runner_ms": 31,
+          "bytes": 2490,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 470.94095899999957,
+          "runner_ms": 467,
+          "bytes": 14,
+          "status": 200,
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 93.46512500000063,
+          "runner_ms": 88,
+          "bytes": 3331,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 121.87454200000047,
+          "runner_ms": 116,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 110.32200000000012,
+          "runner_ms": 107,
+          "bytes": 8484,
+          "status": 200
+        }
+      ],
+      "native_inputs": 4,
+      "task_ok": true,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.05220800000000736,
+            "completed_ms": 77.179417
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 279.40108299999997,
+            "completed_ms": 417.839542
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 620.4640420000001,
+            "completed_ms": 682.0052499999999
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 882.220458,
+            "completed_ms": 1070.717583
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1273.275875,
+            "completed_ms": 1361.5325420000001
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 1563.351458,
+            "completed_ms": 1674.293083
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 1876.32675,
+            "completed_ms": 1945.439875
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 2147.530042,
+            "completed_ms": 2206.405
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 2408.494833,
+            "completed_ms": 2464.3275830000002
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 2666.29525,
+            "completed_ms": 2800.151
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 3001.888333,
+            "completed_ms": 3084.432208
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 3286.151167,
+            "completed_ms": 3367.735917
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 3569.391708,
+            "completed_ms": 3627.331542
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 3829.118583,
+            "completed_ms": 3899.458833
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 4100.80725,
+            "completed_ms": 4160.31175
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 4329.723833,
+            "completed_ms": 4395.222542
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 4395.231875,
+            "completed_ms": 4455.540542
+          },
+          {
+            "file": "0017.jpg",
+            "requested_ms": 4455.559625,
+            "completed_ms": 4503.131125
+          },
+          {
+            "file": "0018.jpg",
+            "requested_ms": 4504.283833,
+            "completed_ms": 4553.713542
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "02-folder-media-youtube-home-hybrid",
+      "task": "folder-media-youtube-home",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:25:58.106Z",
+      "phases": [
+        {
+          "goal": "Open the media folder.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 1,
+          "events": [
+            {
+              "kind": "choice",
+              "ms": 94.69466699999975,
+              "model": "jev-1.14.0",
+              "usage": {
+                "input_tokens": 1829,
+                "output_tokens": 206
+              },
+              "confidence": 1,
+              "selected_probability": 1,
+              "available": 0.99,
+              "choice": "a13",
+              "candidate_count": 20
+            },
+            {
+              "kind": "action",
+              "operation": "tap",
+              "ms": 397.50387500000033,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 585.5462079999998,
+          "outcome": "verified"
+        },
+        {
+          "goal": "Open YouTube inside the current folder.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 1,
+          "events": [
+            {
+              "kind": "choice",
+              "ms": 68.59987499999988,
+              "model": "jev-1.14.0",
+              "usage": {
+                "input_tokens": 1187,
+                "output_tokens": 115
+              },
+              "confidence": 1,
+              "selected_probability": 1,
+              "available": 0.99,
+              "choice": "a6",
+              "candidate_count": 10
+            },
+            {
+              "kind": "action",
+              "operation": "tap",
+              "ms": 348.23341699999946,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 521.2423750000007,
+          "outcome": "verified"
+        },
+        {
+          "goal": "Press Home to exit the current app and return to the Home Screen.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 1,
+          "events": [
+            {
+              "kind": "choice",
+              "ms": 73.0411669999994,
+              "model": "jev-1.14.0",
+              "usage": {
+                "input_tokens": 2317,
+                "output_tokens": 188
+              },
+              "confidence": 1,
+              "selected_probability": 1,
+              "available": 0.99,
+              "choice": "a17",
+              "candidate_count": 18
+            },
+            {
+              "kind": "action",
+              "operation": "home",
+              "ms": 1028.6394999999993,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 1148.6695,
+          "outcome": "verified"
+        },
+        {
+          "goal": "Close the currently open folder.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 1,
+          "events": [
+            {
+              "kind": "choice",
+              "ms": 77.12987499999963,
+              "model": "jev-1.14.0",
+              "usage": {
+                "input_tokens": 1271,
+                "output_tokens": 125
+              },
+              "confidence": 1,
+              "selected_probability": 1,
+              "available": 1,
+              "choice": "a10",
+              "candidate_count": 11
+            },
+            {
+              "kind": "action",
+              "operation": "home",
+              "ms": 711.405416999999,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 840.5605829999995,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 783.8192499999996,
+      "recording_warm_start_ms": 881.1674170000006,
+      "result_frame": {
+        "file": "0015.jpg",
+        "requested_ms": 4135.582583,
+        "completed_ms": 4183.617708000001
+      },
+      "verification_ms": 154.0141249999997,
+      "verified": true,
+      "actions": 4,
+      "ok": true,
+      "elapsed_ms": 3302.8473750000003,
+      "chooser_calls": 4,
+      "requests": [
+        {
+          "path": "/sprint/observe",
+          "ms": 92.5893330000008,
+          "runner_ms": 89,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 397.24983299999985,
+          "runner_ms": 393,
+          "bytes": 9894,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 269.2,
+            "hold": 50,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 103.82099999999991,
+          "runner_ms": 100,
+          "bytes": 9894,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 348.01025000000027,
+          "runner_ms": 344,
+          "bytes": 11662,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 272.2,
+            "hold": 50,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 46.462540999999874,
+          "runner_ms": 43,
+          "bytes": 11662,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 466.87016700000004,
+          "runner_ms": 462,
+          "bytes": 14,
+          "status": 200,
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 68.605458,
+          "runner_ms": 63,
+          "bytes": 11662,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 56.53883399999995,
+          "runner_ms": 51,
+          "bytes": 11662,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 40.53162499999962,
+          "runner_ms": 35,
+          "bytes": 11662,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 43.8968330000007,
+          "runner_ms": 40,
+          "bytes": 11662,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 55.32574999999997,
+          "runner_ms": 51,
+          "bytes": 11662,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 69.25670900000023,
+          "runner_ms": 65,
+          "bytes": 11662,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 63.57079199999953,
+          "runner_ms": 53,
+          "bytes": 5018,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 51.358000000000175,
+          "runner_ms": 48,
+          "bytes": 5018,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 465.4242910000012,
+          "runner_ms": 461,
+          "bytes": 14,
+          "status": 200,
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 123.36308300000019,
+          "runner_ms": 118,
+          "bytes": 6337,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 93.4812920000004,
+          "runner_ms": 87,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 87.39099999999962,
+          "runner_ms": 84,
+          "bytes": 8484,
+          "status": 200
+        }
+      ],
+      "native_inputs": 4,
+      "task_ok": true,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.0014580000006390037,
+            "completed_ms": 56.97704200000044
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 258.90950000000066,
+            "completed_ms": 352.3825420000003
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 554.3872499999998,
+            "completed_ms": 733.2210000000005
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 935.251542,
+            "completed_ms": 1009.9635830000007
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1210.514083,
+            "completed_ms": 1330.2324580000004
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 1531.7254170000006,
+            "completed_ms": 1597.8195420000002
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 1798.3225000000002,
+            "completed_ms": 1956.6939579999998
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 2159.2170830000005,
+            "completed_ms": 2250.1197920000004
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 2452.0414170000004,
+            "completed_ms": 2535.269625
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 2735.750792,
+            "completed_ms": 2805.7112500000003
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 3008.031667,
+            "completed_ms": 3139.7652500000004
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 3339.8525420000005,
+            "completed_ms": 3401.848417
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 3604.2062080000005,
+            "completed_ms": 3670.047375000001
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 3872.4188330000006,
+            "completed_ms": 3963.100708000001
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 4069.078708,
+            "completed_ms": 4135.525167000001
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 4135.582583,
+            "completed_ms": 4183.617708000001
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 4183.630416999999,
+            "completed_ms": 4233.138207999999
+          },
+          {
+            "file": "0017.jpg",
+            "requested_ms": 4233.148833,
+            "completed_ms": 4279.8835420000005
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "03-contacts-text-hybrid",
+      "task": "contacts-text",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:26:02.420Z",
+      "phases": [
+        {
+          "goal": "Open Contacts from the Home Screen, then enter \"Operator Jane Doe 27\" into the Search search field. Open search first if the field is not visible.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 2,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 327.3269170000003,
+              "ok": true
+            },
+            {
+              "kind": "decision",
+              "source": "exact_field",
+              "operation": "text"
+            },
+            {
+              "kind": "action",
+              "operation": "text",
+              "ms": 363.50804100000096,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 826.2191670000011,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 2185.496083,
+      "recording_warm_start_ms": 2284.2963340000006,
+      "result_frame": {
+        "file": "0011.jpg",
+        "requested_ms": 3210.0370000000003,
+        "completed_ms": 3276.012666999999
+      },
+      "verification_ms": 98.35883300000023,
+      "verified": true,
+      "actions": 2,
+      "ok": true,
+      "elapsed_ms": 991.7342499999995,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 5.961417000000438,
+          "runner_ms": 3,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 101.30787500000042,
+          "runner_ms": 98,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 2.7306250000001455,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 160.8901249999999,
+          "runner_ms": 148,
+          "bytes": 8687,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 363.2200840000005,
+          "runner_ms": 359,
+          "bytes": 9236,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 281,
+            "hold": 4400,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 47.37720799999988,
+          "runner_ms": 43,
+          "bytes": 9236,
+          "status": 200
+        }
+      ],
+      "native_inputs": 1,
+      "task_ok": true,
+      "cleanup": {
+        "status": "verified"
+      },
+      "cleanup_ms": 467.8083750000005,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.00204200000007404,
+            "completed_ms": 50.82183400000031
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 253.46783399999913,
+            "completed_ms": 344.60254200000054
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 545.7574999999997,
+            "completed_ms": 721.2991669999992
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 923.2663749999992,
+            "completed_ms": 1196.9982089999994
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1398.9697919999999,
+            "completed_ms": 1496.501791999999
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 1698.8547500000004,
+            "completed_ms": 1768.9105839999993
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 1971.5682089999991,
+            "completed_ms": 2140.9317919999994
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 2343.4510420000006,
+            "completed_ms": 2448.6293339999993
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 2650.267416999999,
+            "completed_ms": 2807.4492090000003
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 3008.9585000000006,
+            "completed_ms": 3101.638084
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 3159.2135,
+            "completed_ms": 3209.8841250000005
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 3210.0370000000003,
+            "completed_ms": 3276.012666999999
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 3302.181124999999,
+            "completed_ms": 3368.296875
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 3569.9940420000003,
+            "completed_ms": 3637.6525839999995
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 3745.0789999999997,
+            "completed_ms": 3799.7319590000006
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "04-shortcuts-gallery-hybrid",
+      "task": "shortcuts-gallery",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:26:06.256Z",
+      "phases": [
+        {
+          "goal": "Open Shortcuts from the Home Screen and open Library (All Shortcuts). Do not run a shortcut.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 2,
+          "chooser_calls": 1,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 685.6769169999989,
+              "ok": true
+            },
+            {
+              "kind": "choice",
+              "ms": 136.27879200000098,
+              "model": "jev-1.14.0",
+              "usage": {
+                "input_tokens": 1654,
+                "output_tokens": 179
+              },
+              "confidence": 0.99,
+              "selected_probability": 0.99,
+              "available": 0.97,
+              "choice": "a14",
+              "candidate_count": 17
+            },
+            {
+              "kind": "action",
+              "operation": "tap",
+              "ms": 809.4033340000005,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 1763.9443329999995,
+          "outcome": "verified"
+        },
+        {
+          "goal": "Open Gallery in Shortcuts. Do not run or add a shortcut.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 1,
+          "events": [
+            {
+              "kind": "choice",
+              "ms": 124.61650000000009,
+              "model": "jev-1.14.0",
+              "usage": {
+                "input_tokens": 2849,
+                "output_tokens": 359
+              },
+              "confidence": 1,
+              "selected_probability": 1,
+              "available": 0.96,
+              "choice": "a34",
+              "candidate_count": 37
+            },
+            {
+              "kind": "action",
+              "operation": "tap",
+              "ms": 556.922042000002,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 812.9446250000001,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 1127.4935000000005,
+      "recording_warm_start_ms": 1239.513832999999,
+      "result_frame": {
+        "file": "0014.jpg",
+        "requested_ms": 4134.958332999999,
+        "completed_ms": 4185.999040999999
+      },
+      "verification_ms": 312.34041699999943,
+      "verified": true,
+      "actions": 3,
+      "ok": true,
+      "elapsed_ms": 2946.4976670000015,
+      "chooser_calls": 2,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 6.955707999999504,
+          "runner_ms": 4,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 100.11695900000086,
+          "runner_ms": 96,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 2.3597500000014406,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 507.1822919999995,
+          "runner_ms": 463,
+          "bytes": 10280,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 809.0876669999998,
+          "runner_ms": 804,
+          "bytes": 13356,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 278.7,
+            "hold": 50,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 7.488624999999956,
+          "runner_ms": 4,
+          "bytes": 144,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 96.4477910000005,
+          "runner_ms": 92,
+          "bytes": 13356,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 556.6455000000005,
+          "runner_ms": 552,
+          "bytes": 10280,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 279.5,
+            "hold": 50,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 242.23025000000052,
+          "runner_ms": 238,
+          "bytes": 10280,
+          "status": 200
+        }
+      ],
+      "native_inputs": 2,
+      "task_ok": true,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.0017910000005940674,
+            "completed_ms": 74.82716599999912
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 275.0636250000007,
+            "completed_ms": 409.52729100000033
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 611.9074999999993,
+            "completed_ms": 675.766540999999
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 877.346540999999,
+            "completed_ms": 1009.3727500000005
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1211.610541,
+            "completed_ms": 1276.8647079999992
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 1478.198375,
+            "completed_ms": 1611.2564160000002
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 1813.0277079999996,
+            "completed_ms": 2079.858166
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 2280.849333,
+            "completed_ms": 2665.899416
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 2867.4662910000006,
+            "completed_ms": 2945.5357910000002
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 3146.269708,
+            "completed_ms": 3203.685874999999
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 3405.791625,
+            "completed_ms": 3480.5782910000016
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 3682.909541000001,
+            "completed_ms": 3825.1532079999997
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 4027.456957999999,
+            "completed_ms": 4082.6139159999984
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 4082.639166000001,
+            "completed_ms": 4134.900165999999
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 4134.958332999999,
+            "completed_ms": 4185.999040999999
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 4186.745833000001,
+            "completed_ms": 4237.829791
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "05-calendar-date-text-hybrid",
+      "task": "calendar-date-text",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:26:10.532Z",
+      "phases": [
+        {
+          "goal": "Open Calendar from the Home Screen, then enter \"Operator coffee — 11/11, 8:30 pm\" into the Search search field. Open search first if the field is not visible.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 2,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 351.10683399999834,
+              "ok": true
+            },
+            {
+              "kind": "decision",
+              "source": "exact_field",
+              "operation": "text"
+            },
+            {
+              "kind": "action",
+              "operation": "text",
+              "ms": 420.37195900000006,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 920.9524590000001,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 2675.794708999998,
+      "recording_warm_start_ms": 2793.4397500000014,
+      "result_frame": {
+        "file": "0014.jpg",
+        "requested_ms": 3844.4161249999997,
+        "completed_ms": 3892.095375000001
+      },
+      "verification_ms": 127.97362500000236,
+      "verified": true,
+      "actions": 2,
+      "ok": true,
+      "elapsed_ms": 1098.6682909999981,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 7.647915999998077,
+          "runner_ms": 4,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 114.49962500000038,
+          "runner_ms": 111,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 2.465749999999389,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 168.20275000000038,
+          "runner_ms": 137,
+          "bytes": 8850,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 420.1725829999996,
+          "runner_ms": 416,
+          "bytes": 8642,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 331.6,
+            "hold": 7040,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 54.39758300000176,
+          "runner_ms": 50,
+          "bytes": 8642,
+          "status": 200
+        }
+      ],
+      "native_inputs": 1,
+      "task_ok": true,
+      "cleanup": {
+        "status": "verified"
+      },
+      "cleanup_ms": 452.8346669999992,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.0016660000001138542,
+            "completed_ms": 45.843415999999706
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 248.29391600000235,
+            "completed_ms": 367.309583000002
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 568.6982910000006,
+            "completed_ms": 759.7934580000001
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 962.013041000002,
+            "completed_ms": 1032.2835830000004
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1234.0705830000006,
+            "completed_ms": 1334.8964159999996
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 1536.3664580000004,
+            "completed_ms": 1649.6328329999997
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 1849.5273750000015,
+            "completed_ms": 1942.9998330000017
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 2145.0362910000003,
+            "completed_ms": 2243.9835410000014
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 2446.154416000001,
+            "completed_ms": 2545.034541000001
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 2747.009291000002,
+            "completed_ms": 2821.5881660000014
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 3023.0881660000014,
+            "completed_ms": 3153.8835
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 3356.547208,
+            "completed_ms": 3465.452000000001
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 3667.347375000001,
+            "completed_ms": 3764.0544580000023
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 3771.04825,
+            "completed_ms": 3844.3113330000015
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 3844.4161249999997,
+            "completed_ms": 3892.095375000001
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 3966.302291,
+            "completed_ms": 4007.7048749999994
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 4210.732208000001,
+            "completed_ms": 4271.710791000001
+          },
+          {
+            "file": "0017.jpg",
+            "requested_ms": 4345.339833000002,
+            "completed_ms": 4405.615458
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "06-files-document-find-hybrid",
+      "task": "files-document-find",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:26:14.974Z",
+      "phases": [
+        {
+          "goal": "Close the current document preview.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 452.395790999999,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 691.2442499999997,
+          "outcome": "verified"
+        },
+        {
+          "goal": "Enter \"Operator_draft-27.txt\" in the visible Search field.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_field",
+              "operation": "text"
+            },
+            {
+              "kind": "action",
+              "operation": "text",
+              "ms": 479.4094580000019,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 688.2950419999979,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 3089.3506250000028,
+      "recording_warm_start_ms": 3255.5580420000006,
+      "result_frame": {
+        "file": "0015.jpg",
+        "requested_ms": 4877.724083000001,
+        "completed_ms": 4951.689582999999
+      },
+      "verification_ms": 239.73962500000198,
+      "verified": true,
+      "actions": 2,
+      "ok": true,
+      "elapsed_ms": 1696.1386249999996,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 25.80604200000016,
+          "runner_ms": 20,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 186.2220419999976,
+          "runner_ms": 180,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 3.6504170000007434,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 255.74479099999735,
+          "runner_ms": 232,
+          "bytes": 11544,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 13.151416000000609,
+          "runner_ms": 8,
+          "bytes": 147,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 114.08479199999783,
+          "runner_ms": 108,
+          "bytes": 11544,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 479.05170799999905,
+          "runner_ms": 474,
+          "bytes": 12539,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 292,
+            "hold": 4620,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 106.37283299999763,
+          "runner_ms": 101,
+          "bytes": 12539,
+          "status": 200
+        }
+      ],
+      "native_inputs": 1,
+      "task_ok": true,
+      "cleanup": {
+        "status": "verified"
+      },
+      "cleanup_ms": 571.8973750000005,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.0018329999984416645,
+            "completed_ms": 77.64770800000042
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 278.22558299999946,
+            "completed_ms": 408.1994169999998
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 609.8352919999998,
+            "completed_ms": 664.5446669999983
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 867.0612499999988,
+            "completed_ms": 935.5023330000004
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1136.297666999999,
+            "completed_ms": 1197.9671669999989
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 1398.1395000000011,
+            "completed_ms": 1560.4399169999997
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 1760.7301249999982,
+            "completed_ms": 1907.7620830000014
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 2110.5807920000007,
+            "completed_ms": 2293.6702079999995
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 2495.7390000000014,
+            "completed_ms": 2927.6373329999988
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 3129.7735829999983,
+            "completed_ms": 3329.4343750000007
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 3529.970541999999,
+            "completed_ms": 3623.0298330000005
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 3825.1227919999983,
+            "completed_ms": 4037.3367919999982
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 4238.863916999999,
+            "completed_ms": 4444.007375000001
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 4646.0428329999995,
+            "completed_ms": 4796.549707999999
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 4796.568875000001,
+            "completed_ms": 4877.69125
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 4877.724083000001,
+            "completed_ms": 4951.689582999999
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 4998.078582999999,
+            "completed_ms": 5109.176791999998
+          },
+          {
+            "file": "0017.jpg",
+            "requested_ms": 5311.462542000001,
+            "completed_ms": 5405.1810000000005
+          },
+          {
+            "file": "0018.jpg",
+            "requested_ms": 5524.396541999999,
+            "completed_ms": 5593.036541999998
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "07-app-store-multiword-hybrid",
+      "task": "app-store-multiword",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:26:20.657Z",
+      "phases": [
+        {
+          "goal": "Open App Store from the Home Screen, then enter \"focus timer\" into the Games, Apps, Stories, and More search field. Open search first if the field is not visible.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 2,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 804.6364590000012,
+              "ok": true
+            },
+            {
+              "kind": "decision",
+              "source": "exact_field",
+              "operation": "text"
+            },
+            {
+              "kind": "action",
+              "operation": "text",
+              "ms": 625.8939579999969,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 1673.7347499999996,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 3789.483457999999,
+      "recording_warm_start_ms": 4010.9722500000025,
+      "result_frame": {
+        "file": "0016.jpg",
+        "requested_ms": 6109.487832999999,
+        "completed_ms": 6190.129541000002
+      },
+      "verification_ms": 345.8056250000009,
+      "verified": true,
+      "actions": 2,
+      "ok": true,
+      "elapsed_ms": 2179.164915999998,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 17.24974999999904,
+          "runner_ms": 12,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 197.47154199999932,
+          "runner_ms": 192,
+          "bytes": 8519,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 4.573833999998897,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 611.0275829999991,
+          "runner_ms": 592,
+          "bytes": 31162,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 625.5970839999973,
+          "runner_ms": 618,
+          "bytes": 18092,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 288.9,
+            "hold": 2420,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 260.7569580000054,
+          "runner_ms": 236,
+          "bytes": 18092,
+          "status": 200
+        }
+      ],
+      "native_inputs": 1,
+      "task_ok": true,
+      "cleanup": {
+        "status": "verified"
+      },
+      "cleanup_ms": 884.4145409999983,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.001583000001119217,
+            "completed_ms": 59.971457999999984
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 262.59958299999926,
+            "completed_ms": 389.5117080000018
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 590.9949159999996,
+            "completed_ms": 650.9442909999998
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 853.1827080000003,
+            "completed_ms": 932.4069579999996
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1134.0276660000018,
+            "completed_ms": 1217.515958
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 1419.5263750000013,
+            "completed_ms": 2208.1180410000015
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 2409.1142910000017,
+            "completed_ms": 2530.703708000001
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 2731.9734160000007,
+            "completed_ms": 3010.319083000002
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 3212.235625000001,
+            "completed_ms": 3552.9728749999995
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 3754.8685000000005,
+            "completed_ms": 3910.3332499999997
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 4112.484500000002,
+            "completed_ms": 4307.753375
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 4509.776250000003,
+            "completed_ms": 5116.7691250000025
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 5318.348041000001,
+            "completed_ms": 5477.764166000001
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 5680.235333000004,
+            "completed_ms": 5829.077125000003
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 5946.7828329999975,
+            "completed_ms": 6031.334290999999
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 6031.339375000003,
+            "completed_ms": 6109.466416000003
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 6109.487832999999,
+            "completed_ms": 6190.129541000002
+          },
+          {
+            "file": "0017.jpg",
+            "requested_ms": 6311.598291000002,
+            "completed_ms": 6400.466291000004
+          },
+          {
+            "file": "0018.jpg",
+            "requested_ms": 6602.744624999999,
+            "completed_ms": 6700.485625000001
+          },
+          {
+            "file": "0019.jpg",
+            "requested_ms": 6902.493290999999,
+            "completed_ms": 7117.285666000003
+          },
+          {
+            "file": "0020.jpg",
+            "requested_ms": 7117.291708000004,
+            "completed_ms": 7190.54825
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "08-reminders-punctuation-hybrid",
+      "task": "reminders-punctuation",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:26:27.886Z",
+      "phases": [
+        {
+          "goal": "Open Reminders from the Home Screen, then enter \"Operator groceries: tea & oat milk\" into the Search search field. Open search first if the field is not visible.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 2,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 968.3510829999941,
+              "ok": true
+            },
+            {
+              "kind": "decision",
+              "source": "exact_field",
+              "operation": "text"
+            },
+            {
+              "kind": "action",
+              "operation": "text",
+              "ms": 690.9418750000041,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 2005.0918329999986,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 3403.0597909999997,
+      "recording_warm_start_ms": 3661.1674159999966,
+      "result_frame": {
+        "file": "0014.jpg",
+        "requested_ms": 6060.593165999999,
+        "completed_ms": 6172.331332999995
+      },
+      "verification_ms": 393.48862499999814,
+      "verified": true,
+      "actions": 2,
+      "ok": true,
+      "elapsed_ms": 2511.4902090000032,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 47.78266599999915,
+          "runner_ms": 26,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 269.52062500000466,
+          "runner_ms": 263,
+          "bytes": 8482,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 9.5057500000039,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 765.5590000000011,
+          "runner_ms": 744,
+          "bytes": 8480,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 690.6776250000039,
+          "runner_ms": 603,
+          "bytes": 9712,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 379,
+            "hold": 7480,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 216.9266659999994,
+          "runner_ms": 206,
+          "bytes": 9712,
+          "status": 200
+        }
+      ],
+      "native_inputs": 1,
+      "task_ok": true,
+      "cleanup": {
+        "status": "verified"
+      },
+      "cleanup_ms": 600.013457999994,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.0017499999958090484,
+            "completed_ms": 68.59270799999649
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 269.99845799999457,
+            "completed_ms": 401.8230829999957
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 604.1834999999992,
+            "completed_ms": 786.1091249999954
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 988.4479159999973,
+            "completed_ms": 1127.8114159999968
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1330.4181249999965,
+            "completed_ms": 1520.3678329999966
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 1721.5108330000003,
+            "completed_ms": 2169.112083
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 2369.6604579999985,
+            "completed_ms": 2682.948958000001
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 2884.7922499999986,
+            "completed_ms": 3281.128082999996
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 3483.309374999997,
+            "completed_ms": 3751.6662499999948
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 3952.8434579999957,
+            "completed_ms": 4098.885125000001
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 4300.768124999995,
+            "completed_ms": 5141.537040999996
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 5341.880624999998,
+            "completed_ms": 5581.204165999996
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 5781.7016250000015,
+            "completed_ms": 5955.100915999996
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 5955.119624999999,
+            "completed_ms": 6060.548833000001
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 6060.593165999999,
+            "completed_ms": 6172.331332999995
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 6172.336958,
+            "completed_ms": 6264.892749999999
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 6465.765207999997,
+            "completed_ms": 6553.834415999998
+          },
+          {
+            "file": "0017.jpg",
+            "requested_ms": 6756.481,
+            "completed_ms": 6857.973207999996
+          },
+          {
+            "file": "0018.jpg",
+            "requested_ms": 6857.979790999998,
+            "completed_ms": 6954.251250000001
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "09-weather-city-unicode-hybrid",
+      "task": "weather-city-unicode",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:26:34.886Z",
+      "phases": [
+        {
+          "goal": "Open Location List.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 854.6115839999984,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 1112.1490419999973,
+          "outcome": "verified"
+        },
+        {
+          "goal": "Open Weather. If a city forecast is showing, open Location List first. Then enter the supplied city São Paulo in the city search field. Do not add a city.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_field",
+              "operation": "text"
+            },
+            {
+              "kind": "action",
+              "operation": "text",
+              "ms": 444.84416699999565,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 673.4206659999982,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 5488.586624999996,
+      "recording_warm_start_ms": 5689.769875000005,
+      "result_frame": {
+        "file": "0016.jpg",
+        "requested_ms": 7695.554125000002,
+        "completed_ms": 7768.224250000007
+      },
+      "verification_ms": 218.3257500000036,
+      "verified": true,
+      "actions": 2,
+      "ok": true,
+      "elapsed_ms": 2078.727082999998,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 12.305666000000201,
+          "runner_ms": 8,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 216.64933299999393,
+          "runner_ms": 210,
+          "bytes": 8482,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 4.5942919999943115,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 679.2025829999984,
+          "runner_ms": 635,
+          "bytes": 15666,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 59.013458000001265,
+          "runner_ms": 53,
+          "bytes": 142,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 141.95612499999697,
+          "runner_ms": 136,
+          "bytes": 15666,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 444.7019169999985,
+          "runner_ms": 440,
+          "bytes": 14567,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 241.5,
+            "hold": 1980,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 142.53854199999478,
+          "runner_ms": 137,
+          "bytes": 17662,
+          "status": 200
+        }
+      ],
+      "native_inputs": 1,
+      "task_ok": true,
+      "cleanup": {
+        "status": "verified"
+      },
+      "cleanup_ms": 643.4892919999984,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.002333000004000496,
+            "completed_ms": 100.64291600000433
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 302.27679100000387,
+            "completed_ms": 451.1710410000014
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 651.8710830000055,
+            "completed_ms": 761.6491250000036
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 963.2603750000053,
+            "completed_ms": 1248.4812500000044
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1449.3337910000046,
+            "completed_ms": 1658.776291000002
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 1861.1040830000056,
+            "completed_ms": 3048.5057910000032
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 3249.413625000001,
+            "completed_ms": 3397.2062910000022
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 3600.0923330000005,
+            "completed_ms": 3803.897416
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 4005.421166,
+            "completed_ms": 4196.937625000006
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 4399.003583000005,
+            "completed_ms": 5388.251500000006
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 5589.440166,
+            "completed_ms": 5749.753166000002
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 5950.432458000003,
+            "completed_ms": 6051.601666000002
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 6253.7615000000005,
+            "completed_ms": 6894.279333000006
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 7096.236500000006,
+            "completed_ms": 7184.103541000004
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 7385.450250000002,
+            "completed_ms": 7526.839041000007
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 7619.950000000004,
+            "completed_ms": 7695.4909160000025
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 7695.554125000002,
+            "completed_ms": 7768.224250000007
+          },
+          {
+            "file": "0017.jpg",
+            "requested_ms": 7768.230541000004,
+            "completed_ms": 7840.560250000002
+          },
+          {
+            "file": "0018.jpg",
+            "requested_ms": 8042.874208000001,
+            "completed_ms": 8118.612958000005
+          },
+          {
+            "file": "0019.jpg",
+            "requested_ms": 8320.386291000003,
+            "completed_ms": 8447.537333
+          },
+          {
+            "file": "0020.jpg",
+            "requested_ms": 8447.546041000001,
+            "completed_ms": 8511.088416000006
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "10-books-title-query-hybrid",
+      "task": "books-title-query",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:26:43.441Z",
+      "phases": [
+        {
+          "goal": "Open Books from the Home Screen, then enter \"The Little Prince\" into the Apple Books search field. Open search first if the field is not visible.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 2,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 480.3545830000003,
+              "ok": true
+            },
+            {
+              "kind": "decision",
+              "source": "exact_field",
+              "operation": "text"
+            },
+            {
+              "kind": "action",
+              "operation": "text",
+              "ms": 435.557415999996,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 1154.4697089999972,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 4182.993000000002,
+      "recording_warm_start_ms": 4366.656749999995,
+      "result_frame": {
+        "file": "0015.jpg",
+        "requested_ms": 5721.122749999995,
+        "completed_ms": 5797.169042000001
+      },
+      "verification_ms": 198.91841700000077,
+      "verified": true,
+      "actions": 2,
+      "ok": true,
+      "elapsed_ms": 1430.8349580000067,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 22.594833000002836,
+          "runner_ms": 17,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 187.4354999999996,
+          "runner_ms": 182,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 3.152791000000434,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 305.0430419999975,
+          "runner_ms": 294,
+          "bytes": 13405,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 435.1592910000036,
+          "runner_ms": 430,
+          "bytes": 13180,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 275.2,
+            "hold": 3740,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 110.9175830000022,
+          "runner_ms": 106,
+          "bytes": 13180,
+          "status": 200
+        }
+      ],
+      "native_inputs": 1,
+      "task_ok": true,
+      "cleanup": {
+        "status": "verified"
+      },
+      "cleanup_ms": 567.2027080000043,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.001707999996142462,
+            "completed_ms": 59.51849999999831
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 261.53516699999454,
+            "completed_ms": 401.9206669999985
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 603.8584169999958,
+            "completed_ms": 678.3581249999988
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 879.0746250000011,
+            "completed_ms": 989.5032079999946
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1191.3814579999962,
+            "completed_ms": 1691.9910420000015
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 1893.4929579999953,
+            "completed_ms": 2136.0054999999993
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 2338.0362079999977,
+            "completed_ms": 2511.5707079999993
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 2713.860332999997,
+            "completed_ms": 3015.561416999997
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 3218.237457999996,
+            "completed_ms": 3511.3296249999985
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 3711.395292000001,
+            "completed_ms": 4107.396374999997
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 4309.682249999998,
+            "completed_ms": 4423.254291999998
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 4624.467874999995,
+            "completed_ms": 4734.019291999997
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 4936.048875,
+            "completed_ms": 5197.108042
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 5396.652457999997,
+            "completed_ms": 5582.447874999998
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 5633.262792000001,
+            "completed_ms": 5721.0588329999955
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 5721.122749999995,
+            "completed_ms": 5797.169042000001
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 5797.174583,
+            "completed_ms": 5875.797874999997
+          },
+          {
+            "file": "0017.jpg",
+            "requested_ms": 6077.619999999995,
+            "completed_ms": 6157.555082999999
+          },
+          {
+            "file": "0018.jpg",
+            "requested_ms": 6359.439624999999,
+            "completed_ms": 6433.4020420000015
+          },
+          {
+            "file": "0019.jpg",
+            "requested_ms": 6433.4077499999985,
+            "completed_ms": 6514.031541999997
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "11-settings-search-hybrid",
+      "task": "settings-search",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:26:49.995Z",
+      "phases": [
+        {
+          "goal": "Open Settings from the Home Screen, then enter \"Reduce Motion\" into the Search search field. Open search first if the field is not visible.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 2,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 945.9801669999943,
+              "ok": true
+            },
+            {
+              "kind": "decision",
+              "source": "exact_field",
+              "operation": "text"
+            },
+            {
+              "kind": "action",
+              "operation": "text",
+              "ms": 833.5327919999982,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 2000.9922089999964,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 4417.385042000002,
+      "recording_warm_start_ms": 4612.558291000001,
+      "result_frame": {
+        "file": "0017.jpg",
+        "requested_ms": 6940.336166000001,
+        "completed_ms": 6997.033791000002
+      },
+      "verification_ms": 325.91100000000006,
+      "verified": true,
+      "actions": 2,
+      "ok": true,
+      "elapsed_ms": 2384.4853340000045,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 26.973792000004323,
+          "runner_ms": 21,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 167.79870800000208,
+          "runner_ms": 163,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 4.292667000001529,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 777.3687500000015,
+          "runner_ms": 771,
+          "bytes": 26753,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 833.2324999999983,
+          "runner_ms": 828,
+          "bytes": 26524,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 260.1,
+            "hold": 2860,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 241.93016699999862,
+          "runner_ms": 236,
+          "bytes": 21996,
+          "status": 200
+        }
+      ],
+      "native_inputs": 1,
+      "task_ok": true,
+      "cleanup": {
+        "status": "verified"
+      },
+      "cleanup_ms": 802.434500000003,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.001666000003751833,
+            "completed_ms": 71.73174999999901
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 274.0229160000017,
+            "completed_ms": 428.5746250000011
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 629.6201250000013,
+            "completed_ms": 737.6095410000053
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 938.5562080000018,
+            "completed_ms": 1255.0881660000014
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1456.362874999999,
+            "completed_ms": 1669.4460000000036
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 1871.6290829999998,
+            "completed_ms": 2878.941166000004
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 3081.328416000004,
+            "completed_ms": 3175.0812910000022
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 3377.3253750000003,
+            "completed_ms": 3496.577250000002
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 3698.5867910000015,
+            "completed_ms": 3889.3678750000036
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 4091.812582999999,
+            "completed_ms": 4228.635666000002
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 4431.143500000006,
+            "completed_ms": 4665.183333000001
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 4867.387999999999,
+            "completed_ms": 4959.898458000003
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 5161.812333000002,
+            "completed_ms": 5820.132208000003
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 6021.719833000003,
+            "completed_ms": 6111.926291000003
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 6314.293750000004,
+            "completed_ms": 6630.524208000003
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 6833.275833,
+            "completed_ms": 6889.700041000004
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 6889.725333000002,
+            "completed_ms": 6940.2252910000025
+          },
+          {
+            "file": "0017.jpg",
+            "requested_ms": 6940.336166000001,
+            "completed_ms": 6997.033791000002
+          },
+          {
+            "file": "0018.jpg",
+            "requested_ms": 7090.973333000002,
+            "completed_ms": 7193.470541000002
+          },
+          {
+            "file": "0019.jpg",
+            "requested_ms": 7395.6365000000005,
+            "completed_ms": 7461.153291000002
+          },
+          {
+            "file": "0020.jpg",
+            "requested_ms": 7662.4908330000035,
+            "completed_ms": 7819.579666000005
+          },
+          {
+            "file": "0021.jpg",
+            "requested_ms": 7819.5849579999995,
+            "completed_ms": 7891.885750000001
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "12-youtube-query-hybrid",
+      "task": "youtube-query",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:26:57.926Z",
+      "phases": [
+        {
+          "goal": "Open YouTube from the Home Screen, then enter \"quiet keyboard ASMR\" into the Search YouTube search field. Open search first if the field is not visible.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 3,
+          "chooser_calls": 1,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 420.48266700000386,
+              "ok": true
+            },
+            {
+              "kind": "choice",
+              "ms": 137.8631250000035,
+              "model": "jev-1.14.0",
+              "usage": {
+                "input_tokens": 2423,
+                "output_tokens": 196
+              },
+              "confidence": 1,
+              "selected_probability": 1,
+              "available": 0.98,
+              "choice": "a3",
+              "candidate_count": 19
+            },
+            {
+              "kind": "action",
+              "operation": "tap",
+              "ms": 591.3651249999966,
+              "ok": true
+            },
+            {
+              "kind": "decision",
+              "source": "exact_field",
+              "operation": "text"
+            },
+            {
+              "kind": "action",
+              "operation": "text",
+              "ms": 363.7715840000019,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 1945.9175420000101,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 3360.539791000003,
+      "recording_warm_start_ms": 3538.4428340000086,
+      "result_frame": {
+        "file": "0017.jpg",
+        "requested_ms": 5626.854708999999,
+        "completed_ms": 5701.580209
+      },
+      "verification_ms": 141.78104100000928,
+      "verified": true,
+      "actions": 3,
+      "ok": true,
+      "elapsed_ms": 2163.4179159999912,
+      "chooser_calls": 1,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 15.099499999996624,
+          "runner_ms": 11,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 179.2539170000091,
+          "runner_ms": 174,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 4.0665420000004815,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 237.2043330000015,
+          "runner_ms": 197,
+          "bytes": 11662,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 96.99383300000045,
+          "runner_ms": 92,
+          "bytes": 11662,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 591.1290840000001,
+          "runner_ms": 586,
+          "bytes": 8022,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 283.8,
+            "hold": 50,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 363.6163329999981,
+          "runner_ms": 359,
+          "bytes": 9170,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 276.2,
+            "hold": 4180,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 64.01708299999882,
+          "runner_ms": 59,
+          "bytes": 9170,
+          "status": 200
+        }
+      ],
+      "native_inputs": 2,
+      "task_ok": true,
+      "cleanup": {
+        "status": "verified"
+      },
+      "cleanup_ms": 520.9563750000088,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.0014999999984866008,
+            "completed_ms": 59.63891700000386
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 262.04433399999834,
+            "completed_ms": 386.4344590000037
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 586.6668750000026,
+            "completed_ms": 714.2687920000026
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 916.6607500000027,
+            "completed_ms": 1005.8805000000066
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1207.0806669999947,
+            "completed_ms": 1517.7639589999962
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 1719.7315000000017,
+            "completed_ms": 1818.1765420000083
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 2020.3779589999976,
+            "completed_ms": 2120.774459
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 2322.372792000002,
+            "completed_ms": 2431.5235840000023
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 2632.264959,
+            "completed_ms": 2710.340541999998
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 2912.2116250000036,
+            "completed_ms": 3282.2629170000073
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 3485.074042,
+            "completed_ms": 3688.4377920000043
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 3889.8667500000083,
+            "completed_ms": 4155.819125000002
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 4357.3997089999975,
+            "completed_ms": 4470.060250000002
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 4671.861041999997,
+            "completed_ms": 4803.629374999997
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 5005.2514169999995,
+            "completed_ms": 5162.604333999996
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 5364.302959000001,
+            "completed_ms": 5437.440959000007
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 5549.192749999995,
+            "completed_ms": 5626.811709000009
+          },
+          {
+            "file": "0017.jpg",
+            "requested_ms": 5626.854708999999,
+            "completed_ms": 5701.580209
+          },
+          {
+            "file": "0018.jpg",
+            "requested_ms": 5701.586042000003,
+            "completed_ms": 5770.720542000003
+          },
+          {
+            "file": "0019.jpg",
+            "requested_ms": 5971.582625000003,
+            "completed_ms": 6042.620042000002
+          },
+          {
+            "file": "0020.jpg",
+            "requested_ms": 6223.4491250000065,
+            "completed_ms": 6306.232125000002
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "13-tiktok-open-hybrid",
+      "task": "tiktok-open",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:27:04.273Z",
+      "phases": [
+        {
+          "goal": "Open TikTok from the Home Screen.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 255.7959159999882,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 396.19645799999125,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 1184.7714170000108,
+      "recording_warm_start_ms": 1279.2635420000006,
+      "result_frame": {
+        "file": "0031.jpg",
+        "requested_ms": 8008.912917000009,
+        "completed_ms": 8097.744917000004
+      },
+      "visual_verification": {
+        "frame": "0029.jpg",
+        "predicate": {
+          "any": [
+            {
+              "min_lines": 5,
+              "all": [
+                [
+                  "For You"
+                ],
+                [
+                  "Following"
+                ],
+                [
+                  "Profile"
+                ]
+              ]
+            },
+            {
+              "min_lines": 3,
+              "all": [
+                [
+                  "TikTok"
+                ],
+                [
+                  "Skip ad"
+                ]
+              ]
+            }
+          ]
+        },
+        "verified": true
+      },
+      "verification_ms": 6258.303582999986,
+      "verified": true,
+      "actions": 1,
+      "ok": true,
+      "elapsed_ms": 6818.490917000003,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 6.33858299998974,
+          "runner_ms": 3,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 107.65016699999978,
+          "runner_ms": 103,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 3.255874999988009,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 58.498124999998254,
+          "runner_ms": 50,
+          "bytes": 117,
+          "status": 500
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 14.651417000000947,
+          "runner_ms": 10,
+          "bytes": 149,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 12.223500000007334,
+          "runner_ms": 9,
+          "bytes": 149,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 34.981832999998005,
+          "runner_ms": 29,
+          "bytes": 149,
+          "status": 200
+        }
+      ],
+      "native_inputs": 0,
+      "task_ok": true,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.0012920000008307397,
+            "completed_ms": 70.288584000009
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 272.1715000000113,
+            "completed_ms": 404.0594170000113
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 605.0445840000029,
+            "completed_ms": 665.4420420000097
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 867.2610420000128,
+            "completed_ms": 930.4983340000035
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1131.8830420000013,
+            "completed_ms": 1234.6527090000018
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 1437.0395000000135,
+            "completed_ms": 1500.8902090000047
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 1688.3226670000004,
+            "completed_ms": 1768.0232090000063
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 1768.0273750000051,
+            "completed_ms": 2085.5752090000024
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 2085.589292000004,
+            "completed_ms": 2150.404125000001
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 2384.5455000000075,
+            "completed_ms": 2475.390292000011
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 2475.3935420000053,
+            "completed_ms": 2798.9058340000047
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 2798.9232090000005,
+            "completed_ms": 2894.1502920000057
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 3128.9236250000104,
+            "completed_ms": 3261.0829590000067
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 3261.08604200001,
+            "completed_ms": 3598.786917000005
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 3598.803375000003,
+            "completed_ms": 3697.722292000006
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 3928.3195840000117,
+            "completed_ms": 4049.471834000011
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 4049.475292000003,
+            "completed_ms": 4419.1464590000105
+          },
+          {
+            "file": "0017.jpg",
+            "requested_ms": 4419.160417000006,
+            "completed_ms": 4544.9385420000035
+          },
+          {
+            "file": "0018.jpg",
+            "requested_ms": 4782.843084000007,
+            "completed_ms": 4867.227084000013
+          },
+          {
+            "file": "0019.jpg",
+            "requested_ms": 4867.231000000014,
+            "completed_ms": 5197.009375000009
+          },
+          {
+            "file": "0020.jpg",
+            "requested_ms": 5197.022709000012,
+            "completed_ms": 5278.885792000001
+          },
+          {
+            "file": "0021.jpg",
+            "requested_ms": 5527.767750000014,
+            "completed_ms": 5621.7305840000045
+          },
+          {
+            "file": "0022.jpg",
+            "requested_ms": 5621.734459000014,
+            "completed_ms": 5972.845417000004
+          },
+          {
+            "file": "0023.jpg",
+            "requested_ms": 5972.859792000003,
+            "completed_ms": 6062.876084000003
+          },
+          {
+            "file": "0024.jpg",
+            "requested_ms": 6310.126084000003,
+            "completed_ms": 6399.588542000012
+          },
+          {
+            "file": "0025.jpg",
+            "requested_ms": 6399.591667000001,
+            "completed_ms": 6745.424417000002
+          },
+          {
+            "file": "0026.jpg",
+            "requested_ms": 6745.437167000011,
+            "completed_ms": 6838.738000000012
+          },
+          {
+            "file": "0027.jpg",
+            "requested_ms": 7097.690917,
+            "completed_ms": 7191.394
+          },
+          {
+            "file": "0028.jpg",
+            "requested_ms": 7191.397500000006,
+            "completed_ms": 7563.487917000006
+          },
+          {
+            "file": "0029.jpg",
+            "requested_ms": 7563.502750000014,
+            "completed_ms": 7651.239709000001
+          },
+          {
+            "file": "0030.jpg",
+            "requested_ms": 7900.0425000000105,
+            "completed_ms": 8008.900042000008
+          },
+          {
+            "file": "0031.jpg",
+            "requested_ms": 8008.912917000009,
+            "completed_ms": 8097.744917000004
+          },
+          {
+            "file": "0032.jpg",
+            "requested_ms": 8098.088417000006,
+            "completed_ms": 8187.082917000007
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "14-tiktok-scroll-hybrid",
+      "task": "tiktok-scroll",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:27:12.506Z",
+      "phases": [
+        {
+          "goal": "Open TikTok from the Home Screen.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 2319.402166999993,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 2476.8654160000006,
+          "outcome": "verified"
+        },
+        {
+          "goal": "Tap Skip ad.",
+          "ok": true,
+          "reason": "Optional visible target is absent; no input sent",
+          "actions": 0,
+          "chooser_calls": 0,
+          "events": [],
+          "elapsed_ms": 376.3969159999979
+        },
+        {
+          "goal": "Tap Home.",
+          "ok": true,
+          "reason": "Required visual state is already visible",
+          "actions": 0,
+          "chooser_calls": 0,
+          "events": [],
+          "elapsed_ms": 427.87149999999383
+        },
+        {
+          "goal": "Scroll up once in the observed feed.",
+          "source": "caller_provided_swipe",
+          "ok": true,
+          "reason": "Provided input delivered; independent visual check follows",
+          "actions": 1,
+          "chooser_calls": 0,
+          "elapsed_ms": 399.9820829999953,
+          "events": [
+            {
+              "kind": "action",
+              "operation": "swipe",
+              "outcome": "applied"
+            }
+          ]
+        }
+      ],
+      "setup_ms": 2643.795624999999,
+      "recording_warm_start_ms": 2781.8167910000047,
+      "result_frame": {
+        "file": "0023.jpg",
+        "requested_ms": 9881.540208000006,
+        "completed_ms": 9968.550291000007
+      },
+      "visual_verification": {
+        "frame": "0012.jpg",
+        "predicate": {
+          "min_lines": 5,
+          "all": [
+            [
+              "Profile"
+            ]
+          ]
+        },
+        "verified": true
+      },
+      "content_change": {
+        "before_rows": 2,
+        "after_rows": 1,
+        "verified": false,
+        "method": "Actual before/after screenshot text and positions; waits for app rendering without repeating input",
+        "before_frame": "0009.jpg",
+        "after_frame": "0021.jpg"
+      },
+      "verification_ms": 2879.9984169999952,
+      "verified": false,
+      "actions": 2,
+      "ok": false,
+      "elapsed_ms": 7186.743417000005,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 9.579832999996142,
+          "runner_ms": 6,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 121.34554199999548,
+          "runner_ms": 117,
+          "bytes": 8503,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 2.5914170000032755,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 2037.932541999995,
+          "runner_ms": 2016,
+          "bytes": 117,
+          "status": 500
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 116.99845800000185,
+          "runner_ms": 113,
+          "bytes": 149,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 14.547541000007186,
+          "runner_ms": 10,
+          "bytes": 149,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 16.29141599999275,
+          "runner_ms": 12,
+          "bytes": 149,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 16.348958000002312,
+          "runner_ms": 12,
+          "bytes": 149,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 15.606959000011557,
+          "runner_ms": 11,
+          "bytes": 149,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 389.83787499999744,
+          "runner_ms": 386,
+          "bytes": 14,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 377.6,
+            "hold": 150,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 9.745750000001863,
+          "runner_ms": 6,
+          "bytes": 149,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 9.737666999993962,
+          "runner_ms": 6,
+          "bytes": 149,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 15.32795900000201,
+          "runner_ms": 10,
+          "bytes": 149,
+          "status": 200
+        }
+      ],
+      "native_inputs": 1,
+      "task_ok": false,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.0013750000071013346,
+            "completed_ms": 94.34212500001013
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 296.50587500000256,
+            "completed_ms": 436.25191600000835
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 638.0183749999997,
+            "completed_ms": 2892.4720830000006
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 3094.215583000012,
+            "completed_ms": 3229.6578330000048
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 3430.9087500000023,
+            "completed_ms": 5220.83533300001
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 5274.270375000007,
+            "completed_ms": 5373.83425
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 5636.330166,
+            "completed_ms": 5723.753500000006
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 5723.765250000011,
+            "completed_ms": 5804.530375000002
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 6064.193791000012,
+            "completed_ms": 6150.267916000012
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 6150.280041000005,
+            "completed_ms": 6234.017625000008
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 6496.435958000002,
+            "completed_ms": 6586.573541000005
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 6788.767541000008,
+            "completed_ms": 6877.89787500001
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 6921.718833000006,
+            "completed_ms": 7014.840250000008
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 7274.041375000001,
+            "completed_ms": 7548.807083000007
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 7548.830000000002,
+            "completed_ms": 7630.799958000003
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 7892.607500000013,
+            "completed_ms": 7987.062875000003
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 7987.066166000004,
+            "completed_ms": 8324.18116600001
+          },
+          {
+            "file": "0017.jpg",
+            "requested_ms": 8324.194833000001,
+            "completed_ms": 8392.467541000005
+          },
+          {
+            "file": "0018.jpg",
+            "requested_ms": 8650.3465,
+            "completed_ms": 8746.818708000006
+          },
+          {
+            "file": "0019.jpg",
+            "requested_ms": 8746.82241600001,
+            "completed_ms": 9098.942875000008
+          },
+          {
+            "file": "0020.jpg",
+            "requested_ms": 9098.98141600001,
+            "completed_ms": 9189.482166000002
+          },
+          {
+            "file": "0021.jpg",
+            "requested_ms": 9447.382291000002,
+            "completed_ms": 9530.27900000001
+          },
+          {
+            "file": "0022.jpg",
+            "requested_ms": 9530.282250000004,
+            "completed_ms": 9881.529916
+          },
+          {
+            "file": "0023.jpg",
+            "requested_ms": 9881.540208000006,
+            "completed_ms": 9968.550291000007
+          },
+          {
+            "file": "0024.jpg",
+            "requested_ms": 9968.82645800001,
+            "completed_ms": 10055.365000000005
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "15-instagram-open-hybrid",
+      "task": "instagram-open",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:27:22.609Z",
+      "phases": [
+        {
+          "goal": "Open Instagram from the Home Screen.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 1288.9731669999892,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 1487.221583999999,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 2611.418374999994,
+      "recording_warm_start_ms": 2784.33312499999,
+      "result_frame": {
+        "file": "0008.jpg",
+        "requested_ms": 4726.534417000003,
+        "completed_ms": 4823.6649590000015
+      },
+      "verification_ms": 347.4422079999931,
+      "verified": true,
+      "actions": 1,
+      "ok": true,
+      "elapsed_ms": 2039.3424590000068,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 11.261249999995925,
+          "runner_ms": 5,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 160.12045899999794,
+          "runner_ms": 154,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 4.347750000000815,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 1056.4255419999972,
+          "runner_ms": 1032,
+          "bytes": 21494,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 246.80979100000695,
+          "runner_ms": 240,
+          "bytes": 21494,
+          "status": 200
+        }
+      ],
+      "native_inputs": 0,
+      "task_ok": true,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.0012089999945601448,
+            "completed_ms": 88.17708399999538
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 290.6242499999935,
+            "completed_ms": 438.4368339999928
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 640.1592089999904,
+            "completed_ms": 2706.913791999992
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 2909.1697920000006,
+            "completed_ms": 3033.530083999998
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 3235.345583999995,
+            "completed_ms": 3534.213791999995
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 3735.8797919999924,
+            "completed_ms": 4334.807749999993
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 4519.215249999994,
+            "completed_ms": 4619.221250000002
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 4619.227291999996,
+            "completed_ms": 4726.510584000003
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 4726.534417000003,
+            "completed_ms": 4823.6649590000015
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 4824.636541999993,
+            "completed_ms": 4949.481333999996
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "16-instagram-scroll-hybrid",
+      "task": "instagram-scroll",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:27:27.602Z",
+      "phases": [
+        {
+          "goal": "Open Instagram from the Home Screen.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 578.4312909999862,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 958.0289170000033,
+          "outcome": "verified"
+        },
+        {
+          "goal": "Open the Main feed tab.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 0,
+          "chooser_calls": 0,
+          "events": [],
+          "elapsed_ms": 274.76408300000185,
+          "outcome": "verified"
+        },
+        {
+          "goal": "Scroll up once in the observed feed.",
+          "source": "caller_provided_swipe",
+          "ok": true,
+          "reason": "Provided input delivered; independent visual check follows",
+          "actions": 1,
+          "chooser_calls": 0,
+          "elapsed_ms": 477.5189170000085,
+          "events": [
+            {
+              "kind": "action",
+              "operation": "swipe",
+              "outcome": "applied"
+            }
+          ]
+        }
+      ],
+      "setup_ms": 1517.4313330000004,
+      "recording_warm_start_ms": 1883.641499999998,
+      "result_frame": {
+        "file": "0015.jpg",
+        "requested_ms": 5448.760915999999,
+        "completed_ms": 5574.004249999998
+      },
+      "visual_verification": {
+        "frame": "0011.jpg",
+        "predicate": {
+          "min_lines": 4,
+          "all": []
+        },
+        "verified": true
+      },
+      "content_change": {
+        "before_rows": 6,
+        "after_rows": 12,
+        "verified": true,
+        "method": "Actual before/after screenshot text and positions; waits for app rendering without repeating input",
+        "before_frame": "0008.jpg",
+        "after_frame": "0013.jpg"
+      },
+      "verification_ms": 1190.5860419999954,
+      "verified": true,
+      "actions": 2,
+      "ok": true,
+      "elapsed_ms": 3690.368749999994,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 60.01379100000486,
+          "runner_ms": 51,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 292.67191599999205,
+          "runner_ms": 282,
+          "bytes": 8503,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 4.191833000004408,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 371.99054099999194,
+          "runner_ms": 355,
+          "bytes": 21494,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 274.4562920000026,
+          "runner_ms": 267,
+          "bytes": 21494,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 105.95241699999315,
+          "runner_ms": 101,
+          "bytes": 144,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 21.348041999997804,
+          "runner_ms": 16,
+          "bytes": 144,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 407.6167920000007,
+          "runner_ms": 403,
+          "bytes": 14,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 391.5,
+            "hold": 150,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 69.66287500000908,
+          "runner_ms": 37,
+          "bytes": 144,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 37.22775000000547,
+          "runner_ms": 32,
+          "bytes": 144,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 29.306583999990835,
+          "runner_ms": 22,
+          "bytes": 144,
+          "status": 200
+        }
+      ],
+      "native_inputs": 1,
+      "task_ok": true,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.0013749999925494194,
+            "completed_ms": 119.55687499999476
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 320.9229999999952,
+            "completed_ms": 474.2692079999979
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 675.0322909999959,
+            "completed_ms": 899.7536249999976
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 1101.763082999998,
+            "completed_ms": 1363.95133299999
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1565.3621659999917,
+            "completed_ms": 1938.414374999993
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 2139.9441249999945,
+            "completed_ms": 2285.1496659999975
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 2486.8492079999996,
+            "completed_ms": 2760.8758329999982
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 2962.900499999989,
+            "completed_ms": 3207.3803329999937
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 3224.7427079999907,
+            "completed_ms": 3384.321291
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 3655.9914579999895,
+            "completed_ms": 3794.2479579999927
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 3996.363207999995,
+            "completed_ms": 4155.665957999998
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 4191.981415999995,
+            "completed_ms": 4356.4546249999985
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 4356.460624999992,
+            "completed_ms": 4938.055374999996
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 4938.068249999997,
+            "completed_ms": 5054.075165999995
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 5344.358540999994,
+            "completed_ms": 5448.750082999992
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 5448.760915999999,
+            "completed_ms": 5574.004249999998
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 5574.345625000002,
+            "completed_ms": 5703.096915999995
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "17-x-open-hybrid",
+      "task": "x-open",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:27:33.353Z",
+      "phases": [
+        {
+          "goal": "Open X from the Home Screen.",
+          "ok": false,
+          "reason": "Accessibility unavailable; caller must inspect the fresh screenshot",
+          "actions": 1,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 4173.246375000002,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 6576.409417000003,
+          "outcome": "needs_vision"
+        }
+      ],
+      "setup_ms": 1674.918458,
+      "recording_warm_start_ms": 2020.5311660000007,
+      "result_frame": {
+        "file": "0012.jpg",
+        "requested_ms": 9088.859958000001,
+        "completed_ms": 9150.686833
+      },
+      "visual_verification": {
+        "frame": "0010.jpg",
+        "predicate": {
+          "min_lines": 5,
+          "all": []
+        },
+        "verified": true
+      },
+      "verification_ms": 439.17183300000033,
+      "verified": false,
+      "actions": 1,
+      "ok": false,
+      "elapsed_ms": 7130.159833999991,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 64.81141700000444,
+          "runner_ms": 33,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 228.69550000000163,
+          "runner_ms": 219,
+          "bytes": 8498,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 3.8565830000006827,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 3917.8810419999936,
+          "runner_ms": 3816,
+          "bytes": 117,
+          "status": 500
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 31.576417000003858,
+          "runner_ms": 20,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 2025.4844999999914,
+          "runner_ms": 2020,
+          "bytes": 117,
+          "status": 500
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 28.40208299999358,
+          "runner_ms": 20,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 17.245624999995925,
+          "runner_ms": 10,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 29.6351250000007,
+          "runner_ms": 24,
+          "bytes": 145,
+          "status": 200
+        }
+      ],
+      "native_inputs": 0,
+      "task_ok": false,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.0012500000011641532,
+            "completed_ms": 118.84487499999523
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 320.94383299999754,
+            "completed_ms": 563.151291000002
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 765.0748749999912,
+            "completed_ms": 899.3015409999934
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 1101.0726250000007,
+            "completed_ms": 1624.5674579999904
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1826.870332999999,
+            "completed_ms": 2084.7715000000026
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 2286.84804099999,
+            "completed_ms": 2390.504249999998
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 2593.31954099999,
+            "completed_ms": 2904.384124999997
+          },
+          {
+            "error": "The operation was aborted",
+            "requested_ms": 3103.87662499999,
+            "completed_ms": 5611.505915999995
+          },
+          {
+            "error": "The operation was aborted",
+            "requested_ms": 5813.67620799999,
+            "completed_ms": 8319.404874999993
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 8520.605624999997,
+            "completed_ms": 8662.152749999994
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 8662.177207999994,
+            "completed_ms": 8712.68570799999
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 9007.844540999999,
+            "completed_ms": 9088.850665999998
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 9088.859958000001,
+            "completed_ms": 9150.686833
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 9150.902499999997,
+            "completed_ms": 9217.132582999999
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "18-x-scroll-hybrid",
+      "task": "x-scroll",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:27:42.682Z",
+      "phases": [
+        {
+          "goal": "Open X from the Home Screen.",
+          "ok": false,
+          "reason": "Accessibility unavailable; caller must inspect the fresh screenshot",
+          "actions": 1,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 2323.2766249999986,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 4518.228583000004,
+          "outcome": "needs_vision"
+        }
+      ],
+      "setup_ms": 4646.184249999991,
+      "recording_warm_start_ms": 4790.931792000003,
+      "result_frame": {
+        "file": "0009.jpg",
+        "requested_ms": 9863.886417000002,
+        "completed_ms": 9930.958042000013
+      },
+      "visual_verification": {
+        "frame": "0007.jpg",
+        "predicate": {
+          "min_lines": 4,
+          "all": []
+        },
+        "verified": true
+      },
+      "content_change": {
+        "before_rows": 0,
+        "after_rows": 0,
+        "verified": false
+      },
+      "verification_ms": 553.9652500000084,
+      "verified": false,
+      "actions": 1,
+      "ok": false,
+      "elapsed_ms": 5140.031375000006,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 6.2878339999879245,
+          "runner_ms": 3,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 95.50958399999945,
+          "runner_ms": 92,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 2.81349999998929,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 2044.197874999998,
+          "runner_ms": 2036,
+          "bytes": 117,
+          "status": 500
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 20.090416999999434,
+          "runner_ms": 14,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 2022.838208000001,
+          "runner_ms": 2017,
+          "bytes": 117,
+          "status": 500
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 17.93666699998721,
+          "runner_ms": 12,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 20.307499999995343,
+          "runner_ms": 16,
+          "bytes": 145,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 115.84808400001202,
+          "runner_ms": 111,
+          "bytes": 145,
+          "status": 200
+        }
+      ],
+      "native_inputs": 0,
+      "task_ok": false,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.0017090000037569553,
+            "completed_ms": 70.32691700001305
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 271.7320420000033,
+            "completed_ms": 532.4152500000055
+          },
+          {
+            "error": "The operation was aborted",
+            "requested_ms": 733.2522920000047,
+            "completed_ms": 3240.6289590000088
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 3442.655625000014,
+            "completed_ms": 4824.312875000003
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 5025.899542000014,
+            "completed_ms": 5116.359542000006
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 5317.949292000005,
+            "completed_ms": 7291.796875
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 7494.5947920000035,
+            "completed_ms": 9367.357875000002
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 9367.376709000004,
+            "completed_ms": 9460.41025
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 9747.883125000008,
+            "completed_ms": 9810.411584000001
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 9863.886417000002,
+            "completed_ms": 9930.958042000013
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 9931.195875000005,
+            "completed_ms": 9999.463542000012
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "19-youtube-open-hybrid",
+      "task": "youtube-open",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:27:52.726Z",
+      "phases": [
+        {
+          "goal": "Open YouTube from the Home Screen.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 699.5026660000003,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 870.2675000000017,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 2863.5415409999987,
+      "recording_warm_start_ms": 2994.9327499999927,
+      "result_frame": {
+        "file": "0006.jpg",
+        "requested_ms": 4014.257792000004,
+        "completed_ms": 4110.3192500000005
+      },
+      "verification_ms": 148.08312500000466,
+      "verified": true,
+      "actions": 1,
+      "ok": true,
+      "elapsed_ms": 1115.6403750000027,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 6.748124999998254,
+          "runner_ms": 4,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 136.19754199999443,
+          "runner_ms": 131,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 3.704749999989872,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 530.794041000001,
+          "runner_ms": 497,
+          "bytes": 8022,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 61.56687499998952,
+          "runner_ms": 57,
+          "bytes": 8022,
+          "status": 200
+        }
+      ],
+      "native_inputs": 0,
+      "task_ok": true,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.0013340000004973263,
+            "completed_ms": 62.01795900000434
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 263.45529199999874,
+            "completed_ms": 409.5715840000048
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 610.0902919999935,
+            "completed_ms": 2979.979833999998
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 3182.0896249999932,
+            "completed_ms": 3251.770458999992
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 3453.4958749999932,
+            "completed_ms": 3909.576667000001
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 3927.896875000006,
+            "completed_ms": 4014.234958999994
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 4014.257792000004,
+            "completed_ms": 4110.3192500000005
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 4110.324250000005,
+            "completed_ms": 4188.852834000005
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 4188.856541999994,
+            "completed_ms": 4263.707999999999
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "media_volume": 0,
+        "source": "system_media_category"
+      }
+    },
+    {
+      "name": "20-youtube-scroll-hybrid",
+      "task": "youtube-scroll",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:27:57.032Z",
+      "phases": [
+        {
+          "goal": "Open YouTube from the Home Screen.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 554.4521669999958,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 791.6687499999971,
+          "outcome": "verified"
+        },
+        {
+          "goal": "Tap Back.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 1,
+          "events": [
+            {
+              "kind": "choice",
+              "ms": 154.25604100000055,
+              "model": "jev-1.14.0",
+              "usage": {
+                "input_tokens": 599,
+                "output_tokens": 43
+              },
+              "confidence": 1,
+              "selected_probability": 1,
+              "available": 0.99,
+              "choice": "a0",
+              "candidate_count": 1
+            },
+            {
+              "kind": "action",
+              "operation": "tap",
+              "ms": 452.5441659999924,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 756.4485420000128,
+          "outcome": "verified"
+        },
+        {
+          "goal": "Scroll up once in the observed feed.",
+          "source": "caller_provided_swipe",
+          "ok": true,
+          "reason": "Provided input delivered; independent visual check follows",
+          "actions": 1,
+          "chooser_calls": 0,
+          "elapsed_ms": 425.03758299999754,
+          "events": [
+            {
+              "kind": "action",
+              "operation": "swipe",
+              "outcome": "applied"
+            }
+          ]
+        }
+      ],
+      "setup_ms": 1837.293915999995,
+      "recording_warm_start_ms": 2052.7443340000027,
+      "result_frame": {
+        "file": "0017.jpg",
+        "requested_ms": 5616.110625000001,
+        "completed_ms": 5690.570625000008
+      },
+      "visual_verification": {
+        "frame": "0013.jpg",
+        "predicate": {
+          "min_lines": 4,
+          "all": []
+        },
+        "verified": true
+      },
+      "content_change": {
+        "before_rows": 10,
+        "after_rows": 4,
+        "verified": true,
+        "method": "Actual before/after screenshot text and positions; waits for app rendering without repeating input",
+        "before_frame": "0010.jpg",
+        "after_frame": "0015.jpg"
+      },
+      "verification_ms": 1075.8590419999964,
+      "verified": true,
+      "actions": 3,
+      "ok": true,
+      "elapsed_ms": 3637.8334580000082,
+      "chooser_calls": 1,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 19.445542000001296,
+          "runner_ms": 13,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 192.16870799999742,
+          "runner_ms": 186,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 4.377375000010943,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 361.68850000000384,
+          "runner_ms": 100,
+          "bytes": 8022,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 148.79974999999104,
+          "runner_ms": 142,
+          "bytes": 8022,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 452.2241250000079,
+          "runner_ms": 443,
+          "bytes": 11662,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 284.4,
+            "hold": 50,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 19.644375000003492,
+          "runner_ms": 15,
+          "bytes": 147,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 24.251499999998487,
+          "runner_ms": 19,
+          "bytes": 147,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 406.9034169999941,
+          "runner_ms": 402,
+          "bytes": 14,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 389.8,
+            "hold": 150,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 17.910707999995793,
+          "runner_ms": 13,
+          "bytes": 147,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 30.388791000004858,
+          "runner_ms": 25,
+          "bytes": 147,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 24.141125000009197,
+          "runner_ms": 18,
+          "bytes": 147,
+          "status": 200
+        }
+      ],
+      "native_inputs": 2,
+      "task_ok": true,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.0016250000044237822,
+            "completed_ms": 63.50737500000105
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 266.020875000002,
+            "completed_ms": 425.66754200001014
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 627.363709000012,
+            "completed_ms": 753.4862090000097
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 955.601125000001,
+            "completed_ms": 1215.3807090000046
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1418.0434590000077,
+            "completed_ms": 1750.0081670000072
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 1952.8090000000084,
+            "completed_ms": 2103.0365420000016
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 2303.5189170000085,
+            "completed_ms": 2399.4985000000015
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 2601.1502920000057,
+            "completed_ms": 2878.2420840000123
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 3080.182334000012,
+            "completed_ms": 3237.5602500000095
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 3438.743459000005,
+            "completed_ms": 3531.02962500001
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 3623.0074170000007,
+            "completed_ms": 3710.378542000006
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 4004.893167000002,
+            "completed_ms": 4099.616792000001
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 4300.532667000007,
+            "completed_ms": 4398.243333999999
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 4484.436916999999,
+            "completed_ms": 4581.819042000003
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 4854.588209000009,
+            "completed_ms": 5172.032875000004
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 5172.04075,
+            "completed_ms": 5253.762625000003
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 5528.727792000005,
+            "completed_ms": 5616.100542
+          },
+          {
+            "file": "0017.jpg",
+            "requested_ms": 5616.110625000001,
+            "completed_ms": 5690.570625000008
+          },
+          {
+            "file": "0018.jpg",
+            "requested_ms": 5690.8317090000055,
+            "completed_ms": 5772.931917000009
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    }
+  ],
+  "launch_wait_experiment_ms": 0,
+  "controller_mode": "hybrid",
+  "finished_at": "2026-11-12T06:28:02.815Z"
+}

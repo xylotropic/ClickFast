@@ -1,5 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {JevChooser,runLocalGoal} from '../src/jev.mjs';
+import {performance} from 'node:perf_hooks';
 const screen=(label='Next')=>({app:'test.app',snapshot:'s1',elements:[{ref:'s1:0',kind:'Button',label,enabled:true,rect:{x:0,y:0,width:50,height:50}}]});
 const options={external_ui_opt_in:true,goal:'Open the editor',apps:['test.app'],allowed_selectors:[{kind:'Button',label:'Next'}],until:{selector:{label:'Editor'}}};
 const decision={choice:'a0',confidence:1,selected_probability:1,available:1,model:'fixed-model',usage:{input_tokens:4,output_tokens:1}};
@@ -16,6 +17,28 @@ test('a malformed or fabricated JEV action is refused',async()=>{
  const chooser=new JevChooser({apiKey:'test-key',fetchImpl:async()=>({ok:true,text:async()=>JSON.stringify(body('invented'))})});
  await assert.rejects(chooser.choose({goal:'Open',observation:screen(),candidates:screen().elements,history:[]}),/Malformed/);
 });
+test('a labeled BackButton keeps its native back meaning in the chooser request',async()=>{
+ let sent;const chooser=new JevChooser({apiKey:'test-key',fetchImpl:async(url,request)=>{sent=JSON.parse(request.body);return {ok:true,text:async()=>JSON.stringify(body('a0'))};}});
+ const s=screen('Contacts');s.elements[0].identifier='BackButton';await chooser.choose({goal:'Go back',observation:s,candidates:s.elements,history:[]});
+ assert.equal(sent.state.controls.a0.label,'Back to Contacts');assert.match(sent.questions.next.criteria.a0,/Back to Contacts/);
+});
+test('a backstage or playback identifier is not a navigation Back control',async()=>{
+ for(const identifier of ['id.ui.backstage.comment_button','playbackButton']){
+  let sent;const chooser=new JevChooser({apiKey:'test-key',fetchImpl:async(url,request)=>{sent=JSON.parse(request.body);return {ok:true,text:async()=>JSON.stringify(body('a0'))};}});
+  const s=screen('Comment');s.elements[0].identifier=identifier;await chooser.choose({goal:'Inspect',observation:s,candidates:s.elements,history:[]});
+  assert.equal(sent.state.controls.a0.label,'Comment');
+ }
+});
+test('search navigation uses the observed prerequisite without typing into a detail view',async()=>{
+ const c=fakeController();c.observe=async function(){return this.current={...screen('Contacts'),elements:[{...screen('Contacts').elements[0],identifier:'BackButton'},{ref:'empty',kind:'Cell',label:'',enabled:true}]};};
+ const result=await runLocalGoal(c,{...options,allowed_selectors:undefined,visible_controls:true,until:{selector:{kind:'SearchField',label:'Search',value:'query'}}},{chooser:{choose:async({goal,candidates})=>{assert.match(goal,/navigation Back button to Contacts/);assert.equal(candidates.length,1);return {...decision,available:0};}}});
+ assert.equal(result.ok,false);assert.equal(c.inputs,0);
+});
+test('search opens through a visible Search control before selecting a missing field',async()=>{
+ const c=fakeController();c.observe=async function(){return this.current=screen('Search');};
+ const result=await runLocalGoal(c,{...options,allowed_selectors:undefined,visible_controls:true,until:{selector:{kind:'SearchField',label:'Search',value:'query'}}},{chooser:{choose:async({goal})=>{assert.equal(goal,'Open search in the current app.');return {...decision,available:0};}}});
+ assert.equal(result.ok,false);assert.equal(c.inputs,0);
+});
 test('local goal requires explicit external UI opt-in before observing or sending',async()=>{
  const c=fakeController();await assert.rejects(runLocalGoal(c,{...options,external_ui_opt_in:false},{chooser:{choose:async()=>decision}}),/opt_in/);assert.equal(c.current,null);assert.equal(c.inputs,0);
 });
@@ -27,6 +50,17 @@ test('a loading screen with no controls is observed again before asking for a de
  let reads=0;const c=fakeController();c.observe=async function(){reads++;return this.current=reads===1?{...screen(),elements:[{kind:'ActivityIndicator',label:'Loading'}]}:screen();};
  const result=await runLocalGoal(c,options,{chooser:{choose:async({observation})=>{assert.ok(observation.elements.some(x=>x.ref));return decision;}}});
  assert.equal(result.ok,true);assert.equal(result.chooser_calls,1);assert.equal(reads,2);assert.equal(c.inputs,1);
+});
+test('an empty transition tree cannot prove absence or prompt a speculative swipe',async()=>{
+ let reads=0;const c=fakeController();c.observe=async function(){reads++;return this.current=reads===1?{...screen(),elements:[]}:screen();};
+ const result=await runLocalGoal(c,{...options,until:{app:'test.app',absent:{label:'Preview'}}},{chooser:{choose:async()=>{throw Error('No action is needed after the transition settles');}}});
+ assert.equal(result.ok,true);assert.equal(reads,2);assert.equal(c.inputs,0);
+});
+test('an unrelated clock update cannot prompt a second navigation tap before the requested field appears',async()=>{
+ const field={kind:'SearchField',label:'Search',ref:'s2:field',value:'',enabled:true};let calls=0,reads=0;
+ const c={current:null,inputs:[],async observe(){reads++;return this.current=reads===1?screen('Open search'):{...screen(),snapshot:'s2',bound_text:1,elements:[field]};},async execute(steps){this.inputs.push(steps[0]);this.current=steps[0].op==='tap'?{...screen('Open search'),elements:[...screen('Open search').elements,{kind:'StaticText',label:'12:01'}]}:{...this.current,elements:[{...field,value:'exact query'}]};return {ok:true};}};
+ const result=await runLocalGoal(c,{external_ui_opt_in:true,goal:'Open search and enter the exact query',apps:['test.app'],visible_controls:true,texts:{query:'exact query'},until:{app:'test.app',selector:{kind:'SearchField',label:'Search',value:'exact query'}}},{chooser:{choose:async()=>{calls++;if(calls>1)throw Error('Second tap selected from the stale screen');return decision;}}});
+ assert.equal(result.ok,true);assert.equal(calls,1);assert.deepEqual(c.inputs.map(x=>x.op),['tap','text']);
 });
 test('JEV DONE cannot substitute for a visible result',async()=>{
  const c=fakeController();const result=await runLocalGoal(c,options,{chooser:{choose:async()=>({...decision,choice:'DONE'})}});assert.equal(result.ok,false);assert.equal(c.inputs,0);
@@ -64,6 +98,12 @@ test('stale recovery is bounded and never retries uncertain delivery or unrelate
   assert.equal(result.ok,false);assert.equal(c.inputs,expected);
  }
 });
+test('a moved target refused before input is observed again once with a fresh identity',async()=>{
+ let reads=0;const c=fakeController();c.observe=async function(){reads++;return this.current=screen();};
+ c.execute=async function(){this.inputs++;if(this.inputs===1){this.current=null;return {ok:false,error:'Target moved; observe again',outcome:'not_sent'};}this.current=screen('Editor');return {ok:true};};
+ const result=await runLocalGoal(c,options,{chooser:{choose:async()=>decision}});
+ assert.equal(result.ok,true);assert.equal(reads,2);assert.equal(c.inputs,2);
+});
 test('the chooser selects only executable actions; abstention stays in its independent question',async()=>{
  let sent;const chooser=new JevChooser({apiKey:'test-key',fetchImpl:async(url,request)=>{sent=JSON.parse(request.body);const keys=Object.keys(sent.questions.next.criteria);return {ok:true,text:async()=>JSON.stringify({answers:{next:{type:'choice',choice:keys[0],confidence:1,probabilities:Object.fromEntries(keys.map((k,i)=>[k,i===0?1:0]))},available:{type:'noul',noul:1}}})};}});
  await chooser.choose({goal:'Enter two consecutive copies of a letter',observation:screen(),candidates:screen().elements,history:[]});
@@ -96,7 +136,7 @@ test('a read-only TextView whose value equals its label is not an empty editor',
 });
 test('an open folder is not a completed Home Screen goal; Home waits for dismissal',async()=>{
  const folder={kind:'TextField',label:'Productivity, Folder name'};
- const c={current:null,inputs:0,async observe(){return this.current={app:'com.apple.springboard',snapshot:'s1',elements:[folder]};},async execute(steps){this.inputs++;assert.deepEqual(steps[0].expect,{app:'com.apple.springboard',absent:folder});this.current={...this.current,elements:[]};return {ok:true};}};
+ const c={current:null,inputs:0,async observe(){return this.current={app:'com.apple.springboard',snapshot:'s1',elements:[folder]};},async execute(steps){this.inputs++;assert.deepEqual(steps[0].expect,{app:'com.apple.springboard',absent:folder});this.current={...this.current,elements:[{kind:'Button',label:'Search',ref:'search'}]};return {ok:true};}};
  const result=await runLocalGoal(c,{external_ui_opt_in:true,goal:'Close the folder',apps:['com.apple.springboard'],visible_controls:true,allow_home:true,until:{app:'com.apple.springboard',absent:folder}},{chooser:{choose:async()=>decision}});
  assert.equal(result.ok,true);assert.equal(c.inputs,1);assert.equal(result.chooser_calls,1);
 });
@@ -110,6 +150,13 @@ test('an exact field and literal use native admission without a speculative prer
  const c=exactEntryController();let calls=0;const result=await runLocalGoal(c,exactEntryOptions,{chooser:{choose:async()=>{calls++;throw Error('A known field does not need a model decision');}}});
  assert.equal(result.ok,true);assert.equal(calls,0);assert.equal(result.chooser_calls,0);assert.deepEqual(c.steps,[{op:'text',ref:'s1:field',snapshot:'s1',text:exactEntryOptions.texts.query,app:'test.app'}]);
  assert.equal(result.events.find(x=>x.kind==='decision')?.source,'exact_field');
+});
+test('an unfocused field immediately after launch is observed after the opening transition',async()=>{
+ const c=exactEntryController();c.lastLaunchAt=performance.now();let reads=0;const original=c.observe;
+ c.observe=async function(){const s=await original.call(this);reads++;s.elements[1].ref='field-'+reads;return this.current=s;};
+ c.execute=async function(steps){assert.equal(steps[0].ref,'field-2');this.steps.push(...steps);this.current.elements[1].value=steps[0].text;this.current.elements[1].focused=true;return {ok:true};};
+ const result=await runLocalGoal(c,exactEntryOptions,{chooser:{choose:async()=>{throw Error('Exact entry needs no model choice');}}});
+ assert.equal(result.ok,true);assert.equal(reads,2);assert.equal(c.steps.length,1);
 });
 test('an exact text shortcut requires the native capability and a complete observation',async()=>{
  for(const extra of [{bound_text:0},{truncated:true}]){

@@ -1,0 +1,1635 @@
+{
+  "schema": 2,
+  "id": "2026-11-12T06-24-15-805Z-general",
+  "kind": "Physical iPhone bounded intents",
+  "source_commit": "ea58974bd062ffbffb9f41c7b1ab43e029c1acd0",
+  "source_dirty": true,
+  "source_sha256": {
+    "src/jev.mjs": "5b205b8ed9689aafe064332ebb7d70de8588536678344b0317fd169a103d2fee",
+    "src/driver.mjs": "d6792217d4042391a0f11c2d4749ad5033855e751a8bb39dbf1358146327835f",
+    "src/device-launch.mjs": "e7d16e2aab71eb3fb688110002772a8d51611de24abaf8ea54555d6b2991f904",
+    "scripts/benchmark-general.mjs": "f48760db84441e5bc8d70e0ab6d87ac410094d12222ea1031048c1202afa298b",
+    "scripts/benchmark-general-support.mjs": "3ecc85124a11f6ae84a3faaf4281421178b8bfe32a598a495b06f95ee154d704",
+    "scripts/benchmark-visual.mjs": "13d81740afb28e7eec6213ef1e1bb72cc62a362f34fd91269eb3791f66deefc9",
+    "scripts/mirror-ocr.swift": "2b731094cf6d72300d0a2b69e34a111a03321a0b5808d6daa5d25b87e37bbd4e",
+    "scripts/phone-recorder.mjs": "d9da40087023133774d2087c30166c1b02274b96683fd995b3a60f7b66b30b7b",
+    "vendor/iphone-use/runner/IPhoneUseRunner/IPhoneUseRunnerUITests/RunnerTests.swift": "ae36fca5c88089e3dbac4c637a5c338fcc5e716fb97b9c49bafb529680e83d45",
+    "vendor/iphone-use/runner/IPhoneUseRunner/IPhoneUseRunnerUITests/IPURBridge.m": "c71fdb095851e5c5c4ef1f628b0a65b9bd81426291664f23adf7585786a27d33",
+    "vendor/iphone-use/runner/IPhoneUseRunner/IPhoneUseRunnerUITests/RunnerElements.swift": "5b2bf3f785b387cab763141e3e972f47f0c758eb05b54f4dcae189fd5aa67883",
+    "benchmarks/fixtures/transitions-v10-diagnostic.json": "09ba69981a9c115d5551bc7fe056b868c423d63aba63e43ede1801e01ad4e628"
+  },
+  "device": "iPhone16ProMax / iOS26.5 / USB",
+  "repeats": 2,
+  "tasks": [
+    {
+      "id": "contacts-text",
+      "description": "Type a controlled multiword search in Contacts, without creating or editing a contact",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open Contacts from the Home Screen, then enter \"Operator Jane Doe 27\" into the Search search field. Open search first if the field is not visible.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.MobileAddressBook"
+          ],
+          "texts": {
+            "query": "Operator Jane Doe 27"
+          },
+          "until": {
+            "app": "com.apple.MobileAddressBook",
+            "selector": {
+              "kind": "SearchField",
+              "value": "Operator Jane Doe 27"
+            }
+          },
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.apple.MobileAddressBook",
+              "label": "Contacts"
+            }
+          ],
+          "swipe_directions": [
+            "up",
+            "down"
+          ]
+        }
+      ],
+      "verify": {
+        "app": "com.apple.MobileAddressBook",
+        "selector": {
+          "kind": "SearchField",
+          "value": "Operator Jane Doe 27"
+        }
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ],
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField"
+        },
+        "owned_values": [
+          "Operator Jane Doe 27"
+        ],
+        "when_present": true
+      },
+      "min_actions": 2
+    },
+    {
+      "id": "files-document-find",
+      "description": "Enter the exact supplied query, including its punctuation, into the observed search field",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Close the current document preview.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.DocumentsApp"
+          ],
+          "until": {
+            "app": "com.apple.DocumentsApp",
+            "absent": {
+              "kind": "Button",
+              "identifier": "QLOverlayDoneButtonAccessibilityIdentifier"
+            }
+          },
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.apple.DocumentsApp",
+              "label": "Files"
+            }
+          ],
+          "swipe_directions": [
+            "up",
+            "down"
+          ]
+        },
+        {
+          "goal": "Enter \"Operator_draft-27.txt\" in the visible Search field.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.DocumentsApp"
+          ],
+          "texts": {
+            "query": "Operator_draft-27.txt"
+          },
+          "until": {
+            "app": "com.apple.DocumentsApp",
+            "selector": {
+              "kind": "SearchField",
+              "label": "Search",
+              "value": "Operator_draft-27.txt"
+            }
+          },
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.apple.DocumentsApp",
+              "label": "Files"
+            }
+          ],
+          "swipe_directions": [
+            "up",
+            "down"
+          ]
+        }
+      ],
+      "verify": {
+        "app": "com.apple.DocumentsApp",
+        "selector": {
+          "kind": "SearchField",
+          "label": "Search",
+          "value": "Operator_draft-27.txt"
+        }
+      },
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField",
+          "label": "Search"
+        },
+        "owned_values": [
+          "Operator_draft-27.txt"
+        ],
+        "when_present": true
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ],
+      "min_actions": 2
+    },
+    {
+      "id": "books-title-query",
+      "description": "Enter the exact supplied query, including its punctuation, into the observed search field",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open Books from the Home Screen, then enter \"The Little Prince\" into the Apple Books search field. Open search first if the field is not visible.",
+          "apps": [
+            "com.apple.springboard",
+            "com.apple.iBooks"
+          ],
+          "texts": {
+            "query": "The Little Prince"
+          },
+          "until": {
+            "app": "com.apple.iBooks",
+            "selector": {
+              "kind": "SearchField",
+              "value": "The Little Prince"
+            }
+          },
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "bundle": "com.apple.iBooks",
+              "label": "Books"
+            }
+          ],
+          "swipe_directions": [
+            "up",
+            "down"
+          ]
+        }
+      ],
+      "verify": {
+        "app": "com.apple.iBooks",
+        "selector": {
+          "kind": "SearchField",
+          "value": "The Little Prince"
+        }
+      },
+      "reset_text": {
+        "selector": {
+          "kind": "SearchField"
+        },
+        "owned_values": [
+          "The Little Prince"
+        ],
+        "when_present": true
+      },
+      "cleanup": [
+        {
+          "op": "tap",
+          "selector": {
+            "kind": "Button",
+            "label": "Clear text"
+          }
+        }
+      ],
+      "min_actions": 2
+    }
+  ],
+  "method": "Real Home-to-result phone tasks, unchanged0.9 JEV gates. Hybrid admits exact caller-provided app, empty field/literal and swipe primitives directly, and uses JEV for navigation choices. A provided swipe is a test action through the general controller, not a saved product routine or a JEV decision. App launches use CoreDevice. Setup and cleanup are recorded separately. All task navigation, model choices, input, independent AX or specified screenshot/OCR checks and result captures are timed. Scroll checks compare text and positions in actual before/after frames. Capture stops on lock. All failures are retained; unknown input is never replayed. Match the same predicates and start states in Mirroring before comparing speed.",
+  "runs": [
+    {
+      "name": "01-contacts-text-hybrid",
+      "task": "contacts-text",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:24:15.915Z",
+      "phases": [
+        {
+          "goal": "Open Contacts from the Home Screen, then enter \"Operator Jane Doe 27\" into the Search search field. Open search first if the field is not visible.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 2,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 314.5625,
+              "ok": true
+            },
+            {
+              "kind": "decision",
+              "source": "exact_field",
+              "operation": "text"
+            },
+            {
+              "kind": "action",
+              "operation": "text",
+              "ms": 807.5069170000002,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 1555.3182499999998,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 2689.952416,
+      "recording_warm_start_ms": 2790.274583,
+      "result_frame": {
+        "file": "0017.jpg",
+        "requested_ms": 4490.282958,
+        "completed_ms": 4532.807041
+      },
+      "verification_ms": 141.53245900000002,
+      "verified": true,
+      "actions": 2,
+      "ok": true,
+      "elapsed_ms": 1742.544708,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 11.695749999999862,
+          "runner_ms": 7,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 82.00679199999968,
+          "runner_ms": 79,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 2.0112920000001395,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 153.48858299999984,
+          "runner_ms": 147,
+          "bytes": 11019,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 112.71279099999992,
+          "runner_ms": 109,
+          "bytes": 11019,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 807.2551249999997,
+          "runner_ms": 803,
+          "bytes": 9504,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 557.8,
+            "hold": 4450,
+            "calls": 2
+          },
+          "input_count": 2
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 70.57016600000043,
+          "runner_ms": 67,
+          "bytes": 9169,
+          "status": 200
+        }
+      ],
+      "native_inputs": 2,
+      "task_ok": true,
+      "cleanup": {
+        "status": "verified"
+      },
+      "cleanup_ms": 454.70079199999964,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.04316599999998516,
+            "completed_ms": 74.61795799999999
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 276.913458,
+            "completed_ms": 420.615708
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 623.1310000000001,
+            "completed_ms": 692.2961250000001
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 892.9248750000002,
+            "completed_ms": 1093.2942500000001
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1294.620375,
+            "completed_ms": 1411.488916
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 1613.586291,
+            "completed_ms": 1669.0447080000001
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 1871.430541,
+            "completed_ms": 1944.205791
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 2146.3149999999996,
+            "completed_ms": 2214.192416
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 2414.8914579999996,
+            "completed_ms": 2486.4970829999997
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 2687.424416,
+            "completed_ms": 2821.5945829999996
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 3023.9149159999997,
+            "completed_ms": 3097.02175
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 3298.5339999999997,
+            "completed_ms": 3366.0163749999997
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 3567.614458,
+            "completed_ms": 3616.796458
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 3817.7805,
+            "completed_ms": 3926.24975
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 4127.838,
+            "completed_ms": 4190.662666
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 4393.101333,
+            "completed_ms": 4445.049958
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 4445.063166,
+            "completed_ms": 4490.161040999999
+          },
+          {
+            "file": "0017.jpg",
+            "requested_ms": 4490.282958,
+            "completed_ms": 4532.807041
+          },
+          {
+            "file": "0018.jpg",
+            "requested_ms": 4647.501291,
+            "completed_ms": 4710.652916
+          },
+          {
+            "file": "0019.jpg",
+            "requested_ms": 4912.7412079999995,
+            "completed_ms": 4969.595291
+          },
+          {
+            "file": "0020.jpg",
+            "requested_ms": 4988.014958,
+            "completed_ms": 5031.570708
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "02-files-document-find-hybrid",
+      "task": "files-document-find",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:24:20.985Z",
+      "phases": [
+        {
+          "goal": "Close the current document preview.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 254.0126250000003,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 731.7242919999999,
+          "outcome": "verified"
+        },
+        {
+          "goal": "Enter \"Operator_draft-27.txt\" in the visible Search field.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_field",
+              "operation": "text"
+            },
+            {
+              "kind": "action",
+              "operation": "text",
+              "ms": 851.9728750000013,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 971.0358329999999,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 2588.2141249999995,
+      "recording_warm_start_ms": 2671.6352079999997,
+      "result_frame": {
+        "file": "0018.jpg",
+        "requested_ms": 4580.611457999999,
+        "completed_ms": 4625.199708
+      },
+      "verification_ms": 150.76187500000015,
+      "verified": true,
+      "actions": 2,
+      "ok": true,
+      "elapsed_ms": 1953.5742919999993,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 4.691667000000052,
+          "runner_ms": 2,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 99.44454099999984,
+          "runner_ms": 96,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 2.1763750000000073,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 107.86854200000016,
+          "runner_ms": 90,
+          "bytes": 8078,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 103.33920799999942,
+          "runner_ms": 97,
+          "bytes": 8166,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 8.172209000000294,
+          "runner_ms": 5,
+          "bytes": 147,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 84.49462499999936,
+          "runner_ms": 81,
+          "bytes": 8166,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 851.7655419999992,
+          "runner_ms": 848,
+          "bytes": 12167,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 555.8,
+            "hold": 4670,
+            "calls": 2
+          },
+          "input_count": 2
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 85.22500000000036,
+          "runner_ms": 82,
+          "bytes": 13793,
+          "status": 200
+        }
+      ],
+      "native_inputs": 2,
+      "task_ok": true,
+      "cleanup": {
+        "status": "verified"
+      },
+      "cleanup_ms": 693.1275000000005,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.001374999999825377,
+            "completed_ms": 53.23570800000016
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 254.05345800000032,
+            "completed_ms": 372.7312499999998
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 575.2157079999997,
+            "completed_ms": 642.2934999999998
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 844.6281250000002,
+            "completed_ms": 914.6633750000001
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1116.711166,
+            "completed_ms": 1177.5686660000001
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 1378.7306659999995,
+            "completed_ms": 1547.1418329999997
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 1748.9432500000003,
+            "completed_ms": 1802.6977500000003
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 2004.7235410000003,
+            "completed_ms": 2083.2491659999996
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 2285.1372499999998,
+            "completed_ms": 2375.108416
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 2577.1122079999996,
+            "completed_ms": 2631.0828329999995
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 2832.4222499999996,
+            "completed_ms": 2892.702708
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 3094.091541,
+            "completed_ms": 3164.8135409999995
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 3366.8845,
+            "completed_ms": 3430.6012499999997
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 3632.6318329999995,
+            "completed_ms": 3703.2493329999998
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 3904.7837500000005,
+            "completed_ms": 3979.688875
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 4182.067166000001,
+            "completed_ms": 4277.581082999999
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 4461.243957999999,
+            "completed_ms": 4526.564208
+          },
+          {
+            "file": "0017.jpg",
+            "requested_ms": 4526.569665999999,
+            "completed_ms": 4580.596791
+          },
+          {
+            "file": "0018.jpg",
+            "requested_ms": 4580.611457999999,
+            "completed_ms": 4625.199708
+          },
+          {
+            "file": "0019.jpg",
+            "requested_ms": 4782.867582999999,
+            "completed_ms": 4846.959124999999
+          },
+          {
+            "file": "0020.jpg",
+            "requested_ms": 5049.136457999999,
+            "completed_ms": 5161.91475
+          },
+          {
+            "file": "0021.jpg",
+            "requested_ms": 5318.990833,
+            "completed_ms": 5401.417665999999
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "03-books-title-query-hybrid",
+      "task": "books-title-query",
+      "mode": "hybrid",
+      "repeat": 1,
+      "started_at": "2026-11-12T06:24:26.423Z",
+      "phases": [
+        {
+          "goal": "Open Books from the Home Screen, then enter \"The Little Prince\" into the Apple Books search field. Open search first if the field is not visible.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 2,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 437.0766249999997,
+              "ok": true
+            },
+            {
+              "kind": "decision",
+              "source": "exact_field",
+              "operation": "text"
+            },
+            {
+              "kind": "action",
+              "operation": "text",
+              "ms": 350.67670799999905,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 924.7322500000009,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 3227.9184170000008,
+      "recording_warm_start_ms": 3346.9580000000005,
+      "result_frame": {
+        "file": "0015.jpg",
+        "requested_ms": 4433.752041,
+        "completed_ms": 4483.986832999999
+      },
+      "verification_ms": 160.13062499999978,
+      "verified": true,
+      "actions": 2,
+      "ok": true,
+      "elapsed_ms": 1137.0414999999994,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 5.909874999999374,
+          "runner_ms": 3,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 103.30041700000038,
+          "runner_ms": 100,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 2.4613749999989523,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 226.2402089999996,
+          "runner_ms": 199,
+          "bytes": 13405,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 350.3434579999994,
+          "runner_ms": 345,
+          "bytes": 13180,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 271.1,
+            "hold": 3740,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 76.66479099999924,
+          "runner_ms": 70,
+          "bytes": 13180,
+          "status": 200
+        }
+      ],
+      "native_inputs": 1,
+      "task_ok": true,
+      "cleanup": {
+        "status": "verified"
+      },
+      "cleanup_ms": 491.22170899999946,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.0017499999994470272,
+            "completed_ms": 77.52129099999911
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 278.99833299999955,
+            "completed_ms": 408.6876250000005
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 609.1928329999992,
+            "completed_ms": 660.9567079999997
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 863.3852499999994,
+            "completed_ms": 984.0487499999999
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1186.2357909999992,
+            "completed_ms": 1398.012541
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 1600.0064999999995,
+            "completed_ms": 1741.5975830000007
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 1941.688415999999,
+            "completed_ms": 2173.642291
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 2375.163875,
+            "completed_ms": 2512.4721250000002
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 2714.186540999999,
+            "completed_ms": 2772.333375
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 2972.7867499999993,
+            "completed_ms": 3031.7495830000007
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 3234.5735409999998,
+            "completed_ms": 3368.898416
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 3569.229458,
+            "completed_ms": 3719.8565830000007
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 3921.281583,
+            "completed_ms": 4011.199124999999
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 4212.7631249999995,
+            "completed_ms": 4297.298541
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 4350.477375,
+            "completed_ms": 4433.695958
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 4433.752041,
+            "completed_ms": 4483.986832999999
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 4499.4713329999995,
+            "completed_ms": 4585.1119579999995
+          },
+          {
+            "file": "0017.jpg",
+            "requested_ms": 4787.662,
+            "completed_ms": 4859.242166
+          },
+          {
+            "file": "0018.jpg",
+            "requested_ms": 4976.4295409999995,
+            "completed_ms": 5036.992125000001
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "04-contacts-text-hybrid",
+      "task": "contacts-text",
+      "mode": "hybrid",
+      "repeat": 2,
+      "started_at": "2026-11-12T06:24:31.502Z",
+      "phases": [
+        {
+          "goal": "Open Contacts from the Home Screen, then enter \"Operator Jane Doe 27\" into the Search search field. Open search first if the field is not visible.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 2,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 406.4572079999998,
+              "ok": true
+            },
+            {
+              "kind": "decision",
+              "source": "exact_field",
+              "operation": "text"
+            },
+            {
+              "kind": "action",
+              "operation": "text",
+              "ms": 373.93629200000214,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 952.2991249999977,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 4410.94925,
+      "recording_warm_start_ms": 4556.085917000002,
+      "result_frame": {
+        "file": "0014.jpg",
+        "requested_ms": 5877.288000000002,
+        "completed_ms": 5957.676042000001
+      },
+      "verification_ms": 368.0395419999986,
+      "verified": true,
+      "actions": 2,
+      "ok": true,
+      "elapsed_ms": 1401.9337909999995,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 11.083208000000013,
+          "runner_ms": 7,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 133.6620409999996,
+          "runner_ms": 129,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 3.082750000001397,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 222.99379199999748,
+          "runner_ms": 194,
+          "bytes": 8687,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 373.62133299999914,
+          "runner_ms": 369,
+          "bytes": 9236,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 283.5,
+            "hold": 4400,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 271.7641250000015,
+          "runner_ms": 266,
+          "bytes": 9236,
+          "status": 200
+        }
+      ],
+      "native_inputs": 1,
+      "task_ok": true,
+      "cleanup": {
+        "status": "verified"
+      },
+      "cleanup_ms": 588.2232919999988,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.00166700000045239,
+            "completed_ms": 61.5726250000007
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 263.95891700000175,
+            "completed_ms": 387.6785830000008
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 590.2117080000007,
+            "completed_ms": 671.0953750000026
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 871.990458000002,
+            "completed_ms": 1141.8565830000025
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1344.3374170000006,
+            "completed_ms": 1646.8368329999994
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 1848.8571250000005,
+            "completed_ms": 2512.0098750000016
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 2712.1423330000016,
+            "completed_ms": 2958.578875000001
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 3159.064542000002,
+            "completed_ms": 3392.107249999999
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 3593.559583,
+            "completed_ms": 4336.081125000002
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 4537.9034169999995,
+            "completed_ms": 4675.953625
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 4877.465249999999,
+            "completed_ms": 5034.295958000001
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 5234.072667000002,
+            "completed_ms": 5330.576542000001
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 5532.718125000001,
+            "completed_ms": 5701.05925
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 5781.164957999999,
+            "completed_ms": 5877.2342499999995
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 5877.288000000002,
+            "completed_ms": 5957.676042000001
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 5957.687416999999,
+            "completed_ms": 6046.923917000002
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 6247.413542,
+            "completed_ms": 6356.292041999999
+          },
+          {
+            "file": "0017.jpg",
+            "requested_ms": 6547.146375000002,
+            "completed_ms": 6653.026583000001
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "05-files-document-find-hybrid",
+      "task": "files-document-find",
+      "mode": "hybrid",
+      "repeat": 2,
+      "started_at": "2026-11-12T06:24:38.239Z",
+      "phases": [
+        {
+          "goal": "Close the current document preview.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 435.36154199999874,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 657.6725000000006,
+          "outcome": "verified"
+        },
+        {
+          "goal": "Enter \"Operator_draft-27.txt\" in the visible Search field.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 1,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_field",
+              "operation": "text"
+            },
+            {
+              "kind": "action",
+              "operation": "text",
+              "ms": 542.1970419999998,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 756.6754169999986,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 4327.705417000001,
+      "recording_warm_start_ms": 4500.668125,
+      "result_frame": {
+        "file": "0015.jpg",
+        "requested_ms": 6172.759707999998,
+        "completed_ms": 6244.516207999997
+      },
+      "verification_ms": 254.21704099999988,
+      "verified": true,
+      "actions": 2,
+      "ok": true,
+      "elapsed_ms": 1743.8719999999994,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 14.311166999999841,
+          "runner_ms": 10,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 181.8727089999993,
+          "runner_ms": 177,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 3.317166000000725,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 258.2442500000034,
+          "runner_ms": 251,
+          "bytes": 11544,
+          "status": 200
+        },
+        {
+          "path": "/sprint/frame",
+          "ms": 11.501499999998487,
+          "runner_ms": 8,
+          "bytes": 147,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 124.38137500000084,
+          "runner_ms": 114,
+          "bytes": 11544,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 541.8176660000026,
+          "runner_ms": 536,
+          "bytes": 12539,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 290.8,
+            "hold": 4620,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 114.76737499999945,
+          "runner_ms": 110,
+          "bytes": 12539,
+          "status": 200
+        }
+      ],
+      "native_inputs": 1,
+      "task_ok": true,
+      "cleanup": {
+        "status": "verified"
+      },
+      "cleanup_ms": 588.2819589999999,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.0015419999981531873,
+            "completed_ms": 84.25762499999837
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 285.6929999999993,
+            "completed_ms": 448.90729199999987
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 649.6730829999979,
+            "completed_ms": 812.9116670000003
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 1013.5164169999989,
+            "completed_ms": 2108.4889999999978
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 2309.631291999998,
+            "completed_ms": 2474.544082999997
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 2677.1852919999983,
+            "completed_ms": 2803.579332999998
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 3005.907625,
+            "completed_ms": 3146.574916999998
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 3348.6034579999978,
+            "completed_ms": 3503.347249999999
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 3705.480916999997,
+            "completed_ms": 4246.88075
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 4449.2305419999975,
+            "completed_ms": 4647.957542
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 4850.2980419999985,
+            "completed_ms": 4985.361042
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 5185.892082999999,
+            "completed_ms": 5305.371666999999
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 5506.972041999998,
+            "completed_ms": 5738.844166999999
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 5940.483541999998,
+            "completed_ms": 6094.539916999998
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 6094.564791999997,
+            "completed_ms": 6172.649207999999
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 6172.759707999998,
+            "completed_ms": 6244.516207999997
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 6296.920707999998,
+            "completed_ms": 6407.620666999999
+          },
+          {
+            "file": "0017.jpg",
+            "requested_ms": 6609.818457999998,
+            "completed_ms": 6695.797583
+          },
+          {
+            "file": "0018.jpg",
+            "requested_ms": 6834.664375,
+            "completed_ms": 6914.253666999997
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    },
+    {
+      "name": "06-books-title-query-hybrid",
+      "task": "books-title-query",
+      "mode": "hybrid",
+      "repeat": 2,
+      "started_at": "2026-11-12T06:24:45.190Z",
+      "phases": [
+        {
+          "goal": "Open Books from the Home Screen, then enter \"The Little Prince\" into the Apple Books search field. Open search first if the field is not visible.",
+          "ok": true,
+          "reason": "Completion predicate observed",
+          "actions": 2,
+          "chooser_calls": 0,
+          "events": [
+            {
+              "kind": "decision",
+              "source": "exact_app",
+              "operation": "launch"
+            },
+            {
+              "kind": "action",
+              "operation": "launch",
+              "ms": 482.26629200000025,
+              "ok": true
+            },
+            {
+              "kind": "decision",
+              "source": "exact_field",
+              "operation": "text"
+            },
+            {
+              "kind": "action",
+              "operation": "text",
+              "ms": 619.2630409999983,
+              "ok": true
+            }
+          ],
+          "elapsed_ms": 1357.1489159999983,
+          "outcome": "verified"
+        }
+      ],
+      "setup_ms": 3519.1585000000014,
+      "recording_warm_start_ms": 3732.323416000003,
+      "result_frame": {
+        "file": "0014.jpg",
+        "requested_ms": 5354.551750000002,
+        "completed_ms": 5439.781707999999
+      },
+      "verification_ms": 263.71654200000194,
+      "verified": true,
+      "actions": 2,
+      "ok": true,
+      "elapsed_ms": 1707.4728749999995,
+      "chooser_calls": 0,
+      "requests": [
+        {
+          "path": "/sprint/frame",
+          "ms": 16.235333000004175,
+          "runner_ms": 11,
+          "bytes": 146,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 211.37345799999457,
+          "runner_ms": 205,
+          "bytes": 8484,
+          "status": 200
+        },
+        {
+          "path": "/wda/locked",
+          "ms": 5.998207999997248,
+          "runner_ms": null,
+          "bytes": 15,
+          "status": 200
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 287.00508300000365,
+          "runner_ms": 262,
+          "bytes": 13405,
+          "status": 200
+        },
+        {
+          "path": "/sprint/act",
+          "ms": 619.0432090000031,
+          "runner_ms": 613,
+          "bytes": 13180,
+          "status": 200,
+          "synthesis": {
+            "orientation": 0,
+            "build": 0,
+            "wait": 349.1,
+            "hold": 3740,
+            "calls": 1
+          },
+          "input_count": 1
+        },
+        {
+          "path": "/sprint/observe",
+          "ms": 109.47437499999796,
+          "runner_ms": 105,
+          "bytes": 13180,
+          "status": 200
+        }
+      ],
+      "native_inputs": 1,
+      "task_ok": true,
+      "cleanup": {
+        "status": "verified"
+      },
+      "cleanup_ms": 597.7242499999993,
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.jpg",
+            "requested_ms": 0.001374999999825377,
+            "completed_ms": 77.90450000000055
+          },
+          {
+            "file": "0001.jpg",
+            "requested_ms": 279.53729100000055,
+            "completed_ms": 411.1302910000013
+          },
+          {
+            "file": "0002.jpg",
+            "requested_ms": 611.6085000000021,
+            "completed_ms": 686.5143330000028
+          },
+          {
+            "file": "0003.jpg",
+            "requested_ms": 887.5548750000016,
+            "completed_ms": 1051.2701250000027
+          },
+          {
+            "file": "0004.jpg",
+            "requested_ms": 1253.1420830000025,
+            "completed_ms": 1361.9087080000027
+          },
+          {
+            "file": "0005.jpg",
+            "requested_ms": 1563.9050000000025,
+            "completed_ms": 2097.856708000003
+          },
+          {
+            "file": "0006.jpg",
+            "requested_ms": 2299.649125,
+            "completed_ms": 2389.9355410000026
+          },
+          {
+            "file": "0007.jpg",
+            "requested_ms": 2591.888750000002,
+            "completed_ms": 3056.0674160000017
+          },
+          {
+            "file": "0008.jpg",
+            "requested_ms": 3256.878791000003,
+            "completed_ms": 3629.1906659999986
+          },
+          {
+            "file": "0009.jpg",
+            "requested_ms": 3830.979875000001,
+            "completed_ms": 4035.220833000003
+          },
+          {
+            "file": "0010.jpg",
+            "requested_ms": 4236.855124999998,
+            "completed_ms": 4414.234333000004
+          },
+          {
+            "file": "0011.jpg",
+            "requested_ms": 4615.674000000003,
+            "completed_ms": 4990.444832999998
+          },
+          {
+            "file": "0012.jpg",
+            "requested_ms": 5192.192833000005,
+            "completed_ms": 5274.779833000004
+          },
+          {
+            "file": "0013.jpg",
+            "requested_ms": 5274.796875000004,
+            "completed_ms": 5354.501
+          },
+          {
+            "file": "0014.jpg",
+            "requested_ms": 5354.551750000002,
+            "completed_ms": 5439.781707999999
+          },
+          {
+            "file": "0015.jpg",
+            "requested_ms": 5476.621166000001,
+            "completed_ms": 5598.751291000004
+          },
+          {
+            "file": "0016.jpg",
+            "requested_ms": 5800.762958000003,
+            "completed_ms": 5891.911708000003
+          },
+          {
+            "file": "0017.jpg",
+            "requested_ms": 6038.969915999998,
+            "completed_ms": 6117.911041000003
+          }
+        ],
+        "stopped_reason": "finished"
+      },
+      "audio": {
+        "source": "system_media_category",
+        "media_volume": 0
+      }
+    }
+  ],
+  "launch_wait_experiment_ms": 0,
+  "controller_mode": "hybrid",
+  "finished_at": "2026-11-12T06:24:51.316Z"
+}

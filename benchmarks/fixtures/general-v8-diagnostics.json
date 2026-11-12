@@ -1,0 +1,228 @@
+{
+  "schema": 2,
+  "tasks": [
+    {
+      "id": "tiktok-open",
+      "description": "Home to TikTok, app launch and visible result included",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open TikTok from the Home Screen.",
+          "apps": [
+            "com.apple.springboard",
+            "com.zhiliaoapp.musically"
+          ],
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "label": "TikTok",
+              "bundle": "com.zhiliaoapp.musically"
+            }
+          ],
+          "until": {
+            "app": "com.zhiliaoapp.musically"
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.zhiliaoapp.musically"
+      },
+      "min_actions": 1,
+      "require_controls": true,
+      "verify_ocr": {
+        "any": [
+          {
+            "min_lines": 5,
+            "all": [
+              [
+                "For You"
+              ],
+              [
+                "Following"
+              ],
+              [
+                "Profile"
+              ]
+            ]
+          },
+          {
+            "min_lines": 3,
+            "all": [
+              [
+                "TikTok"
+              ],
+              [
+                "Skip ad"
+              ]
+            ]
+          }
+        ]
+      },
+      "verify_timeout_ms": 8000
+    },
+    {
+      "id": "x-scroll",
+      "description": "Home to X and scroll once; independently check changed feed content",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open X from the Home Screen.",
+          "apps": [
+            "com.apple.springboard",
+            "com.atebits.Tweetie2"
+          ],
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "label": "X",
+              "bundle": "com.atebits.Tweetie2"
+            }
+          ],
+          "until": {
+            "app": "com.atebits.Tweetie2"
+          }
+        },
+        {
+          "goal": "Scroll up once in the observed feed.",
+          "apps": [
+            "com.atebits.Tweetie2"
+          ],
+          "until": {
+            "app": "com.atebits.Tweetie2",
+            "after_action": {
+              "kind": "SystemAction",
+              "label": "Swipe up"
+            }
+          },
+          "action": {
+            "op": "swipe",
+            "direction": "up"
+          },
+          "precondition_ocr": {
+            "min_lines": 5,
+            "all": [
+              [
+                "For You"
+              ],
+              [
+                "Following"
+              ]
+            ]
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.atebits.Tweetie2"
+      },
+      "verify_change": {
+        "phase": 1
+      },
+      "min_actions": 2,
+      "require_controls": true,
+      "verify_ocr": {
+        "min_lines": 4,
+        "all": []
+      }
+    },
+    {
+      "id": "youtube-scroll",
+      "description": "Home to YouTube recommendations and scroll once; verify actual body content moves even when the bottom bar is hidden",
+      "setup": [
+        {
+          "op": "home"
+        }
+      ],
+      "phases": [
+        {
+          "goal": "Open YouTube from the Home Screen.",
+          "apps": [
+            "com.apple.springboard",
+            "com.google.ios.youtube"
+          ],
+          "visible_controls": true,
+          "launch_apps": [
+            {
+              "label": "YouTube",
+              "bundle": "com.google.ios.youtube"
+            }
+          ],
+          "until": {
+            "app": "com.google.ios.youtube"
+          }
+        },
+        {
+          "goal": "Tap Back.",
+          "apps": [
+            "com.google.ios.youtube"
+          ],
+          "allowed_selectors": [
+            {
+              "kind": "Button",
+              "label": "Back"
+            },
+            {
+              "kind": "Button",
+              "label": "Home"
+            }
+          ],
+          "until": {
+            "app": "com.google.ios.youtube",
+            "selector": {
+              "kind": "Button",
+              "label": "Home"
+            }
+          }
+        },
+        {
+          "goal": "Scroll up once in the observed feed.",
+          "apps": [
+            "com.google.ios.youtube"
+          ],
+          "until": {
+            "app": "com.google.ios.youtube",
+            "after_action": {
+              "kind": "SystemAction",
+              "label": "Swipe up"
+            }
+          },
+          "action": {
+            "op": "swipe",
+            "direction": "up"
+          },
+          "precondition_ocr": {
+            "min_lines": 5,
+            "all": [
+              [
+                "Premium",
+                "YouTube"
+              ]
+            ]
+          }
+        }
+      ],
+      "verify": {
+        "app": "com.google.ios.youtube"
+      },
+      "verify_change": {
+        "phase": 2
+      },
+      "min_actions": 2,
+      "require_controls": true,
+      "verify_ocr": {
+        "min_lines": 4,
+        "all": []
+      }
+    }
+  ],
+  "note": "Twenty distinct tasks across folders and installed apps. TikTok cold startup has an eight-second visual deadline, included in elapsed time. YouTube feed readiness uses its visible header and readable content; scroll completion requires changed body content.",
+  "method": "Full Home-to-result tasks; setup resets to Home only. No per-app preparation or task navigation is excluded from elapsed time.",
+  "name": "General Home-to-result tasks with atomic JEV navigation and visual checks"
+}

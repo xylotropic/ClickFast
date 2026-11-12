@@ -9,7 +9,12 @@ rows=[]
 for run in report['runs']:
  frames=run.get('recording',{}).get('frames',[]);start=run.get('recording_warm_start_ms');elapsed=run.get('elapsed_ms')
  row={k:run.get(k) for k in ['task','name','mode','ok','verified','elapsed_ms','setup_ms','cleanup_ms','error','cleanup_error','phases','content_change','audio']}
- if start is None or elapsed is None:row['video_error']='No complete timed capture';rows.append(row);continue
+ if start is None:row['video_error']='No timed start was captured';rows.append(row);continue
+ if elapsed is None:
+  # Preserve failed footage without inventing a performance measurement.
+  elapsed=max((f.get('completed_ms',start) for f in frames),default=start)-start
+  row['timing_incomplete']=True;row['clip_duration_ms']=elapsed
+ if elapsed<=0:row['video_error']='No captured interval after task start';rows.append(row);continue
  timed=[(f,(f['requested_ms']+f['completed_ms'])/2-start) for f in frames if f.get('file')]
  selected=[x for x in timed if 0<=x[1]<=elapsed];prior=[x for x in timed if x[1]<0]
  if prior:selected.insert(0,(prior[-1][0],0))

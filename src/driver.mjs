@@ -152,6 +152,7 @@ export class Controller {
           if(await this.runner.call('/wda/locked',undefined,{signal})!==false)throw Object.assign(new Error('Device is locked; no app launched'),{outcome:'not_sent'});
           this.current=null;
           await this.deviceLaunch(step.bundle,{signal});
+          this.lastLaunchAt=performance.now();
           return await this.wait(required,{signal,timeout:step.timeout_ms??5000});
         }
         path='/launch';body={bundle:step.bundle};break;
