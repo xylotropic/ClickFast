@@ -1,0 +1,2438 @@
+{
+  "schema": 2,
+  "kind": "Twenty ordinary Mirroring attempts on the real phone",
+  "source_sessions": [
+    "2026-11-12T06-48-52-248Z-mirroring-general",
+    "2026-11-12T07-01-06-649Z-mirroring-general"
+  ],
+  "method": "Home-to-result through authorized CUA. Full agent wall time includes screenshots, OCR, model deliberation and recovery. Native uses bounded local JEV and exact caller primitives; this is a workflow comparison, not a controlled driver-only or human-speed comparison. Two baseline segments because the user requested a live demo between tasks. All failures retained. Exact text could not be read in two long clipped fields; Unicode input and three feed scrolls failed. X app readiness uses recorded visual review of its feed and Compose button.",
+  "runs": [
+    {
+      "task": "folder-clock-home",
+      "name": "01-folder-clock-home",
+      "attempt": 1,
+      "started_at": "2026-11-12T06:48:52.250Z",
+      "ok": true,
+      "setup_ms": 1871.0744580000028,
+      "recording_warm_start_ms": 1871.0744580000028,
+      "verified": true,
+      "elapsed_ms": 14197.053874999998,
+      "finished_at": "2026-11-12T06:49:08.318Z",
+      "total_ms": 16068.18866700001,
+      "mode": "ordinary_mirroring_agent",
+      "audio": {
+        "muted": true,
+        "mac_output_muted": true,
+        "phone_media_volume": 0
+      },
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.png",
+            "phase": "setup-start",
+            "requested_ms": 1198.247958,
+            "completed_ms": 1382.0900000000038,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 483.50612500000716
+          },
+          {
+            "file": "0001.png",
+            "phase": "click",
+            "requested_ms": 2450.8656670000055,
+            "completed_ms": 2533.3489169999957,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 368.29958399999305
+          },
+          {
+            "file": "0002.png",
+            "phase": "click",
+            "requested_ms": 9481.517000000007,
+            "completed_ms": 9581.883541999996,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 361.5177079999994
+          },
+          {
+            "file": "0003.png",
+            "phase": "key",
+            "requested_ms": 13973.344874999995,
+            "completed_ms": 14048.913125000006,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 341.83000000000175
+          },
+          {
+            "file": "0004.png",
+            "phase": "key",
+            "requested_ms": 14931.466958000005,
+            "completed_ms": 15033.395583000005,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 486.5427090000012
+          },
+          {
+            "file": "0005.png",
+            "phase": "verify",
+            "requested_ms": 15521.31300000001,
+            "completed_ms": 15647.783333,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 418.83487500000047
+          }
+        ]
+      },
+      "verification_method": "Recorded screenshot/OCR check"
+    },
+    {
+      "task": "folder-media-youtube-home",
+      "name": "02-folder-media-youtube-home",
+      "attempt": 1,
+      "started_at": "2026-11-12T06:49:08.319Z",
+      "ok": true,
+      "setup_ms": 1763.9491249999992,
+      "recording_warm_start_ms": 1763.9491249999992,
+      "verified": true,
+      "elapsed_ms": 11414.558375000008,
+      "finished_at": "2026-11-12T06:49:21.498Z",
+      "total_ms": 13178.519,
+      "mode": "ordinary_mirroring_agent",
+      "audio": {
+        "muted": true,
+        "mac_output_muted": true,
+        "phone_media_volume": 0
+      },
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.png",
+            "phase": "setup-start",
+            "requested_ms": 1152.1310410000006,
+            "completed_ms": 1257.564041000005,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 505.1720839999907
+          },
+          {
+            "file": "0001.png",
+            "phase": "click",
+            "requested_ms": 2362.045207999996,
+            "completed_ms": 2450.521833000006,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 405.3139169999922
+          },
+          {
+            "file": "0002.png",
+            "phase": "click",
+            "requested_ms": 9305.797625000007,
+            "completed_ms": 9397.599083000008,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 493.81208399999014
+          },
+          {
+            "file": "0003.png",
+            "phase": "verify",
+            "requested_ms": 9893.176999999996,
+            "completed_ms": 9999.512333000006,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 490.4992079999938
+          },
+          {
+            "file": "0004.png",
+            "phase": "key",
+            "requested_ms": 11051.853541000004,
+            "completed_ms": 11134.355582999997,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 379.6770830000023
+          },
+          {
+            "file": "0005.png",
+            "phase": "key",
+            "requested_ms": 12062.690166,
+            "completed_ms": 12162.710749999998,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 456.3012500000041
+          },
+          {
+            "file": "0006.png",
+            "phase": "verify",
+            "requested_ms": 12620.423624999996,
+            "completed_ms": 12762.779166000008,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 413.83120800000324
+          }
+        ]
+      },
+      "verification_method": "Recorded screenshot/OCR check"
+    },
+    {
+      "task": "contacts-text",
+      "name": "03-contacts-text",
+      "attempt": 1,
+      "started_at": "2026-11-12T06:49:21.499Z",
+      "ok": true,
+      "setup_ms": 1800.0442909999983,
+      "recording_warm_start_ms": 1800.0442909999983,
+      "verified": true,
+      "elapsed_ms": 28034.64016699999,
+      "finished_at": "2026-11-12T06:49:51.334Z",
+      "total_ms": 29834.694832999987,
+      "mode": "ordinary_mirroring_agent",
+      "audio": {
+        "muted": true,
+        "mac_output_muted": true,
+        "phone_media_volume": 0
+      },
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.png",
+            "phase": "setup-start",
+            "requested_ms": 1215.3122079999885,
+            "completed_ms": 1321.7326659999962,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 476.6263329999929
+          },
+          {
+            "file": "0001.png",
+            "phase": "key",
+            "requested_ms": 2425.017332999996,
+            "completed_ms": 2498.87387499999,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 343.8229580000043
+          },
+          {
+            "file": "0002.png",
+            "phase": "text",
+            "requested_ms": 3389.587207999997,
+            "completed_ms": 3473.646041,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 381.2067079999979
+          },
+          {
+            "file": "0003.png",
+            "phase": "click",
+            "requested_ms": 7302.677958,
+            "completed_ms": 7404.069957999993,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 413.2749579999945
+          },
+          {
+            "file": "0004.png",
+            "phase": "click",
+            "requested_ms": 11489.54166599999,
+            "completed_ms": 11583.36037499999,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 402.7222909999982
+          },
+          {
+            "file": "0005.png",
+            "phase": "text",
+            "requested_ms": 12666.392041,
+            "completed_ms": 12749.42070799999,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 418.94962499999383
+          },
+          {
+            "file": "0006.png",
+            "phase": "verify",
+            "requested_ms": 13170.266290999993,
+            "completed_ms": 13299.161832999991,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 364.2777919999935
+          },
+          {
+            "file": "0007.png",
+            "phase": "verify",
+            "requested_ms": 13665.765332999988,
+            "completed_ms": 13783.26654099999,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 453.3171250000014
+          },
+          {
+            "file": "0008.png",
+            "phase": "verify",
+            "requested_ms": 14238.216082999992,
+            "completed_ms": 14363.539665999997,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 375.3800829999964
+          },
+          {
+            "file": "0009.png",
+            "phase": "verify",
+            "requested_ms": 14740.966207999998,
+            "completed_ms": 14908.661415999988,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 444.1869169999991
+          },
+          {
+            "file": "0010.png",
+            "phase": "verify",
+            "requested_ms": 15354.65724999999,
+            "completed_ms": 15556.804207999987,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 402.64941699999326
+          },
+          {
+            "file": "0011.png",
+            "phase": "verify",
+            "requested_ms": 15961.598499999993,
+            "completed_ms": 16084.429499999998,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 487.53250000000116
+          },
+          {
+            "file": "0012.png",
+            "phase": "verify",
+            "requested_ms": 29353.927916,
+            "completed_ms": 29440.4865,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 392.2856250000041
+          },
+          {
+            "file": "0013.png",
+            "phase": "click",
+            "requested_ms": 30487.77733299999,
+            "completed_ms": 30587.601165999993,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 450.65079099999275
+          },
+          {
+            "file": "0014.png",
+            "phase": "key",
+            "requested_ms": 31601.961333,
+            "completed_ms": 31682.34591599999,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 344.6532920000027
+          }
+        ]
+      },
+      "verification_method": "Recorded screenshot/OCR check"
+    },
+    {
+      "task": "shortcuts-gallery",
+      "name": "04-shortcuts-gallery",
+      "attempt": 1,
+      "started_at": "2026-11-12T06:49:53.528Z",
+      "ok": true,
+      "setup_ms": 1475.2948749999923,
+      "recording_warm_start_ms": 1475.2948749999923,
+      "verified": true,
+      "elapsed_ms": 14649.681333000015,
+      "finished_at": "2026-11-12T06:50:09.654Z",
+      "total_ms": 16124.987625000009,
+      "mode": "ordinary_mirroring_agent",
+      "audio": {
+        "muted": true,
+        "mac_output_muted": true,
+        "phone_media_volume": 0
+      },
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.png",
+            "phase": "setup-start",
+            "requested_ms": 907.536832999991,
+            "completed_ms": 1047.674583,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 425.41325000001234
+          },
+          {
+            "file": "0001.png",
+            "phase": "key",
+            "requested_ms": 2057.3094160000037,
+            "completed_ms": 2152.4335409999912,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 418.2742920000019
+          },
+          {
+            "file": "0002.png",
+            "phase": "text",
+            "requested_ms": 3152.584833000001,
+            "completed_ms": 3239.4872079999914,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 413.95008300000336
+          },
+          {
+            "file": "0003.png",
+            "phase": "click",
+            "requested_ms": 6820.590166000009,
+            "completed_ms": 6905.78012499999,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 341.0045420000097
+          },
+          {
+            "file": "0004.png",
+            "phase": "shortcuts-loaded",
+            "requested_ms": 10175.554165999987,
+            "completed_ms": 10266.378625000012,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 528.5966250000056
+          },
+          {
+            "file": "0005.png",
+            "phase": "verify",
+            "requested_ms": 14133.518458000006,
+            "completed_ms": 14240.170458000008,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 417.079000000027
+          },
+          {
+            "file": "0006.png",
+            "phase": "click",
+            "requested_ms": 15268.932540999987,
+            "completed_ms": 15358.129583000002,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 352.55133300001035
+          },
+          {
+            "file": "0007.png",
+            "phase": "verify",
+            "requested_ms": 15712.870166000008,
+            "completed_ms": 15805.580458000011,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 317.11837500002
+          },
+          {
+            "file": "0008.png",
+            "phase": "key",
+            "requested_ms": 16750.417125000007,
+            "completed_ms": 16868.997999999992,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 496.1858749999956
+          }
+        ]
+      },
+      "verification_method": "Recorded screenshot/OCR check"
+    },
+    {
+      "task": "calendar-date-text",
+      "name": "05-calendar-date-text",
+      "attempt": 1,
+      "started_at": "2026-11-12T06:50:10.896Z",
+      "ok": false,
+      "setup_ms": 2194.269666999986,
+      "recording_warm_start_ms": 2194.269666999986,
+      "elapsed_ms": 56745.781708000024,
+      "error": "Full exact query could not be independently read: field clips the ending and OCR misreads punctuation. Visible prefix and suffix recorded; no event created.",
+      "finished_at": "2026-11-12T06:51:09.837Z",
+      "total_ms": 58940.06570899999,
+      "mode": "ordinary_mirroring_agent",
+      "audio": {
+        "muted": true,
+        "mac_output_muted": true,
+        "phone_media_volume": 0
+      },
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.png",
+            "phase": "setup-start",
+            "requested_ms": 1643.4359169999952,
+            "completed_ms": 1717.776291999995,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 473.9884580000071
+          },
+          {
+            "file": "0001.png",
+            "phase": "key",
+            "requested_ms": 2734.6954590000096,
+            "completed_ms": 2836.8297500000044,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 332.9812909999746
+          },
+          {
+            "file": "0002.png",
+            "phase": "text",
+            "requested_ms": 3722.586833999987,
+            "completed_ms": 3822.5596249999944,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 435.20658299999195
+          },
+          {
+            "file": "0003.png",
+            "phase": "click",
+            "requested_ms": 9971.390500000009,
+            "completed_ms": 10068.455874999985,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 486.6383330000099
+          },
+          {
+            "file": "0004.png",
+            "phase": "click",
+            "requested_ms": 15999.872875000001,
+            "completed_ms": 16101.755333999987,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 402.0909169999941
+          },
+          {
+            "file": "0005.png",
+            "phase": "click",
+            "requested_ms": 20398.443459000002,
+            "completed_ms": 20516.26929200001,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 451.2431660000002
+          },
+          {
+            "file": "0006.png",
+            "phase": "text",
+            "requested_ms": 21803.790000000008,
+            "completed_ms": 21904.652583999996,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 445.4423339999921
+          },
+          {
+            "file": "0007.png",
+            "phase": "key",
+            "requested_ms": 40118.662625,
+            "completed_ms": 40215.905958999996,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 429.8522079999966
+          },
+          {
+            "file": "0008.png",
+            "phase": "query-start",
+            "requested_ms": 40648.448124999995,
+            "completed_ms": 40791.40008399999,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 319.4422499999928
+          },
+          {
+            "file": "0009.png",
+            "phase": "click",
+            "requested_ms": 54018.09158400001,
+            "completed_ms": 54119.257333999994,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 380.6460420000076
+          },
+          {
+            "file": "0010.png",
+            "phase": "click",
+            "requested_ms": 59520.958167000004,
+            "completed_ms": 59617.49554199999,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 349.29079200001433
+          },
+          {
+            "file": "0011.png",
+            "phase": "key",
+            "requested_ms": 60519.43554199999,
+            "completed_ms": 60620.718292000005,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 418.03891699999804
+          }
+        ]
+      },
+      "verification_method": "Recorded screenshot/OCR check"
+    },
+    {
+      "task": "files-document-find",
+      "name": "06-files-document-find",
+      "attempt": 1,
+      "started_at": "2026-11-12T06:51:11.938Z",
+      "ok": true,
+      "setup_ms": 1717.796417000005,
+      "recording_warm_start_ms": 1717.796417000005,
+      "verified": true,
+      "elapsed_ms": 17670.64829099999,
+      "finished_at": "2026-11-12T06:51:31.327Z",
+      "total_ms": 19388.456042000005,
+      "mode": "ordinary_mirroring_agent",
+      "audio": {
+        "muted": true,
+        "mac_output_muted": true,
+        "phone_media_volume": 0
+      },
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.png",
+            "phase": "setup-start",
+            "requested_ms": 1210.8969999999972,
+            "completed_ms": 1307.075291999994,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 407.7996250000142
+          },
+          {
+            "file": "0001.png",
+            "phase": "key",
+            "requested_ms": 2257.1374999999825,
+            "completed_ms": 2360.5061249999853,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 354.37287500000093
+          },
+          {
+            "file": "0002.png",
+            "phase": "text",
+            "requested_ms": 3260.6277919999848,
+            "completed_ms": 3345.420582999999,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 359.40533399998094
+          },
+          {
+            "file": "0003.png",
+            "phase": "click",
+            "requested_ms": 6843.651167000004,
+            "completed_ms": 6947.441124999983,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 374.3192080000008
+          },
+          {
+            "file": "0004.png",
+            "phase": "click",
+            "requested_ms": 11009.507167000003,
+            "completed_ms": 11093.780624999985,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 408.497000000003
+          },
+          {
+            "file": "0005.png",
+            "phase": "click",
+            "requested_ms": 16165.500792000006,
+            "completed_ms": 16247.703083,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 439.8062080000236
+          },
+          {
+            "file": "0006.png",
+            "phase": "text",
+            "requested_ms": 17367.870916999993,
+            "completed_ms": 17441.15191700001,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 369.47212500000023
+          },
+          {
+            "file": "0007.png",
+            "phase": "click",
+            "requested_ms": 18459.685999999987,
+            "completed_ms": 18543.003874999995,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 332.7725830000127
+          },
+          {
+            "file": "0008.png",
+            "phase": "verify",
+            "requested_ms": 18878.684042000008,
+            "completed_ms": 19026.517041999992,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 358.7501249999914
+          },
+          {
+            "file": "0009.png",
+            "phase": "click",
+            "requested_ms": 23787.318375000003,
+            "completed_ms": 23863.70545800001,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 446.44591599999694
+          },
+          {
+            "file": "0010.png",
+            "phase": "key",
+            "requested_ms": 24893.613332999987,
+            "completed_ms": 24977.294166999985,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 406.0538339999912
+          }
+        ]
+      },
+      "verification_method": "Recorded screenshot/OCR check"
+    },
+    {
+      "task": "app-store-multiword",
+      "name": "07-app-store-multiword",
+      "attempt": 1,
+      "started_at": "2026-11-12T06:51:37.325Z",
+      "ok": true,
+      "setup_ms": 2135.9267500000133,
+      "recording_warm_start_ms": 2135.9267500000133,
+      "verified": true,
+      "elapsed_ms": 18049.855290999985,
+      "finished_at": "2026-11-12T06:51:57.511Z",
+      "total_ms": 20185.793040999997,
+      "mode": "ordinary_mirroring_agent",
+      "audio": {
+        "muted": true,
+        "mac_output_muted": true,
+        "phone_media_volume": 0
+      },
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.png",
+            "phase": "setup-start",
+            "requested_ms": 1618.292665999994,
+            "completed_ms": 1714.203125,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 418.3847919999971
+          },
+          {
+            "file": "0001.png",
+            "phase": "key",
+            "requested_ms": 2685.5317499999946,
+            "completed_ms": 2764.904957999999,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 419.32908399999724
+          },
+          {
+            "file": "0002.png",
+            "phase": "text",
+            "requested_ms": 3782.0885410000046,
+            "completed_ms": 3860.601250000007,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 469.646207999991
+          },
+          {
+            "file": "0003.png",
+            "phase": "click",
+            "requested_ms": 8842.885875000007,
+            "completed_ms": 8949.84812499999,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 374.2821249999979
+          },
+          {
+            "file": "0004.png",
+            "phase": "app-store-loaded",
+            "requested_ms": 12002.62595799999,
+            "completed_ms": 12095.410415999999,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 417.90741700000945
+          },
+          {
+            "file": "0005.png",
+            "phase": "click",
+            "requested_ms": 16916.905832999997,
+            "completed_ms": 17011.265125000005,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 462.0871669999906
+          },
+          {
+            "file": "0006.png",
+            "phase": "text",
+            "requested_ms": 18040.573040999996,
+            "completed_ms": 18126.400874999992,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 408.57112499998766
+          },
+          {
+            "file": "0007.png",
+            "phase": "click",
+            "requested_ms": 19141.906791000016,
+            "completed_ms": 19246.189583,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 355.72849999999744
+          },
+          {
+            "file": "0008.png",
+            "phase": "verify",
+            "requested_ms": 19605.39975000001,
+            "completed_ms": 19728.743875000015,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 453.7511249999807
+          },
+          {
+            "file": "0009.png",
+            "phase": "click",
+            "requested_ms": 26027.992499999993,
+            "completed_ms": 26114.678875000012,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 382.94741600001
+          },
+          {
+            "file": "0010.png",
+            "phase": "key",
+            "requested_ms": 27015.795165999996,
+            "completed_ms": 27096.605165999994,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 356.453125
+          }
+        ]
+      },
+      "verification_method": "Recorded screenshot/OCR check"
+    },
+    {
+      "task": "reminders-punctuation",
+      "name": "08-reminders-punctuation",
+      "attempt": 1,
+      "started_at": "2026-11-12T06:52:04.782Z",
+      "ok": false,
+      "setup_ms": 1793.3514999999898,
+      "recording_warm_start_ms": 1793.3514999999898,
+      "elapsed_ms": 40908.36841699999,
+      "error": "Demo requested during trial. Text entered but first characters clipped; full exact-text verification incomplete.",
+      "finished_at": "2026-11-12T06:52:47.484Z",
+      "total_ms": 42701.73129199998,
+      "mode": "ordinary_mirroring_agent",
+      "audio": {
+        "muted": true,
+        "mac_output_muted": true,
+        "phone_media_volume": 0
+      },
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.png",
+            "phase": "setup-start",
+            "requested_ms": 1229.7092500000144,
+            "completed_ms": 1303.1577089999919,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 486.5682080000115
+          },
+          {
+            "file": "0001.png",
+            "phase": "key",
+            "requested_ms": 2354.1511670000036,
+            "completed_ms": 2454.0372919999936,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 419.2627919999941
+          },
+          {
+            "file": "0002.png",
+            "phase": "text",
+            "requested_ms": 3419.1741249999905,
+            "completed_ms": 3519.9316249999974,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 358.7585830000171
+          },
+          {
+            "file": "0003.png",
+            "phase": "click",
+            "requested_ms": 7584.8282500000205,
+            "completed_ms": 7704.682499999995,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 352.65475000004517
+          },
+          {
+            "file": "0004.png",
+            "phase": "click",
+            "requested_ms": 11474.928124999977,
+            "completed_ms": 11570.010416999983,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 383.9951659999788
+          },
+          {
+            "file": "0005.png",
+            "phase": "click",
+            "requested_ms": 15838.131417000026,
+            "completed_ms": 15922.140709,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 414.13954099995317
+          },
+          {
+            "file": "0006.png",
+            "phase": "text",
+            "requested_ms": 17199.79133400001,
+            "completed_ms": 17304.325459000014,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 394.8621249999851
+          },
+          {
+            "file": "0007.png",
+            "phase": "click",
+            "requested_ms": 18314.209583999997,
+            "completed_ms": 18420.573291999986,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 385.965709000011
+          },
+          {
+            "file": "0008.png",
+            "phase": "key",
+            "requested_ms": 43253.93208400003,
+            "completed_ms": 43347.07491700002,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 514.6734580000048
+          }
+        ]
+      },
+      "verification_method": "Recorded screenshot/OCR check"
+    },
+    {
+      "task": "weather-city-unicode",
+      "name": "09-weather-city-unicode",
+      "attempt": 1,
+      "started_at": "2026-11-12T07:01:06.650Z",
+      "ok": false,
+      "setup_ms": 1839.7846250000875,
+      "recording_warm_start_ms": 1839.7846250000875,
+      "verified": false,
+      "elapsed_ms": 52872.91979199997,
+      "error": "Mirroring typeText dropped \u00e3 (So Paulo). Supported clipboard paste produced an empty field. Both attempts recorded; exact Unicode predicate failed.",
+      "finished_at": "2026-11-12T07:02:01.363Z",
+      "total_ms": 54712.719958,
+      "mode": "ordinary_mirroring_agent",
+      "audio": {
+        "muted": true,
+        "mac_output_muted": true,
+        "phone_media_volume": 0
+      },
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.png",
+            "phase": "setup-start",
+            "requested_ms": 1234.4236670000246,
+            "completed_ms": 1384.4357080000918,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 454.37604199990164
+          },
+          {
+            "file": "0001.png",
+            "phase": "key",
+            "requested_ms": 2467.409917000099,
+            "completed_ms": 2550.7415000000037,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 352.1222500000149
+          },
+          {
+            "file": "0002.png",
+            "phase": "text",
+            "requested_ms": 3417.4154580000322,
+            "completed_ms": 3502.7742919999873,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 398.87162500002887
+          },
+          {
+            "file": "0003.png",
+            "phase": "click",
+            "requested_ms": 4579.859167000046,
+            "completed_ms": 4684.256292000064,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 378.82037500001024
+          },
+          {
+            "file": "0004.png",
+            "phase": "click",
+            "requested_ms": 10298.610000000102,
+            "completed_ms": 10400.001500000013,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 408.5893340000184
+          },
+          {
+            "file": "0005.png",
+            "phase": "text",
+            "requested_ms": 11348.790792000014,
+            "completed_ms": 11452.053333000047,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 352.9191250000149
+          },
+          {
+            "file": "0006.png",
+            "phase": "click",
+            "requested_ms": 12366.191250000033,
+            "completed_ms": 12451.925917000044,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 396.99787500000093
+          },
+          {
+            "file": "0007.png",
+            "phase": "verify",
+            "requested_ms": 12849.83583300002,
+            "completed_ms": 12984.688125000102,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 374.54320899990853
+          },
+          {
+            "file": "0008.png",
+            "phase": "verify",
+            "requested_ms": 13361.072417000076,
+            "completed_ms": 13554.42866700003,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 341.6577080000425
+          },
+          {
+            "file": "0009.png",
+            "phase": "verify",
+            "requested_ms": 13897.032292000018,
+            "completed_ms": 14084.556708000018,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 420.64829100004863
+          },
+          {
+            "file": "0010.png",
+            "phase": "verify",
+            "requested_ms": 14506.520791999996,
+            "completed_ms": 14648.325792000047,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 425.0095829999773
+          },
+          {
+            "file": "0011.png",
+            "phase": "verify",
+            "requested_ms": 15074.381167000043,
+            "completed_ms": 15242.345042000059,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 366.4814999999944
+          },
+          {
+            "file": "0012.png",
+            "phase": "verify",
+            "requested_ms": 15609.928707999992,
+            "completed_ms": 15790.114333000034,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 488.4459580000257
+          },
+          {
+            "file": "0013.png",
+            "phase": "unicode-readback",
+            "requested_ms": 19772.055417000083,
+            "completed_ms": 19868.731458000024,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 415.9533330000704
+          },
+          {
+            "file": "0014.png",
+            "phase": "click",
+            "requested_ms": 37665.726375000086,
+            "completed_ms": 37753.59037500003,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 374.3926249999786
+          },
+          {
+            "file": "0015.png",
+            "phase": "paste",
+            "requested_ms": 40645.71804200008,
+            "completed_ms": 40748.606499999994,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 407.64883399999235
+          },
+          {
+            "file": "0016.png",
+            "phase": "click",
+            "requested_ms": 41746.41279199999,
+            "completed_ms": 41856.84783300001,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 389.6576669999631
+          },
+          {
+            "file": "0017.png",
+            "phase": "verify",
+            "requested_ms": 42247.6641670001,
+            "completed_ms": 42357.55362500006,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 337.59370800002944
+          },
+          {
+            "file": "0018.png",
+            "phase": "verify",
+            "requested_ms": 42696.35966700001,
+            "completed_ms": 42871.95120800007,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 412.06012499995995
+          },
+          {
+            "file": "0019.png",
+            "phase": "verify",
+            "requested_ms": 43285.57275000005,
+            "completed_ms": 43474.969207999995,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 347.29495899996255
+          },
+          {
+            "file": "0020.png",
+            "phase": "verify",
+            "requested_ms": 43823.51154199999,
+            "completed_ms": 43964.882625000086,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 402.62833300000057
+          },
+          {
+            "file": "0021.png",
+            "phase": "verify",
+            "requested_ms": 44368.815082999994,
+            "completed_ms": 44504.39425000001,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 347.2984170001
+          },
+          {
+            "file": "0022.png",
+            "phase": "verify",
+            "requested_ms": 44853.19066700002,
+            "completed_ms": 45038.9466250001,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 384.19999999995343
+          },
+          {
+            "file": "0023.png",
+            "phase": "key",
+            "requested_ms": 55269.34145800001,
+            "completed_ms": 55374.00883300009,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 424.7034579999745
+          }
+        ]
+      },
+      "verification_method": "Recorded screenshot/OCR check"
+    },
+    {
+      "task": "books-title-query",
+      "name": "10-books-title-query",
+      "attempt": 1,
+      "started_at": "2026-11-12T07:02:02.451Z",
+      "ok": true,
+      "setup_ms": 1701.0939159999834,
+      "recording_warm_start_ms": 1701.0939159999834,
+      "verified": true,
+      "elapsed_ms": 28250.793874999974,
+      "finished_at": "2026-11-12T07:02:32.403Z",
+      "total_ms": 29951.90516600001,
+      "mode": "ordinary_mirroring_agent",
+      "audio": {
+        "muted": true,
+        "mac_output_muted": true,
+        "phone_media_volume": 0
+      },
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.png",
+            "phase": "setup-start",
+            "requested_ms": 1115.0194999999367,
+            "completed_ms": 1248.1895830000285,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 451.50137499999255
+          },
+          {
+            "file": "0001.png",
+            "phase": "key",
+            "requested_ms": 2220.992083000019,
+            "completed_ms": 2300.931957999943,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 484.0052910000086
+          },
+          {
+            "file": "0002.png",
+            "phase": "text",
+            "requested_ms": 3316.476916000014,
+            "completed_ms": 3419.571291,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 341.3092910000123
+          },
+          {
+            "file": "0003.png",
+            "phase": "click",
+            "requested_ms": 4370.010499999975,
+            "completed_ms": 4488.387957999948,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 496.6622079999652
+          },
+          {
+            "file": "0004.png",
+            "phase": "click",
+            "requested_ms": 8866.328332999954,
+            "completed_ms": 8933.535999999964,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 420.19650000007823
+          },
+          {
+            "file": "0005.png",
+            "phase": "click",
+            "requested_ms": 16605.418082999997,
+            "completed_ms": 26138.842249999987,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 413.0251250000438
+          },
+          {
+            "file": "0006.png",
+            "phase": "text",
+            "requested_ms": 27219.04104099993,
+            "completed_ms": 27306.566499999957,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 488.6598750000121
+          },
+          {
+            "file": "0007.png",
+            "phase": "click",
+            "requested_ms": 28920.014083000016,
+            "completed_ms": 29005.37845800002,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 433.9123749999562
+          },
+          {
+            "file": "0008.png",
+            "phase": "verify",
+            "requested_ms": 29441.162249999936,
+            "completed_ms": 29538.36933300004,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 411.1290830000071
+          },
+          {
+            "file": "0009.png",
+            "phase": "click",
+            "requested_ms": 35917.99812500004,
+            "completed_ms": 36004.23945799994,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 400.0375829999102
+          },
+          {
+            "file": "0010.png",
+            "phase": "key",
+            "requested_ms": 36958.52204099996,
+            "completed_ms": 37035.68079100002,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 421.701374999946
+          }
+        ]
+      },
+      "verification_method": "Recorded screenshot/OCR check"
+    },
+    {
+      "task": "settings-search",
+      "name": "11-settings-search",
+      "attempt": 1,
+      "started_at": "2026-11-12T07:02:39.911Z",
+      "ok": true,
+      "setup_ms": 1752.2859999999637,
+      "recording_warm_start_ms": 1752.2859999999637,
+      "verified": true,
+      "elapsed_ms": 12933.019541000016,
+      "finished_at": "2026-11-12T07:02:54.596Z",
+      "total_ms": 14685.315874999971,
+      "mode": "ordinary_mirroring_agent",
+      "audio": {
+        "muted": true,
+        "mac_output_muted": true,
+        "phone_media_volume": 0
+      },
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.png",
+            "phase": "setup-start",
+            "requested_ms": 1263.7053750000196,
+            "completed_ms": 1341.4841660000384,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 408.9918749999488
+          },
+          {
+            "file": "0001.png",
+            "phase": "key",
+            "requested_ms": 2279.5566249999683,
+            "completed_ms": 2359.722916000057,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 576.8149999999441
+          },
+          {
+            "file": "0002.png",
+            "phase": "text",
+            "requested_ms": 3462.1163749999832,
+            "completed_ms": 3558.6030830000527,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 427.25037499994505
+          },
+          {
+            "file": "0003.png",
+            "phase": "click",
+            "requested_ms": 4957.930374999996,
+            "completed_ms": 5028.615749999997,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 437.0029589999467
+          },
+          {
+            "file": "0004.png",
+            "phase": "click",
+            "requested_ms": 11080.878625000012,
+            "completed_ms": 11176.817665999988,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 431.3577499999665
+          },
+          {
+            "file": "0005.png",
+            "phase": "text",
+            "requested_ms": 12212.90954100003,
+            "completed_ms": 12291.400207999977,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 374.15104200004134
+          },
+          {
+            "file": "0006.png",
+            "phase": "click",
+            "requested_ms": 13443.910540999961,
+            "completed_ms": 13549.469750000047,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 518.1389580001123
+          },
+          {
+            "file": "0007.png",
+            "phase": "verify",
+            "requested_ms": 14070.498832999961,
+            "completed_ms": 14203.659624999971,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 477.7219589999877
+          },
+          {
+            "file": "0008.png",
+            "phase": "click",
+            "requested_ms": 19292.61704100005,
+            "completed_ms": 19380.126707999967,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 414.9297080000397
+          },
+          {
+            "file": "0009.png",
+            "phase": "key",
+            "requested_ms": 20330.770665999968,
+            "completed_ms": 20411.009582999977,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 418.2948750000214
+          }
+        ]
+      },
+      "verification_method": "Recorded screenshot/OCR check"
+    },
+    {
+      "task": "youtube-query",
+      "name": "12-youtube-query",
+      "attempt": 1,
+      "started_at": "2026-11-12T07:03:00.743Z",
+      "ok": true,
+      "setup_ms": 1755.1757499999367,
+      "recording_warm_start_ms": 1755.1757499999367,
+      "verified": true,
+      "elapsed_ms": 25421.36829200003,
+      "finished_at": "2026-11-12T07:03:27.920Z",
+      "total_ms": 27176.556166999973,
+      "mode": "ordinary_mirroring_agent",
+      "audio": {
+        "muted": true,
+        "mac_output_muted": true,
+        "phone_media_volume": 0
+      },
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.png",
+            "phase": "setup-start",
+            "requested_ms": 1260.9846669998951,
+            "completed_ms": 1344.8074169999454,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 406.9002079999773
+          },
+          {
+            "file": "0001.png",
+            "phase": "key",
+            "requested_ms": 2344.6815419999184,
+            "completed_ms": 2432.8245419999585,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 432.5313339999411
+          },
+          {
+            "file": "0002.png",
+            "phase": "text",
+            "requested_ms": 3412.25320799998,
+            "completed_ms": 3509.8329169999342,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 458.66291600000113
+          },
+          {
+            "file": "0003.png",
+            "phase": "click",
+            "requested_ms": 4958.813499999931,
+            "completed_ms": 5044.521666999906,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 390.62712499999907
+          },
+          {
+            "file": "0004.png",
+            "phase": "youtube-ready",
+            "requested_ms": 10674.167457999894,
+            "completed_ms": 10761.845166999963,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 479.3951670000097
+          },
+          {
+            "file": "0005.png",
+            "phase": "click",
+            "requested_ms": 17629.490082999924,
+            "completed_ms": 17729.260207999963,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 350.96558299998287
+          },
+          {
+            "file": "0006.png",
+            "phase": "click",
+            "requested_ms": 23262.48549999995,
+            "completed_ms": 23342.55333299993,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 387.62904200004414
+          },
+          {
+            "file": "0007.png",
+            "phase": "text",
+            "requested_ms": 24428.351874999935,
+            "completed_ms": 24526.491541999974,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 383.9967919999035
+          },
+          {
+            "file": "0008.png",
+            "phase": "click",
+            "requested_ms": 26196.573832999915,
+            "completed_ms": 26293.157832999947,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 393.75158399995416
+          },
+          {
+            "file": "0009.png",
+            "phase": "verify",
+            "requested_ms": 26689.628457999905,
+            "completed_ms": 26778.377749999985,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 395.5584999999264
+          },
+          {
+            "file": "0010.png",
+            "phase": "click",
+            "requested_ms": 31879.271916999947,
+            "completed_ms": 31964.605207999935,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 384.71387500001583
+          },
+          {
+            "file": "0011.png",
+            "phase": "key",
+            "requested_ms": 32894.18299999996,
+            "completed_ms": 32981.939916999894,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 449.5200000000186
+          }
+        ]
+      },
+      "verification_method": "Recorded screenshot/OCR check"
+    },
+    {
+      "task": "tiktok-open",
+      "name": "13-tiktok-open",
+      "attempt": 1,
+      "started_at": "2026-11-12T07:03:34.181Z",
+      "ok": true,
+      "setup_ms": 1882.7582920000423,
+      "recording_warm_start_ms": 1882.7582920000423,
+      "verified": true,
+      "elapsed_ms": 15422.717874999973,
+      "finished_at": "2026-11-12T07:03:51.487Z",
+      "total_ms": 17305.486207999988,
+      "mode": "ordinary_mirroring_agent",
+      "audio": {
+        "muted": true,
+        "mac_output_muted": true,
+        "phone_media_volume": 0
+      },
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.png",
+            "phase": "setup-start",
+            "requested_ms": 1393.7707919999957,
+            "completed_ms": 1488.0237920000218,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 391.86733300006017
+          },
+          {
+            "file": "0001.png",
+            "phase": "key",
+            "requested_ms": 2408.3608330000425,
+            "completed_ms": 2507.4542920000385,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 382.7191660000244
+          },
+          {
+            "file": "0002.png",
+            "phase": "text",
+            "requested_ms": 3424.942541999975,
+            "completed_ms": 3525.7822500000475,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 364.68879200005904
+          },
+          {
+            "file": "0003.png",
+            "phase": "click",
+            "requested_ms": 4890.884916999959,
+            "completed_ms": 4993.421208000043,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 411.58700000005774
+          },
+          {
+            "file": "0004.png",
+            "phase": "tiktok-ready",
+            "requested_ms": 10115.79008299997,
+            "completed_ms": 10406.84908299998,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 564.2736249999143
+          },
+          {
+            "file": "0005.png",
+            "phase": "verify",
+            "requested_ms": 16641.610125000007,
+            "completed_ms": 16785.74779199995,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 515.4892919999547
+          },
+          {
+            "file": "0006.png",
+            "phase": "key",
+            "requested_ms": 17857.968957999954,
+            "completed_ms": 17967.182917000027,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 517.2151669999585
+          }
+        ]
+      },
+      "verification_method": "Recorded screenshot/OCR check"
+    },
+    {
+      "task": "tiktok-scroll",
+      "name": "14-tiktok-scroll",
+      "attempt": 1,
+      "started_at": "2026-11-12T07:03:52.669Z",
+      "ok": false,
+      "setup_ms": 2141.930041000014,
+      "recording_warm_start_ms": 2141.930041000014,
+      "verified": true,
+      "elapsed_ms": 20639.924875000026,
+      "error": "Two supported Mirroring scrolls left the same creator (Noor), caption and engagement counts. Video animation changed, but feed navigation was not verified.",
+      "finished_at": "2026-11-12T07:04:15.451Z",
+      "total_ms": 22781.87387500005,
+      "mode": "ordinary_mirroring_agent",
+      "audio": {
+        "muted": true,
+        "mac_output_muted": true,
+        "phone_media_volume": 0
+      },
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.png",
+            "phase": "setup-start",
+            "requested_ms": 1653.1007909999462,
+            "completed_ms": 1753.4920830000192,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 384.9324160000542
+          },
+          {
+            "file": "0001.png",
+            "phase": "key",
+            "requested_ms": 2691.578833000036,
+            "completed_ms": 2767.48987499997,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 415.27679199993145
+          },
+          {
+            "file": "0002.png",
+            "phase": "text",
+            "requested_ms": 3740.1205410000402,
+            "completed_ms": 3835.086250000051,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 404.10291599994525
+          },
+          {
+            "file": "0003.png",
+            "phase": "click",
+            "requested_ms": 5252.000875000027,
+            "completed_ms": 5339.890458000009,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 475.32675000000745
+          },
+          {
+            "file": "0004.png",
+            "phase": "verify",
+            "requested_ms": 5818.571624999982,
+            "completed_ms": 5938.90162499994,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 364.875207999954
+          },
+          {
+            "file": "0005.png",
+            "phase": "feed-before",
+            "requested_ms": 6307.9235409999965,
+            "completed_ms": 6472.2973749999655,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 618.2096659999806
+          },
+          {
+            "file": "0006.png",
+            "phase": "scroll",
+            "requested_ms": 8663.855290999985,
+            "completed_ms": 8780.413791000028,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 490.89829200005624
+          },
+          {
+            "file": "0007.png",
+            "phase": "scroll",
+            "requested_ms": 15040.174915999989,
+            "completed_ms": 15242.106832999969,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 570.8828750000102
+          },
+          {
+            "file": "0008.png",
+            "phase": "feed-after",
+            "requested_ms": 22194.23979100003,
+            "completed_ms": 22315.41158299998,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 461.3822919999948
+          },
+          {
+            "file": "0009.png",
+            "phase": "key",
+            "requested_ms": 23388.14412499999,
+            "completed_ms": 23492.155499999993,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 499.282125000027
+          }
+        ]
+      },
+      "verification_method": "Recorded screenshot/OCR check"
+    },
+    {
+      "task": "instagram-open",
+      "name": "15-instagram-open",
+      "attempt": 1,
+      "started_at": "2026-11-12T07:04:16.665Z",
+      "ok": true,
+      "setup_ms": 1827.855291999993,
+      "recording_warm_start_ms": 1827.855291999993,
+      "verified": true,
+      "elapsed_ms": 13824.660082999966,
+      "finished_at": "2026-11-12T07:04:32.318Z",
+      "total_ms": 15652.527709000045,
+      "mode": "ordinary_mirroring_agent",
+      "audio": {
+        "muted": true,
+        "mac_output_muted": true,
+        "phone_media_volume": 0
+      },
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.png",
+            "phase": "setup-start",
+            "requested_ms": 1309.3351670000702,
+            "completed_ms": 1387.7074169999687,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 435.908250000095
+          },
+          {
+            "file": "0001.png",
+            "phase": "key",
+            "requested_ms": 2370.708209000062,
+            "completed_ms": 2457.4969170000404,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 448.95429100003093
+          },
+          {
+            "file": "0002.png",
+            "phase": "text",
+            "requested_ms": 3455.1023750000168,
+            "completed_ms": 3540.0471670000115,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 408.71537499991246
+          },
+          {
+            "file": "0003.png",
+            "phase": "click",
+            "requested_ms": 4972.848958999966,
+            "completed_ms": 5056.192792000016,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 486.54308299999684
+          },
+          {
+            "file": "0004.png",
+            "phase": "instagram-loaded",
+            "requested_ms": 9720.008958999999,
+            "completed_ms": 9806.522375000059,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 397.7518329999875
+          },
+          {
+            "file": "0005.png",
+            "phase": "verify",
+            "requested_ms": 15149.584042000002,
+            "completed_ms": 15242.82733400003,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 406.11616700002924
+          },
+          {
+            "file": "0006.png",
+            "phase": "key",
+            "requested_ms": 16188.680583999958,
+            "completed_ms": 16276.349416999961,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 430.9844579999335
+          }
+        ]
+      },
+      "verification_method": "Recorded screenshot/OCR check"
+    },
+    {
+      "task": "instagram-scroll",
+      "name": "16-instagram-scroll",
+      "attempt": 1,
+      "started_at": "2026-11-12T07:04:33.376Z",
+      "ok": true,
+      "setup_ms": 2153.1232910000253,
+      "recording_warm_start_ms": 2153.1232910000253,
+      "verified": true,
+      "elapsed_ms": 26107.268333999906,
+      "finished_at": "2026-11-12T07:05:01.637Z",
+      "total_ms": 28260.400957999984,
+      "mode": "ordinary_mirroring_agent",
+      "audio": {
+        "muted": true,
+        "mac_output_muted": true,
+        "phone_media_volume": 0
+      },
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.png",
+            "phase": "setup-start",
+            "requested_ms": 1648.6052500000224,
+            "completed_ms": 1742.7064580000006,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 404.73166599997785
+          },
+          {
+            "file": "0001.png",
+            "phase": "key",
+            "requested_ms": 2747.916833000025,
+            "completed_ms": 2827.5557499999413,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 416.1366249999264
+          },
+          {
+            "file": "0002.png",
+            "phase": "text",
+            "requested_ms": 3830.1994580000173,
+            "completed_ms": 3926.7574160000077,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 443.0316669999156
+          },
+          {
+            "file": "0003.png",
+            "phase": "click",
+            "requested_ms": 19393.391124999966,
+            "completed_ms": 19479.71862499998,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 486.1554999999935
+          },
+          {
+            "file": "0004.png",
+            "phase": "verify",
+            "requested_ms": 19969.299,
+            "completed_ms": 20047.022499999963,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 412.1475830000127
+          },
+          {
+            "file": "0005.png",
+            "phase": "feed-before",
+            "requested_ms": 20463.383625000017,
+            "completed_ms": 20594.47537500004,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 476.265832999954
+          },
+          {
+            "file": "0006.png",
+            "phase": "scroll",
+            "requested_ms": 22542.640291000018,
+            "completed_ms": 22631.812040999997,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 449.2900410000002
+          },
+          {
+            "file": "0007.png",
+            "phase": "verify",
+            "requested_ms": 27768.916708000004,
+            "completed_ms": 27862.006666,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 394.14474999997765
+          },
+          {
+            "file": "0008.png",
+            "phase": "key",
+            "requested_ms": 28796.490416000015,
+            "completed_ms": 28909.192625000025,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 406.96462499990594
+          }
+        ]
+      },
+      "verification_method": "Recorded screenshot/OCR check"
+    },
+    {
+      "task": "x-open",
+      "name": "17-x-open",
+      "attempt": 1,
+      "started_at": "2026-11-12T07:05:02.696Z",
+      "ok": true,
+      "setup_ms": 1530.1361250000773,
+      "recording_warm_start_ms": 1530.1361250000773,
+      "verified": true,
+      "elapsed_ms": 32176.90720799996,
+      "finished_at": "2026-11-12T07:05:36.403Z",
+      "total_ms": 33707.0526670001,
+      "mode": "ordinary_mirroring_agent",
+      "audio": {
+        "muted": true,
+        "mac_output_muted": true,
+        "phone_media_volume": 0
+      },
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.png",
+            "phase": "setup-start",
+            "requested_ms": 1011.4104580000276,
+            "completed_ms": 1125.6234580000164,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 401.20349999994505
+          },
+          {
+            "file": "0001.png",
+            "phase": "key",
+            "requested_ms": 2077.3525000000373,
+            "completed_ms": 2176.640458000009,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 400.2143749999814
+          },
+          {
+            "file": "0002.png",
+            "phase": "text",
+            "requested_ms": 3009.157625000109,
+            "completed_ms": 3122.7679580000695,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 407.26545800000895
+          },
+          {
+            "file": "0003.png",
+            "phase": "click",
+            "requested_ms": 4500.120292000007,
+            "completed_ms": 4593.900542000076,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 364.7616670000134
+          },
+          {
+            "file": "0004.png",
+            "phase": "verify",
+            "requested_ms": 12942.768750000047,
+            "completed_ms": 13041.832458000048,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 444.82750000001397
+          },
+          {
+            "file": "0005.png",
+            "phase": "verify",
+            "requested_ms": 13491.138792000012,
+            "completed_ms": 13611.922125000041,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 516.2341669999296
+          },
+          {
+            "file": "0006.png",
+            "phase": "verify",
+            "requested_ms": 14132.315208000131,
+            "completed_ms": 14264.719207999995,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 434.93491700012237
+          },
+          {
+            "file": "0007.png",
+            "phase": "verify",
+            "requested_ms": 14704.32725000009,
+            "completed_ms": 14824.665999999968,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 419.1434579999186
+          },
+          {
+            "file": "0008.png",
+            "phase": "verify",
+            "requested_ms": 15247.931792000076,
+            "completed_ms": 15372.710625000065,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 389.5023330000695
+          },
+          {
+            "file": "0009.png",
+            "phase": "verify",
+            "requested_ms": 15766.353458000114,
+            "completed_ms": 15923.094750000164,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 425.2186670000665
+          },
+          {
+            "file": "0010.png",
+            "phase": "visual-review",
+            "requested_ms": 26834.70029200008,
+            "completed_ms": 26910.26154200011,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 434.628750000149
+          },
+          {
+            "file": "0011.png",
+            "phase": "key",
+            "requested_ms": 34225.019417,
+            "completed_ms": 34310.123249999946,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 437.4329170000274
+          }
+        ]
+      },
+      "verification_method": "agent visual review of exact saved frame"
+    },
+    {
+      "task": "x-scroll",
+      "name": "18-x-scroll",
+      "attempt": 1,
+      "started_at": "2026-11-12T07:05:37.448Z",
+      "ok": false,
+      "setup_ms": 2162.187750000041,
+      "recording_warm_start_ms": 2162.187750000041,
+      "elapsed_ms": 29428.387000000104,
+      "error": "Two supported Mirroring scrolls did not change the visible X post or its body position.",
+      "finished_at": "2026-11-12T07:06:09.039Z",
+      "total_ms": 31590.591625000117,
+      "mode": "ordinary_mirroring_agent",
+      "audio": {
+        "muted": true,
+        "mac_output_muted": true,
+        "phone_media_volume": 0
+      },
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.png",
+            "phase": "setup-start",
+            "requested_ms": 1660.56083400012,
+            "completed_ms": 1739.9156669999938,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 417.4602500000037
+          },
+          {
+            "file": "0001.png",
+            "phase": "key",
+            "requested_ms": 2724.9056250001304,
+            "completed_ms": 2821.7717920001596,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 384.7975829998031
+          },
+          {
+            "file": "0002.png",
+            "phase": "text",
+            "requested_ms": 3705.94991700002,
+            "completed_ms": 3790.7268340000883,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 402.1319160000421
+          },
+          {
+            "file": "0003.png",
+            "phase": "click",
+            "requested_ms": 13670.996083999984,
+            "completed_ms": 13756.371000000043,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 432.031292000087
+          },
+          {
+            "file": "0004.png",
+            "phase": "feed-before",
+            "requested_ms": 14193.334500000114,
+            "completed_ms": 14292.431624999968,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 395.3471669999417
+          },
+          {
+            "file": "0005.png",
+            "phase": "scroll",
+            "requested_ms": 16057.57725000009,
+            "completed_ms": 16157.298124999972,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 402.68075000005774
+          },
+          {
+            "file": "0006.png",
+            "phase": "scroll",
+            "requested_ms": 24170.38087500003,
+            "completed_ms": 24257.95195899997,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 449.97441700007766
+          },
+          {
+            "file": "0007.png",
+            "phase": "feed-after",
+            "requested_ms": 31092.932625000132,
+            "completed_ms": 31191.55633400008,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 394.18908299994655
+          },
+          {
+            "file": "0008.png",
+            "phase": "key",
+            "requested_ms": 32139.60425000009,
+            "completed_ms": 32242.71437499998,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 466.0442500000354
+          }
+        ]
+      },
+      "verification_method": "Recorded screenshot/OCR check"
+    },
+    {
+      "task": "youtube-open",
+      "name": "19-youtube-open",
+      "attempt": 1,
+      "started_at": "2026-11-12T07:06:10.162Z",
+      "ok": true,
+      "setup_ms": 1601.5859999998938,
+      "recording_warm_start_ms": 1601.5859999998938,
+      "verified": true,
+      "elapsed_ms": 19945.201417000033,
+      "finished_at": "2026-11-12T07:06:31.709Z",
+      "total_ms": 21546.80366700003,
+      "mode": "ordinary_mirroring_agent",
+      "audio": {
+        "muted": true,
+        "mac_output_muted": true,
+        "phone_media_volume": 0
+      },
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.png",
+            "phase": "setup-start",
+            "requested_ms": 1060.9241669999901,
+            "completed_ms": 1145.5664589998778,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 450.9970420000609
+          },
+          {
+            "file": "0001.png",
+            "phase": "key",
+            "requested_ms": 2124.1667919999454,
+            "completed_ms": 2210.0773340000305,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 349.9755830001086
+          },
+          {
+            "file": "0002.png",
+            "phase": "text",
+            "requested_ms": 3096.696458999999,
+            "completed_ms": 3193.387208999833,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 455.55012500006706
+          },
+          {
+            "file": "0003.png",
+            "phase": "click",
+            "requested_ms": 4624.700249999994,
+            "completed_ms": 4710.54658399988,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 362.1681250000838
+          },
+          {
+            "file": "0004.png",
+            "phase": "verify",
+            "requested_ms": 5081.287541999947,
+            "completed_ms": 5277.878749999916,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 367.00479199993424
+          },
+          {
+            "file": "0005.png",
+            "phase": "verify",
+            "requested_ms": 5650.841541999951,
+            "completed_ms": 5821.05683399993,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 458.4849999998696
+          },
+          {
+            "file": "0006.png",
+            "phase": "verify",
+            "requested_ms": 6283.934583999915,
+            "completed_ms": 6392.891708999872,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 370.9581669999752
+          },
+          {
+            "file": "0007.png",
+            "phase": "verify",
+            "requested_ms": 6768.770541999955,
+            "completed_ms": 6962.67954199994,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 402.2782499999739
+          },
+          {
+            "file": "0008.png",
+            "phase": "verify",
+            "requested_ms": 7371.404333999846,
+            "completed_ms": 7605.0269589999225,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 461.4421670001466
+          },
+          {
+            "file": "0009.png",
+            "phase": "verify",
+            "requested_ms": 8072.886916999938,
+            "completed_ms": 8230.025167000014,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 381.92641699989326
+          },
+          {
+            "file": "0010.png",
+            "phase": "youtube-visual-review",
+            "requested_ms": 14574.013624999905,
+            "completed_ms": 14660.28649999993,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 369.283415999962
+          },
+          {
+            "file": "0011.png",
+            "phase": "verify",
+            "requested_ms": 21058.80195899983,
+            "completed_ms": 21145.847708999878,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 395.8525409998838
+          },
+          {
+            "file": "0012.png",
+            "phase": "key",
+            "requested_ms": 22091.14020899986,
+            "completed_ms": 22178.197791999904,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 448.968084000051
+          }
+        ]
+      },
+      "verification_method": "Recorded screenshot/OCR check"
+    },
+    {
+      "task": "youtube-scroll",
+      "name": "20-youtube-scroll",
+      "attempt": 1,
+      "started_at": "2026-11-12T07:06:32.794Z",
+      "ok": false,
+      "setup_ms": 2187.3533330000937,
+      "recording_warm_start_ms": 2187.3533330000937,
+      "verified": true,
+      "elapsed_ms": 49233.75841699983,
+      "error": "Two supported Mirroring scrolls left stable YouTube title rows at the same positions. Video playback changes were excluded from navigation verification.",
+      "finished_at": "2026-11-12T07:07:24.215Z",
+      "total_ms": 51421.12483299989,
+      "mode": "ordinary_mirroring_agent",
+      "audio": {
+        "muted": true,
+        "mac_output_muted": true,
+        "phone_media_volume": 0
+      },
+      "recording": {
+        "frames": [
+          {
+            "file": "0000.png",
+            "phase": "setup-start",
+            "requested_ms": 1646.6057499998715,
+            "completed_ms": 1744.107124999864,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 438.00620800000615
+          },
+          {
+            "file": "0001.png",
+            "phase": "key",
+            "requested_ms": 2730.9963749998715,
+            "completed_ms": 2810.839957999997,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 360.54062499990687
+          },
+          {
+            "file": "0002.png",
+            "phase": "text",
+            "requested_ms": 3697.9509580000304,
+            "completed_ms": 3794.9119170000777,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 442.7541659998242
+          },
+          {
+            "file": "0003.png",
+            "phase": "click",
+            "requested_ms": 5196.67724999995,
+            "completed_ms": 5277.709375000093,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 354.26362500013784
+          },
+          {
+            "file": "0004.png",
+            "phase": "click",
+            "requested_ms": 10710.714374999981,
+            "completed_ms": 10795.435541999992,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 407.1920000000391
+          },
+          {
+            "file": "0005.png",
+            "phase": "verify",
+            "requested_ms": 11208.112791999942,
+            "completed_ms": 11327.273499999894,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 446.3247080000583
+          },
+          {
+            "file": "0006.png",
+            "phase": "feed-before",
+            "requested_ms": 11779.685499999905,
+            "completed_ms": 11896.35387500003,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 416.4779999998864
+          },
+          {
+            "file": "0007.png",
+            "phase": "scroll",
+            "requested_ms": 13879.799374999944,
+            "completed_ms": 13964.798332999926,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 473.8070829999633
+          },
+          {
+            "file": "0008.png",
+            "phase": "feed-after",
+            "requested_ms": 20627.48537499993,
+            "completed_ms": 20714.286832999904,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 423.71670800005086
+          },
+          {
+            "file": "0009.png",
+            "phase": "scroll",
+            "requested_ms": 31129.428874999983,
+            "completed_ms": 31209.15966699994,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 459.1256249998696
+          },
+          {
+            "file": "0010.png",
+            "phase": "feed-after",
+            "requested_ms": 50934.71145799989,
+            "completed_ms": 51013.44295799988,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 402.0307089998387
+          },
+          {
+            "file": "0011.png",
+            "phase": "key",
+            "requested_ms": 51946.04766699998,
+            "completed_ms": 52058.638499999885,
+            "height": 1562,
+            "width": 708,
+            "ocr_ms": 437.2469160000328
+          }
+        ]
+      },
+      "verification_method": "Recorded screenshot/OCR check"
+    }
+  ]
+}

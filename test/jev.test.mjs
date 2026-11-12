@@ -92,7 +92,7 @@ test('a native stale-snapshot refusal re-observes and re-decides with fresh refs
  assert.equal(result.events.filter(x=>x.kind==='recovery').length,1);
 });
 test('stale recovery is bounded and never retries uncertain delivery or unrelated refusals',async()=>{
- for(const [outcome,error,expected] of [['not_sent','Screen snapshot is stale; no input dispatched',2],['unknown','Screen snapshot is stale; no input dispatched',1],['not_sent','Target is covered; no input dispatched',1]]){
+ for(const [outcome,error,expected] of [['not_sent','Screen snapshot is stale; no input dispatched',2],['unknown','Screen snapshot is stale; no input dispatched',1],['not_sent','Target changed; observe again',2],['unknown','Target changed; observe again',1],['not_sent','Target is covered; no input dispatched',1]]){
   const c=fakeController();c.execute=async function(){this.inputs++;this.current=null;return {ok:false,outcome,error};};
   const result=await runLocalGoal(c,options,{chooser:{choose:async()=>decision}});
   assert.equal(result.ok,false);assert.equal(c.inputs,expected);
@@ -103,6 +103,13 @@ test('a moved target refused before input is observed again once with a fresh id
  c.execute=async function(){this.inputs++;if(this.inputs===1){this.current=null;return {ok:false,error:'Target moved; observe again',outcome:'not_sent'};}this.current=screen('Editor');return {ok:true};};
  const result=await runLocalGoal(c,options,{chooser:{choose:async()=>decision}});
  assert.equal(result.ok,true);assert.equal(reads,2);assert.equal(c.inputs,2);
+});
+test('a changed target refused before input requires a fresh JEV choice, never replays the old ref',async()=>{
+ let reads=0;const seen=[],chosen=[];
+ const c={current:null,async observe(){reads++;return this.current={...screen(),snapshot:'s'+reads,elements:[{...screen().elements[0],ref:'fresh-'+reads}]};},async execute(steps){seen.push(steps[0]);if(seen.length===1){this.current=null;return {ok:false,error:'Target changed; observe again',outcome:'not_sent'};}this.current=screen('Editor');return {ok:true};}};
+ const result=await runLocalGoal(c,options,{chooser:{choose:async({candidates})=>{chosen.push(candidates[0].ref);return decision;}}});
+ assert.equal(result.ok,true);assert.deepEqual(chosen,['fresh-1','fresh-2']);
+ assert.deepEqual(seen.map(s=>s.ref),['fresh-1','fresh-2']);assert.equal(reads,2);
 });
 test('the chooser selects only executable actions; abstention stays in its independent question',async()=>{
  let sent;const chooser=new JevChooser({apiKey:'test-key',fetchImpl:async(url,request)=>{sent=JSON.parse(request.body);const keys=Object.keys(sent.questions.next.criteria);return {ok:true,text:async()=>JSON.stringify({answers:{next:{type:'choice',choice:keys[0],confidence:1,probabilities:Object.fromEntries(keys.map((k,i)=>[k,i===0?1:0]))},available:{type:'noul',noul:1}}})};}});

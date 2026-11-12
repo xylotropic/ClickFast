@@ -262,7 +262,7 @@ final class RunnerTests: XCTestCase {
     let synthesis = IPURBridge.eventSynthesisAvailable()
     var value: [String: Any] = [
       "ready": axClient,
-      "capabilities": ["axClient": axClient, "eventSynthesis": synthesis, "sprintProtocol": 1],
+      "capabilities": ["axClient": axClient, "eventSynthesis": synthesis, "sprintProtocol": 1, "preciseScroll": true],
       "message": axClient
         ? "iphone-use native runner is ready to accept commands"
         : "iphone-use native runner is up but cannot read the screen (accessibility client unavailable)",
@@ -349,6 +349,7 @@ final class RunnerTests: XCTestCase {
     case ("GET", "/source"): return try source(request)
     case ("POST", "/tap"): return try tap(request)
     case ("POST", "/swipe"): return try swipe(request)
+    case ("POST", "/scroll"): return try preciseScroll(request)
     case ("POST", "/longpress"): return try longPress(request)
     case ("POST", "/type"): return try typeText(request)
     case ("POST", "/home"): return try home()
@@ -650,6 +651,26 @@ final class RunnerTests: XCTestCase {
     }
   }
 
+  /// A short drag with a slow release, for moving a list without a long fling.
+  /// Use the same current-app admission as other Sprint touch input. Never fall
+  /// back to a second gesture after an uncertain delivery.
+  func preciseScroll(_ request: HTTPRequest) throws -> HTTPResponse {
+    let body = try request.jsonObject()
+    let start = CGPoint(x: try requiredNumber(body, "x1"), y: try requiredNumber(body, "y1"))
+    let end = CGPoint(x: try requiredNumber(body, "x2"), y: try requiredNumber(body, "y2"))
+    let screen = windowSizePoints()
+    let bounds = CGRect(origin: .zero, size: screen)
+    guard bounds.contains(start), bounds.contains(end) else {
+      throw RunnerError.invalidArgument("scroll points must be inside the current screen")
+    }
+    let paths = try W3CActions.pointerPaths(ScrollDrag.actions(from: start, to: end)) { _ in .zero }
+    if let error = timed("Synthesize", { IPURBridge.synthesizeTouchPaths(paths, name: "ipu-scroll") }) {
+      throw RunnerError.failed("scroll delivery is uncertain: \(error)")
+    }
+    IPURBridge.invalidateRequestCache()
+    return .value(NSNull(), headers: ["X-IPU-Gesture": "synthesized-precise-scroll"])
+  }
+
   // MARK: - Text, buttons, apps
 
   func typeText(_ request: HTTPRequest) throws -> HTTPResponse {
@@ -918,7 +939,7 @@ final class KeepAwake {
   /// themselves. A tree read, a screenshot or an app launch does not.
   static func isInput(_ path: String) -> Bool {
     let inputSuffixes = [
-      "/tap", "/swipe", "/longpress", "/type", "/home", "/actions", "/click", "/value", "/clear",
+      "/tap", "/swipe", "/scroll", "/longpress", "/type", "/home", "/actions", "/click", "/value", "/clear",
       "/wda/pressButton", "/wda/homescreen", "/wda/keys", "/wda/unlock", "/alert", "/alert/accept",
       "/alert/dismiss", "/wda/keyboard/dismiss",
     ]
@@ -1129,7 +1150,7 @@ extension RunnerTests {
     guard lockedOnMain() == false else { throw RunnerError.failed("Device is locked or lock state is unknown; no input dispatched") }
     let body = try request.jsonObject()
     let path = try requiredString(body, "path")
-    let allowed: Set<String> = ["/tap", "/type", "/swipe", "/longpress", "/home",
+    let allowed: Set<String> = ["/tap", "/type", "/swipe", "/scroll", "/longpress", "/home",
       "/launch", "/wda/keys", "/wda/keyboard/dismiss", "/alert", "/sprint/key-burst", "/sprint/enter-text"]
     let elementClick = path.hasPrefix("/element/") && path.hasSuffix("/click")
     guard allowed.contains(path) || elementClick else {

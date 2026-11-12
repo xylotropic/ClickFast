@@ -192,8 +192,8 @@ export async function runLocalGoal(controller,options,{chooser,signal,onBeforeAc
     default:throw new Error('Unsupported executable action');
    }
    events.push({kind:'action',operation:target.operation,ms:performance.now()-actionStart,ok:applied.ok,outcome:applied.outcome});
-   if(!applied.ok&&applied.outcome==='not_sent'&&['Screen snapshot is stale; no input dispatched','Target moved; observe again'].includes(applied.error)&&staleRecoveries<1){
-    staleRecoveries++;events.push({kind:'recovery',reason:'Native refused stale snapshot or moved target before input; observe and choose again'});
+   if(!applied.ok&&applied.outcome==='not_sent'&&['Screen snapshot is stale; no input dispatched','Target moved; observe again','Target changed; observe again'].includes(applied.error)&&staleRecoveries<1){
+    staleRecoveries++;events.push({kind:'recovery',reason:'Native refused a stale snapshot or changed target before input; observe and choose again'});
     observation=await controller.observe({signal:stop});continue;
    }
    if(!applied.ok)return {...result(false,applied.error,applied.outcome),observation:applied.observation};

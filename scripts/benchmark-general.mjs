@@ -21,7 +21,7 @@ report.launch_wait_experiment_ms=launchWait;report.schema=2;report.kind='Physica
 report.method='Real Home-to-result phone tasks, unchanged0.9 JEV gates. Hybrid admits exact caller-provided app, empty field/literal and swipe primitives directly, and uses JEV for navigation choices. A provided swipe is a test action through the general controller, not a saved product routine or a JEV decision. App launches use CoreDevice. Setup and cleanup are recorded separately. All task navigation, model choices, input, independent AX or specified screenshot/OCR checks and result captures are timed. Scroll checks compare text and positions in actual before/after frames. Capture stops on lock. All failures are retained; unknown input is never replayed. Match the same predicates and start states in Mirroring before comparing speed.';
 const chooser=new JevChooser({apiKey,fetchImpl:async(url,args)=>{const index=requestIndex++,t=performance.now();const response=await fetch(url,args),body=await response.text();if(active)await writeFile(join(raw,active.name,`jev-${index}.json`),JSON.stringify({at_ms:t-epoch,ms:performance.now()-t,request:JSON.parse(args.body),response:body},null,2));return {ok:response.ok,status:response.status,text:async()=>body};}});
 async function execute(steps){if(!steps?.length)return;const v=await ctl.execute(steps);if(!v.ok)throw Error(v.error);}
-function verified(s,predicate){return (!predicate.app||predicate.app===s.app)&&(!predicate.selector||s.elements.some(x=>matches(x,predicate.selector)))&&(!predicate.absent||!s.elements.some(x=>matches(x,predicate.absent)));}
+function verified(s,predicate){return (!predicate.app||predicate.app===s.app)&&(!predicate.selector||s.elements.some(x=>matches(x,predicate.selector)))&&(!predicate.absent||s.mode!=='pixels'&&!s.truncated&&s.elements.length>0&&!s.elements.some(x=>matches(x,predicate.absent)));}
 try{
  assertDirectMode();if(await r.call('/wda/locked')!==false)throw Error('Phone locked; no input sent');await ensureMuted(r);
  const trials=[];for(let repeat=0;repeat<repeats;repeat++)for(const [index,task] of fixtures.tasks.entries()){const modes=selection==='paired'?((index+repeat)%2?['jev-only','hybrid']:['hybrid','jev-only']):[selection];for(const mode of modes)trials.push({repeat:repeat+1,task,mode});}
@@ -72,18 +72,19 @@ try{
     }
     if(phase.action){
      if(phase.action.x_fraction!==undefined&&(!Number.isFinite(phase.action.x_fraction)||phase.action.x_fraction<.05||phase.action.x_fraction>.95))throw Error('Invalid swipe position');
-     if(phase.action.op!=='swipe'||!['up','down','left','right'].includes(phase.action.direction)||phase.action.duration_ms!==undefined&&(!Number.isInteger(phase.action.duration_ms)||phase.action.duration_ms<100||phase.action.duration_ms>1000))throw Error('Unsupported provided benchmark action');
+     if(!['swipe','scroll'].includes(phase.action.op)||!['up','down','left','right'].includes(phase.action.direction)||phase.action.duration_ms!==undefined&&(!Number.isInteger(phase.action.duration_ms)||phase.action.duration_ms<100||phase.action.duration_ms>1000))throw Error('Unsupported provided benchmark action');
      let before=await ctl.observe({pixelsOnly:true});
      if(!phase.apps.includes(before.app)||before.app!==phase.until.app)throw Error('Provided swipe app scope changed');
+     if(phase.action.distance_fraction!==undefined&&(!Number.isFinite(phase.action.distance_fraction)||phase.action.distance_fraction<.05||phase.action.distance_fraction>.65))throw Error('Invalid scroll distance');
      const prior=phase.precondition_ocr?await waitForVisualFrame(recorder,join(raw,run.name),phase.precondition_ocr,join(root,'.state/phone-ocr')):{frame:await recorder.checkpoint(),verified:true};
      if(!prior.verified)throw Error('Expected starting content is not visible; no swipe sent');
      const priorFrame=prior.frame;before=await ctl.observe({pixelsOnly:true});if(!phase.apps.includes(before.app)||before.app!==phase.until.app)throw Error('App changed during the visual check; no swipe sent');
      if(task.verify_change?.phase===phaseIndex){changeBefore=structuredClone(before);changeBeforeFrame=priorFrame;}
      const {width:w,height:h}=before,d=phase.action.direction,horizontal=['left','right'].includes(d),reverse=['right','down'].includes(d),t=performance.now();
-     const applied=await ctl.execute([{op:'swipe',x1:horizontal?w*(reverse?.25:.75):w*(phase.action.x_fraction??.5),y1:horizontal?h*.5:h*(reverse?.30:.75),x2:horizontal?w*(reverse?.75:.25):w*(phase.action.x_fraction??.5),y2:horizontal?h*.5:h*(reverse?.75:.30),duration_ms:phase.action.duration_ms||150,observe:false}]);
+     const applied=await ctl.execute([{op:phase.action.op,x1:horizontal?w*(reverse?.25:.75):w*(phase.action.x_fraction??.5),y1:horizontal?h*.5:h*(reverse?.30:.75),x2:horizontal?w*(reverse?.25+(phase.action.distance_fraction??.50):.75-(phase.action.distance_fraction??.50)):w*(phase.action.x_fraction??.5),y2:horizontal?h*.5:h*(reverse?.30+(phase.action.distance_fraction??.45):.75-(phase.action.distance_fraction??.45)),...(phase.action.op==='swipe'?{duration_ms:phase.action.duration_ms||150}:{}),observe:false}]);
      const final=await ctl.observe({pixelsOnly:true});
      const ok=applied.ok&&final.app===phase.until.app;
-     run.phases.push({goal:phase.goal,source:'caller_provided_swipe',ok,reason:ok?'Provided input delivered; independent visual check follows':applied.error,actions:applied.completed.length,chooser_calls:0,elapsed_ms:performance.now()-t,events:[{kind:'action',operation:'swipe',outcome:applied.outcome||'applied'}]});
+     run.phases.push({goal:phase.goal,source:'caller_provided_'+phase.action.op,ok,reason:ok?'Provided input delivered; independent visual check follows':applied.error,actions:applied.completed.length,chooser_calls:0,elapsed_ms:performance.now()-t,events:[{kind:'action',operation:phase.action.op,outcome:applied.outcome||'applied'}]});
      if(!ok){phasesOK=false;break;}
      continue;
     }
@@ -104,7 +105,7 @@ try{
      const beforeLines=readVisualFrame(join(raw,run.name),changeBeforeFrame,join(root,'.state/phone-ocr'));
      const observed=await waitForVisualChange(beforeLines,async()=>{const frame=await recorder.checkpoint();return {frame,lines:readVisualFrame(join(raw,run.name),frame,join(root,'.state/phone-ocr'))};});
      const afterLines=observed.lines;run.result_frame=observed.frame;
-     run.content_change={...observed.change,method:'Actual before/after screenshot text and positions; waits for app rendering without repeating input',before_frame:changeBeforeFrame.file,after_frame:run.result_frame.file};
+     run.content_change={...observed.change,method:observed.change.method,before_frame:changeBeforeFrame.file,after_frame:run.result_frame.file};
      await writeFile(join(raw,run.name,'scroll-ocr.json'),JSON.stringify({before:beforeLines,after:afterLines}));
     }
     await writeFile(join(raw,run.name,'before-scroll.json'),JSON.stringify(changeBefore||null));

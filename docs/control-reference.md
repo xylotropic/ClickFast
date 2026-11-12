@@ -55,7 +55,11 @@ Read the screen, choose current refs or unique selectors, then execute a short s
 }
 ```
 
-This is an example request, not a stored workflow. A click can use `selector:{"kind":"Button","label":"7"}` or `ref` plus its matching `snapshot`. Supported operations are `observe`, `wait`, `launch`, `home`, `tap`, `tap_point`, `text`, `key`, and `swipe`. Text requires a freshly observed focused nonsecure editable field. Point coordinates are screen points; scale screenshot pixels using the observation's screen dimensions.
+This is an example request, not a stored workflow. A click can use `selector:{"kind":"Button","label":"7"}` or `ref` plus its matching `snapshot`. Supported operations are `observe`, `wait`, `launch`, `home`, `tap`, `tap_point`, `text`, `key`, `swipe`, and `scroll`. Text requires a freshly observed focused nonsecure editable field. Point coordinates are screen points; scale screenshot pixels using the observation's screen dimensions.
+
+Use `swipe` for a flick. Use `scroll` with `x1`, `y1`, `x2`, `y2` for a 470 ms drag that slows before release, reducing the extra distance from momentum. The controller checks the current snapshot and screen bounds. This is a gesture delivery receipt; verify that the requested content moved afterward. `scroll` has fixed timing; use `swipe` for custom timing.
+
+For `launch` or `home`, `observe:false` checks the foreground bundle without traversing all controls. This proves which app is in front, not that its content has loaded. A selector or absence predicate still needs AX; the next element action reads a fresh tree. Pixel observations and incomplete trees cannot prove a control is absent.
 
 Native snapshots expire after30seconds. A click re-reads the same registered element and rejects changed meaning, moved frames, disabled controls or partial off-screen bounds; it does not silently scroll. Full overlay/hit ownership remains a separate limitation. A missing target can wait locally; multiple matching targets stop. Unknown mutation outcomes stop without replay. A timeout is not evidence that a tap failed. Read the screen and resolve the outcome before continuing. Batch only actions authorized by the current user task. Stop for user takeover, authentication, unexpected sensitive screens, or ambiguous destructive actions.
 
@@ -83,6 +87,8 @@ xcodebuild build-for-testing \
   -scheme IPhoneUseRunner -destination generic/platform=iOS \
   -derivedDataPath .state/unsigned CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO
 ```
+
+After changing host code, reconnect the MCP server so its process loads the new code and tool schema. A running server keeps its existing imports.
 
 After changing native code, run setup again with `--restart` to shut down the authenticated old runner and load the new one. Do not launch another test process while the first is still alive.
 

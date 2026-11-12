@@ -1,0 +1,74 @@
+{
+  "id": "2026-11-12T07-18-54-077Z-precise-scroll",
+  "kind": "Experimental signed W3C pointer slow-tail scroll; screenshot and app scope checked before input, not a released Controller operation",
+  "runs": [
+    {
+      "task": "Instagram",
+      "name": "Instagram",
+      "started_at": "2026-11-12T07:18:54.192Z",
+      "before_frame": "0006.jpg",
+      "input_ms": 741.6729999999998,
+      "after_frame": "0011.jpg",
+      "change": {
+        "before_rows": 7,
+        "after_rows": 9,
+        "moved_anchors": 3,
+        "verified": true,
+        "method": "At least two unique body-text anchors move together by at least 2.5% of the frame",
+        "direction": "up"
+      },
+      "scope_verified": true
+    },
+    {
+      "task": "YouTube",
+      "name": "YouTube",
+      "started_at": "2026-11-12T07:18:57.749Z",
+      "before_frame": "0003.jpg",
+      "input_ms": 723.3541249999998,
+      "after_frame": "0008.jpg",
+      "change": {
+        "before_rows": 13,
+        "after_rows": 15,
+        "moved_anchors": 7,
+        "verified": true,
+        "method": "At least two unique body-text anchors move together by at least 2.5% of the frame",
+        "direction": "up"
+      },
+      "scope_verified": true
+    },
+    {
+      "task": "X",
+      "name": "X",
+      "started_at": "2026-11-12T07:19:00.522Z",
+      "before_frame": "0003.jpg",
+      "input_ms": 725.1096660000003,
+      "after_frame": "0008.jpg",
+      "change": {
+        "before_rows": 11,
+        "after_rows": 12,
+        "moved_anchors": 6,
+        "verified": true,
+        "method": "At least two unique body-text anchors move together by at least 2.5% of the frame",
+        "direction": "up"
+      },
+      "scope_verified": true
+    },
+    {
+      "task": "TikTok",
+      "name": "TikTok",
+      "started_at": "2026-11-12T07:19:03.226Z",
+      "before_frame": "0011.jpg",
+      "input_ms": 722.921875,
+      "after_frame": "0016.jpg",
+      "change": {
+        "before_rows": 0,
+        "after_rows": 16,
+        "moved_anchors": 0,
+        "verified": false,
+        "method": "At least two unique body-text anchors move together by at least 2.5% of the frame",
+        "reason": "No coherent text movement; changed video pixels or replaced text alone require visual review"
+      },
+      "scope_verified": true
+    }
+  ]
+}
