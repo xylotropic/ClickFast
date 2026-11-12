@@ -31,4 +31,4 @@ The manifest contains 20 distinct tasks, starting at Home. It includes app and f
 
 After these work, add opening a known test file and sending a test message and file to the verified self contact. Then run the same tasks through ordinary iPhone Mirroring. The native runner and Mirroring must run separately. Keep setup, failures, recoveries and recording costs in the report. Do not describe the result as a human or market-wide speed comparison.
 
-The updated signed runner is installed. Apple currently requires its separate “Enter iPhone Passcode for XCTest” authorization. No recording runs during passcode entry.
+The updated signed runner is installed. The next launch ended before the server started: Xcode timed out waiting for the destination. The device catalog reports a wired, paired phone with Developer Mode enabled, but developer-service detail and lock-state reads failed. Mirroring separately reports “iPhone in Use” and asks for the phone to be locked. The remote lock command failed before input. The next available route is to lock the physical phone and run the Mirroring baseline first. No recording runs during passcode entry.
