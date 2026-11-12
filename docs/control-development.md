@@ -19,7 +19,7 @@ The Home-to-result run `2026-11-12T04-32-14-593Z-general` exposed additional fai
 
 The JEV probability gates remain at 0.9. `direct_text:false` and `direct_launch:false` require JEV choices for those operations. The app launch command uses Xcode's existing `devicectl`; no package or service was added.
 
-The current branch passes 70 host checks and 264 native guard checks. These checks are not physical speed measurements.
+The current branch passes 72 host checks and 264 native guard checks. These checks are not physical speed measurements.
 
 ## Next run
 
@@ -31,4 +31,8 @@ The manifest contains 20 distinct tasks, starting at Home. It includes app and f
 
 After these work, add opening a known test file and sending a test message and file to the verified self contact. Then run the same tasks through ordinary iPhone Mirroring. The native runner and Mirroring must run separately. Keep setup, failures, recoveries and recording costs in the report. Do not describe the result as a human or market-wide speed comparison.
 
-The updated signed runner is installed. The next launch ended before the server started: Xcode timed out waiting for the destination. The device catalog reports a wired, paired phone with Developer Mode enabled, but developer-service detail and lock-state reads failed. Mirroring separately reports “iPhone in Use” and asks for the phone to be locked. The remote lock command failed before input. The next available route is to lock the physical phone and run the Mirroring baseline first. No recording runs during passcode entry.
+The updated signed runner is installed. Its first relaunch failed before the server started. Restarting the stalled Mac CoreDeviceService restored developer-service access: a fresh lock-state read succeeded, and Xcode reached the physical-unlock preflight. The current launch is waiting for that unlock. No recording runs during passcode entry.
+
+Mirroring connected after the phone was locked. The recorded baseline session `2026-11-12T05-04-53-190Z-mirroring-general` has no completed tasks. CUA coordinate taps failed with `noWindowsAvailable` despite a live screenshot and a standard window in the accessibility tree. Raising the window and resizing it did not resolve the failure. Mac menu actions worked; Return did not open the observed Spotlight result. These attempts cannot supply a speed baseline. Mirroring was returned to Home, restored to its original size, and closed before the native relaunch.
+
+The baseline recorder now distinguishes an input error from a later screenshot error. A failed capture keeps the submitted action's receipt and blocks further input until a new screen has been captured and inspected. The regression test reproduces the earlier duplicate event and verifies that it cannot be reported as a successful task.

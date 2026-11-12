@@ -30,8 +30,12 @@ export async function createSession({app,directory,ocrBinary,audioReceipt,taskMa
  async function event(kind,fn,extra={}){
   if(!run)throw Error('Start a task before input');
   if(run.input_uncertain)throw Error('An earlier input has unknown delivery; inspect the screen before another action');
-  const start=performance.now();try{await fn();await app.getAXState({emit:false});run.events.push({kind,...extra,at_ms:start-epoch,completed_ms:performance.now()-epoch,outcome:'submitted'});await save();return await capture(kind);}
+  if(run.observation_required)throw Error('A fresh observation is required before another action');
+  const start=performance.now();try{await fn();}
   catch(error){run.events.push({kind,...extra,at_ms:start-epoch,completed_ms:performance.now()-epoch,outcome:'unknown',error:error.message});run.input_uncertain=true;run.uncertain_after_frame=lastFrame?.file;run.ok=false;run.error=error.message;await save();throw error;}
+  run.events.push({kind,...extra,at_ms:start-epoch,completed_ms:performance.now()-epoch,outcome:'submitted'});await save();
+  try{await app.getAXState({emit:false});return await capture(kind);}
+  catch(error){run.observation_required=true;run.observation_error=error.message;run.uncertain_after_frame=lastFrame?.file;run.ok=false;run.error=error.message;await save();throw error;}
  }
  function point(text,{region,yOffset=0}={}){
   const f=lastFrame;if(!f?.lines)throw Error('A fresh OCR observation is required');
@@ -46,9 +50,9 @@ export async function createSession({app,directory,ocrBinary,audioReceipt,taskMa
   key:async key=>event('key',()=>app.pressKey(key),{key}),
   type:async text=>event('text',()=>app.typeText(text),{characters:text.length}),
   scroll:async(p,direction,amount=.1)=>event('scroll',()=>app.scroll(p,direction,amount),{point:p,direction,amount}),
-  async acknowledgeObservation(){if(!lastFrame||lastFrame.file===run.uncertain_after_frame)throw Error('Capture and inspect a fresh screen before recovering');(run.recoveries??=[]).push({frame:lastFrame.file,at_ms:performance.now()-epoch});run.input_uncertain=false;await save();},
+  async acknowledgeObservation(){if(!lastFrame||lastFrame.file===run.uncertain_after_frame)throw Error('Capture and inspect a fresh screen before recovering');(run.recoveries??=[]).push({frame:lastFrame.file,at_ms:performance.now()-epoch});run.input_uncertain=false;run.observation_required=false;await save();},
   async verify(text,{predicate}={}){const deadline=performance.now()+3000;let frame,ok=false;do{frame=await capture('verify');ok=predicate?predicate(frame.lines,frame):frame.lines.some(x=>normalize(x.text)===normalize(text));if(ok)break;}while(performance.now()<deadline);run.verified=ok;run.verification={text:predicate?null:text,predicate:predicate?String(predicate):null,frame:frame.file};if(!ok)throw Error('Expected result was not independently observed');return frame;},
-  async finish({ok,error}={}){if(!run)throw Error('No current task');if(warmStart!==null)run.elapsed_ms=performance.now()-warmStart;run.ok=ok===true&&run.verified===true&&run.events.length>0;if(error)run.error=error;run.finished_at=new Date().toISOString();run.total_ms=performance.now()-epoch;await save();return {task:run.task,ok:run.ok,ms:run.elapsed_ms,setup_ms:run.setup_ms,error:run.error};},
+  async finish({ok,error}={}){if(!run)throw Error('No current task');if(warmStart!==null)run.elapsed_ms=performance.now()-warmStart;run.ok=ok===true&&run.verified===true&&!run.input_uncertain&&!run.observation_required&&run.events.some(x=>x.outcome==='submitted');if(error)run.error=error;run.finished_at=new Date().toISOString();run.total_ms=performance.now()-epoch;await save();return {task:run.task,ok:run.ok,ms:run.elapsed_ms,setup_ms:run.setup_ms,error:run.error};},
   async finishSession(){report.finished_at=new Date().toISOString();await save();return report;}
  };
 }
