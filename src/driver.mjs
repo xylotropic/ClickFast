@@ -70,7 +70,7 @@ export function select(snapshot,selector,{actionable=false}={}){
   return rows[0];
 }
 export class Controller {
-  constructor(runner,{keyBursts=true}={}){this.runner=runner;this.current=null;this.keyBursts=keyBursts;}
+  constructor(runner,{keyBursts=true,deviceLaunch}={}){this.runner=runner;this.current=null;this.keyBursts=keyBursts;this.deviceLaunch=deviceLaunch;}
   numericGroup(steps,index){
     if(!this.keyBursts||this.current?.key_burst!==1||this.current.elements.some(r=>r.kind==='SecureTextField'))return [];
     const targets=[];
@@ -94,7 +94,11 @@ export class Controller {
     // A timed-out device read can still finish and replace the native snapshot. Never
     // leave older handles usable while that request has an uncertain completion.
     this.current=null;
-    return this.adopt(await this.runner.call(pixelsOnly?'/sprint/frame':'/sprint/observe',undefined,requestOptions));
+    try{return this.adopt(await this.runner.call(pixelsOnly?'/sprint/frame':'/sprint/observe',undefined,requestOptions));}
+    catch(error){
+      if(pixelsOnly||error.message!=='Accessibility is unavailable for this screen; use a pixel observation')throw error;
+      return this.adopt({...await this.runner.call('/sprint/frame',undefined,requestOptions),ax_error:error.message});
+    }
   }
   async wait(expect,{signal,timeout=5000}={}) {
     if(!expect||(!expect.app&&!expect.selector&&!expect.absent))throw new Error('Wait requires app or selector');
@@ -138,6 +142,12 @@ export class Controller {
       }
       case 'launch':
         if(typeof step.bundle!=='string'||!/^[\w.-]+$/.test(step.bundle))throw new Error('Invalid app bundle');
+        if(this.deviceLaunch){
+          if(await this.runner.call('/wda/locked',undefined,{signal})!==false)throw Object.assign(new Error('Device is locked; no app launched'),{outcome:'not_sent'});
+          this.current=null;
+          await this.deviceLaunch(step.bundle,{signal});
+          return await this.wait(required,{signal,timeout:step.timeout_ms??5000});
+        }
         path='/launch';body={bundle:step.bundle};break;
       case 'home':path='/home';break;
       case 'text': {

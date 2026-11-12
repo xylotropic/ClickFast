@@ -91,7 +91,7 @@ function exactFieldAction(observation,options,candidates){
  return eligible.length===1?eligible[0]:null;
 }
 
-export async function runLocalGoal(controller,options,{chooser,signal}={}){
+export async function runLocalGoal(controller,options,{chooser,signal,onBeforeAction}={}){
  if(options?.external_ui_opt_in!==true)throw new Error('JEV requires explicit external_ui_opt_in: selected UI labels, supplied literals and the intent are sent to TypeSafe');
  const {goal,apps,allowed_selectors,until}=options;
  if(typeof goal!=='string'||goal.length<1||goal.length>2000||!Array.isArray(apps)||!apps.length||apps.length>16||apps.some(x=>typeof x!=='string'||!/^[\w.-]+$/.test(x)))throw new Error('A bounded intent and explicit app scope are required');
@@ -106,26 +106,36 @@ export async function runLocalGoal(controller,options,{chooser,signal}={}){
  if(options.launch_apps&&(!Array.isArray(options.launch_apps)||options.launch_apps.length>16||options.launch_apps.some(x=>!apps.includes(x.bundle)||typeof x.label!=='string'||!x.label.length||x.label.length>100)))throw new Error('Launch candidates must belong to the explicit app scope');
  if(options.allow_home!==undefined&&typeof options.allow_home!=='boolean')throw new Error('allow_home must be boolean');
  if(options.direct_text!==undefined&&typeof options.direct_text!=='boolean')throw new Error('direct_text must be boolean');
+ if(options.direct_launch!==undefined&&typeof options.direct_launch!=='boolean')throw new Error('direct_launch must be boolean');
  if(options.allow_home&&!apps.includes('com.apple.springboard'))throw new Error('Home requires Springboard in the app scope');
  const max=options.max_actions??8,timeout=options.timeout_ms??30000;
  if(!Number.isInteger(max)||max<1||max>12||!Number.isInteger(timeout)||timeout<1||timeout>60000)throw new Error('Invalid local goal budget');
  const min=options.min_probability??0.9;if(!probability(min)||min<0.8)throw new Error('Invalid decision gate');
  if(!chooser)throw new Error('JEV chooser is not configured');
  const stop=signal?AbortSignal.any([signal,AbortSignal.timeout(timeout)]):AbortSignal.timeout(timeout);
- const events=[],history=[];let calls=0,lastAction=null;const start=performance.now();
+ const events=[],history=[];let calls=0,lastAction=null,staleRecoveries=0;const start=performance.now();
  const done=s=>(!until.app||s.app===until.app)&&(!until.selector||s.elements.some(r=>matches(r,until.selector)))&&(!until.absent||!s.elements.some(r=>matches(r,until.absent)))&&(!until.after_action||(lastAction&&matches(lastAction,until.after_action)));
  const fingerprint=s=>JSON.stringify([s.app,s.elements.map(r=>[r.kind,r.label,r.identifier,r.value,r.rect])]);
  const result=(ok,reason,outcome='stopped')=>({ok,reason,outcome,actions:events.filter(x=>x.kind==='action').length,chooser_calls:calls,events,observation:controller.current,elapsed_ms:performance.now()-start});
  try{
-  let observation=await controller.observe({signal:stop});
+  const explicitDestination=options.direct_launch!==false&&options.launch_apps?.length===1&&until.app===options.launch_apps[0].bundle?until.app:null;
+  let observation=await controller.observe({signal:stop,pixelsOnly:Boolean(explicitDestination)});
   for(let i=0;i<=max;i++){
    stop.throwIfAborted();if(!apps.includes(observation.app))return result(false,'App scope changed');
    if(done(observation))return result(true,'Completion predicate observed','verified');
+   if(observation.mode==='pixels'&&(!explicitDestination||observation.app===explicitDestination)){
+    const deadline=performance.now()+700;
+    do{await new Promise(r=>setTimeout(r,25));stop.throwIfAborted();observation=await controller.observe({signal:stop});}while(observation.mode==='pixels'&&performance.now()<deadline);
+    if(!apps.includes(observation.app))return result(false,'App scope changed');
+    if(done(observation))return result(true,'Completion predicate observed','verified');
+    if(observation.mode==='pixels')return result(false,'Accessibility unavailable; caller must inspect the fresh screenshot','needs_vision');
+   }
    if(i===max)return result(false,'Action budget reached');
    const candidates=actionCandidates(observation,options);
    if(!candidates.length)return result(false,'No permitted action');
-   let target=exactFieldAction(observation,options,candidates);
-   if(target)events.push({kind:'decision',source:'exact_field',operation:'text'});
+   const launches=candidates.filter(row=>row.operation==='launch');
+   let target=options.direct_launch!==false&&launches.length===1&&until.app===launches[0].bundle?launches[0]:exactFieldAction(observation,options,candidates);
+   if(target)events.push({kind:'decision',source:target.operation==='launch'?'exact_app':'exact_field',operation:target.operation});
    else {
    const chooseStart=performance.now();calls++;
    const choice=await chooser.choose({goal,observation,candidates,history,signal:stop});
@@ -136,6 +146,7 @@ export async function runLocalGoal(controller,options,{chooser,signal}={}){
    target=candidates[Number(choice.choice.slice(1))];
    }
    const before=fingerprint(observation),actionStart=performance.now();
+   if(onBeforeAction)await onBeforeAction({target,observation});
    const execute=steps=>controller.execute(steps,{signal:stop,timeout:Math.max(1,timeout-(performance.now()-start))});
    let applied;
    switch(target.operation){
@@ -153,6 +164,10 @@ export async function runLocalGoal(controller,options,{chooser,signal}={}){
     default:throw new Error('Unsupported executable action');
    }
    events.push({kind:'action',operation:target.operation,ms:performance.now()-actionStart,ok:applied.ok,outcome:applied.outcome});
+   if(!applied.ok&&applied.outcome==='not_sent'&&applied.error==='Screen snapshot is stale; no input dispatched'&&staleRecoveries<1){
+    staleRecoveries++;events.push({kind:'recovery',reason:'Native refused stale snapshot before input; observe and choose again'});
+    observation=await controller.observe({signal:stop});continue;
+   }
    if(!applied.ok)return {...result(false,applied.error,applied.outcome),observation:applied.observation};
    lastAction=target;
    history.push({step:i,operation:target.operation,label:target.label,identifier:target.identifier,literal_id:target.literal_id,direction:target.direction,observed_app:controller.current?.app,delivery:applied.outcome||'applied'});

@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { Runner,Controller } from './driver.mjs';
 import {JevChooser,runLocalGoal} from './jev.mjs';
+import {deviceLauncher} from './device-launch.mjs';
 export const root=dirname(dirname(fileURLToPath(import.meta.url)));
 export function mirroringRunning(){
   if(process.platform!=='darwin')return false;
@@ -94,7 +95,7 @@ export async function serve(controller,input=process.stdin,output=process.stdout
           if((await ensureMuted(controller.runner,{signal:abort.signal})).changed)controller.current=null;
           if(args.view!==undefined&&!['reading','navigation'].includes(args.view))throw new Error('Invalid observation view');
           result=compact(await controller.observe({signal:abort.signal,pixelsOnly:args.pixels_only===true}),{view:args.view});
-          if(args.screenshot||args.pixels_only){const image=await controller.runner.call('/screenshot?max_side=1200',undefined,{signal:abort.signal});
+          if(args.screenshot||args.pixels_only||result.mode==='pixels'){const image=await controller.runner.call('/screenshot?max_side=1200',undefined,{signal:abort.signal});
             const data=typeof image==='string'?image:image?.data;
             if(!data)throw new Error('Screenshot data unavailable');
             content=[{type:'text',text:JSON.stringify(result)},{type:'image',mimeType:data.startsWith('/9j/')?'image/jpeg':'image/png',data}];}
@@ -120,7 +121,7 @@ async function main(){
   if(command==='help'){console.log('node src/cli.mjs status | observe | execute <JSON steps file> | goal <JSON local-goal file> | mcp');return;}
   const config=JSON.parse(await readFile(join(root,'.state/config.json'),'utf8'));
   const token=(await readFile(join(root,'.state/token'),'utf8')).trim();
-  const runner=new Runner({port:config.port,token});const controller=new Controller(runner);
+  const runner=new Runner({port:config.port,token});const controller=new Controller(runner,{deviceLaunch:deviceLauncher(config.udid)});
   if(command==='mcp'){await serve(controller);return;}
   try{
     if(command==='status')console.log(JSON.stringify(await readStatus(runner)));

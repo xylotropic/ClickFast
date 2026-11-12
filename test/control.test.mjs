@@ -9,6 +9,21 @@ const token='a'.repeat(64);
 const numericScreen=()=>({snapshot:'numeric-1',app:'test.calculator',width:400,height:800,key_burst:1,elements:['7','Add','8','Equals'].map((label,i)=>({kind:'Key',label,identifier:['Seven','Add','Eight','Equals'][i],ref:'native-'+i,enabled:true,rect:{x:10+i*60,y:600,width:50,height:50}}))});
 const screen=()=>({snapshot:'snapshot-1',app:'test.app',width:400,height:800,elements:[{kind:'Button',label:'Search',ref:'native-id',enabled:true,rect:{x:10,y:10,width:50,height:50}}]});
 
+test('a device launcher bypasses the XCTest launch path and verifies the foreground app',async()=>{
+ const calls=[],launches=[];const target='test.target';
+ const c=new Controller({call:async(path,body)=>{calls.push({path,body});if(path==='/wda/locked')return false;return {...screen(),app:target};}},{deviceLaunch:async(bundle)=>launches.push(bundle)});
+ const result=await c.execute([{op:'launch',bundle:target}]);
+ assert.equal(result.ok,true);assert.deepEqual(launches,[target]);assert.ok(!calls.some(c=>c.path==='/sprint/act'));assert.equal(c.current.app,target);
+});
+test('the device launcher refuses a locked phone before launching',async()=>{
+ let launches=0;const c=new Controller({call:async()=>true},{deviceLaunch:async()=>launches++});
+ const result=await c.execute([{op:'launch',bundle:'test.target'}]);assert.equal(result.ok,false);assert.equal(launches,0);assert.equal(result.outcome,'not_sent');
+});
+test('an unavailable accessibility surface falls back to a fresh pixel context',async()=>{
+ const calls=[];const c=new Controller({call:async path=>{calls.push(path);if(path==='/sprint/observe')throw Error('Accessibility is unavailable for this screen; use a pixel observation');return {...screen(),elements:[],mode:'pixels'};}});
+ const result=await c.observe();assert.equal(result.mode,'pixels');assert.deepEqual(calls,['/sprint/observe','/sprint/frame']);assert.match(result.ax_error,/unavailable/);
+});
+
 test('HMAC matches the pinned native runner canonical format',()=>{
  const body=Buffer.from('{"x":3}');const hash=createHash('sha256').update(body).digest('hex');
  const expected=createHmac('sha256',token).update(`ipu-runner-v1\nPOST\n/tap\n123\n0123456789abcdef\n${hash}`).digest('hex');

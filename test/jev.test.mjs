@@ -44,6 +44,21 @@ test('an uncertain native action is handed back once without replay',async()=>{
  const c=fakeController();c.execute=async function(){this.inputs++;this.current=null;return {ok:false,error:'lost response',outcome:'unknown'};};
  const result=await runLocalGoal(c,options,{chooser:{choose:async()=>decision}});assert.equal(result.outcome,'unknown');assert.equal(c.inputs,1);assert.equal(result.chooser_calls,1);
 });
+test('a native stale-snapshot refusal re-observes and re-decides with fresh refs',async()=>{
+ let reads=0,attempts=0;const seen=[];
+ const c={current:null,async observe(){reads++;return this.current={...screen(),snapshot:'s'+reads,elements:[{...screen().elements[0],ref:'s'+reads+':0'}]};},async execute(steps){seen.push(steps[0]);attempts++;if(attempts===1){this.current=null;return {ok:false,error:'Screen snapshot is stale; no input dispatched',outcome:'not_sent'};}this.current=screen('Editor');return {ok:true};}};
+ const result=await runLocalGoal(c,options,{chooser:{choose:async()=>decision}});
+ assert.equal(result.ok,true);assert.equal(reads,2);assert.equal(result.chooser_calls,2);
+ assert.deepEqual(seen.map(s=>[s.snapshot,s.ref]),[['s1','s1:0'],['s2','s2:0']]);
+ assert.equal(result.events.filter(x=>x.kind==='recovery').length,1);
+});
+test('stale recovery is bounded and never retries uncertain delivery or unrelated refusals',async()=>{
+ for(const [outcome,error,expected] of [['not_sent','Screen snapshot is stale; no input dispatched',2],['unknown','Screen snapshot is stale; no input dispatched',1],['not_sent','Target is covered; no input dispatched',1]]){
+  const c=fakeController();c.execute=async function(){this.inputs++;this.current=null;return {ok:false,outcome,error};};
+  const result=await runLocalGoal(c,options,{chooser:{choose:async()=>decision}});
+  assert.equal(result.ok,false);assert.equal(c.inputs,expected);
+ }
+});
 test('the chooser selects only executable actions; abstention stays in its independent question',async()=>{
  let sent;const chooser=new JevChooser({apiKey:'test-key',fetchImpl:async(url,request)=>{sent=JSON.parse(request.body);const keys=Object.keys(sent.questions.next.criteria);return {ok:true,text:async()=>JSON.stringify({answers:{next:{type:'choice',choice:keys[0],confidence:1,probabilities:Object.fromEntries(keys.map((k,i)=>[k,i===0?1:0]))},available:{type:'noul',noul:1}}})};}});
  await chooser.choose({goal:'Enter two consecutive copies of a letter',observation:screen(),candidates:screen().elements,history:[]});
@@ -119,4 +134,15 @@ test('an explicit destination app permits exact text even when other apps are in
  const c=exactEntryController();let calls=0;
  const result=await runLocalGoal(c,{...exactEntryOptions,apps:['test.app','another.app'],until:{...exactEntryOptions.until,app:'test.app'}},{chooser:{choose:async()=>{calls++;return {...decision,choice:'BLOCKED'};}}});
  assert.equal(result.ok,true);assert.equal(calls,0);assert.equal(c.steps.length,1);
+});
+test('an explicit sole destination launches directly, then JEV handles navigation in that app',async()=>{
+ const c={current:null,steps:[],async observe(){return this.current={...screen(),app:'com.apple.springboard'};},async execute(steps){this.steps.push(...steps);this.current={...screen('Editor'),app:'test.app'};return {ok:true};}};
+ const result=await runLocalGoal(c,{...options,apps:['com.apple.springboard','test.app'],launch_apps:[{bundle:'test.app',label:'Test'}],until:{app:'test.app',selector:{label:'Editor'}}},{chooser:{choose:async()=>{throw Error('Explicit app launch needs no model choice');}}});
+ assert.equal(result.ok,true);assert.deepEqual(c.steps,[{op:'launch',bundle:'test.app'}]);assert.equal(result.chooser_calls,0);
+});
+test('a newly launched pixel-only frame gets fresh AX before the next navigation decision',async()=>{
+ let reads=0;const field={...screen().elements[0],kind:'SearchField',label:'Find',value:''};
+ const c={current:null,async observe(){reads++;return this.current=reads===1?{...screen(),mode:'pixels',elements:[]}:{...screen(),elements:[{...field,value:'needle'}]};},async execute(){throw Error('No input is needed once the real result is visible');}};
+ const result=await runLocalGoal(c,{...options,visible_controls:true,until:{selector:{kind:'SearchField',value:'needle'}}},{chooser:{choose:async()=>{throw Error('A transient empty frame is not a model decision');}}});
+ assert.equal(result.ok,true);assert.equal(reads,2);assert.equal(result.chooser_calls,0);
 });
